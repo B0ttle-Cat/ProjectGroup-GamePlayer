@@ -1,0 +1,20 @@
+{
+    "name": "BC.LowLevelAI",
+    "rootNamespace": "BC.LowLevelAI",
+    "references": [
+        "BC.Base",
+        "BC.ODCC",
+        "Unity.AI.Navigation",
+        "Unity.EditorCoroutines.Editor",
+        "Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

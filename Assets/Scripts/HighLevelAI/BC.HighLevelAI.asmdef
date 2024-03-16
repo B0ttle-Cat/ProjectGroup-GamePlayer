@@ -1,0 +1,21 @@
+{
+    "name": "BC.HighLevelAI",
+    "rootNamespace": "BC.HighLevelAI",
+    "references": [
+        "BC.Base",
+        "BC.ODCC",
+        "Unity.AI.Navigation",
+        "Unity.EditorCoroutines.Editor",
+        "BC.LowLevelAI",
+        "BC.GamePlayerInterface"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

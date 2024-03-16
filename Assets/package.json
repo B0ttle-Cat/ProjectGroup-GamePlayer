@@ -1,0 +1,14 @@
+{
+    "name": "com.b0ttlecat.gameplayer",
+    "version": "0.0.1",
+    "displayName": "BC.GamePlayer",
+    "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.ai.navigation": "2.0.0"
+    },
+    "author": {
+        "name": "B0ttle-Cat",
+        "email": "kolazkr.lgb@gmail.com",
+        "url": "https://github.com/B0ttle-Cat/ProjectGroup"
+    }
+}

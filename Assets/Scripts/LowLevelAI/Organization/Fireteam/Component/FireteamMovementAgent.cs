@@ -8,9 +8,11 @@ namespace BC.LowLevelAI
 
 		public void OnMovementToAnchor(int anchorIndex)
 		{
-			if(!ThisContainer.TryGetParentObject<LowLevelAIManager>(out var manager)) return;
+			if(!ThisContainer.TryGetParentObject<ILowLevelAIManager>(out var manager)) return;
 
-			if(!manager.ThisContainer.TryGetComponent<MapWaypointComputer>(out var computer)) return;
+			var lowLevelAIManager = manager.LowLevelAIManager;
+
+			if(!lowLevelAIManager.TryGetComponent<MapWaypointComputer>(out var computer)) return;
 
 			MapWaypoint wayPoint = computer.SelectAnchorIndex(anchorIndex);
 			if(wayPoint == null) return;

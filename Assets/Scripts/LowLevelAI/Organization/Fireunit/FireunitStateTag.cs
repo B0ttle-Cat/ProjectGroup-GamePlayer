@@ -12,7 +12,7 @@ namespace BC.LowLevelAI
 
 	}
 
-	public interface IFireunitStateControl : IOdccItem
+	public interface IFireunitStateControl : IOdccComponent
 	{
 		public List<FireunitStateTag> CurrentTags { get; }
 		public void AddedAIState(params FireunitStateTag[] aiStateTags);
@@ -20,7 +20,7 @@ namespace BC.LowLevelAI
 		public void OnChangeAIState(FireunitStateTag[] added, FireunitStateTag[] remove);
 	}
 
-	public interface IFireunitStateChangeListener : IOdccItem
+	public interface IFireunitStateChangeListener : IOdccComponent
 	{
 		public void FireunitStateChangeListener();
 	}

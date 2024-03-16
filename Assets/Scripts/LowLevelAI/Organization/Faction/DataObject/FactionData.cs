@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public interface IFactionData : IOdccItem
+	public interface IFactionData : IOdccData
 	{
 		public int FactionIndex { get; set; }
 		public bool IsEqualsFaction(IFactionData factionData)

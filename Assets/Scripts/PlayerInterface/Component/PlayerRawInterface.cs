@@ -2,11 +2,18 @@ using BC.ODCC;
 
 using Sirenix.OdinInspector;
 
-namespace BC.GamePlayerManager
+namespace BC.GamePlayerInterface
 {
+	public interface IGamePlayer : IOdccComponent
+	{
+		void OnSelectFireteam(int selectTeamIndex);
+		void OnMovementToAnchor(int movementToAnchor);
+	}
+
+
 	public class PlayerRawInterface : ComponentBehaviour
 	{
-		private GamePlayer gamePlayer;
+		private IGamePlayer gamePlayer;
 
 		private bool IsValid => gamePlayer != null;
 		private bool IsNotValid => !IsValid;
@@ -14,7 +21,7 @@ namespace BC.GamePlayerManager
 		public override void BaseEnable()
 		{
 			base.BaseEnable();
-			gamePlayer = ThisContainer.GetComponent<GamePlayer>();
+			gamePlayer = ThisContainer.GetComponent<IGamePlayer>();
 		}
 
 

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using BC.GamePlayerInterface;
 using BC.LowLevelAI;
 using BC.ODCC;
 
 namespace BC.GamePlayerManager
 {
-	public abstract class GamePlayer : ComponentBehaviour
+	public abstract class GamePlayer : ComponentBehaviour, IGamePlayer
 	{
 		public override void BaseValidate()
 		{
@@ -81,6 +82,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
+
 		public virtual void OnSelectFireteam(int selectTeamIndex)
 		{
 			if(ThisContainer.TryGetData<GamePlayingData>(out var data))
@@ -88,7 +90,6 @@ namespace BC.GamePlayerManager
 				data.CurrentSelectTeamIndex = selectTeamIndex;
 			}
 		}
-
 		public virtual void OnMovementToAnchor(int anchorIndex)
 		{
 			if(ThisContainer.TryGetData<GamePlayingData>(out var data))

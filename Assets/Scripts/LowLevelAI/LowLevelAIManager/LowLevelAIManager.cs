@@ -8,6 +8,11 @@ using static BC.LowLevelAI.NavMeshConnectComputer;
 
 namespace BC.LowLevelAI
 {
+	public interface ILowLevelAIManager : IOdccObject
+	{
+		LowLevelAIManager LowLevelAIManager { get; }
+	}
+
 	public class LowLevelAIManager : ObjectBehaviour
 	{
 		public override void BaseValidate()

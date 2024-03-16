@@ -56,7 +56,7 @@ namespace BC.HighLevelAI
 		private void UpdateFireTeamList(ObjectBehaviour item, bool added)
 		{
 			if(item.ThisContainer.TryGetData<FireteamData>(out var data) && factionData.FactionIndex == data.FactionIndex
-				&& item.ThisContainer.TryGetData<FireteamTacticsAI>(out var fireteam))
+				&& item.ThisContainer.TryGetComponent<FireteamTacticsAI>(out var fireteam))
 			{
 				if(added)
 				{

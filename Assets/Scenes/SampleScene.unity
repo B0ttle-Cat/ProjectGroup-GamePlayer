@@ -2657,6 +2657,8 @@ MonoBehaviour:
       dataList:
       - rid: 8413926241186611351
       - rid: 8413926241186611428
+  lowLevelAIManager: {fileID: 2074201083}
+  highLevelAIManager: {fileID: 1555824966}
   references:
     version: 2
     RefIds:

@@ -3,8 +3,8 @@
     "rootNamespace": "BC.GamePlayerManager",
     "references": [
         "GUID:7aa6ab5ead1fe264493d2913bdea2fe1",
+        "GUID:43cc659f3ecc7244fa375772942b70d5",
         "GUID:32c0207fd50e2e34eae82fd7843d237a",
-        "GUID:a66e448d7e1ba004aaa871fe583b5e03",
         "GUID:20124b9e61b64764eb6708f2aea95f48",
         "GUID:c1046d5a70cc128449cf9618041aaa25",
         "GUID:efd5cfe5b31564c4799f4ab1b73689b9"

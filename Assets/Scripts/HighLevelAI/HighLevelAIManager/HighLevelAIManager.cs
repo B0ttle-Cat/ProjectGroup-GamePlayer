@@ -2,15 +2,12 @@ using BC.ODCC;
 
 namespace BC.HighLevelAI
 {
-	public class HighLevelAIManager : SingletonObjectBehaviour<HighLevelAIManager>
+	public interface IHighLevelAIManager : IOdccObject
 	{
-		protected override void CreatedSingleton()
-		{
-		}
+		HighLevelAIManager HighLevelAIManager { get; }
+	}
+	public class HighLevelAIManager : ObjectBehaviour
+	{
 
-		protected override void DestroySingleton()
-		{
-
-		}
 	}
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public interface IFireteamData : IOdccItem, IFactionData
+	public interface IFireteamData : IOdccData, IFactionData
 	{
 		public int TeamIndex { get; set; }
 		public bool IsEqualsTeam(IFireteamData fireteamData)

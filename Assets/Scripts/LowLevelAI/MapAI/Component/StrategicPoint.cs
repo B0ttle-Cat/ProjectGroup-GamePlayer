@@ -11,7 +11,7 @@ namespace BC.LowLevelAI
 	{
 		public StrategicPoint from;
 		public StrategicPoint to;
-		public MapWaypoint[] path;
+		public MapPathPoint[] path;
 
 		public float PointPerTime => to.pointPerTime;
 		public float WayCost => path.Max(item => item.WayCost);
@@ -21,7 +21,7 @@ namespace BC.LowLevelAI
 	public class StrategicPoint : ComponentBehaviour
 	{
 		public int pointPerTime;
-		public MapWaypoint thiaWaypoint;
+		public MapPathPoint thiaPathpoint;
 		public List<StrategicPath> nextStrategicPoint;
 		public Action onUpdateNextStrategicPoint;
 
@@ -34,15 +34,15 @@ namespace BC.LowLevelAI
 		{
 			base.BaseAwake();
 
-			thiaWaypoint = ThisContainer.GetComponent<MapWaypoint>();
+			thiaPathpoint = ThisContainer.GetComponent<MapPathPoint>();
 		}
 
 
 		internal void StrategicPointUpdate()
 		{
-			Dictionary<StrategicPoint, MapWaypoint[]> strategicPoints = new Dictionary<StrategicPoint, MapWaypoint[]>();
-			List<MapWaypoint> root = new List<MapWaypoint>();
-			SerachWaypoint(null, thiaWaypoint, root, strategicPoints);
+			Dictionary<StrategicPoint, MapPathPoint[]> strategicPoints = new Dictionary<StrategicPoint, MapPathPoint[]>();
+			List<MapPathPoint> root = new List<MapPathPoint>();
+			SerachPathpoint(null, thiaPathpoint, root, strategicPoints);
 
 			nextStrategicPoint = new List<StrategicPath>();
 			foreach(var item in strategicPoints)
@@ -55,10 +55,10 @@ namespace BC.LowLevelAI
 				});
 			}
 
-			void SerachWaypoint(MapWaypoint prev, MapWaypoint current, List<MapWaypoint> root, Dictionary<StrategicPoint, MapWaypoint[]> result)
+			void SerachPathpoint(MapPathPoint prev, MapPathPoint current, List<MapPathPoint> root, Dictionary<StrategicPoint, MapPathPoint[]> result)
 			{
 				root.Add(current);
-				var list = current.nextWaypointList;
+				var list = current.nextPathpointList;
 				int Length = list.Length;
 				for(int i = 0 ; i < Length ; i++)
 				{
@@ -73,7 +73,7 @@ namespace BC.LowLevelAI
 					}
 					else
 					{
-						SerachWaypoint(current, point, root, result);
+						SerachPathpoint(current, point, root, result);
 					}
 
 				}

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
-	public class MapWaypoint : ComponentBehaviour
+	public class MapPathPoint : ComponentBehaviour
 	{
 		private MapAnchor mapAnchor;
 
@@ -16,11 +16,16 @@ namespace BC.LowLevelAI
 		[SerializeField]
 		private float defaultWayCost = 1f;
 		public Vector3 OnNavMeshPosition;
-		public MapWaypoint[] nextWaypointList;
+		public MapPathPoint[] nextPathpointList;
 
 		private float variableWayCost = 0f;
 
 		public float WayCost => breakPass ? float.PositiveInfinity : defaultWayCost + variableWayCost;
+		public override void BaseValidate()
+		{
+			base.BaseValidate();
+			mapAnchor = ThisObject as MapAnchor;
+		}
 
 		public override void BaseAwake()
 		{
@@ -30,7 +35,7 @@ namespace BC.LowLevelAI
 
 		public override void BaseEnable()
 		{
-			nextWaypointList = new MapWaypoint[0];
+			nextPathpointList = new MapPathPoint[0];
 
 			base.BaseEnable();
 			OnNavMeshPosition = ThisTransform.position;
@@ -43,39 +48,42 @@ namespace BC.LowLevelAI
 
 		internal void CheckConnectStart()
 		{
-			nextWaypointList = new MapWaypoint[0];
+			nextPathpointList = new MapPathPoint[0];
 		}
-		internal void CheckConnectUpdate(MapWaypoint targetWaypoint, List<MapWaypoint> asyncWaypointList)
+		internal void CheckConnectUpdate(MapPathPoint targetPathpoint, List<MapPathPoint> asyncPathpointList)
 		{
 			Vector3 a = OnNavMeshPosition + Vector3.up;
-			Vector3 b = targetWaypoint.OnNavMeshPosition + Vector3.up;
+			Vector3 b = targetPathpoint.OnNavMeshPosition + Vector3.up;
 
 			Vector3 diraction = b - a;
 			float magnitude = diraction.magnitude;
 			diraction = diraction.normalized;
 			Ray ray = new Ray(a, diraction);
 
-			//List<MapWaypoint> asyncWaypointList = nextWaypointList.ToList();
+			//List<MapPathPoint> asyncPathpointList = nextPathpointList.ToList();
 			if(Physics.Raycast(ray, out var hit, magnitude, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
 			{
-				MapWaypoint mapWaypoint = hit.collider.gameObject.GetComponentInParent<MapWaypoint>();
+				MapPathPoint mapPathpoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
 
-				if(mapWaypoint is not null)
+				if(mapPathpoint is not null)
 				{
-					if(mapWaypoint == targetWaypoint)
+					if(mapPathpoint == targetPathpoint)
 					{
-						asyncWaypointList.Add(targetWaypoint);
+						asyncPathpointList.Add(targetPathpoint);
 					}
 				}
 			}
 		}
 
-		internal void CheckConnectEnded(List<MapWaypoint> asyncWaypointList)
+		internal void CheckConnectEnded(List<MapPathPoint> asyncPathpointList)
 		{
-			nextWaypointList = asyncWaypointList.ToArray();
+			nextPathpointList = asyncPathpointList.ToArray();
 		}
 
-
+		public Vector3 ThisPosition()
+		{
+			return mapAnchor.ThisPosition();
+		}
 		public bool InSidePosition(Vector3 position)
 		{
 			return mapAnchor.InSidePosition(position);

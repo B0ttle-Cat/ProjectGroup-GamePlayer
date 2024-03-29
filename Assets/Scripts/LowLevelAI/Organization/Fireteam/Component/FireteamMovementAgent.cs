@@ -12,12 +12,12 @@ namespace BC.LowLevelAI
 
 			var lowLevelAIManager = manager.LowLevelAIManager;
 
-			if(!lowLevelAIManager.TryGetComponent<MapWaypointComputer>(out var computer)) return;
+			if(!lowLevelAIManager.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
-			MapWaypoint wayPoint = computer.SelectAnchorIndex(anchorIndex);
-			if(wayPoint == null) return;
+			MapPathPoint pathpoint = computer.SelectAnchorIndex(anchorIndex);
+			if(pathpoint == null) return;
 
-			if(wayPoint.ThisContainer.TryGetComponent<StrategicPoint>(out moveTargetPoint))
+			if(pathpoint.ThisContainer.TryGetComponent<StrategicPoint>(out moveTargetPoint))
 			{
 
 			}

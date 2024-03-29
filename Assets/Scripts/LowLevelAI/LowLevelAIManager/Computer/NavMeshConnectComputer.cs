@@ -26,7 +26,7 @@ namespace BC.LowLevelAI
 {
 	public class NavMeshConnectComputer : ComponentBehaviour
 	{
-		private MapAICellData mapAICellData;
+		private MapCellData mapCellData;
 
 #if UNITY_EDITOR
 		[SerializeField]
@@ -35,140 +35,7 @@ namespace BC.LowLevelAI
 		private bool IsOnDrawGizmos_ShowOnlyPerfectLink;
 #endif
 
-		#region Triangle
-		public struct Triangle
-		{
-			public int Index;
-			public Vector3 vertex1;
-			public Vector3 vertex2;
-			public Vector3 vertex3;
-
-			public Triangle(int index, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
-			{
-				Index = index;
-				this.vertex1=vertex1;
-				this.vertex2=vertex2;
-				this.vertex3=vertex3;
-			}
-
-			public Vector3 Center()
-			{
-				// 각 좌표의 평균값을 계산하여 중심점을 얻음
-				Vector3 center = (vertex1 + vertex2 + vertex3) / 3f;
-				return center;
-			}
-			public Plane GetPlane => new Plane(vertex1, vertex2, vertex3);
-			public bool IsPointInTriangle(Vector3 point)
-			{
-				// 각 점으로부터 벡터를 만들고 외적을 사용하여 삼각형의 노멀을 구함
-				Vector3 u = vertex2 - vertex1;
-				Vector3 v = vertex3 - vertex1;
-				Vector3 w = point - vertex1;
-				Vector3 n = Vector3.Cross(u, v);
-
-				// 외적이 0이면 삼각형이 아님
-				if(n == Vector3.zero)
-					return false;
-
-				// 각 점에서의 삼각형의 면과의 거리를 구함
-				float gamma = Vector3.Dot(Vector3.Cross(u, w), n) / n.sqrMagnitude;
-				float beta = Vector3.Dot(Vector3.Cross(w, v), n) / n.sqrMagnitude;
-				float alpha = 1.0f - gamma - beta;
-
-				// 모든 거리가 양수이면 점은 삼각형 내부에 있음
-				return alpha > 0 && beta > 0 && gamma > 0;
-			}
-			public void OnDrawGizmos(Vector3 offset)
-			{
-#if UNITY_EDITOR
-				Gizmos.DrawLine(vertex1 + offset, vertex2 + offset);
-				Gizmos.DrawLine(vertex2 + offset, vertex3 + offset);
-				Gizmos.DrawLine(vertex3 + offset, vertex1 + offset);
-#endif
-			}
-			public void Log()
-			{
-#if UNITY_EDITOR
-				Debug.Log($"Triangle ({Index}) : v1({vertex1}) v2({vertex2}) v3({vertex3})");
-#endif
-			}
-
-			public static int CheckSpaceBetweenTriangle(Triangle A, Triangle B, float minimumDistance, Func<Vector3, Vector3, bool> raycast)
-			{
-				if(raycast is null) return 0;
-
-				int count = 0;
-				count += (Vector3.Distance(A.vertex1, B.vertex1) <= minimumDistance || raycast(A.vertex1, B.vertex1)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex1, B.vertex2) <= minimumDistance || raycast(A.vertex1, B.vertex2)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex1, B.vertex3) <= minimumDistance || raycast(A.vertex1, B.vertex3)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex2, B.vertex1) <= minimumDistance || raycast(A.vertex2, B.vertex1)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex2, B.vertex2) <= minimumDistance || raycast(A.vertex2, B.vertex2)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex2, B.vertex3) <= minimumDistance || raycast(A.vertex2, B.vertex3)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex3, B.vertex1) <= minimumDistance || raycast(A.vertex3, B.vertex1)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex3, B.vertex2) <= minimumDistance || raycast(A.vertex3, B.vertex2)) ? 1 : 0;
-				count += (Vector3.Distance(A.vertex3, B.vertex3) <= minimumDistance || raycast(A.vertex3, B.vertex3)) ? 1 : 0;
-
-				return count;
-			}
-		}
-		public struct LinkTriangle
-		{
-			public int linkCount;
-			public Triangle linkTriangleA;
-			public Triangle linkTriangleB;
-
-			public LinkTriangle(int linkCount, Triangle linkTriangleA, Triangle linkTriangleB)
-			{
-				this.linkCount = linkCount;
-				this.linkTriangleA=linkTriangleA;
-				this.linkTriangleB=linkTriangleB;
-			}
-
-			public bool IsThis(int A)
-			{
-				return (linkTriangleA.Index == A || linkTriangleB.Index == A);
-			}
-
-			public bool IsThis(int A, int B)
-			{
-				return A != B &&
-					(linkTriangleA.Index == A || linkTriangleB.Index == A) &&
-					(linkTriangleA.Index == B || linkTriangleB.Index == B);
-			}
-			public void Log()
-			{
-				Debug.Log($"LinkTriangle : {linkTriangleA.Index} == {linkTriangleB.Index} : Link ({linkCount})");
-			}
-			public bool IsPerfectLink => linkCount == 9;
-			internal void OnDrawGizmos(Vector3 offset, float radius)
-			{
-				Vector3 a = linkTriangleA.Center() + offset;
-				Vector3 b = linkTriangleB.Center() + offset;
-
-				Gizmos.DrawSphere(a, radius);
-				Gizmos.DrawSphere(b, radius);
-				Gizmos.DrawLine(a, b);
-			}
-
-			public bool GetOther(Triangle triangle, out Triangle other)
-			{
-				if(linkTriangleA.Index == triangle.Index)
-				{
-					other = linkTriangleB;
-					return true;
-				}
-				else if(linkTriangleB.Index == triangle.Index)
-				{
-					other = linkTriangleA;
-					return true;
-				}
-				other = default;
-				return false;
-			}
-		}
-		#endregion
-
-		private double tiemForCalculationCount = 1d/30d;
+		public float tiemForCalculationCount = 1/10;
 		private DateTime previousTime;
 
 		public bool usingNavMeshRaycast;
@@ -177,9 +44,9 @@ namespace BC.LowLevelAI
 
 
 		internal List<Triangle> triangleList;
-		internal List<LinkTriangle> linkTriangleList;
+		internal List<LinkRayTriangle> linkRayTriangleList;
 		private List<Triangle> asyncTriangleList;
-		private List<LinkTriangle> asyncLinkTriangleList;
+		private List<LinkRayTriangle> asyncLinkRayTriangleList;
 		Coroutine asyncUpdate;
 
 		public bool IsAsyncUpdate =>
@@ -194,11 +61,14 @@ namespace BC.LowLevelAI
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			if(!ThisContainer.TryGetData<MapAICellData>(out var mapAICellData))
+			if(!ThisContainer.TryGetData<MapCellData>(out var cellIndexData))
 			{
-				mapAICellData = ThisContainer.AddData<MapAICellData>();
+				cellIndexData = ThisContainer.AddData<MapCellData>();
+				cellIndexData.trianglesTile = new Dictionary<Vector3Int, List<Triangle>>();
+				cellIndexData.trianglesToLink = new Dictionary<Triangle, LinkRayTriangle[]>();
+				cellIndexData.trianglesClosedPoint = new Dictionary<Triangle, MapPathPoint>();
+				cellIndexData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
 			}
-			mapAICellData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
 		}
 
 		public override void BaseAwake()
@@ -217,7 +87,7 @@ namespace BC.LowLevelAI
 		public override void BaseEnable()
 		{
 			triangleList = new List<Triangle>();
-			linkTriangleList = new List<LinkTriangle>();
+			linkRayTriangleList = new List<LinkRayTriangle>();
 #if UNITY_EDITOR
 			editorCoroutine = null;
 #endif
@@ -228,41 +98,55 @@ namespace BC.LowLevelAI
 			asyncUpdate = StartCoroutine(AsyncUpdate());
 		}
 
+		string waitingLog = "";
+		int waitCount = 0;
 		public IEnumerator AsyncUpdate()
 		{
-			mapAICellData = ThisContainer.GetData<MapAICellData>();
+			waitCount = 0;
+			mapCellData = ThisContainer.GetData<MapCellData>();
 
 			previousTime = DateTime.Now;
+			waitingLog = "Start PathpointConnectUpdate";
+			Debug.Log($"AsyncUpdate : {waitingLog}");
 			yield return null;
-			Debug.Log("Start WaypointConnectUpdate");
 			if(IsAsyncUpdate)
 			{
+				waitingLog = "Start InitTriangleList";
+				Debug.Log($"AsyncUpdate : {waitingLog}");
 				yield return InitTriangleList();
 			}
 			if(IsAsyncUpdate)
 			{
+				waitingLog = "Start BuindingAllTriangle";
+				Debug.Log($"AsyncUpdate : {waitingLog}");
 				yield return BuindingAllTriangle();
 			}
 			if(IsAsyncUpdate)
 			{
+				waitingLog = "Start Cashing";
 				triangleList.Clear();
-				linkTriangleList.Clear();
+				linkRayTriangleList.Clear();
 				triangleList.AddRange(asyncTriangleList);
-				linkTriangleList.AddRange(asyncLinkTriangleList);
+				linkRayTriangleList.AddRange(asyncLinkRayTriangleList);
 
-				Debug.Log("Cashing WaypointConnectUpdate");
+				waitingLog = "Start Cashing TrianglesTile";
+				Debug.Log($"AsyncUpdate : {waitingLog}");
 				yield return CashingTrianglesTile();
-
+				waitingLog = "Start Cashing TrianglesToLink";
+				Debug.Log($"AsyncUpdate : {waitingLog}");
 				yield return CashingTrianglesToLink();
+				waitingLog = "Start Cashing TrianglesClosedPoint";
+				Debug.Log($"AsyncUpdate : {waitingLog}");
+				yield return CashingTrianglesClosedPoint();
 
 				asyncTrianglesTile.Clear();
 				asyncTriangleList.Clear();
-				asyncLinkTriangleList.Clear();
+				asyncLinkRayTriangleList.Clear();
 			}
 			asyncUpdate = null;
-			Debug.Log("Ended WaypointConnectUpdate");
+			waitingLog = "Ended PathpointConnectUpdate";
+			Debug.Log($"AsyncUpdate : {waitingLog}");
 		}
-
 		private IEnumerator InitTriangleList()
 		{
 			NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
@@ -287,13 +171,14 @@ namespace BC.LowLevelAI
 				Vector3 vertex3 = vertices[indices[i + 2]];
 				Triangle triangle = new Triangle(asyncTriangleList.Count, vertex1 , vertex2, vertex3);
 				asyncTriangleList.Add(triangle);
-				triangle.Log();
+				//triangle.Log();
 
 				if(IsAsyncUpdate)
 				{
 					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 					{
 						previousTime = DateTime.Now;
+						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
 						yield return null;
 					}
 				}
@@ -310,9 +195,9 @@ namespace BC.LowLevelAI
 			for(int i = 0 ; i < Count ; i++)
 			{
 				var triangle = asyncTriangleList[i];
-				Vector3 center = triangle.Center();
+				Vector3 center = triangle.Center;
 
-				Vector3Int titlePos = mapAICellData.GetCellIndex(center);
+				Vector3Int titlePos = mapCellData.GetCellIndex(center);
 				if(!asyncTrianglesTile.TryGetValue(titlePos, out var titleValue))
 				{
 					titleValue = new List<Triangle>();
@@ -325,6 +210,7 @@ namespace BC.LowLevelAI
 					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 					{
 						previousTime = DateTime.Now;
+						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
 						yield return null;
 					}
 				}
@@ -336,8 +222,8 @@ namespace BC.LowLevelAI
 		}
 		private IEnumerator BuindingAllTriangle()
 		{
-			asyncLinkTriangleList ??= new List<LinkTriangle>();
-			asyncLinkTriangleList.Clear();
+			asyncLinkRayTriangleList ??= new List<LinkRayTriangle>();
+			asyncLinkRayTriangleList.Clear();
 
 			int Count = asyncTriangleList.Count;
 			for(int i = 0 ; i < Count ; i++)
@@ -383,9 +269,9 @@ namespace BC.LowLevelAI
 
 					if(linkCount > 0)
 					{
-						var linkTriangle = new LinkTriangle(linkCount, triangleA, triangleB);
-						asyncLinkTriangleList.Add(linkTriangle);
-						linkTriangle.Log();
+						var linkTriangle = new LinkRayTriangle(linkCount, triangleA, triangleB);
+						asyncLinkRayTriangleList.Add(linkTriangle);
+						//linkTriangle.Log();
 					}
 
 					if(IsAsyncUpdate)
@@ -393,6 +279,7 @@ namespace BC.LowLevelAI
 						if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 						{
 							previousTime = DateTime.Now;
+							Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
 							yield return null;
 						}
 					}
@@ -405,15 +292,16 @@ namespace BC.LowLevelAI
 		}
 		private IEnumerator CashingTrianglesTile()
 		{
-			mapAICellData.trianglesTile.Clear();
+			mapCellData.trianglesTile.Clear();
 			foreach(var key in asyncTrianglesTile)
 			{
-				mapAICellData.trianglesTile.Add(key.Key, key.Value);
+				mapCellData.trianglesTile.Add(key.Key, key.Value);
 				if(IsAsyncUpdate)
 				{
 					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 					{
 						previousTime = DateTime.Now;
+						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
 						yield return null;
 					}
 				}
@@ -425,11 +313,11 @@ namespace BC.LowLevelAI
 		}
 		private IEnumerator CashingTrianglesToLink()
 		{
-			mapAICellData.trianglesToLink.Clear();
+			mapCellData.trianglesToLink.Clear();
 			foreach(Triangle triangle in asyncTriangleList)
 			{
-				List<LinkTriangle> linkList = new List<LinkTriangle>();
-				foreach(LinkTriangle link in asyncLinkTriangleList)
+				List<LinkRayTriangle> linkList = new List<LinkRayTriangle>();
+				foreach(LinkRayTriangle link in asyncLinkRayTriangleList)
 				{
 					if(link.IsThis(triangle.Index))
 					{
@@ -440,6 +328,7 @@ namespace BC.LowLevelAI
 						if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 						{
 							previousTime = DateTime.Now;
+							Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
 							yield return null;
 						}
 					}
@@ -448,10 +337,89 @@ namespace BC.LowLevelAI
 						yield break;
 					}
 				}
-				mapAICellData.trianglesToLink.Add(triangle, linkList.ToArray());
+				mapCellData.trianglesToLink.Add(triangle, linkList.ToArray());
 			}
 		}
+		private IEnumerator CashingTrianglesClosedPoint()
+		{
+			mapCellData.trianglesClosedPoint.Clear();
+			MapAnchor[] mapAnchors = ThisContainer.GetChildAllObject<MapAnchor>();
+			for(int i = 0 ; i<asyncTriangleList.Count ; i++)
+			{
+				Triangle triangle = asyncTriangleList[i];
+				NavMeshHit hit = default;
+				NavMeshPath path = new NavMeshPath();
 
+				Vector3 center = triangle.Center;
+				if(NavMesh.SamplePosition(center, out hit, 5f, NavMesh.AllAreas))
+				{
+					center = hit.position;
+				}
+				float minDistance = float.MaxValue;
+				MapPathPoint closePathPoint = null;
+				for(int ii = 0 ; ii < mapAnchors.Length ; ii++)
+				{
+					MapAnchor anchor = mapAnchors[ii];
+					if(anchor.ThisContainer.TryGetComponent<MapPathPoint>(out var pathPoint))
+					{
+						Vector3 closePoint = pathPoint.ThisPosition();
+						if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+						{
+							closePoint = hit.position;
+						}
+						if(NavMesh.CalculatePath(center, closePoint, NavMesh.AllAreas, path))
+						{
+							float totalDistance = 0f;
+							for(int iii = 0 ; iii < path.corners.Length - 1 ; iii++)
+							{
+								totalDistance += Vector3.Distance(path.corners[iii], path.corners[iii + 1]);
+							}
+							if(minDistance > totalDistance)
+							{
+								minDistance = totalDistance;
+								closePathPoint = pathPoint;
+							}
+						}
+						closePoint = pathPoint.ClosestPoint(center, out _);
+						if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+						{
+							closePoint = hit.position;
+						}
+						if(NavMesh.CalculatePath(center, closePoint, NavMesh.AllAreas, path))
+						{
+							float totalDistance = 0f;
+							for(int iii = 0 ; iii < path.corners.Length - 1 ; iii++)
+							{
+								totalDistance += Vector3.Distance(path.corners[iii], path.corners[iii + 1]);
+							}
+							if(minDistance > totalDistance)
+							{
+								minDistance = totalDistance;
+								closePathPoint = pathPoint;
+							}
+						}
+						if(IsAsyncUpdate)
+						{
+							if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
+							{
+								previousTime = DateTime.Now;
+								Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
+								yield return null;
+							}
+						}
+						else
+						{
+							yield break;
+						}
+					}
+				}
+				if(closePathPoint != null)
+				{
+					mapCellData.trianglesClosedPoint.Add(triangle, closePathPoint);
+				}
+			}
+			yield break;
+		}
 		public bool FindPointInTriangle(Vector3 point, out Triangle triangle)
 		{
 			if(NavMesh.SamplePosition(point, out var hit, 0.01f, areaMask))
@@ -459,8 +427,8 @@ namespace BC.LowLevelAI
 				point = hit.position;
 			}
 
-			Vector3Int titleIndex = mapAICellData.GetCellIndex(point);
-			if(!mapAICellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
+			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
 			{
 				titleValue = triangleList;
 			}
@@ -478,15 +446,15 @@ namespace BC.LowLevelAI
 			triangle = default;
 			return false;
 		}
-		public bool FindPointInTriangle(Vector3 point, out Triangle triangle, out LinkTriangle[] linkTriangles)
+		public bool FindPointInTriangle(Vector3 point, out Triangle triangle, out LinkRayTriangle[] linkTriangles)
 		{
 			if(NavMesh.SamplePosition(point, out var hit, 0.01f, areaMask))
 			{
 				point = hit.position;
 			}
 
-			Vector3Int titleIndex = mapAICellData.GetCellIndex(point);
-			if(!mapAICellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
+			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
 			{
 				titleValue = triangleList;
 			}
@@ -498,13 +466,13 @@ namespace BC.LowLevelAI
 				if(find.IsPointInTriangle(point))
 				{
 					triangle = find;
-					if(mapAICellData.trianglesToLink.TryGetValue(find, out var linkList))
+					if(mapCellData.trianglesToLink.TryGetValue(find, out var linkList))
 					{
 						linkTriangles = linkList;
 					}
 					else
 					{
-						linkTriangles = linkTriangleList.Where(item => item.IsThis(find.Index)).ToArray();
+						linkTriangles = linkRayTriangleList.Where(item => item.IsThis(find.Index)).ToArray();
 					}
 					return linkTriangles.Length > 0;
 				}
@@ -513,10 +481,10 @@ namespace BC.LowLevelAI
 			linkTriangles = null;
 			return false;
 		}
-		public bool FindLinkTriangle(Triangle A, Triangle B, out LinkTriangle linkTriangles)
+		public bool FindLinkTriangle(Triangle A, Triangle B, out LinkRayTriangle linkTriangles)
 		{
 			linkTriangles = default;
-			foreach(var link in linkTriangleList)
+			foreach(var link in linkRayTriangleList)
 			{
 				if(link.IsThis(A.Index, B.Index))
 				{
@@ -525,6 +493,92 @@ namespace BC.LowLevelAI
 				}
 			}
 			return false;
+		}
+		public bool FindClosePathPoint(Vector3 point, out MapPathPoint mapPathPoint)
+		{
+			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
+			{
+				titleValue = triangleList;
+			}
+
+			int Count = titleValue.Count;
+			for(int i = 0 ; i < Count ; i++)
+			{
+				var find = titleValue[i];
+				if(find.IsPointInTriangle(point))
+				{
+					return FindClosePathPoint(find, out mapPathPoint);
+				}
+			}
+			mapPathPoint = null;
+			return false;
+		}
+		public bool FindClosePathPoint(Triangle triangle, out MapPathPoint mapPathPoint)
+		{
+			if(mapCellData.trianglesClosedPoint.TryGetValue(triangle, out mapPathPoint))
+			{
+				return true;
+			}
+			else
+			{
+				MapAnchor[] mapAnchors = ThisContainer.GetChildAllObject<MapAnchor>();
+				NavMeshHit hit = default;
+				NavMeshPath path = new NavMeshPath();
+
+				Vector3 center = triangle.Center;
+				if(NavMesh.SamplePosition(center, out hit, 5f, NavMesh.AllAreas))
+				{
+					center = hit.position;
+				}
+				float minDistance = float.MaxValue;
+				MapPathPoint closePathPoint = null;
+				for(int ii = 0 ; ii < mapAnchors.Length ; ii++)
+				{
+					MapAnchor anchor = mapAnchors[ii];
+					if(anchor.ThisContainer.TryGetComponent<MapPathPoint>(out var pathPoint))
+					{
+						Vector3 closePoint = pathPoint.ThisPosition();
+						if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+						{
+							closePoint = hit.position;
+						}
+						if(NavMesh.CalculatePath(center, closePoint, NavMesh.AllAreas, path))
+						{
+							float totalDistance = 0f;
+							for(int iii = 0 ; iii < path.corners.Length - 1 ; iii++)
+							{
+								totalDistance += Vector3.Distance(path.corners[iii], path.corners[iii + 1]);
+							}
+							if(minDistance > totalDistance)
+							{
+								minDistance = totalDistance;
+								closePathPoint = pathPoint;
+							}
+						}
+						closePoint = pathPoint.ClosestPoint(center, out _);
+						if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+						{
+							closePoint = hit.position;
+						}
+						if(NavMesh.CalculatePath(center, closePoint, NavMesh.AllAreas, path))
+						{
+							float totalDistance = 0f;
+							for(int iii = 0 ; iii < path.corners.Length - 1 ; iii++)
+							{
+								totalDistance += Vector3.Distance(path.corners[iii], path.corners[iii + 1]);
+							}
+							if(minDistance > totalDistance)
+							{
+								minDistance = totalDistance;
+								closePathPoint = pathPoint;
+							}
+						}
+					}
+				}
+				mapPathPoint = closePathPoint;
+			}
+			return mapPathPoint != null;
 		}
 
 #if UNITY_EDITOR
@@ -537,15 +591,18 @@ namespace BC.LowLevelAI
 				EditorCoroutineUtility.StopCoroutine(editorCoroutine);
 			}
 			triangleList = new List<Triangle>();
-			linkTriangleList = new List<LinkTriangle>();
+			linkRayTriangleList = new List<LinkRayTriangle>();
 			editorCoroutine = EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
 		}
 
+		[SerializeField,ReadOnly]
+		private int onMouseTriangleIndex;
 		public void OnDrawGizmos()
 		{
+			onMouseTriangleIndex = 0;
 			if(!IsOnDrawGizmos) return;
 			if(triangleList == null) return;
-			if(linkTriangleList == null) return;
+			if(linkRayTriangleList == null) return;
 
 			if(UnityEditor.SceneView.currentDrawingSceneView == null) return;
 
@@ -581,36 +638,55 @@ namespace BC.LowLevelAI
 						offset += Vector3.up * 0.04f;
 						triangle.OnDrawGizmos(offset);
 					}
-					Vector3 center = triangle.Center();
+					Vector3 center = triangle.Center;
 					Gizmos.DrawSphere(center + offset, 0.5f);
 
-
-					var thisLinkTriangle = linkTriangleList.Where(item => item.IsThis(triangle.Index));
-					foreach(var link in thisLinkTriangle)
+					if(mapCellData != null)
 					{
-						if(IsOnDrawGizmos_ShowOnlyPerfectLink)
+						if(mapCellData.trianglesToLink.TryGetValue(triangle, out var thisLinkTriangle))
 						{
-							if(link.IsPerfectLink)
+							foreach(var link in thisLinkTriangle)
 							{
-								Gizmos.color = Color.green;
-								link.OnDrawGizmos(offset, 0.25f);
+								if(IsOnDrawGizmos_ShowOnlyPerfectLink)
+								{
+									if(link.IsPerfectLink)
+									{
+										Gizmos.color = Color.green;
+										link.OnDrawGizmos(offset, 0.25f);
+									}
+								}
+								else
+								{
+									if(link.IsPerfectLink)
+									{
+										Gizmos.color = Color.green;
+									}
+									else
+									{
+										//float lerp = (float)link.linkCount / 9f;
+										//Gizmos.color = Color.Lerp(Color.red, Color.yellow, lerp);
+										Gizmos.color = Color.yellow;
+									}
+									link.OnDrawGizmos(offset, 0.25f);
+								}
 							}
 						}
-						else
+						if(mapCellData.trianglesClosedPoint.TryGetValue(triangle, out var mapPathPoint))
 						{
-							if(link.IsPerfectLink)
+							Gizmos.color = Color.blue;
+							for(int ii = 0 ; ii < 25 ; ii++)
 							{
-								Gizmos.color = Color.green;
+								offset += Vector3.up * 0.04f;
+								Gizmos.DrawLine(mapPathPoint.ThisPosition() + offset, center + offset);
 							}
-							else
-							{
-								//float lerp = (float)link.linkCount / 9f;
-								//Gizmos.color = Color.Lerp(Color.red, Color.yellow, lerp);
-								Gizmos.color = Color.yellow;
-							}
-							link.OnDrawGizmos(offset, 0.25f);
 						}
 					}
+					onMouseTriangleIndex = triangle.Index;
+					UnityEditor.Handles.Label(triangle.Center, $"::{triangle.Index}", new GUIStyle()
+					{
+						fontSize = Mathf.RoundToInt(30),
+						normal = new GUIStyleState() { textColor = Color.red }
+					});
 				}
 				else
 				{

@@ -16,7 +16,7 @@ namespace BC.LowLevelAI
 		public DetectedData DetectedData { get; set; }
 		private DiplomacyComputer DiplomacyComputer { get; set; }
 		private NavMeshConnectComputer NavMeshConnectComputer { get; set; }
-		private MapAICellData MapAICellData { get; set; }
+		private MapCellData MapAICellData { get; set; }
 
 		[Header("List Of DetectingDataType")]
 		[ShowInInspector]
@@ -49,7 +49,7 @@ namespace BC.LowLevelAI
 			{
 				DiplomacyComputer = lowLevelAI.ThisContainer.GetComponent<DiplomacyComputer>();
 				NavMeshConnectComputer = lowLevelAI.ThisContainer.GetComponent<NavMeshConnectComputer>();
-				MapAICellData = lowLevelAI.ThisContainer.GetData<MapAICellData>();
+				MapAICellData = lowLevelAI.ThisContainer.GetData<MapCellData>();
 			}
 
 			MyFactionList = new List<DetectedData.Info>();

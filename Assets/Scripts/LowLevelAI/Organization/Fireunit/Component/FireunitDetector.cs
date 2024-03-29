@@ -4,8 +4,6 @@ using BC.ODCC;
 
 using UnityEngine;
 
-using static BC.LowLevelAI.NavMeshConnectComputer;
-
 namespace BC.LowLevelAI
 {
 	public class FireunitDetector : ComponentBehaviour
@@ -28,7 +26,7 @@ namespace BC.LowLevelAI
 
 
 		public Triangle ThisTriangle { get; private set; } = default;
-		public Dictionary<Vector3Int, List<LinkTriangle>> ThisLinkTriangles { get; private set; } = new Dictionary<Vector3Int, List<LinkTriangle>>();
+		public Dictionary<Vector3Int, List<LinkRayTriangle>> ThisLinkTriangles { get; private set; } = new Dictionary<Vector3Int, List<LinkRayTriangle>>();
 
 
 		public override void BaseAwake()
@@ -105,7 +103,7 @@ namespace BC.LowLevelAI
 			}
 		}
 
-		internal void UpdateDetector(NavMeshConnectComputer navMeshConnectComputer, MapAICellData mapAICellData)
+		internal void UpdateDetector(NavMeshConnectComputer navMeshConnectComputer, MapCellData mapAICellData)
 		{
 			Vector3 position = ThisTransform.position;
 			DetectorPosition = position;
@@ -122,7 +120,7 @@ namespace BC.LowLevelAI
 				NavTitleIndex = mapAICellData.GetCellIndex(DetectorPosition);
 				if(ThisLinkTriangles == null)
 				{
-					ThisLinkTriangles = new Dictionary<Vector3Int, List<LinkTriangle>>();
+					ThisLinkTriangles = new Dictionary<Vector3Int, List<LinkRayTriangle>>();
 				}
 				if(navMeshConnectComputer != null && !ThisTriangle.IsPointInTriangle(DetectorPosition) && navMeshConnectComputer.FindPointInTriangle(DetectorPosition, out var thisTriangle, out var linkList))
 				{
@@ -134,14 +132,14 @@ namespace BC.LowLevelAI
 						int length = linkList.Length;
 						for(int i = 0 ; i < length ; i++)
 						{
-							LinkTriangle link = linkList[i];
+							LinkRayTriangle link = linkList[i];
 							if(link.GetOther(thisTriangle, out var otherTriangle))
 							{
-								var otherNavTitleIndex = mapAICellData.GetCellIndex(otherTriangle.Center());
+								var otherNavTitleIndex = mapAICellData.GetCellIndex(otherTriangle.Center);
 
 								if(!ThisLinkTriangles.TryGetValue(otherNavTitleIndex, out var linlValue))
 								{
-									linlValue = new List<LinkTriangle>();
+									linlValue = new List<LinkRayTriangle>();
 									ThisLinkTriangles.Add(otherNavTitleIndex, linlValue);
 								}
 								linlValue.Add(link);

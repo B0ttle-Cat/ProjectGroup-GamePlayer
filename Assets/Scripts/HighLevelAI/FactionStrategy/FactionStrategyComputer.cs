@@ -12,21 +12,21 @@ namespace BC.HighLevelAI
 	public class FactionStrategyComputer : ComponentBehaviour
 	{
 		private FireteamTacticsComputer fireteamTacticsComputer;
-		private MapWaypointComputer mapWaypointComputer;
+		private MapPathPointComputer mapPathPointComputer;
 
 		private OdccQueryCollector factionStrategyAICollector;
 		private OdccQueryCollector fireteamStrategyAICollector;
 		private OdccQueryCollector strategicPointCollector;
 
 		public float StrategyUpdateTime;
-		private bool IsWaitWaypointComputing => mapWaypointComputer == null ? true : mapWaypointComputer.IsComputing;
+		private bool IsWaitPathPointComputing => mapPathPointComputer == null ? true : mapPathPointComputer.IsComputing;
 		private IEnumerable<StrategicPoint> allStrategicPointList { get; set; }
 
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
 
-			mapWaypointComputer = ThisContainer.GetComponent<MapWaypointComputer>();
+			mapPathPointComputer = ThisContainer.GetComponent<MapPathPointComputer>();
 			fireteamTacticsComputer = ThisContainer.GetComponent<FireteamTacticsComputer>();
 
 			factionStrategyAICollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
@@ -43,7 +43,7 @@ namespace BC.HighLevelAI
 			base.BaseEnable();
 
 			factionStrategyAICollector.CreateLooper(nameof(FactionStrategyComputer))
-				.IsBreakFunction(() => IsWaitWaypointComputing)
+				.IsBreakFunction(() => IsWaitPathPointComputing)
 				.Action(StartAction)
 				.Foreach<FactionStrategyAI>(UpdateComputer)
 				.Action(EndedAction)

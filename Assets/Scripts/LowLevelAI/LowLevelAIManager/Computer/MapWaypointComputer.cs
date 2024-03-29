@@ -10,10 +10,9 @@ using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
-	public class MapWaypointComputer : ComponentBehaviour
+	public class MapPathPointComputer : ComponentBehaviour
 	{
-		NavMeshConnectComputer navMeshConnectComputer;
-		MapAICellData mapAICellData;
+		MapCellData mapCellData;
 #if UNITY_EDITOR
 		[SerializeField]
 		private bool IsOnDrawGizmos;
@@ -21,62 +20,60 @@ namespace BC.LowLevelAI
 		[ShowInInspector, ReadOnly]
 		public bool IsComputing { get; private set; } = true;
 
-		OdccQueryCollector waypointCollector;
-		MapWaypoint[] allWaypoints;
+		OdccQueryCollector pathpointCollector;
+		MapPathPoint[] allPathpoints;
 
 		public override void BaseAwake()
 		{
-			navMeshConnectComputer = ThisContainer.GetComponent<NavMeshConnectComputer>();
-			mapAICellData = ThisContainer.GetData<MapAICellData>();
+			mapCellData = ThisContainer.GetData<MapCellData>();
 
-			waypointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
-				.WithAll<MapAnchor, MapWaypoint>()
-				.WithAny<MapWaypoint, StrategicPoint>()
+			pathpointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
+				.WithAll<MapAnchor, MapPathPoint>()
+				.WithAny<MapPathPoint, StrategicPoint>()
 				.Build());
 		}
 		public override void BaseEnable()
 		{
-			waypointCollector.CreateChangeListEvent(InitItems, UpdateItme)
-				.CreateCallEvent(nameof(MapWaypointComputer))
+			pathpointCollector.CreateChangeListEvent(InitItems, UpdateItme)
+				.CreateCallEvent(nameof(MapPathPointComputer))
 				.Action(StartUpdate)
-				.Foreach<MapAnchor, MapWaypoint, StrategicPoint>(WaypointConnectUpdate)
-				.Foreach<MapAnchor, MapWaypoint, StrategicPoint>(StrategicPointUpdate)
-				.Action(UpdateCloseWaypoint)
+				.Foreach<MapAnchor, MapPathPoint, StrategicPoint>(PathpointConnectUpdate)
+				.Foreach<MapAnchor, MapPathPoint, StrategicPoint>(StrategicPointUpdate)
 				.Action(EndedUpdate)
 				.RunCallEvent();
 
-			waypointCollector.DeleteChangeListEvent(UpdateItme)
-				.DeleteCallEvent(nameof(MapWaypointComputer));
+			pathpointCollector.DeleteChangeListEvent(UpdateItme)
+				.DeleteCallEvent(nameof(MapPathPointComputer));
 		}
 		public override void BaseDisable()
 		{
-			waypointCollector.DeleteChangeListEvent(UpdateItme);
-			waypointCollector.DeleteCallEvent(nameof(MapWaypointComputer));
+			pathpointCollector.DeleteChangeListEvent(UpdateItme);
+			pathpointCollector.DeleteCallEvent(nameof(MapPathPointComputer));
 		}
 		private void InitItems(IEnumerable<ObjectBehaviour> enumerable)
 		{
-			allWaypoints = waypointCollector.GetQueryItems()
-				.Select(item => item.ThisContainer.GetComponent<MapWaypoint>())
+			allPathpoints = pathpointCollector.GetQueryItems()
+				.Select(item => item.ThisContainer.GetComponent<MapPathPoint>())
 				.Where(item => item != null && item.isActiveAndEnabled).ToArray();
 		}
 		private void UpdateItme(ObjectBehaviour item, bool added)
 		{
-			if(item.ThisContainer.TryGetComponent(out MapWaypoint waypoint))
+			if(item.ThisContainer.TryGetComponent(out MapPathPoint pathpoint))
 			{
-				List<MapWaypoint> values = allWaypoints.ToList();
+				List<MapPathPoint> values = allPathpoints.ToList();
 				if(added)
 				{
-					if(!values.Contains(waypoint))
+					if(!values.Contains(pathpoint))
 					{
-						values.Add(waypoint);
-						allWaypoints = values.ToArray();
+						values.Add(pathpoint);
+						allPathpoints = values.ToArray();
 					}
 				}
 				else
 				{
-					if(values.Remove(waypoint))
+					if(values.Remove(pathpoint))
 					{
-						allWaypoints = values.ToArray();
+						allPathpoints = values.ToArray();
 					}
 				}
 			}
@@ -87,94 +84,56 @@ namespace BC.LowLevelAI
 			IsComputing = true;
 		}
 
-		private void WaypointConnectUpdate(MapAnchor mapAnchor, MapWaypoint waypoint, StrategicPoint strategicPoint)
+		private void PathpointConnectUpdate(MapAnchor mapAnchor, MapPathPoint pathpoint, StrategicPoint strategicPoint)
 		{
-			if(!mapAnchor.isActiveAndEnabled || !waypoint.isActiveAndEnabled)
+			if(!mapAnchor.isActiveAndEnabled || !pathpoint.isActiveAndEnabled)
 			{
 				return;
 			}
 
-			int length = allWaypoints.Length;
-			List<MapWaypoint> asyncWaypointList = new List<MapWaypoint>();
-			waypoint.CheckConnectStart();
+			int length = allPathpoints.Length;
+			List<MapPathPoint> asyncPathpointList = new List<MapPathPoint>();
+			pathpoint.CheckConnectStart();
 			for(int i = 0 ; i < length ; i++)
 			{
-				var targetWaypoint = allWaypoints[i];
-				if(targetWaypoint  == waypoint) continue;
-				if(targetWaypoint.breakPass ||!targetWaypoint.isActiveAndEnabled) continue;
+				var targetPathpoint = allPathpoints[i];
+				if(targetPathpoint  == pathpoint) continue;
+				if(targetPathpoint.breakPass ||!targetPathpoint.isActiveAndEnabled) continue;
 
-				waypoint.CheckConnectUpdate(targetWaypoint, asyncWaypointList);
+				pathpoint.CheckConnectUpdate(targetPathpoint, asyncPathpointList);
 			}
-			waypoint.CheckConnectEnded(asyncWaypointList);
+			pathpoint.CheckConnectEnded(asyncPathpointList);
 		}
-		private void StrategicPointUpdate(MapAnchor mapAnchor, MapWaypoint waypoint, StrategicPoint strategicPoint)
+		private void StrategicPointUpdate(MapAnchor mapAnchor, MapPathPoint pathpoint, StrategicPoint strategicPoint)
 		{
-			if(!mapAnchor.isActiveAndEnabled || !waypoint.isActiveAndEnabled)
+			if(!mapAnchor.isActiveAndEnabled || !pathpoint.isActiveAndEnabled)
 			{
 				return;
 			}
 
 			if(strategicPoint != null) strategicPoint.StrategicPointUpdate();
 		}
-		private void UpdateCloseWaypoint()
-		{
-			//var list = navMeshConnectComputer.triangleList;
-			//
-			//int Count = list.Count;
-			//for(int i = 0 ; i < Count ; i++)
-			//{
-			//	var triangle = list[i];
-			//	Vector3 center = triangle.Center();
-			//	MapWaypoint closeWaypoint = FindCloseWaypoint(center);
-			//
-			//
-			//}
-			//int Length = allWaypoints.Length;
-			//for(int i = 0 ; i < Length ; i++)
-			//{
-			//	MapWaypoint waypoint = allWaypoints[i];
-			//	Vector3 position = waypoint.OnNavMeshPosition;
-			//	Vector3Int cellIndex = mapAICellData.GetCellIndex(position);
-			//	if(mapAICellData.IndexToTriangles(cellIndex, out var triangles))
-			//	{
-			//		int Count = triangles.Count;
-			//		for(int ii = 0 ; ii < Count ; ii++)
-			//		{
-			//			var triangle = triangles[ii];
-			//			Vector3 center = triangle.Center();
-			//
-			//			Vector3 closestPoint = waypoint.ClosestPoint(position, out bool IsInside);
-			//			if(IsInside)
-			//			{
-			//				mapAICellData.closeWaypoint.Add()
-			//				continue;
-			//			}
-			//		}
-			//	}
-			//}
 
-			//	mapAICellData.IndexItemList
-		}
 		private void EndedUpdate()
 		{
 			IsComputing = false;
 		}
 
-		public MapWaypoint FindCloseWaypoint(Vector3 position)
+		public MapPathPoint FindClosePathpoint(Vector3 position)
 		{
 			if(NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
 			{
 				position = hit.position;
 			}
 
-			int length = allWaypoints.Length;
-			MapWaypoint waypoint = null;
+			int length = allPathpoints.Length;
+			MapPathPoint pathpoint = null;
 			int index = 0;
 			float minDistance = 0f;
 			for(int i = 0 ; i < length ; i++)
 			{
-				waypoint = allWaypoints[i];
-				Vector3 closestPoint = waypoint.ClosestPoint(position, out float distance);
+				pathpoint = allPathpoints[i];
+				Vector3 closestPoint = pathpoint.ClosestPoint(position, out float distance);
 
 				if(i == 0 || distance > minDistance)
 				{
@@ -183,20 +142,20 @@ namespace BC.LowLevelAI
 					if(distance == 0f) break;
 				}
 			}
-			return allWaypoints[index];
+			return allPathpoints[index];
 		}
 
-		public MapWaypoint SelectAnchorIndex(int selectIndex)
+		public MapPathPoint SelectAnchorIndex(int selectIndex)
 		{
-			int length = allWaypoints.Length;
+			int length = allPathpoints.Length;
 			for(int i = 0 ; i < length ; i++)
 			{
-				MapWaypoint waypoint = allWaypoints[i];
-				if(allWaypoints[i].ThisContainer.TryGetData<MapAnchorData>(out var data))
+				MapPathPoint pathpoint = allPathpoints[i];
+				if(allPathpoints[i].ThisContainer.TryGetData<MapAnchorData>(out var data))
 				{
 					if(data.anchorIndex == selectIndex)
 					{
-						return waypoint;
+						return pathpoint;
 					}
 				}
 			}
@@ -207,20 +166,20 @@ namespace BC.LowLevelAI
 		public void OnDrawGizmos()
 		{
 			if(!IsOnDrawGizmos) return;
-			if(allWaypoints == null) return;
+			if(allPathpoints == null) return;
 
-			int Length = allWaypoints.Length;
+			int Length = allPathpoints.Length;
 			for(int i = 0 ; i < Length ; i++)
 			{
-				var waypoint = allWaypoints[i];
-				if(waypoint == null) continue;
+				var pathpoint = allPathpoints[i];
+				if(pathpoint == null) continue;
 
-				Vector3 positionA = waypoint.OnNavMeshPosition + Vector3.up * 4f;
-				int connectLength = waypoint.nextWaypointList.Length;
+				Vector3 positionA = pathpoint.OnNavMeshPosition + Vector3.up * 4f;
+				int connectLength = pathpoint.nextPathpointList.Length;
 				Gizmos.color = Color.white;
 				for(int ii = 0 ; ii <  connectLength ; ii++)
 				{
-					var other = waypoint.nextWaypointList[ii];
+					var other = pathpoint.nextPathpointList[ii];
 					Vector3 positionB = other.OnNavMeshPosition+ Vector3.up * 4f;
 					Gizmos.DrawLine(positionA, positionB);
 				}

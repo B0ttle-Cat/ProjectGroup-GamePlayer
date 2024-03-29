@@ -16,11 +16,13 @@ namespace BC.LowLevelAI
 			{
 				if(ThisContainer.TryGetParentObject<FireunitGrouping>(out var grouping))
 				{
-					FireteamData fireteamData = grouping.ThisContainer.GetData<FireteamData>();
-					fireunitData.FactionIndex = fireteamData.FactionIndex;
-					fireunitData.TeamIndex = fireteamData.TeamIndex;
-					fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
-					gameObject.name = $"{fireunitData.FactionIndex} : {fireunitData.TeamIndex} : Fireunit_{fireunitData.UnitIndex}";
+					if(grouping.ThisContainer.TryGetData<FireteamData>(out var fireteamData))
+					{
+						fireunitData.FactionIndex = fireteamData.FactionIndex;
+						fireunitData.TeamIndex = fireteamData.TeamIndex;
+						fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
+						gameObject.name = $"{fireunitData.FactionIndex} : {fireunitData.TeamIndex} : Fireunit_{fireunitData.UnitIndex}";
+					}
 				}
 				else
 				{

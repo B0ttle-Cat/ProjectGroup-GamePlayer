@@ -27,7 +27,7 @@ namespace BC.LowLevelAI
 			Vector3 thisPos = myDetector.DetectorPosition;
 
 			//Triangle ThisTriangle = myDetector.ThisTriangle;
-			Dictionary<Vector3Int, List<LinkTriangle>> ThisLinkTriangles = myDetector.ThisLinkTriangles;
+			Dictionary<Vector3Int, List<LinkRayTriangle>> ThisLinkTriangles = myDetector.ThisLinkTriangles;
 
 			if(ThisLinkTriangles == null) return false;
 			if(ThisLinkTriangles.Count == 0) return false;

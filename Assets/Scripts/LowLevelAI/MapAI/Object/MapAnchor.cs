@@ -19,6 +19,11 @@ namespace BC.LowLevelAI
 				return mapAnchorTrigger;
 			}
 		}
+		public override void BaseReset()
+		{
+			base.BaseReset();
+			mapAnchorTrigger = GetComponentsInChildren<Collider>();
+		}
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
@@ -27,12 +32,15 @@ namespace BC.LowLevelAI
 				anchorData = ThisContainer.AddData<MapAnchorData>();
 			}
 			anchorData.anchorIndex = ThisTransform.GetSiblingIndex();
+			mapAnchorTrigger = GetComponentsInChildren<Collider>();
 		}
 
 
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
+			mapAnchorTrigger = GetComponentsInChildren<Collider>();
+
 			var trigger = AnchorTrigger;
 			int Length = trigger.Length;
 			for(int i = 0 ; i < Length ; i++)
@@ -41,7 +49,10 @@ namespace BC.LowLevelAI
 			}
 		}
 
-
+		public Vector3 ThisPosition()
+		{
+			return ThisTransform.position;
+		}
 		public bool InSidePosition(Vector3 position)
 		{
 			var list = AnchorTrigger;
@@ -59,18 +70,18 @@ namespace BC.LowLevelAI
 			return false;
 		}
 
-		internal Vector3 ClosestPoint(Vector3 position, out float distance)
+		public Vector3 ClosestPoint(Vector3 position, out float distance)
 		{
 			var list = AnchorTrigger;
 			int length = list.Length;
-			Vector3 minClose = Vector3.zero;
+			Vector3 minClose = ThisPosition();
 			distance = 0;
 			for(int i = 0 ; i < length ; i++)
 			{
 				var trigger = list[i];
 
 				Vector3 closestPoint = trigger.ClosestPoint(position);
-				float checkDistance = (position - closestPoint).sqrMagnitude;
+				float checkDistance = Vector3.Distance(position, closestPoint);
 
 				if(i == 0 || distance > checkDistance)
 				{
@@ -78,8 +89,9 @@ namespace BC.LowLevelAI
 					minClose = closestPoint;
 				}
 			}
-			distance = Vector3.Distance(position, minClose);
 			return minClose;
 		}
+
+
 	}
 }

@@ -32,7 +32,7 @@ namespace BC.LowLevelAI
 		{
 			if(manager == null || manager.LowLevelAI == null) return;
 
-			if(!manager.LowLevelAI.TryGetComponent<MapPathPointComputer>(out var computer)) return;
+			if(!manager.LowLevelAI.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
 			stateData.MoveTargetPoint = computer.SelectAnchorIndex(anchorIndex);
 		}

@@ -11,6 +11,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Random = UnityEngine.Random;
+
 namespace BC.LowLevelAI
 {
 	[Serializable]
@@ -387,6 +389,37 @@ namespace BC.LowLevelAI
 				finded = next;
 			}
 			return true;
+		}
+
+		internal Vector3[] GetRandomAroundPosition(int divisionCount = 0)
+		{
+			if(divisionCount == 0)
+			{
+				return new Vector3[1] { ThisPosition() };
+			}
+
+			Vector3[] points = new Vector3[divisionCount];
+
+			float pointsPerDivision = 360f / divisionCount;
+
+			for(int i = 0 ; i < divisionCount ; i++)
+			{
+				// 각 구역을 등분하여 시작 각도와 끝 각도 계산
+				float startAngle = i * pointsPerDivision;
+				float endAngle = (i + 1) * pointsPerDivision;
+
+				// 각 구역에서 랜덤한 각도 선택
+				float angle = Random.Range(startAngle, endAngle);
+
+				// 선택된 각도에 해당하는 위치 계산
+				Quaternion rotation = Quaternion.Euler(0, angle, 0);
+				Vector3 direction = rotation * Vector3.forward;
+				Vector3 point = ThisPosition() + direction * Random.Range(0.5f, 2.5f);
+
+				points[i] = (point);
+			}
+
+			return points;
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace BC.LowLevelAI
 		{
 			if(iStateData.HasMoveTarget)
 			{
-				OnTransitionState<StayStateComponent>();
+				OnTransitionState<MovementStateComponent>();
 				return;
 			}
 		}

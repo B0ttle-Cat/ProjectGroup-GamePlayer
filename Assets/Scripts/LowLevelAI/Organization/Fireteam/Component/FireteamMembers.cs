@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace BC.LowLevelAI
 		private CinemachineTargetGroup cinemachineTargetGroup;
 
 		private OdccQueryCollector  memberCollector;
+		public int Count => thisMember.Count;
 
 		public override void BaseAwake()
 		{
@@ -37,7 +39,6 @@ namespace BC.LowLevelAI
 
 			cinemachineTargetGroup = cinemachineTargetGroup != null ? cinemachineTargetGroup : GetComponent<CinemachineTargetGroup>();
 		}
-
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
@@ -59,7 +60,6 @@ namespace BC.LowLevelAI
 
 			UpdateCinemachineTargetGroupMember(thisMember);
 		}
-
 		private void UpdateList(ObjectBehaviour behaviour, bool isAdded)
 		{
 			if(behaviour is not FireunitObject unit) return;
@@ -80,13 +80,27 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
+		public void Foreach(Action<FireunitObject> action, Func<FireunitObject, bool> condition = null)
+		{
+			if(action == null) return;
+
+			int length = thisMember.Count;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var member = thisMember[i];
+				if(condition == null || condition.Invoke(member))
+				{
+					action.Invoke(member);
+				}
+			}
+		}
+
 
 		internal void SetCinemachineTargetGroup(CinemachineTargetGroup cinemachineTargetGroup)
 		{
 			this.cinemachineTargetGroup = cinemachineTargetGroup;
 			UpdateCinemachineTargetGroupMember(thisMember);
 		}
-
 		private void AddedCinemachineTargetGroupMember(FireunitObject fireunit)
 		{
 			if(fireunit == null) return;

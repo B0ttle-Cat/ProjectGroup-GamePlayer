@@ -80,6 +80,8 @@ namespace BC.LowLevelAI
 				.Where(item => item != null);
 			allPathPoints = _allPathPoints.ToArray();
 
+			yield return null;
+
 			foreach(var item in _allPathPoints)
 			{
 				PathPointSetNavMeshPosition(item);

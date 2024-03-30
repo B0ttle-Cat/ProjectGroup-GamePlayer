@@ -3105,6 +3105,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &388484792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3757,6 +3758,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &552109037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4164,7 +4166,7 @@ GameObject:
   - component: {fileID: 575790469}
   - component: {fileID: 575790470}
   m_Layer: 0
-  m_Name: 00 Faction
+  m_Name: 00 Faction Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5898,6 +5900,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &751646284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6692,6 +6695,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &821093002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8402,7 +8406,7 @@ GameObject:
   - component: {fileID: 1049626309}
   - component: {fileID: 1049626310}
   m_Layer: 0
-  m_Name: 00 | 02 Team
+  m_Name: 00 | 02 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8592,7 +8596,7 @@ GameObject:
   - component: {fileID: 1067319732}
   - component: {fileID: 1067319733}
   m_Layer: 0
-  m_Name: 01 Faction
+  m_Name: 01 Faction Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9649,7 +9653,7 @@ GameObject:
   - component: {fileID: 1190945382}
   - component: {fileID: 1190945383}
   m_Layer: 0
-  m_Name: 00 | 01 Team
+  m_Name: 00 | 01 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12660,7 +12664,7 @@ GameObject:
   - component: {fileID: 1677688248}
   - component: {fileID: 1677688249}
   m_Layer: 0
-  m_Name: 01 | 01 Team
+  m_Name: 01 | 01 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13003,11 +13007,9 @@ MonoBehaviour:
     ContainerNode:
       thisObject: {fileID: 1749532069}
       parent: {fileID: 448125903}
-      childs:
-      - {fileID: 552109033}
-      - {fileID: 821092998}
-      - {fileID: 1778559866}
+      childs: []
       componentList:
+      - {fileID: 1749532072}
       - {fileID: 1749532070}
       - {fileID: 1749532071}
       dataList:
@@ -13094,6 +13096,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!1 &1778559861
 GameObject:
   m_ObjectHideFlags: 0
@@ -13238,6 +13241,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &1778559870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13404,7 +13408,7 @@ GameObject:
   - component: {fileID: 1807256552}
   - component: {fileID: 1807256553}
   m_Layer: 0
-  m_Name: 01 | 00 Team
+  m_Name: 01 | 00 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14439,11 +14443,9 @@ MonoBehaviour:
     ContainerNode:
       thisObject: {fileID: 2032240152}
       parent: {fileID: 448125903}
-      childs:
-      - {fileID: 388484790}
-      - {fileID: 2117697963}
-      - {fileID: 751646282}
+      childs: []
       componentList:
+      - {fileID: 2032240155}
       - {fileID: 2032240153}
       - {fileID: 2032240154}
       dataList:
@@ -14530,6 +14532,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!1001 &2038734007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14921,7 +14924,7 @@ GameObject:
   - component: {fileID: 2063650637}
   - component: {fileID: 2063650638}
   m_Layer: 0
-  m_Name: 00 | 00 Team
+  m_Name: 00 | 00 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16053,6 +16056,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thisMember: []
 --- !u!114 &2117697965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16128,7 +16132,7 @@ GameObject:
   - component: {fileID: 2119827235}
   - component: {fileID: 2119827236}
   m_Layer: 0
-  m_Name: 01 | 02 Team
+  m_Name: 01 | 02 Team Members
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

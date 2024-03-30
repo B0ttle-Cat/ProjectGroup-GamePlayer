@@ -42,13 +42,13 @@ namespace BC.HighLevelAI
 		{
 			base.BaseEnable();
 
-			factionStrategyAICollector.CreateLooper(nameof(FactionStrategyComputer))
-				.IsBreakFunction(() => IsWaitPathPointComputing)
-				.Action(StartAction)
-				.Foreach<FactionStrategyAI>(UpdateComputer)
-				.Action(EndedAction)
-				.Action(WaitNextUpdate)
-				;
+			//factionStrategyAICollector.CreateLooper(nameof(FactionStrategyComputer))
+			//	.IsBreakFunction(() => IsWaitPathPointComputing)
+			//	.Action(StartAction)
+			//	.Foreach<FactionStrategyAI>(UpdateComputer)
+			//	.Action(EndedAction)
+			//	.Action(WaitNextUpdate)
+			//	;
 
 			allStrategicPointList = strategicPointCollector.GetQueryItems().Select(item => item.ThisContainer.GetComponent<StrategicPoint>());
 		}
@@ -82,12 +82,12 @@ namespace BC.HighLevelAI
 			}
 		}
 
-		private void UpdateComputer(FactionStrategyAI strategyAI)
-		{
-			strategyAI.UpdateNextStrategicPoint(allStrategicPointList);
-			strategyAI.CalculateNextStrategicPoint();
-			strategyAI.SelectNextStrategicPath();
-			strategyAI.GiveOrderToFireteam();
-		}
+		//private void UpdateComputer(FactionStrategyAI strategyAI)
+		//{
+		//	strategyAI.UpdateNextStrategicPoint(allStrategicPointList);
+		//	strategyAI.CalculateNextStrategicPoint();
+		//	strategyAI.SelectNextStrategicPath();
+		//	strategyAI.GiveOrderToFireteam();
+		//}
 	}
 }

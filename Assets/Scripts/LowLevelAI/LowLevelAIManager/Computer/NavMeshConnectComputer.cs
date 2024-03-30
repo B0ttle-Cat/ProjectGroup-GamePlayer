@@ -99,7 +99,7 @@ namespace BC.LowLevelAI
 			mapCellData = ThisContainer.GetData<MapCellData>();
 
 			previousTime = DateTime.Now;
-			waitingLog = "Start PathpointConnectUpdate";
+			waitingLog = "Start PathPointConnectUpdate";
 			Debug.Log($"AsyncUpdate : {waitingLog}");
 			yield return null;
 			if(IsAsyncUpdate)
@@ -139,7 +139,7 @@ namespace BC.LowLevelAI
 				asyncLinkRayTriangleList.Clear();
 			}
 			asyncUpdate = null;
-			waitingLog = "Ended PathpointConnectUpdate";
+			waitingLog = "Ended PathPointConnectUpdate";
 			Debug.Log($"AsyncUpdate : {waitingLog}");
 		}
 		private IEnumerator InitTriangleList()

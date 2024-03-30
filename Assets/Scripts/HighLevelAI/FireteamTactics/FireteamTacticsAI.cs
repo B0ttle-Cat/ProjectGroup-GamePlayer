@@ -69,11 +69,11 @@ namespace BC.HighLevelAI
 		internal void UpdateTacticsValue()
 		{
 			UpdateTacticsPosition();
-			UpdateStrategicPass();
+			//UpdatePath();
 		}
 		internal void UpdateTacticsState()
 		{
-			UpdateTacticsStateUsingPath();
+			//UpdateTacticsStateUsingPath();
 		}
 		/// <summary>
 		/// Fireteam 의 중심을 소속하는 유닛들의 중심에 위치하도록한다.
@@ -103,60 +103,60 @@ namespace BC.HighLevelAI
 		/// <summary>
 		/// tacticsData 에 경로를 지정한다.
 		/// </summary>
-		private void UpdateStrategicPass()
-		{
-			StrategicPath targetPath = tacticsData.TargetPath;
-			if(targetPath == null)
-			{
-				tacticsData.movePath = null;
-				return;
-			}
-			StrategicPath firstPath = tacticsData.movePath;
-
-			// 기존 목표가 없거나 기존과 목표와 다른 명령이 하달됨 
-			if(firstPath.from.FindTargetPath(targetPath.to, out var pathList, out var totalCost))
-			{
-				tacticsData.fullPathList = pathList;
-			}
-			else
-			{
-				tacticsData.fullPathList.Clear();
-			}
-
-			if(tacticsData.fullPathList.Count == 0)
-			{
-				firstPath = null;
-			}
-			else
-			{
-				firstPath = tacticsData.fullPathList[0];
-			}
-
-			tacticsData.movePath = firstPath;
-		}
+		//private void UpdatePath()
+		//{
+		//	StrategicPath targetPath = tacticsData.TargetPath;
+		//	if(targetPath == null)
+		//	{
+		//		tacticsData.movePath = null;
+		//		return;
+		//	}
+		//	StrategicPath firstPath = tacticsData.movePath;
+		//
+		//	// 기존 목표가 없거나 기존과 목표와 다른 명령이 하달됨 
+		//	if(firstPath.from.FindTargetPath(targetPath.to, out var pathList, out var totalCost))
+		//	{
+		//		tacticsData.fullPathList = pathList;
+		//	}
+		//	else
+		//	{
+		//		tacticsData.fullPathList.Clear();
+		//	}
+		//
+		//	if(tacticsData.fullPathList.Count == 0)
+		//	{
+		//		firstPath = null;
+		//	}
+		//	else
+		//	{
+		//		firstPath = tacticsData.fullPathList[0];
+		//	}
+		//
+		//	tacticsData.movePath = firstPath;
+		//}
 
 		/// <summary>
 		/// 접경 지역 에서 대기할지 / 진격 할지 결정한다.
 		/// </summary>
-		private void UpdateTacticsStateUsingPath()
-		{
-			Vector3 tacticsPosition = tacticsData.tacticsPosition;
-			var tacticsMove = tacticsData.movePath;
-			if(tacticsMove == null) return;
-
-			float StayPoint = tacticsMove.StayPoint;// * tacticsData.variable.stayVariable;
-			float MovePoint = tacticsMove.MovePoint;// * tacticsData.variable.moveVariable;
-
-			if(StayPoint >= MovePoint)
-			{
-				// 머문다.
-				tacticsData.movePoint = tacticsMove.from;
-			}
-			else
-			{
-				// 이동한다.
-				tacticsData.movePoint = tacticsMove.to;
-			}
-		}
+		//private void UpdateTacticsStateUsingPath()
+		//{
+		//	Vector3 tacticsPosition = tacticsData.tacticsPosition;
+		//	var tacticsMove = tacticsData.movePath;
+		//	if(tacticsMove == null) return;
+		//
+		//	float StayPoint = tacticsMove.StayPoint;// * tacticsData.variable.stayVariable;
+		//	float MovePoint = tacticsMove.MovePoint;// * tacticsData.variable.moveVariable;
+		//
+		//	if(StayPoint >= MovePoint)
+		//	{
+		//		// 머문다.
+		//		tacticsData.movePoint = tacticsMove.from;
+		//	}
+		//	else
+		//	{
+		//		// 이동한다.
+		//		tacticsData.movePoint = tacticsMove.to;
+		//	}
+		//}
 	}
 }

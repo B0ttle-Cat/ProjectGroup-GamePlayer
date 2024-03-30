@@ -1,26 +1,140 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using BC.Base;
 using BC.ODCC;
+
+using Sirenix.OdinInspector;
 
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
+	[Serializable]
+	public class MapPathNode : IEnumerable<MapPathNode>
+	{
+		[SerializeField, ReadOnly]
+		private MapPathPoint mapPathPoint;
+		[SerializeField, ReadOnly]
+		private MapPathNode prevNode;
+		[SerializeField, ReadOnly]
+		private MapPathNode nextNode;
+
+		private float pathCost; // prevNode 를 거쳐 이곳까지 오는 누적 비용
+		private float nextCost; // 이곳에서 next 로 가는 비용
+		public MapPathNode()
+		{
+			mapPathPoint = null;
+			prevNode = null;
+			nextNode = null;
+		}
+		public MapPathNode(MapPathPoint mapPathPoint, MapPathNode prevNode = null)
+		{
+			this.mapPathPoint=mapPathPoint;
+			this.prevNode = prevNode;
+			if(prevNode != null)
+			{
+				float distance = Vector3.Distance(prevNode.ThisPoint.ThisPosition(), this.ThisPoint.ThisPosition());
+				float distancePerCost = (prevNode.DistancePerCost + this.DistancePerCost) * 0.5f;
+
+				this.pathCost = prevNode.pathCost + (distance * distancePerCost);
+			}
+			else
+			{
+				this.pathCost = 0f;
+			}
+			nextNode = null;
+		}
+		public MapPathNode(MapPathNode copy)
+		{
+			this.mapPathPoint = copy.mapPathPoint;
+			this.prevNode = copy.prevNode;
+			this.nextNode = copy.nextNode;
+			this.pathCost = copy.pathCost;
+			this.nextCost = copy.nextCost;
+		}
+		public static void LinkNode(MapPathNode prev, MapPathNode next)
+		{
+			if(prev != null)
+			{
+				prev.nextNode = next;
+				if(next != null)
+				{
+					float distance = Vector3.Distance(prev.ThisPoint.ThisPosition(), next.ThisPoint.ThisPosition());
+					float distancePerCost = (prev.DistancePerCost + next.DistancePerCost) * 0.5f;
+
+					prev.nextCost = (distance * distancePerCost);
+				}
+				else
+				{
+					prev.nextCost = 0f;
+				}
+			}
+			if(next!= null)
+			{
+				next.prevNode = prev;
+				if(prev != null)
+				{
+					float distance = Vector3.Distance(prev.ThisPoint.ThisPosition(), next.ThisPoint.ThisPosition());
+					float distancePerCost = (prev.DistancePerCost + next.DistancePerCost) * 0.5f;
+
+					next.pathCost = prev.pathCost + (distance * distancePerCost);
+				}
+				else
+				{
+					next.pathCost = 0f;
+				}
+			}
+		}
+
+		public MapPathPoint ThisPoint => mapPathPoint;
+		public MapPathNode PrevNode => prevNode;
+		public MapPathNode NextNode => nextNode;
+
+		bool IsStart => PrevNode == null;
+		bool IsEnded => NextNode == null;
+		bool IsPath => !IsStart && !IsEnded;
+
+		public float DistancePerCost => ThisPoint == null ? 0 : ThisPoint.DistancePerCost;
+
+		public float PathCost => pathCost;
+		public float NextCost => nextCost;
+
+		public IEnumerator<MapPathNode> GetEnumerator()
+		{
+			MapPathNode currentNode = this;
+			while(currentNode != null)
+			{
+				yield return currentNode;
+				currentNode = currentNode.NextNode;
+			}
+		}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+		public List<MapPathNode> ToList()
+		{
+			return this.ToList();
+		}
+	}
+
 	public class MapPathPoint : ComponentBehaviour
 	{
 		private MapAnchor mapAnchor;
-
-		public bool breakPass;
 		[SerializeField]
-		private float defaultWayCost = 1f;
+		private bool isBrakePath;
+		[SerializeField]
+		private float defaultPathCost = 1f;
 		public Vector3 OnNavMeshPosition;
-		public MapPathPoint[] nextPathpointList;
+		public MapPathPoint[] nextPathPointList;
 
-		private float variableWayCost = 0f;
+		public float DistancePerCost => IsBrakePath ? float.PositiveInfinity : defaultPathCost;
+		public bool IsBrakePath { get => isBrakePath; set => isBrakePath=value; }
 
-		public float WayCost => breakPass ? float.PositiveInfinity : defaultWayCost + variableWayCost;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
@@ -35,7 +149,7 @@ namespace BC.LowLevelAI
 
 		public override void BaseEnable()
 		{
-			nextPathpointList = new MapPathPoint[0];
+			nextPathPointList = new MapPathPoint[0];
 
 			base.BaseEnable();
 			OnNavMeshPosition = ThisTransform.position;
@@ -48,36 +162,36 @@ namespace BC.LowLevelAI
 
 		internal void CheckConnectStart()
 		{
-			nextPathpointList = new MapPathPoint[0];
+			nextPathPointList = new MapPathPoint[0];
 		}
-		internal void CheckConnectUpdate(MapPathPoint targetPathpoint, List<MapPathPoint> asyncPathpointList)
+		internal void CheckConnectUpdate(MapPathPoint targetPathPoint, List<MapPathPoint> asyncPathPointList)
 		{
 			Vector3 a = OnNavMeshPosition + Vector3.up;
-			Vector3 b = targetPathpoint.OnNavMeshPosition + Vector3.up;
+			Vector3 b = targetPathPoint.OnNavMeshPosition + Vector3.up;
 
 			Vector3 diraction = b - a;
 			float magnitude = diraction.magnitude;
 			diraction = diraction.normalized;
 			Ray ray = new Ray(a, diraction);
 
-			//List<MapPathPoint> asyncPathpointList = nextPathpointList.ToList();
+			//List<MapPathPoint> asyncPathPointList = nextPathPointList.ToList();
 			if(Physics.Raycast(ray, out var hit, magnitude, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
 			{
-				MapPathPoint mapPathpoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
+				MapPathPoint mapPathPoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
 
-				if(mapPathpoint is not null)
+				if(mapPathPoint is not null)
 				{
-					if(mapPathpoint == targetPathpoint)
+					if(mapPathPoint == targetPathPoint)
 					{
-						asyncPathpointList.Add(targetPathpoint);
+						asyncPathPointList.Add(targetPathPoint);
 					}
 				}
 			}
 		}
 
-		internal void CheckConnectEnded(List<MapPathPoint> asyncPathpointList)
+		internal void CheckConnectEnded(List<MapPathPoint> asyncPathPointList)
 		{
-			nextPathpointList = asyncPathpointList.ToArray();
+			nextPathPointList = asyncPathPointList.ToArray();
 		}
 
 		public Vector3 ThisPosition()
@@ -91,6 +205,92 @@ namespace BC.LowLevelAI
 		public Vector3 ClosestPoint(Vector3 position, out float distance)
 		{
 			return mapAnchor.ClosestPoint(position, out distance);
+		}
+
+		public bool CalculatePath(MapPathPoint target, out MapPathNode pathNode)
+		{
+			pathNode = null;
+			if(target == null || target.IsBrakePath) return false;
+			if(this == target)
+			{
+				pathNode = new MapPathNode(this);
+				return true;
+			}
+			var startPoint = this;
+			var endedPoint = target;
+
+			if(startPoint.nextPathPointList.Contains(endedPoint))
+			{
+				pathNode = new MapPathNode(this);
+				MapPathNode.LinkNode(pathNode, new MapPathNode(endedPoint));
+				return true;
+			}
+
+			List<MapPathNode> serching = new List<MapPathNode>();
+			List<MapPathPoint> serched = new List<MapPathPoint>();
+			serching.Add(new MapPathNode(this));
+			MapPathNode finded = null;
+			while(finded == null || serching.Count == 0)
+			{
+				_CalculatePath();
+			}
+			void _CalculatePath()
+			{
+				if(serching.Count == 0) return;
+				var node = serching[0];
+				var point = node.ThisPoint;
+				serching.RemoveAt(0);
+				if(point == target)
+				{
+					finded = node;
+					return;
+				}
+
+				MapPathPoint[] nextPointList = point.nextPathPointList;
+				int length = nextPointList.Length;
+				for(int i = 0 ; i < length ; i++)
+				{
+					MapPathPoint nextPoint = nextPointList[i];
+
+					// 이동이 유효한 노드인지 검사
+					if(nextPoint.IsBrakePath) continue;
+
+					// 이미 탐색한 노드인지 확인
+					bool isSearched = false;
+					foreach(MapPathPoint searchedPoint in serched)
+					{
+						if(searchedPoint == nextPoint)
+						{
+							isSearched = true;
+							break;
+						}
+					}
+
+					// 이미 탐색한 노드 이면 무시
+					if(isSearched) continue;
+
+					MapPathNode prevNode = new MapPathNode(node);
+					MapPathNode nextNode = new MapPathNode(nextPoint);
+					MapPathNode.LinkNode(prevNode, nextNode);
+
+					float cost = nextNode.PathCost;
+					int indexToInsert = 0;
+					int serchingCount = serching.Count;
+					for(int j = 0 ; j < serchingCount ; j++)
+					{
+						if(cost < serching[j].PathCost)
+						{
+							indexToInsert = j;
+							break;
+						}
+						indexToInsert++;
+					}
+					serching.Insert(indexToInsert, nextNode);
+				}
+			}
+			pathNode = finded;
+
+			return pathNode != null;
 		}
 	}
 }

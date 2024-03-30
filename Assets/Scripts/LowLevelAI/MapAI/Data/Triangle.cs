@@ -75,10 +75,11 @@ namespace BC.LowLevelAI
 			if(count == 0) return LinkRayTriangle.LinkType.NothingLink;
 			if(count < 9) return LinkRayTriangle.LinkType.PartialLink;
 
+			int divCount = 5;
 			List<Vector3> dividedPointsA = new List<Vector3>();
-			for(int i = 0 ; i < 10 ; i++)
+			for(int i = 1 ; i < divCount ; i++)
 			{
-				float t = (float)i / 10;
+				float t = (float)i / (float)divCount;
 				Vector3 point = Vector3.Lerp(A.vertex1 , A.vertex2, t);
 				dividedPointsA.Add(point);
 				point = Vector3.Lerp(A.vertex2, A.vertex3, t);
@@ -87,9 +88,9 @@ namespace BC.LowLevelAI
 				dividedPointsA.Add(point);
 			}
 			List<Vector3> dividedPointsB = new List<Vector3>();
-			for(int i = 0 ; i < 10 ; i++)
+			for(int i = 1 ; i < divCount ; i++)
 			{
-				float t = (float)i / 10;
+				float t = (float)i / (float)divCount;
 				Vector3 point = Vector3.Lerp(B.vertex1 , B.vertex2, t);
 				dividedPointsB.Add(point);
 				point = Vector3.Lerp(B.vertex2, B.vertex3, t);
@@ -98,12 +99,10 @@ namespace BC.LowLevelAI
 				dividedPointsB.Add(point);
 			}
 
-			int countA = dividedPointsA.Count;
-			int countB = dividedPointsB.Count;
-			for(int i = 0 ; i < countA ; i++)
+			for(int i = 0 ; i < divCount ; i++)
 			{
 				Vector3 pointA = dividedPointsA[i];
-				for(int ii = 0 ; ii < countB ; ii++)
+				for(int ii = 0 ; ii < divCount ; ii++)
 				{
 					Vector3 pointB = dividedPointsB[i];
 

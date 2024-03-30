@@ -535,10 +535,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &38780007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,8 +876,8 @@ MonoBehaviour:
   usingNavMeshRaycast: 0
   areaMask: -1
   IsOnDrawGizmos: 1
-  IsOnDrawGizmos_ShowPerfectLink: 0
-  IsOnDrawGizmos_ShowPartialLink: 0
+  IsOnDrawGizmos_ShowPerfectLink: 1
+  IsOnDrawGizmos_ShowPartialLink: 1
   onMouseTriangleIndex: 0
   onMouseTrianglePosition: {x: 0, y: 0, z: 0}
   onMouseTriangleNavPosition: {x: 0, y: 0, z: 0}
@@ -1488,10 +1488,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 2
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &284452650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,10 +2158,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 2
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &352683980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3837,10 +3837,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &606220812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4782,10 +4782,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &735860323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5485,6 +5485,7 @@ GameObject:
   - component: {fileID: 835856221}
   - component: {fileID: 835856220}
   - component: {fileID: 835856223}
+  - component: {fileID: 835856224}
   m_Layer: 18
   m_Name: StartPoint A
   m_TagString: Untagged
@@ -5536,6 +5537,7 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 835856223}
+      - {fileID: 835856224}
       dataList:
       - rid: 8413926539713577233
   mapAnchorTrigger:
@@ -5589,10 +5591,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 1
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
+--- !u!114 &835856224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835856218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 1
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  pointPerTime: 0
 --- !u!1 &844073462
 GameObject:
   m_ObjectHideFlags: 0
@@ -6241,10 +6265,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &918971675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6453,10 +6477,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &975602104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7130,6 +7154,7 @@ GameObject:
   - component: {fileID: 1081994772}
   - component: {fileID: 1081994771}
   - component: {fileID: 1081994773}
+  - component: {fileID: 1081994774}
   m_Layer: 18
   m_Name: StrategicPoint_2
   m_TagString: Untagged
@@ -7181,6 +7206,7 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1081994773}
+      - {fileID: 1081994774}
       dataList:
       - rid: 8413926539713577241
   mapAnchorTrigger:
@@ -7234,10 +7260,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 1
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
+--- !u!114 &1081994774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081994768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 1
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  pointPerTime: 0
 --- !u!1 &1086983772
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,6 +8563,7 @@ GameObject:
   - component: {fileID: 1275255293}
   - component: {fileID: 1275255294}
   - component: {fileID: 1275255296}
+  - component: {fileID: 1275255297}
   m_Layer: 18
   m_Name: StartPoint B
   m_TagString: Untagged
@@ -8587,6 +8636,7 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1275255296}
+      - {fileID: 1275255297}
       dataList:
       - rid: 8413926539713577222
   mapAnchorTrigger:
@@ -8619,10 +8669,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 1
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
+--- !u!114 &1275255297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275255291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 1
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  pointPerTime: 0
 --- !u!1 &1305600399
 GameObject:
   m_ObjectHideFlags: 0
@@ -8893,10 +8965,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &1345156728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8969,6 +9041,7 @@ GameObject:
   - component: {fileID: 1402652760}
   - component: {fileID: 1402652759}
   - component: {fileID: 1402652761}
+  - component: {fileID: 1402652762}
   m_Layer: 18
   m_Name: StrategicPoint_0
   m_TagString: Untagged
@@ -9020,6 +9093,7 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1402652761}
+      - {fileID: 1402652762}
       dataList:
       - rid: 8413926539713577242
   mapAnchorTrigger:
@@ -9073,10 +9147,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 1
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
+--- !u!114 &1402652762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402652756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 1
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  pointPerTime: 0
 --- !u!1 &1411518015
 GameObject:
   m_ObjectHideFlags: 0
@@ -10470,6 +10566,7 @@ GameObject:
   - component: {fileID: 1596833349}
   - component: {fileID: 1596833348}
   - component: {fileID: 1596833350}
+  - component: {fileID: 1596833351}
   m_Layer: 18
   m_Name: StrategicPoint_1
   m_TagString: Untagged
@@ -10521,6 +10618,7 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1596833350}
+      - {fileID: 1596833351}
       dataList:
       - rid: 8413926539713577243
   mapAnchorTrigger:
@@ -10574,10 +10672,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 1
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
+--- !u!114 &1596833351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596833345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 1
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  pointPerTime: 0
 --- !u!1001 &1650451383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12122,10 +12242,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &1889110812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12327,10 +12447,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  breakPass: 0
-  defaultWayCost: 0
+  isBrakePath: 0
+  defaultPathCost: 1
   OnNavMeshPosition: {x: 0, y: 0, z: 0}
-  nextPathpointList: []
+  nextPathPointList: []
 --- !u!114 &1946860025
 MonoBehaviour:
   m_ObjectHideFlags: 0

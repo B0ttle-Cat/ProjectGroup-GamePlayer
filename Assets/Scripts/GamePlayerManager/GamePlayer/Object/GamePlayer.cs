@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BC.GamePlayerInterface;
+using BC.HighLevelAI;
 using BC.LowLevelAI;
 using BC.ODCC;
 
@@ -9,6 +10,8 @@ namespace BC.GamePlayerManager
 {
 	public abstract class GamePlayer : ComponentBehaviour, IGamePlayer
 	{
+		protected IGetLowLevelAIManager lowLevelAIManager;
+		protected IGetHighLevelAIManager highLevelAIManager;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
@@ -20,6 +23,8 @@ namespace BC.GamePlayerManager
 			{
 				ThisContainer.AddData<GamePlayingData>();
 			}
+			ThisContainer.TryGetParentObject<IGetLowLevelAIManager>(out lowLevelAIManager);
+			ThisContainer.TryGetParentObject<IGetHighLevelAIManager>(out highLevelAIManager);
 		}
 
 		private OdccQueryCollector fireteamCollector;
@@ -35,9 +40,13 @@ namespace BC.GamePlayerManager
 			fireteamObjectList = new List<FireteamObject>();
 			fireteamCollector = OdccQueryCollector.CreateQueryCollector(
 				QuerySystemBuilder.CreateQuery()
-					.WithAll<FireteamObject, FireteamData, FireteamController>()
+					.WithAll<FireteamObject, FireteamData, FireteamStateMachine>()
 					.Build())
 				.CreateChangeListEvent(InitTeamList, UpdateTeamList);
+
+			ThisContainer.TryGetParentObject<IGetLowLevelAIManager>(out lowLevelAIManager);
+			ThisContainer.TryGetParentObject<IGetHighLevelAIManager>(out highLevelAIManager);
+			//manager = GetComponet
 		}
 		public override void BaseDestroy()
 		{
@@ -90,7 +99,7 @@ namespace BC.GamePlayerManager
 				data.CurrentSelectTeamIndex = selectTeamIndex;
 			}
 		}
-		public virtual void OnMovementToAnchor(int anchorIndex)
+		public virtual void OnSetMoveTarget(int anchorIndex)
 		{
 			if(ThisContainer.TryGetData<GamePlayingData>(out var data))
 			{
@@ -101,9 +110,9 @@ namespace BC.GamePlayerManager
 
 				FireteamObject selectTeamObject = fireteamObjectList[findSelectTeamIndex];
 
-				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamMovementAgent>(out var moveAnget))
+				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var movement))
 				{
-					moveAnget.OnMovementToAnchor(anchorIndex);
+					movement.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
 				}
 			}
 		}

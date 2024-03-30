@@ -5,12 +5,17 @@ using BC.ODCC;
 
 using Cinemachine;
 
+using Sirenix.OdinInspector;
+
+using UnityEngine;
+
 namespace BC.LowLevelAI
 {
-	public class FireunitGrouping : ComponentBehaviour
+	public class FireteamMembers : ComponentBehaviour
 	{
 		private FireteamData fireteamData;
-		private List<FireunitObject> thisGroupMember;
+		[SerializeField, ReadOnly]
+		private List<FireunitObject> thisMember;
 		private CinemachineTargetGroup cinemachineTargetGroup;
 
 		private OdccQueryCollector  memberCollector;
@@ -19,7 +24,7 @@ namespace BC.LowLevelAI
 		{
 			base.BaseAwake();
 
-			thisGroupMember = new List<FireunitObject>();
+			thisMember = new List<FireunitObject>();
 
 			fireteamData = ThisContainer.GetData<FireteamData>();
 
@@ -41,18 +46,18 @@ namespace BC.LowLevelAI
 				memberCollector.DeleteChangeListEvent(UpdateList);
 			}
 			memberCollector = null;
-			thisGroupMember = null;
+			thisMember = null;
 
 			cinemachineTargetGroup = null;
 		}
 
 		private void InitList(IEnumerable<ObjectBehaviour> enumerable)
 		{
-			thisGroupMember = enumerable.Select(item => item as FireunitObject)
+			thisMember = enumerable.Select(item => item as FireunitObject)
 				.Where(item => item != null && item.ThisContainer.GetData<IFireunitData>().IsEqualsTeam(fireteamData))
 				.ToList();
 
-			UpdateCinemachineTargetGroupMember(thisGroupMember);
+			UpdateCinemachineTargetGroupMember(thisMember);
 		}
 
 		private void UpdateList(ObjectBehaviour behaviour, bool isAdded)
@@ -61,15 +66,15 @@ namespace BC.LowLevelAI
 
 			if(isAdded)
 			{
-				if(!thisGroupMember.Contains(unit) && unit.ThisContainer.GetData<IFireunitData>().IsEqualsTeam(fireteamData))
+				if(!thisMember.Contains(unit) && unit.ThisContainer.GetData<IFireunitData>().IsEqualsTeam(fireteamData))
 				{
-					thisGroupMember.Add(unit);
+					thisMember.Add(unit);
 					AddedCinemachineTargetGroupMember(unit);
 				}
 			}
 			else
 			{
-				if(thisGroupMember.Remove(unit))
+				if(thisMember.Remove(unit))
 				{
 					RemoveCinemachineTargetGroupMember(unit);
 				}
@@ -79,7 +84,7 @@ namespace BC.LowLevelAI
 		internal void SetCinemachineTargetGroup(CinemachineTargetGroup cinemachineTargetGroup)
 		{
 			this.cinemachineTargetGroup = cinemachineTargetGroup;
-			UpdateCinemachineTargetGroupMember(thisGroupMember);
+			UpdateCinemachineTargetGroupMember(thisMember);
 		}
 
 		private void AddedCinemachineTargetGroupMember(FireunitObject fireunit)

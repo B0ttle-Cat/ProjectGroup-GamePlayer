@@ -2,26 +2,31 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public class FireunitObject : ObjectBehaviour
+	public interface IGetFireunitData : IOdccObject
 	{
-
+		public IFireunitData IFireunitData { get; }
+		public IFireteamData IFireteamData { get; }
+		public IFactionData IFactionData { get; }
+	}
+	public class FireunitObject : ObjectBehaviour, IGetFireunitData
+	{
+		private FireunitData fireunitData;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			if(!ThisContainer.TryGetData<FireunitData>(out FireunitData fireunitData))
+			if(!ThisContainer.TryGetData<FireunitData>(out fireunitData))
 			{
 				fireunitData = ThisContainer.AddData<FireunitData>();
 			}
 			if(fireunitData != null)
 			{
-				if(ThisContainer.TryGetParentObject<TeamLabel>(out var teamLabel, (item) => item.IFireteamData != null))
+				if(ThisContainer.TryGetParentObject<IGetFireteamData>(out var iGetFireteamData, (item) => item.IFireteamData != null))
 				{
-					var fireteamData = teamLabel.IFireteamData;
-					fireunitData.FactionIndex = teamLabel.IFireteamData.FactionIndex;
-					fireunitData.TeamIndex = teamLabel.IFireteamData.TeamIndex;
+					IFireteamData fireteamData = iGetFireteamData.IFireteamData;
+					fireunitData.FactionIndex = fireteamData.FactionIndex;
+					fireunitData.TeamIndex = fireteamData.TeamIndex;
 					fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
-					gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
-					//gameObject.name = $"{fireunitData.FactionIndex} : {fireunitData.TeamIndex} : Fireunit_{fireunitData.UnitIndex}";
+					gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
 				}
 				else
 				{
@@ -29,5 +34,9 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
+
+		public IFireunitData IFireunitData => fireunitData;
+		public IFireteamData IFireteamData => fireunitData;
+		public IFactionData IFactionData => fireunitData;
 	}
 }

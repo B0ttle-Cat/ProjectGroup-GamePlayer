@@ -6,20 +6,20 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	public class GamePlayerManager : ObjectBehaviour, ILowLevelAIManager, IHighLevelAIManager
+	public class GamePlayerManager : ObjectBehaviour, IGetLowLevelAIManager, IGetHighLevelAIManager
 	{
 		[SerializeField]
 		private LowLevelAIManager lowLevelAIManager;
 		[SerializeField]
 		private HighLevelAIManager highLevelAIManager;
-		public LowLevelAIManager LowLevelAIManager { get => lowLevelAIManager; private set => lowLevelAIManager=value; }
-		public HighLevelAIManager HighLevelAIManager { get => highLevelAIManager; private set => highLevelAIManager=value; }
+		public ObjectBehaviour LowLevelAI { get => lowLevelAIManager; }
+		public ObjectBehaviour HighLevelAI { get => highLevelAIManager; }
 
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			LowLevelAIManager = LowLevelAIManager != null ? LowLevelAIManager : FindAnyObjectByType<LowLevelAIManager>();
-			HighLevelAIManager = HighLevelAIManager != null ? HighLevelAIManager : FindAnyObjectByType<HighLevelAIManager>();
+			lowLevelAIManager = lowLevelAIManager != null ? lowLevelAIManager : FindAnyObjectByType<LowLevelAIManager>();
+			highLevelAIManager = highLevelAIManager != null ? highLevelAIManager : FindAnyObjectByType<HighLevelAIManager>();
 		}
 	}
 }

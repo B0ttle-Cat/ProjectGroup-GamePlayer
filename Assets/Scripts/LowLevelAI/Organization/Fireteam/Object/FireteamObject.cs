@@ -2,12 +2,19 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public class FireteamObject : ObjectBehaviour
+	public interface IGetFireteamData : IOdccObject
 	{
+		public IFireteamData IFireteamData { get; }
+		public IFactionData IFactionData { get; }
+	}
+
+	public class FireteamObject : ObjectBehaviour, IGetFireteamData
+	{
+		private FireteamData fireteamData = null;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			FireteamData fireteamData = null;
+			fireteamData = null;
 			if(!ThisContainer.TryGetData<FireteamData>(out fireteamData))
 			{
 				fireteamData = ThisContainer.AddData<FireteamData>();
@@ -26,5 +33,8 @@ namespace BC.LowLevelAI
 				gameObject.name = $"__ | __ Team";
 			}
 		}
+
+		public IFireteamData IFireteamData => fireteamData as IFireteamData;
+		public IFactionData IFactionData => fireteamData as IFactionData;
 	}
 }

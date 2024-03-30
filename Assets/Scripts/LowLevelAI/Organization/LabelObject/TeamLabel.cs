@@ -2,7 +2,7 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public class TeamLabel : ObjectBehaviour
+	public class TeamLabel : ObjectBehaviour, IGetFireteamData
 	{
 		private FireteamData fireteamData;
 		public override void BaseValidate()
@@ -12,7 +12,7 @@ namespace BC.LowLevelAI
 			{
 				fireteamData = ThisContainer.AddData<FireteamData>();
 			}
-			gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
+			gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team Members";
 		}
 		public override void BaseAwake()
 		{
@@ -21,9 +21,9 @@ namespace BC.LowLevelAI
 			{
 				fireteamData = ThisContainer.AddData<FireteamData>();
 			}
-			gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
+			gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team Members";
 		}
-		public IFireteamData IFireteamData => fireteamData as IFireteamData;
-		public IFactionData IFactionData => fireteamData as IFactionData;
+		public IFireteamData IFireteamData => fireteamData;
+		public IFactionData IFactionData => fireteamData;
 	}
 }

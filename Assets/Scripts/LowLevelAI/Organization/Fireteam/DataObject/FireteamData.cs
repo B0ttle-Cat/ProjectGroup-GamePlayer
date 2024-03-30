@@ -20,7 +20,7 @@ namespace BC.LowLevelAI
 			return IsEqualsFaction(fireteamData) && TeamIndex == fireteamData.TeamIndex;
 		}
 	}
-	public class FireteamData : DataObject, IFireteamData
+	public class FireteamData : DataObject, IFireteamData, IFactionData
 	{
 		[SerializeField]
 		[ValueDropdown("ShowTargetFactionName")]

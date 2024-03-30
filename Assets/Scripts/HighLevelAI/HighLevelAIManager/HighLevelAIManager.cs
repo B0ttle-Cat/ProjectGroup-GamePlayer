@@ -2,9 +2,9 @@ using BC.ODCC;
 
 namespace BC.HighLevelAI
 {
-	public interface IHighLevelAIManager : IOdccObject
+	public interface IGetHighLevelAIManager : IOdccObject
 	{
-		HighLevelAIManager HighLevelAIManager { get; }
+		ObjectBehaviour HighLevelAI { get; }
 	}
 	public class HighLevelAIManager : ObjectBehaviour
 	{

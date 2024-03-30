@@ -7,7 +7,7 @@ namespace BC.GamePlayerInterface
 	public interface IGamePlayer : IOdccComponent
 	{
 		void OnSelectFireteam(int selectTeamIndex);
-		void OnMovementToAnchor(int movementToAnchor);
+		void OnSetMoveTarget(int movementToAnchor);
 	}
 
 
@@ -33,12 +33,12 @@ namespace BC.GamePlayerInterface
 			gamePlayer.OnSelectFireteam(selectTeamIndex);
 		}
 
-		[InlineButton("OnMovementToAnchor")]
+		[InlineButton("OnSetMoveTarget")]
 		public int movementToAnchor;
-		public void OnMovementToAnchor()
+		public void OnSetMoveTarget()
 		{
 			if(IsNotValid) return;
-			gamePlayer.OnMovementToAnchor(movementToAnchor);
+			gamePlayer.OnSetMoveTarget(movementToAnchor);
 		}
 	}
 }

@@ -2,9 +2,9 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public interface ILowLevelAIManager : IOdccObject
+	public interface IGetLowLevelAIManager : IOdccObject
 	{
-		LowLevelAIManager LowLevelAIManager { get; }
+		ObjectBehaviour LowLevelAI { get; }
 	}
 
 	public class LowLevelAIManager : ObjectBehaviour

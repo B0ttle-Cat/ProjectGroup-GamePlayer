@@ -2,12 +2,18 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public class FactionObject : ObjectBehaviour
+	public interface IGetFactionData : IOdccObject
 	{
+		public IFactionData IFactionData { get; }
+	}
+
+	public class FactionObject : ObjectBehaviour, IGetFactionData
+	{
+		private FactionData factionData = null;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			FactionData factionData = null;
+			factionData = null;
 			if(!ThisContainer.TryGetData<FactionData>(out factionData))
 			{
 				factionData = ThisContainer.AddData<FactionData>();
@@ -36,5 +42,7 @@ namespace BC.LowLevelAI
 				return false;
 			}
 		}
+
+		public IFactionData IFactionData => factionData as IFactionData;
 	}
 }

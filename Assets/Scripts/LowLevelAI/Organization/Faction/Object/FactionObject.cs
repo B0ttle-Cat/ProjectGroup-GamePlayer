@@ -13,10 +13,13 @@ namespace BC.LowLevelAI
 				factionData = ThisContainer.AddData<FactionData>();
 			}
 
-			gameObject.name = $"Faction_None";
-			if(factionData != null)
+			if(!SetName())
 			{
-				if(ThisContainer.TryGetParentObject<ObjectBehaviour>(out var @object, obj => obj.ThisContainer.TryGetData<DiplomacyData>(out _)))
+				gameObject.name = $"__ Faction __";
+			}
+			bool SetName()
+			{
+				if(factionData != null && ThisContainer.TryGetParentObject<ObjectBehaviour>(out var @object, obj => obj.ThisContainer.TryGetData<DiplomacyData>(out _)))
 				{
 					DiplomacyData diplomacyData = @object.ThisContainer.GetData<DiplomacyData>();
 					if(diplomacyData.Table != null)
@@ -25,10 +28,12 @@ namespace BC.LowLevelAI
 						if(findIndex>=0)
 						{
 							var findItem = diplomacyData.Table.ItemList[findIndex];
-							gameObject.name = $"Faction_{findItem.FactionName}";
+							gameObject.name = $"{findIndex:00} Faction {findItem.FactionName}";
+							return true;
 						}
 					}
 				}
+				return false;
 			}
 		}
 	}

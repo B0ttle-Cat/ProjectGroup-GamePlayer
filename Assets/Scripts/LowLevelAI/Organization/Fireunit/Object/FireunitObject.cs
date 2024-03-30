@@ -14,20 +14,18 @@ namespace BC.LowLevelAI
 			}
 			if(fireunitData != null)
 			{
-				if(ThisContainer.TryGetParentObject<FireunitGrouping>(out var grouping))
+				if(ThisContainer.TryGetParentObject<TeamLabel>(out var teamLabel, (item) => item.IFireteamData != null))
 				{
-					if(grouping.ThisContainer.TryGetData<FireteamData>(out var fireteamData))
-					{
-						fireunitData.FactionIndex = fireteamData.FactionIndex;
-						fireunitData.TeamIndex = fireteamData.TeamIndex;
-						fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
-						gameObject.name = $"{fireunitData.FactionIndex} : {fireunitData.TeamIndex} : Fireunit_{fireunitData.UnitIndex}";
-					}
+					var fireteamData = teamLabel.IFireteamData;
+					fireunitData.FactionIndex = teamLabel.IFireteamData.FactionIndex;
+					fireunitData.TeamIndex = teamLabel.IFireteamData.TeamIndex;
+					fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
+					gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
+					//gameObject.name = $"{fireunitData.FactionIndex} : {fireunitData.TeamIndex} : Fireunit_{fireunitData.UnitIndex}";
 				}
 				else
 				{
-					fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
-					gameObject.name = $"None : None : Fireunit_{fireunitData.UnitIndex}";
+					gameObject.name = $"__ | __ | __ Unit";
 				}
 			}
 		}

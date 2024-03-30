@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7693463319733423763}
   - component: {fileID: 5686511819647823965}
   m_Layer: 15
-  m_Name: 'None : None : Fireunit_0'
+  m_Name: __ | __ | __ Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

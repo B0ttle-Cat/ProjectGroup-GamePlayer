@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 2023882812668771531, guid: ee27973b137463141a18cabb5088ab80, type: 3}
     - target: {fileID: 2365613407539046245, guid: ee27973b137463141a18cabb5088ab80, type: 3}
       propertyPath: m_Name
-      value: 'None : None : Fireunit_0'
+      value: __ | __ | __ Unit
       objectReference: {fileID: 0}
     - target: {fileID: 2446323720592294501, guid: ee27973b137463141a18cabb5088ab80, type: 3}
       propertyPath: m_LocalPosition.x
@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4979445675213644879, guid: ee27973b137463141a18cabb5088ab80, type: 3}
+    - target: {fileID: 4979445675213644879, guid: ee27973b137463141a18cabb5088ab80, type: 3}
+      propertyPath: managedReferences[8413926241186611463].fireteamIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5613004911103581467, guid: ee27973b137463141a18cabb5088ab80, type: 3}
       propertyPath: serializationData.Prefab
       value: 

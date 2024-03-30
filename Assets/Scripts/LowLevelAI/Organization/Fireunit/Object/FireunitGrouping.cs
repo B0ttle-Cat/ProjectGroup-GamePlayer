@@ -7,22 +7,8 @@ using Cinemachine;
 
 namespace BC.LowLevelAI
 {
-	public class FireunitGrouping : ObjectBehaviour
+	public class FireunitGrouping : ComponentBehaviour
 	{
-		public override void BaseValidate()
-		{
-			base.BaseValidate();
-			if(!ThisContainer.TryGetData<FireteamData>(out FireteamData fireteamData))
-			{
-				fireteamData = ThisContainer.AddData<FireteamData>();
-			}
-
-			if(fireteamData != null)
-			{
-				gameObject.name = $"{fireteamData.FactionIndex} : {fireteamData.TeamIndex} : UnitGrouping";
-			}
-		}
-
 		private FireteamData fireteamData;
 		private List<FireunitObject> thisGroupMember;
 		private CinemachineTargetGroup cinemachineTargetGroup;
@@ -43,6 +29,8 @@ namespace BC.LowLevelAI
 
 			memberCollector = OdccQueryCollector.CreateQueryCollector(unitQuery)
 				.CreateChangeListEvent(InitList, UpdateList);
+
+			cinemachineTargetGroup = cinemachineTargetGroup != null ? cinemachineTargetGroup : GetComponent<CinemachineTargetGroup>();
 		}
 
 		public override void BaseDestroy()

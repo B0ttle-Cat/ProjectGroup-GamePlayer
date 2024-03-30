@@ -567,11 +567,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 38780006}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577205
+  mapAnchorTrigger:
+  - {fileID: 38780008}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577205
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 7
 --- !u!65 &38780008
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -867,10 +873,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   IsOnDrawGizmos: 1
-  IsOnDrawGizmos_ShowOnlyPerfectLink: 0
+  IsOnDrawGizmos_ShowOnlyPerfectLink: 1
   tiemForCalculationCount: 0.1
   usingNavMeshRaycast: 0
   areaMask: -1
+  onMouseTriangleIndex: 0
 --- !u!1001 &166524612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1508,11 +1515,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 284452649}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577210
+  mapAnchorTrigger:
+  - {fileID: 284452651}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577210
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 6
 --- !u!65 &284452651
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2172,11 +2185,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 352683979}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577208
+  mapAnchorTrigger:
+  - {fileID: 352683981}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577208
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 5
 --- !u!65 &352683981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3845,11 +3864,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 606220811}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577201
+  mapAnchorTrigger:
+  - {fileID: 606220813}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577201
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 8
 --- !u!65 &606220813
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4784,11 +4809,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 735860322}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577230
+  mapAnchorTrigger:
+  - {fileID: 735860324}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577230
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 10
 --- !u!65 &735860324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5500,11 +5531,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 835856223}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577233
+  mapAnchorTrigger:
+  - {fileID: 835856221}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577233
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 0
 --- !u!65 &835856221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6231,11 +6268,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 918971674}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577220
+  mapAnchorTrigger:
+  - {fileID: 918971676}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577220
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 13
 --- !u!65 &918971676
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6437,11 +6480,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 975602103}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577198
+  mapAnchorTrigger:
+  - {fileID: 975602105}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577198
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 11
 --- !u!65 &975602105
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6829,10 +6878,16 @@ MonoBehaviour:
       - {fileID: 380705627}
       - {fileID: 1045213389}
       componentList: []
-      dataList: []
+      dataList:
+      - rid: 8413926539713577200
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577200
+      type: {class: FireteamData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        factionIndex: 0
+        fireteamIndex: 0
 --- !u!1 &1054959013
 GameObject:
   m_ObjectHideFlags: 0
@@ -7121,11 +7176,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1081994773}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577241
+  mapAnchorTrigger:
+  - {fileID: 1081994772}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577241
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 4
 --- !u!65 &1081994772
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7952,10 +8013,16 @@ MonoBehaviour:
       - {fileID: 1444369305}
       - {fileID: 308481852}
       componentList: []
-      dataList: []
+      dataList:
+      - rid: 8413926539713577212
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577212
+      type: {class: FireteamData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        factionIndex: 0
+        fireteamIndex: 0
 --- !u!1 &1191431546
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,11 +8582,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1275255296}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577222
+  mapAnchorTrigger:
+  - {fileID: 1275255293}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577222
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 1
 --- !u!114 &1275255296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8847,11 +8920,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1345156727}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577209
+  mapAnchorTrigger:
+  - {fileID: 1345156729}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577209
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 14
 --- !u!65 &1345156729
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8936,11 +9015,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1402652761}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577242
+  mapAnchorTrigger:
+  - {fileID: 1402652760}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577242
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 2
 --- !u!65 &1402652760
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10431,11 +10516,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1596833350}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577243
+  mapAnchorTrigger:
+  - {fileID: 1596833349}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577243
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 3
 --- !u!65 &1596833349
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11422,10 +11513,16 @@ MonoBehaviour:
       - {fileID: 1452453441}
       - {fileID: 1823028249}
       componentList: []
-      dataList: []
+      dataList:
+      - rid: 8413926539713577224
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577224
+      type: {class: FireteamData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        factionIndex: 0
+        fireteamIndex: 0
 --- !u!1001 &1823028244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12052,11 +12149,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1889110811}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577206
+  mapAnchorTrigger:
+  - {fileID: 1889110813}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577206
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 12
 --- !u!65 &1889110813
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12251,11 +12354,17 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 1946860024}
-      dataList: []
-  mapAnchorTrigger: []
+      dataList:
+      - rid: 8413926539713577235
+  mapAnchorTrigger:
+  - {fileID: 1946860026}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577235
+      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        anchorIndex: 9
 --- !u!65 &1946860026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13139,10 +13248,16 @@ MonoBehaviour:
       - {fileID: 1650451385}
       - {fileID: 19479650}
       componentList: []
-      dataList: []
+      dataList:
+      - rid: 8413926539713577202
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8413926539713577202
+      type: {class: FireteamData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        factionIndex: 0
+        fireteamIndex: 0
 --- !u!1 &2066409888
 GameObject:
   m_ObjectHideFlags: 0

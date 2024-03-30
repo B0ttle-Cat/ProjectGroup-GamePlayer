@@ -56,16 +56,6 @@ namespace BC.HighLevelAI
 			}
 		}
 
-		internal void TakeOrders(StrategicPath strategicPath)
-		{
-			tacticsData.TargetPath = strategicPath;
-		}
-		internal StrategicPath GetCurrentOrder()
-		{
-			return tacticsData.TargetPath;
-		}
-
-
 		internal void UpdateTacticsValue()
 		{
 			UpdateTacticsPosition();

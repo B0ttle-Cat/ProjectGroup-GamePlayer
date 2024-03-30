@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 
-using BC.LowLevelAI;
 using BC.ODCC;
 
 using UnityEngine;
@@ -16,13 +14,13 @@ namespace BC.HighLevelAI
 		[Header("Data")]
 		public Vector3 tacticsPosition;
 
-		public StrategicPath TargetPath;
-		public List<StrategicPath> fullPathList;
+		// public StrategicPath TargetPath;
+		// public List<StrategicPath> fullPathList;
 
-		[Header("Result")]
-		public StrategicPath movePath;
-		public StrategicPoint movePoint;
-		public int targetCost;
+		//[Header("Result")]
+		//public StrategicPath movePath;
+		//public StrategicPoint movePoint;
+		//public int targetCost;
 
 
 		[Serializable]

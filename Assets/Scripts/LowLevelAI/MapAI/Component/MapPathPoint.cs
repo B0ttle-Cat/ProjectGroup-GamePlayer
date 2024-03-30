@@ -94,9 +94,9 @@ namespace BC.LowLevelAI
 		public MapPathNode PrevNode => prevNode;
 		public MapPathNode NextNode => nextNode;
 
-		bool IsStart => PrevNode == null;
-		bool IsEnded => NextNode == null;
-		bool IsPath => !IsStart && !IsEnded;
+		public bool IsStart => PrevNode == null;
+		public bool IsEnded => NextNode == null;
+		public bool IsPath => !IsStart && !IsEnded;
 
 		public float DistancePerCost => ThisPoint == null ? 0 : ThisPoint.DistancePerCost;
 
@@ -116,10 +116,21 @@ namespace BC.LowLevelAI
 		{
 			return GetEnumerator();
 		}
-		public List<MapPathNode> ToList()
+
+#if UNITY_EDITOR
+		internal void OnDrawGizmos(Vector3 upOffset)
 		{
-			return this.ToList();
+			var list = this.ToList();
+			int count = list.Count;
+			for(int i = 0 ; i < count - 1 ; i++)
+			{
+				var nodeA = list[i];
+				var nodeB = list[i+1];
+
+				Gizmos.DrawLine(nodeA.ThisPoint.ThisPosition() + upOffset, nodeB.ThisPoint.ThisPosition() + upOffset);
+			}
 		}
+#endif
 	}
 
 	public class MapPathPoint : ComponentBehaviour
@@ -129,7 +140,7 @@ namespace BC.LowLevelAI
 		private bool isBrakePath;
 		[SerializeField]
 		private float defaultPathCost = 1f;
-		public Vector3 OnNavMeshPosition;
+		public Vector3 closeNavMeshPosition;
 		public MapPathPoint[] nextPathPointList;
 
 		public float DistancePerCost => IsBrakePath ? float.PositiveInfinity : defaultPathCost;
@@ -145,6 +156,7 @@ namespace BC.LowLevelAI
 		{
 			base.BaseAwake();
 			mapAnchor = ThisObject as MapAnchor;
+			SetNavMeshPosition();
 		}
 
 		public override void BaseEnable()
@@ -152,44 +164,112 @@ namespace BC.LowLevelAI
 			nextPathPointList = new MapPathPoint[0];
 
 			base.BaseEnable();
-			OnNavMeshPosition = ThisTransform.position;
-			if(NavMesh.SamplePosition(OnNavMeshPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+		}
+
+		internal void SetNavMeshPosition()
+		{
+			Vector3 thisPosition = ThisTransform.position;
+			if(NavMesh.SamplePosition(thisPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
 			{
-				OnNavMeshPosition = hit.position;
+				closeNavMeshPosition = hit.position;
 			}
-		}
-
-
-		internal void CheckConnectStart()
-		{
-			nextPathPointList = new MapPathPoint[0];
-		}
-		internal void CheckConnectUpdate(MapPathPoint targetPathPoint, List<MapPathPoint> asyncPathPointList)
-		{
-			Vector3 a = OnNavMeshPosition + Vector3.up;
-			Vector3 b = targetPathPoint.OnNavMeshPosition + Vector3.up;
-
-			Vector3 diraction = b - a;
-			float magnitude = diraction.magnitude;
-			diraction = diraction.normalized;
-			Ray ray = new Ray(a, diraction);
-
-			//List<MapPathPoint> asyncPathPointList = nextPathPointList.ToList();
-			if(Physics.Raycast(ray, out var hit, magnitude, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
+			else
 			{
-				MapPathPoint mapPathPoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
+				closeNavMeshPosition = thisPosition;
+			}
+			ThisTransform.position = closeNavMeshPosition;
+		}
 
-				if(mapPathPoint is not null)
+		internal void ConnectingNeighbor(MapPathPoint targetPathPoint, List<MapPathPoint> asyncPathPointList)
+		{
+			if(targetPathPoint == null) return;
+
+			Vector3 start = closeNavMeshPosition;
+			Vector3 ended = targetPathPoint.closeNavMeshPosition;
+
+			int startAnchorIndex = ThisContainer.GetData<MapAnchorData>().anchorIndex;
+			int endedAnchorIndex = targetPathPoint.ThisContainer.GetData<MapAnchorData>().anchorIndex;
+
+			NavMeshPath path = new NavMeshPath();
+			bool getPath = NavMesh.CalculatePath(start, ended, NavMesh.AllAreas, path);
+			if(!getPath)
+			{
+				return;
+			}
+
+			if(path.status != NavMeshPathStatus.PathComplete) return;
+
+			var corners = path.corners;
+
+			int length = corners.Length;
+			bool passThroughMapAnchor = false;
+			for(int i = 0 ; i < length - 1 ; i++)
+			{
+				var pointA = corners[i];
+				var pointB = corners[i+1];
+
+				Vector3 diraction = pointB - pointA;
+				float distance = diraction.magnitude;
+				diraction = diraction.normalized;
+				Ray ray = new Ray(pointA, diraction);
+				var hits = Physics.RaycastAll(ray, distance, TagAndLayer.GetIndexToMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide);
+
+				passThroughMapAnchor = false;
+				if(hits.Length > 0)
 				{
-					if(mapPathPoint == targetPathPoint)
+					int hitLength = hits.Length;
+					for(int ii = 0 ; ii < hitLength ; ii++)
 					{
-						asyncPathPointList.Add(targetPathPoint);
+						var hit = hits[ii];
+						if(!hit.collider.isTrigger) continue;
+						if(hit.collider.TryGetComponent<MapAnchor>(out var hitAnchor))
+						{
+							if(hitAnchor.ThisContainer.TryGetData<MapAnchorData>(out var data)
+								&& (data.anchorIndex == endedAnchorIndex || data.anchorIndex == startAnchorIndex))
+							{
+								passThroughMapAnchor = false;
+							}
+							else
+							{
+								passThroughMapAnchor = true;
+								break;
+							}
+						}
 					}
 				}
+
+				if(passThroughMapAnchor)
+				{
+					break;
+				}
 			}
+
+			if(!passThroughMapAnchor)
+			{
+				asyncPathPointList.Add(targetPathPoint);
+			}
+
+			//Vector3 diraction = b - a;
+			//float distance = diraction.distance;
+			//diraction = diraction.normalized;
+			//Ray ray = new Ray(a, diraction);
+			//
+			////List<MapPathPoint> asyncPathPointList = nextPathPointList.ToList();
+			//if(Physics.Raycast(ray, out var hit, distance, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
+			//{
+			//	MapPathPoint mapPathPoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
+			//
+			//	if(mapPathPoint is not null)
+			//	{
+			//		if(mapPathPoint == targetPathPoint)
+			//		{
+			//			asyncPathPointList.Add(targetPathPoint);
+			//		}
+			//	}
+			//}
 		}
 
-		internal void CheckConnectEnded(List<MapPathPoint> asyncPathPointList)
+		internal void ConnectNeighborEnded(List<MapPathPoint> asyncPathPointList)
 		{
 			nextPathPointList = asyncPathPointList.ToArray();
 		}
@@ -197,6 +277,10 @@ namespace BC.LowLevelAI
 		public Vector3 ThisPosition()
 		{
 			return mapAnchor.ThisPosition();
+		}
+		public Vector3 CloseNavMeshPosition()
+		{
+			return closeNavMeshPosition;
 		}
 		public bool InSidePosition(Vector3 position)
 		{
@@ -240,6 +324,7 @@ namespace BC.LowLevelAI
 				var node = serching[0];
 				var point = node.ThisPoint;
 				serching.RemoveAt(0);
+				serched.Add(node.ThisPoint);
 				if(point == target)
 				{
 					finded = node;
@@ -269,9 +354,7 @@ namespace BC.LowLevelAI
 					// 이미 탐색한 노드 이면 무시
 					if(isSearched) continue;
 
-					MapPathNode prevNode = new MapPathNode(node);
-					MapPathNode nextNode = new MapPathNode(nextPoint);
-					MapPathNode.LinkNode(prevNode, nextNode);
+					MapPathNode nextNode = new MapPathNode(nextPoint, node);
 
 					float cost = nextNode.PathCost;
 					int indexToInsert = 0;
@@ -288,9 +371,22 @@ namespace BC.LowLevelAI
 					serching.Insert(indexToInsert, nextNode);
 				}
 			}
-			pathNode = finded;
+			if(finded == null) return false;
 
-			return pathNode != null;
+			Stack<MapPathNode> stack = new Stack<MapPathNode>();
+			while(!finded.IsStart)
+			{
+				stack.Push(finded);
+				finded = finded.PrevNode;
+			}
+			pathNode = finded;
+			while(stack.Count > 0)
+			{
+				var next = stack.Pop();
+				MapPathNode.LinkNode(finded, next);
+				finded = next;
+			}
+			return true;
 		}
 	}
 }

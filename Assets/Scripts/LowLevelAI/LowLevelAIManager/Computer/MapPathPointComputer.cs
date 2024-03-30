@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +8,6 @@ using BC.ODCC;
 using Sirenix.OdinInspector;
 
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
@@ -14,138 +15,129 @@ namespace BC.LowLevelAI
 	{
 		MapCellData mapCellData;
 		[ShowInInspector, ReadOnly]
-		public bool IsComputing { get; private set; } = true;
+		private bool isComputing = false;
+		public bool IsComputing { get => isComputing; private set => isComputing = value; }
 
-		OdccQueryCollector pathPointCollector;
-		MapPathPoint[] allPathPoints;
+		//OdccQueryCollector pathPointCollector;
+		[ShowInInspector, ReadOnly]
+		private MapPathPoint[] allPathPoints;
+
+		Coroutine asyncUpdate;
+		public float tiemForCalculationCount = 1/10;
+		private DateTime previousTime;
+		public bool IsAsyncUpdate =>
+#if UNITY_EDITOR
+			editorCoroutine != null ||
+#endif
+			asyncUpdate != null;
 
 		public override void BaseAwake()
 		{
+			IsComputing = false;
 			mapCellData = ThisContainer.GetData<MapCellData>();
-
-			pathPointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
-				.WithAll<MapAnchor, MapPathPoint>()
-				.Build());
+			allPathPoints = new MapPathPoint[0];
+			//pathPointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
+			//	.WithAll<MapAnchor, MapPathPoint>()
+			//	.Build());
+		}
+		public override void BaseDestroy()
+		{
+			if(IsAsyncUpdate)
+			{
+				StopCoroutine(asyncUpdate);
+				asyncUpdate = null;
+			}
 		}
 		public override void BaseEnable()
 		{
-			pathPointCollector.CreateChangeListEvent(InitItems, UpdateItme)
-				.CreateCallEvent(nameof(MapPathPointComputer))
-				.Action(StartUpdate)
-				.Foreach<MapAnchor, MapPathPoint>(PathPointConnectUpdate)
-				//.Foreach<MapAnchor, MapPathPoint>(PathPointUpdate)
-				.Action(EndedUpdate)
-				.RunCallEvent();
+#if UNITY_EDITOR
+			editorCoroutine = null;
+#endif
+			if(IsAsyncUpdate)
+			{
+				StopCoroutine(asyncUpdate);
+			}
+			asyncUpdate = StartCoroutine(AsyncUpdate());
 
-			pathPointCollector.DeleteChangeListEvent(UpdateItme)
-				.DeleteCallEvent(nameof(MapPathPointComputer));
+			//_allPathPoints.ForEach(item => PathPointSetNavMeshPosition(item));
+			//_allPathPoints.ForEach(item => PathPointConnectNeighbor(item));
+			//IsComputing = true;
 		}
 		public override void BaseDisable()
 		{
-			pathPointCollector.DeleteChangeListEvent(UpdateItme);
-			pathPointCollector.DeleteCallEvent(nameof(MapPathPointComputer));
-		}
-		private void InitItems(IEnumerable<ObjectBehaviour> enumerable)
-		{
-			allPathPoints = pathPointCollector.GetQueryItems()
-				.Select(item => item.ThisContainer.GetComponent<MapPathPoint>())
-				.Where(item => item != null && item.isActiveAndEnabled).ToArray();
-		}
-		private void UpdateItme(ObjectBehaviour item, bool added)
-		{
-			if(item.ThisContainer.TryGetComponent(out MapPathPoint pathpoint))
+			allPathPoints = new MapPathPoint[0];
+			if(IsAsyncUpdate)
 			{
-				List<MapPathPoint> values = allPathPoints.ToList();
-				if(added)
+				StopCoroutine(asyncUpdate);
+				asyncUpdate = null;
+			}
+		}
+
+		public IEnumerator AsyncUpdate()
+		{
+			var _allPathPoints = ThisContainer.GetChildAllObject<MapAnchor>()
+				.Select(item => item.ThisContainer.GetComponent<MapPathPoint>())
+				.Where(item => item != null);
+			allPathPoints = _allPathPoints.ToArray();
+
+			foreach(var item in _allPathPoints)
+			{
+				PathPointSetNavMeshPosition(item);
+			}
+			foreach(var item in _allPathPoints)
+			{
+				yield return PathPointConnectNeighbor(item);
+			}
+			asyncUpdate = null;
+			yield break;
+		}
+
+
+		private void PathPointSetNavMeshPosition(MapPathPoint pathPoint)
+		{
+			pathPoint.SetNavMeshPosition();
+		}
+		private IEnumerator PathPointConnectNeighbor(MapPathPoint pathPoint)
+		{
+			if(!pathPoint.isActiveAndEnabled)
+			{
+				yield break;
+			}
+
+			List<MapPathPoint> asyncPathPointList = new List<MapPathPoint>();
+			int length = allPathPoints.Length;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var targetPathPoint = allPathPoints[i];
+				if(targetPathPoint == pathPoint) continue;
+				if(targetPathPoint.IsBrakePath ||!targetPathPoint.isActiveAndEnabled) continue;
+
+				pathPoint.ConnectingNeighbor(targetPathPoint, asyncPathPointList);
+
+				if(IsAsyncUpdate)
 				{
-					if(!values.Contains(pathpoint))
+					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 					{
-						values.Add(pathpoint);
-						allPathPoints = values.ToArray();
+						previousTime = DateTime.Now;
+						yield return null;
 					}
 				}
 				else
 				{
-					if(values.Remove(pathpoint))
-					{
-						allPathPoints = values.ToArray();
-					}
+					yield break;
 				}
 			}
+
+			pathPoint.ConnectNeighborEnded(asyncPathPointList);
 		}
 
-		private void StartUpdate()
-		{
-			IsComputing = true;
-		}
-
-		private void PathPointConnectUpdate(MapAnchor mapAnchor, MapPathPoint pathPoint)
-		{
-			if(!mapAnchor.isActiveAndEnabled || !pathPoint.isActiveAndEnabled)
-			{
-				return;
-			}
-
-			int length = allPathPoints.Length;
-			List<MapPathPoint> asyncPathPointList = new List<MapPathPoint>();
-			pathPoint.CheckConnectStart();
-			for(int i = 0 ; i < length ; i++)
-			{
-				var targetPathPoint = allPathPoints[i];
-				if(targetPathPoint  == pathPoint) continue;
-				if(targetPathPoint.IsBrakePath ||!targetPathPoint.isActiveAndEnabled) continue;
-
-				pathPoint.CheckConnectUpdate(targetPathPoint, asyncPathPointList);
-			}
-			pathPoint.CheckConnectEnded(asyncPathPointList);
-		}
-		//private void StrategicPointUpdate(MapAnchor mapAnchor, MapPathPoint pathPoint, StrategicPoint strategicPoint)
-		//{
-		//	if(!mapAnchor.isActiveAndEnabled || !pathPoint.isActiveAndEnabled)
-		//	{
-		//		return;
-		//	}
-		//
-		//	//if(strategicPoint != null) strategicPoint.StrategicPointUpdate();
-		//}
-
-		private void EndedUpdate()
-		{
-			IsComputing = false;
-		}
-
-		public MapPathPoint FindClosePathPoint(Vector3 position)
-		{
-			if(NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
-			{
-				position = hit.position;
-			}
-
-			int length = allPathPoints.Length;
-			MapPathPoint pathpoint = null;
-			int index = 0;
-			float minDistance = 0f;
-			for(int i = 0 ; i < length ; i++)
-			{
-				pathpoint = allPathPoints[i];
-				Vector3 closestPoint = pathpoint.ClosestPoint(position, out float distance);
-
-				if(i == 0 || distance > minDistance)
-				{
-					index = i;
-					distance = minDistance;
-					if(distance == 0f) break;
-				}
-			}
-			return allPathPoints[index];
-		}
 		public MapPathPoint SelectAnchorIndex(int selectIndex)
 		{
 			int length = allPathPoints.Length;
 			for(int i = 0 ; i < length ; i++)
 			{
 				MapPathPoint pathpoint = allPathPoints[i];
-				if(allPathPoints[i].ThisContainer.TryGetData<MapAnchorData>(out var data))
+				if(pathpoint.ThisContainer.TryGetData<MapAnchorData>(out var data))
 				{
 					if(data.anchorIndex == selectIndex)
 					{
@@ -156,13 +148,29 @@ namespace BC.LowLevelAI
 			return null;
 		}
 
+		//linkRayTriangleList = new List<LinkRayTriangle>();
 #if UNITY_EDITOR
+		private Unity.EditorCoroutines.Editor.EditorCoroutine editorCoroutine = null;
+		[Button]
+		private void UpdateInEditor()
+		{
+			if(editorCoroutine != null)
+			{
+				Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StopCoroutine(editorCoroutine);
+			}
+			editorCoroutine = Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
+		}
+
 		[Header("OnDrawGizmos")]
 		[SerializeField]
 		private bool IsOnDrawGizmos;
-		[SerializeField] private int startPointId;
-		[SerializeField] private int endedPointId;
-
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
+		private int startPointId = -1;
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
+		private int endedPointId= -1;
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
+		private bool debugCalculatePath;
+		private MapPathNode debugMapPathNode;
 		public void OnDrawGizmos()
 		{
 			if(!IsOnDrawGizmos) return;
@@ -174,23 +182,52 @@ namespace BC.LowLevelAI
 				var pathpoint = allPathPoints[i];
 				if(pathpoint == null) continue;
 
-				Vector3 positionA = pathpoint.OnNavMeshPosition + Vector3.up * 4f;
+				Vector3 positionA = pathpoint.closeNavMeshPosition + Vector3.up * 4f;
 				int connectLength = pathpoint.nextPathPointList.Length;
 				Gizmos.color = Color.white;
 				for(int ii = 0 ; ii <  connectLength ; ii++)
 				{
 					var other = pathpoint.nextPathPointList[ii];
-					Vector3 positionB = other.OnNavMeshPosition+ Vector3.up * 4f;
+					Vector3 positionB = other.closeNavMeshPosition+ Vector3.up * 4f;
 					Gizmos.DrawLine(positionA, positionB);
 				}
-
+			}
+			for(int i = 0 ; i < Length ; i++)
+			{
+				var pathpoint = allPathPoints[i];
+				if(pathpoint == null) continue;
+				Vector3 positionA = pathpoint.closeNavMeshPosition + Vector3.up * 4f;
 				Gizmos.color = Color.blue;
 				Gizmos.DrawSphere(positionA, .5f);
 			}
-
-			if(startPointId >= 0 && endedPointId >= 0)
+			if(debugCalculatePath)
 			{
-
+				debugCalculatePath = false;
+				debugMapPathNode = null;
+				if(startPointId >= 0 && endedPointId >= 0)
+				{
+					var start = SelectAnchorIndex(startPointId);
+					var ended = SelectAnchorIndex(endedPointId);
+					if(start != null)
+					{
+						if(start.CalculatePath(ended, out MapPathNode node))
+						{
+							debugMapPathNode = node;
+						}
+						else
+						{
+							debugMapPathNode = null;
+						}
+					}
+				}
+			}
+			if(debugMapPathNode != null)
+			{
+				Gizmos.color = Color.red;
+				for(int i = 0 ; i < 25 ; i++)
+				{
+					debugMapPathNode.OnDrawGizmos(Vector3.up * (4f + 0.04f * i));
+				}
 			}
 		}
 #endif

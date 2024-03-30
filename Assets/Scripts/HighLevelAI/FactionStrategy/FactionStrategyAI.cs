@@ -235,33 +235,33 @@ namespace BC.HighLevelAI
 
 			if(ThisContainer == null) return;
 
-			if(ThisContainer.TryGetData<FactionStrategyData>(out var strategyData))
-			{
-				var pathList = strategyData.NextStrategicPath;
-
-				Vector3 offsetUp = Vector3.up * 5.5f;
-
-				for(int i = 0 ; i < pathList.Count ; i++)
-				{
-					var path = pathList[i];
-					Color color = Color.yellow;
-					if(strategyData.selectcStrategicPath.Contains(path))
-					{
-						color = Color.red;
-					}
-					Gizmos.color = color;
-
-					if(path.path.Length >= 2)
-					{
-						for(int ii = 0 ; ii < path.path.Length-1 ; ii++)
-						{
-							Vector3 point1 = path.path[ii].OnNavMeshPosition + offsetUp;
-							Vector3 point2 = path.path[ii+1].OnNavMeshPosition + offsetUp;
-							Gizmos.DrawLine(point1, point2);
-						}
-					}
-				}
-			}
+			//if(ThisContainer.TryGetData<FactionStrategyData>(out var strategyData))
+			//{
+			//	var pathList = strategyData.NextStrategicPath;
+			//
+			//	Vector3 offsetUp = Vector3.up * 5.5f;
+			//
+			//	for(int i = 0 ; i < pathList.Count ; i++)
+			//	{
+			//		var path = pathList[i];
+			//		Color color = Color.yellow;
+			//		if(strategyData.selectcStrategicPath.Contains(path))
+			//		{
+			//			color = Color.red;
+			//		}
+			//		Gizmos.color = color;
+			//
+			//		if(path.path.Length >= 2)
+			//		{
+			//			for(int ii = 0 ; ii < path.path.Length-1 ; ii++)
+			//			{
+			//				Vector3 point1 = path.path[ii].closeNavMeshPosition + offsetUp;
+			//				Vector3 point2 = path.path[ii+1].closeNavMeshPosition + offsetUp;
+			//				Gizmos.DrawLine(point1, point2);
+			//			}
+			//		}
+			//	}
+			//}
 		}
 #endif
 	}

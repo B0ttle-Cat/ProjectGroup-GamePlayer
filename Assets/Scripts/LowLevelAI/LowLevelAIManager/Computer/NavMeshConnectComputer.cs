@@ -10,13 +10,6 @@ using Sirenix.OdinInspector;
 
 using Unity.AI.Navigation;
 
-
-
-
-#if UNITY_EDITOR
-using Unity.EditorCoroutines.Editor;
-#endif
-
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,10 +20,6 @@ namespace BC.LowLevelAI
 	public class NavMeshConnectComputer : ComponentBehaviour
 	{
 		private MapCellData mapCellData;
-
-		public float tiemForCalculationCount = 1/10;
-		private DateTime previousTime;
-
 		public bool usingNavMeshRaycast;
 		[ShowIf("usingNavMeshRaycast")]
 		public int areaMask = NavMesh.AllAreas;
@@ -43,8 +32,10 @@ namespace BC.LowLevelAI
 		private List<Triangle> asyncTriangleList;
 		private List<LinkRayTriangle> asyncLinkRayTriangleList;
 		private Dictionary<Vector3Int,List<Triangle>> asyncTrianglesTile = new Dictionary<Vector3Int,List<Triangle>>();
-		Coroutine asyncUpdate;
 
+		Coroutine asyncUpdate;
+		public float tiemForCalculationCount = 1/10;
+		private DateTime previousTime;
 		public bool IsAsyncUpdate =>
 #if UNITY_EDITOR
 			editorCoroutine != null ||
@@ -90,7 +81,14 @@ namespace BC.LowLevelAI
 			}
 			asyncUpdate = StartCoroutine(AsyncUpdate());
 		}
-
+		public override void BaseDisable()
+		{
+			if(IsAsyncUpdate)
+			{
+				StopCoroutine(asyncUpdate);
+				asyncUpdate = null;
+			}
+		}
 		string waitingLog = "";
 		int waitCount = 0;
 		public IEnumerator AsyncUpdate()
@@ -99,7 +97,7 @@ namespace BC.LowLevelAI
 			mapCellData = ThisContainer.GetData<MapCellData>();
 
 			previousTime = DateTime.Now;
-			waitingLog = "Start PathPointConnectUpdate";
+			waitingLog = "Start PathPointConnectNeighbor";
 			Debug.Log($"AsyncUpdate : {waitingLog}");
 			yield return null;
 			if(IsAsyncUpdate)
@@ -139,7 +137,7 @@ namespace BC.LowLevelAI
 				asyncLinkRayTriangleList.Clear();
 			}
 			asyncUpdate = null;
-			waitingLog = "Ended PathPointConnectUpdate";
+			waitingLog = "Ended PathPointConnectNeighbor";
 			Debug.Log($"AsyncUpdate : {waitingLog}");
 		}
 		private IEnumerator InitTriangleList()
@@ -639,36 +637,36 @@ namespace BC.LowLevelAI
 		}
 
 #if UNITY_EDITOR
-		private EditorCoroutine editorCoroutine = null;
+		private Unity.EditorCoroutines.Editor.EditorCoroutine editorCoroutine = null;
 		[Button]
-		private void UpdateOneFrame()
+		private void UpdateInEditor()
 		{
 			if(editorCoroutine != null)
 			{
-				EditorCoroutineUtility.StopCoroutine(editorCoroutine);
+				Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StopCoroutine(editorCoroutine);
 			}
 			triangleList = new List<Triangle>();
 			linkRayTriangleList = new List<LinkRayTriangle>();
-			editorCoroutine = EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
+			editorCoroutine = Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
 		}
 
 		[Header("OnDrawGizmos")]
 		[SerializeField]
 		private bool IsOnDrawGizmos;
-		[SerializeField]
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
 		private bool IsOnDrawGizmos_ShowPerfectLink;
-		[SerializeField]
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
 		private bool IsOnDrawGizmos_ShowPartialLink;
 
-		[SerializeField,ReadOnly]
+		[SerializeField,ReadOnly, ShowIf("@IsOnDrawGizmos")]
 		private int onMouseTriangleIndex;
-		[SerializeField,ReadOnly]
+		[SerializeField,ReadOnly, ShowIf("@IsOnDrawGizmos")]
 		private Vector3 onMouseTrianglePosition;
-		[SerializeField,ReadOnly]
+		[SerializeField,ReadOnly, ShowIf("@IsOnDrawGizmos")]
 		private Vector3 onMouseTriangleNavPosition;
-		[SerializeField]
+		[SerializeField, ShowIf("@IsOnDrawGizmos")]
 		private Vector3 onGizmosTargetPosition;
-		[SerializeField, ReadOnly]
+		[SerializeField, ReadOnly, ShowIf("@IsOnDrawGizmos")]
 		private bool onGizmosTargetPositionConnect;
 		public void OnDrawGizmos()
 		{

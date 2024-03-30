@@ -22,8 +22,5 @@ namespace BC.LowLevelAI
 
 			}
 		}
-
-
-
 	}
 }

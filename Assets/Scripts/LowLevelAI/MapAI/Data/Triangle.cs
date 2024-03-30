@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -56,33 +57,81 @@ namespace BC.LowLevelAI
 #endif
 		}
 
-		public static int CheckSpaceBetweenTriangle(Triangle A, Triangle B, float minimumDistance, Func<Vector3, Vector3, bool> raycast)
+		public static LinkRayTriangle.LinkType CheckSpaceBetweenTriangle(Triangle A, Triangle B, float minimumDistance, Func<Vector3, Vector3, bool> raycast)
 		{
-			if(raycast is null) return 0;
+			if(raycast is null) return LinkRayTriangle.LinkType.NothingLink;
 
 			int count = 0;
-			count += (Vector3.Distance(A.vertex1, B.vertex1) <= minimumDistance || raycast(A.vertex1, B.vertex1)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex1, B.vertex2) <= minimumDistance || raycast(A.vertex1, B.vertex2)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex1, B.vertex3) <= minimumDistance || raycast(A.vertex1, B.vertex3)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex2, B.vertex1) <= minimumDistance || raycast(A.vertex2, B.vertex1)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex2, B.vertex2) <= minimumDistance || raycast(A.vertex2, B.vertex2)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex2, B.vertex3) <= minimumDistance || raycast(A.vertex2, B.vertex3)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex3, B.vertex1) <= minimumDistance || raycast(A.vertex3, B.vertex1)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex3, B.vertex2) <= minimumDistance || raycast(A.vertex3, B.vertex2)) ? 1 : 0;
-			count += (Vector3.Distance(A.vertex3, B.vertex3) <= minimumDistance || raycast(A.vertex3, B.vertex3)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex1, B.vertex1) <= minimumDistance || !raycast(A.vertex1, B.vertex1)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex1, B.vertex2) <= minimumDistance || !raycast(A.vertex1, B.vertex2)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex1, B.vertex3) <= minimumDistance || !raycast(A.vertex1, B.vertex3)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex2, B.vertex1) <= minimumDistance || !raycast(A.vertex2, B.vertex1)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex2, B.vertex2) <= minimumDistance || !raycast(A.vertex2, B.vertex2)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex2, B.vertex3) <= minimumDistance || !raycast(A.vertex2, B.vertex3)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex3, B.vertex1) <= minimumDistance || !raycast(A.vertex3, B.vertex1)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex3, B.vertex2) <= minimumDistance || !raycast(A.vertex3, B.vertex2)) ? 1 : 0;
+			count += (Vector3.Distance(A.vertex3, B.vertex3) <= minimumDistance || !raycast(A.vertex3, B.vertex3)) ? 1 : 0;
 
-			return count;
+			if(count == 0) return LinkRayTriangle.LinkType.NothingLink;
+			if(count < 9) return LinkRayTriangle.LinkType.PartialLink;
+
+			List<Vector3> dividedPointsA = new List<Vector3>();
+			for(int i = 0 ; i < 10 ; i++)
+			{
+				float t = (float)i / 10;
+				Vector3 point = Vector3.Lerp(A.vertex1 , A.vertex2, t);
+				dividedPointsA.Add(point);
+				point = Vector3.Lerp(A.vertex2, A.vertex3, t);
+				dividedPointsA.Add(point);
+				point = Vector3.Lerp(A.vertex3, A.vertex1, t);
+				dividedPointsA.Add(point);
+			}
+			List<Vector3> dividedPointsB = new List<Vector3>();
+			for(int i = 0 ; i < 10 ; i++)
+			{
+				float t = (float)i / 10;
+				Vector3 point = Vector3.Lerp(B.vertex1 , B.vertex2, t);
+				dividedPointsB.Add(point);
+				point = Vector3.Lerp(B.vertex2, B.vertex3, t);
+				dividedPointsB.Add(point);
+				point = Vector3.Lerp(B.vertex3, B.vertex1, t);
+				dividedPointsB.Add(point);
+			}
+
+			int countA = dividedPointsA.Count;
+			int countB = dividedPointsB.Count;
+			for(int i = 0 ; i < countA ; i++)
+			{
+				Vector3 pointA = dividedPointsA[i];
+				for(int ii = 0 ; ii < countB ; ii++)
+				{
+					Vector3 pointB = dividedPointsB[i];
+
+					if(Vector3.Distance(pointA, pointB) <= minimumDistance || raycast(pointA, pointB))
+					{
+						return LinkRayTriangle.LinkType.PartialLink;
+					}
+				}
+			}
+
+			return LinkRayTriangle.LinkType.PerfectLink;
 		}
 	}
 	public struct LinkRayTriangle
 	{
-		public int linkCount;
+		public enum LinkType
+		{
+			NothingLink,
+			PartialLink,
+			PerfectLink,
+		}
+		public LinkType linkType;
 		public Triangle linkTriangleA;
 		public Triangle linkTriangleB;
 
-		public LinkRayTriangle(int linkCount, Triangle linkTriangleA, Triangle linkTriangleB)
+		public LinkRayTriangle(LinkType linkType, Triangle linkTriangleA, Triangle linkTriangleB)
 		{
-			this.linkCount = linkCount;
+			this.linkType = linkType;
 			this.linkTriangleA=linkTriangleA;
 			this.linkTriangleB=linkTriangleB;
 		}
@@ -100,9 +149,9 @@ namespace BC.LowLevelAI
 		}
 		public void Log()
 		{
-			Debug.Log($"LinkRayTriangle : {linkTriangleA.Index} == {linkTriangleB.Index} : Link ({linkCount})");
+			Debug.Log($"LinkRayTriangle : {linkTriangleA.Index} == {linkTriangleB.Index} : Link ({linkType})");
 		}
-		public bool IsPerfectLink => linkCount == 9;
+		public bool IsPerfectLink => linkType == LinkType.PerfectLink;
 		internal void OnDrawGizmos(Vector3 offset, float radius)
 		{
 			Vector3 a = linkTriangleA.Center + offset;

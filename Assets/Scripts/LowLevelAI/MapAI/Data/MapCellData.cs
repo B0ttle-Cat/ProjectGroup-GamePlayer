@@ -14,6 +14,7 @@ namespace BC.LowLevelAI
 	{
 		public NavMeshSurface navMeshSurface;
 		public float navMeshTileSize => navMeshSurface.tileSize * navMeshSurface.voxelSize;
+		public float navMeshSerchRange => navMeshTileSize * .5f;
 
 
 		[ShowInInspector,ReadOnly]

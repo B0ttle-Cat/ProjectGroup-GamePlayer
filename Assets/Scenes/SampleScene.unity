@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: e9f3d08417280de4b88c14c7cd0c5b12, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: f9d0e6d78701b8448aedcd278c63dbaf, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -872,12 +872,17 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  IsOnDrawGizmos: 1
-  IsOnDrawGizmos_ShowOnlyPerfectLink: 1
-  tiemForCalculationCount: 0.1
+  tiemForCalculationCount: 0.5
   usingNavMeshRaycast: 0
   areaMask: -1
+  IsOnDrawGizmos: 1
+  IsOnDrawGizmos_ShowPerfectLink: 0
+  IsOnDrawGizmos_ShowPartialLink: 0
   onMouseTriangleIndex: 0
+  onMouseTrianglePosition: {x: 0, y: 0, z: 0}
+  onMouseTriangleNavPosition: {x: 0, y: 0, z: 0}
+  onGizmosTargetPosition: {x: 3, y: 0.5, z: 3}
+  onGizmosTargetPositionConnect: 0
 --- !u!1001 &166524612
 PrefabInstance:
   m_ObjectHideFlags: 0

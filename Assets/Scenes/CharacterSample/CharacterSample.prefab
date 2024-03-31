@@ -199,6 +199,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   IsMove: 0
+  isOnDrawGizmos: 0
 --- !u!114 &3585492155785131513
 MonoBehaviour:
   m_ObjectHideFlags: 0

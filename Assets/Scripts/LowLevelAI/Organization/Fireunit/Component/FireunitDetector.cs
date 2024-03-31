@@ -117,7 +117,7 @@ namespace BC.LowLevelAI
 
 			if(navMeshConnectComputer != null)
 			{
-				NavTitleIndex = mapAICellData.GetCellIndex(DetectorPosition);
+				NavTitleIndex = mapAICellData.VectorToIndex(DetectorPosition);
 				if(ThisLinkTriangles == null)
 				{
 					ThisLinkTriangles = new Dictionary<Vector3Int, List<LinkRayTriangle>>();
@@ -135,7 +135,7 @@ namespace BC.LowLevelAI
 							LinkRayTriangle link = linkList[i];
 							if(link.GetOther(thisTriangle, out var otherTriangle))
 							{
-								var otherNavTitleIndex = mapAICellData.GetCellIndex(otherTriangle.Center);
+								var otherNavTitleIndex = mapAICellData.VectorToIndex(otherTriangle.Center);
 
 								if(!ThisLinkTriangles.TryGetValue(otherNavTitleIndex, out var linlValue))
 								{

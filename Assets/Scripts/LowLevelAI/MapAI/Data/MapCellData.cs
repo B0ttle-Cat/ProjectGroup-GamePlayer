@@ -14,7 +14,7 @@ namespace BC.LowLevelAI
 	{
 		public NavMeshSurface navMeshSurface;
 		public float navMeshTileSize => navMeshSurface.tileSize * navMeshSurface.voxelSize;
-		public float navMeshSerchRange => navMeshTileSize * .5f;
+		public float navMeshSerchRange => 10f;
 
 
 		[ShowInInspector,ReadOnly]
@@ -29,7 +29,7 @@ namespace BC.LowLevelAI
 		{
 			return trianglesTile.TryGetValue(index, out triangles);
 		}
-		public Vector3Int GetCellIndex(Vector3 position)
+		public Vector3Int VectorToIndex(Vector3 position)
 		{
 			float _navMeshTileSize = navMeshTileSize;
 			int xIndex = Mathf.FloorToInt(position.x / _navMeshTileSize);

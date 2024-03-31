@@ -9,11 +9,10 @@ namespace BC.LowLevelAI
 		IMovementStateData
 	{
 		[SerializeField]
-		private MapPathPoint moveTargetPoint;
+		private MapPathNode moveTargetPathNode;
 
-
-		public MapPathPoint MoveTargetPoint { get => moveTargetPoint; set => moveTargetPoint=value; }
-		public bool HasMoveTarget { get => MoveTargetPoint != null; }
+		public MapPathNode MovePathNode { get => moveTargetPathNode; set => moveTargetPathNode=value; }
+		public bool HasMoveTarget { get => MovePathNode != null && MovePathNode.ThisPoint != null; }
 		public bool IsStay { get; set; }
 		public bool IsMovement { get; set; }
 	}

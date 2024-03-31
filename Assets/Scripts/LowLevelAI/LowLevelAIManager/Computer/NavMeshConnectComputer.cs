@@ -190,7 +190,7 @@ namespace BC.LowLevelAI
 				var triangle = asyncTriangleList[i];
 				Vector3 center = triangle.Center;
 
-				Vector3Int titlePos = mapCellData.GetCellIndex(center);
+				Vector3Int titlePos = mapCellData.VectorToIndex(center);
 				if(!asyncTrianglesTile.TryGetValue(titlePos, out var titleValue))
 				{
 					titleValue = new List<Triangle>();
@@ -475,7 +475,7 @@ namespace BC.LowLevelAI
 				point = hit.position;
 			}
 
-			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			Vector3Int titleIndex = mapCellData.VectorToIndex(point);
 			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
 			{
 				titleValue = triangleList;
@@ -501,7 +501,7 @@ namespace BC.LowLevelAI
 				point = hit.position;
 			}
 
-			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			Vector3Int titleIndex = mapCellData.VectorToIndex(point);
 			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
 			{
 				titleValue = triangleList;
@@ -544,7 +544,7 @@ namespace BC.LowLevelAI
 		}
 		public bool FindClosePathPoint(Vector3 point, out MapPathPoint mapPathPoint)
 		{
-			Vector3Int titleIndex = mapCellData.GetCellIndex(point);
+			Vector3Int titleIndex = mapCellData.VectorToIndex(point);
 			if(!mapCellData.trianglesTile.TryGetValue(titleIndex, out List<Triangle> titleValue))
 			{
 				titleValue = triangleList;
@@ -575,7 +575,7 @@ namespace BC.LowLevelAI
 				NavMeshPath path = new NavMeshPath();
 
 				Vector3 center = triangle.Center;
-				if(NavMesh.SamplePosition(center, out hit, 5f, NavMesh.AllAreas))
+				if(NavMesh.SamplePosition(center, out hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
 				{
 					center = hit.position;
 				}
@@ -587,7 +587,7 @@ namespace BC.LowLevelAI
 					if(anchor.ThisContainer.TryGetComponent<MapPathPoint>(out var pathPoint))
 					{
 						Vector3 closePoint = pathPoint.ThisPosition();
-						if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+						if(NavMesh.SamplePosition(closePoint, out hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
 						{
 							closePoint = hit.position;
 						}
@@ -607,7 +607,7 @@ namespace BC.LowLevelAI
 								}
 
 								closePoint = pathPoint.ClosestPoint(center, out _);
-								if(NavMesh.SamplePosition(closePoint, out hit, 5f, NavMesh.AllAreas))
+								if(NavMesh.SamplePosition(closePoint, out hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
 								{
 									closePoint = hit.position;
 								}
@@ -746,12 +746,12 @@ namespace BC.LowLevelAI
 					}
 					onMouseTriangleIndex = triangle.Index;
 					onMouseTrianglePosition = triangle.Center;
-					if(NavMesh.SamplePosition(onMouseTrianglePosition, out var hit, 5f, NavMesh.AllAreas))
+					if(NavMesh.SamplePosition(onMouseTrianglePosition, out var hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
 					{
 						onMouseTriangleNavPosition = hit.position;
 					}
 					Gizmos.DrawSphere(onGizmosTargetPosition + Vector3.up * 2, 0.5f);
-					if(NavMesh.SamplePosition(onGizmosTargetPosition, out hit, 5f, NavMesh.AllAreas))
+					if(NavMesh.SamplePosition(onGizmosTargetPosition, out hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
 					{
 						onGizmosTargetPosition = hit.position;
 					}

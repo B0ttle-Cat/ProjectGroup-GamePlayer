@@ -1,5 +1,7 @@
 using BC.ODCC;
 
+using UnityEngine;
+
 namespace BC.LowLevelAI
 {
 	public class FireteamStateMachine : OdccFiniteStateMachine
@@ -34,7 +36,18 @@ namespace BC.LowLevelAI
 
 			if(!manager.LowLevelAI.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
-			stateData.MoveTargetPoint = computer.SelectAnchorIndex(anchorIndex);
+			if(!ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
+
+			Vector3 center = members.CenterPosition();
+
+			if(!computer.TryGetClosedPathPoint(center, out var closedPathPoint)) return;
+
+			var moveTargetPoint = computer.SelectAnchorIndex(anchorIndex);
+			if(closedPathPoint ==null || moveTargetPoint == null) return;
+
+
+			if(!closedPathPoint.CalculatePath(moveTargetPoint, out var pathNode)) return;
+			stateData.MovePathNode = pathNode;
 		}
 	}
 }

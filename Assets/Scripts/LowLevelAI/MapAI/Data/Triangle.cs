@@ -40,7 +40,7 @@ namespace BC.LowLevelAI
 			float alpha = 1.0f - gamma - beta;
 
 			// 모든 거리가 양수이면 점은 삼각형 내부에 있음
-			return alpha > 0 && beta > 0 && gamma > 0;
+			return alpha >= 0 && beta >= 0 && gamma >= 0;
 		}
 		public void OnDrawGizmos(Vector3 offset)
 		{

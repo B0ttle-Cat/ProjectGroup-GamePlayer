@@ -127,5 +127,19 @@ namespace BC.LowLevelAI
 				cinemachineTargetGroup.AddMember(unitList[i].ThisTransform, 1f, 1f);
 			}
 		}
+
+		public Vector3 CenterPosition()
+		{
+			Vector3 sumPosition = Vector3.zero;
+			int length = thisMember.Count;
+			if(length == 0) return sumPosition;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var member = thisMember[i];
+				sumPosition += member.ThisTransform.position;
+			}
+			sumPosition /= length;
+			return sumPosition;
+		}
 	}
 }

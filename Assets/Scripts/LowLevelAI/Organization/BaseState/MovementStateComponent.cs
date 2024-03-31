@@ -1,20 +1,18 @@
 using BC.ODCC;
 
-using UnityEngine;
-
 namespace BC.LowLevelAI
 {
 	public interface IMovementStateData : IStateData
 	{
 		public bool IsMovement { get; set; }
-		public MapPathPoint MoveTargetPoint { get; set; }
+		public MapPathNode MovePathNode { get; set; }
 		public bool HasMoveTarget { get; }
 	}
 
 	public class MovementStateComponent : OdccStateComponent
 	{
 		private IMovementStateData iStateData;
-		public MapPathPoint moveTargetPoint;
+		public MapPathNode movePathNode;
 
 		private FireteamMembers fireteamMembers;
 		protected override void StateEnable()
@@ -23,7 +21,7 @@ namespace BC.LowLevelAI
 			iStateData.IsMovement = true;
 
 			fireteamMembers = ThisContainer.GetComponent<FireteamMembers>();
-			UpdateMove(iStateData.MoveTargetPoint);
+			UpdateMove(iStateData.MovePathNode);
 		}
 
 		protected override void StateDisable()
@@ -43,8 +41,8 @@ namespace BC.LowLevelAI
 		}
 		protected override void StateUpdate()
 		{
-			var moveTarget = iStateData.MoveTargetPoint;
-			if(moveTargetPoint == moveTarget)
+			var moveTarget = iStateData.MovePathNode;
+			if(movePathNode == moveTarget)
 			{
 				bool isAllStop = true;
 				if(fireteamMembers != null)
@@ -59,7 +57,7 @@ namespace BC.LowLevelAI
 				}
 				if(isAllStop)
 				{
-					iStateData.MoveTargetPoint = null;
+					iStateData.MovePathNode = null;
 				}
 			}
 			else
@@ -67,17 +65,17 @@ namespace BC.LowLevelAI
 				UpdateMove(moveTarget);
 			}
 		}
-		private void UpdateMove(MapPathPoint moveTarget)
+		private void UpdateMove(MapPathNode moveTarget)
 		{
 			if(fireteamMembers == null) return;
 
-			moveTargetPoint = moveTarget;
+			movePathNode = moveTarget;
 
-			if(moveTargetPoint == null)
+			if(movePathNode == null || movePathNode.ThisPoint == null)
 			{
 				fireteamMembers.Foreach(item =>
 				{
-					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent))
+					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent, (agent) => agent.IsMove))
 					{
 						agent.InputMoveStop();
 					}
@@ -85,13 +83,14 @@ namespace BC.LowLevelAI
 			}
 			else
 			{
-				Vector3[] aroundPosition = moveTargetPoint.GetRandomAroundPosition(fireteamMembers.Count);
-				int index = 0;
+
+				//Vector3[] aroundPosition = inputNodeTarget.NextNode.ThisPoint.GetRandomAroundPosition(fireteamMembers.Count);
+				//int index = 0;
 				fireteamMembers.Foreach(item =>
 				{
 					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent))
 					{
-						agent.InputMoveTarget(aroundPosition[index++]);
+						agent.InputMoveTarget(movePathNode);
 					}
 				});
 			}

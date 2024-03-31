@@ -21,10 +21,13 @@ namespace BC.LowLevelAI
 		protected NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;
 		[ShowInInspector, ReadOnly]
-		protected Vector3 inputTarget;
+		protected Vector3 inputVectorTarget;
+		[ShowInInspector, ReadOnly]
+		MapPathNode inputNodeTarget;
 
 		protected float baseRadius;
 		protected float halfRadius;
+		private const float nextNodeDistance = 5f;
 
 		[ShowInInspector, ReadOnly]
 		private NavMeshPathStatus navMeshPathStatus;
@@ -79,11 +82,11 @@ namespace BC.LowLevelAI
 				target = navMeshHit.position;
 			}
 
-			inputTarget = target;
+			inputVectorTarget = target;
 			if(isWarp)
 			{
 				navMeshAgent.ResetPath();
-				navMeshAgent.Warp(inputTarget);
+				navMeshAgent.Warp(inputVectorTarget);
 				navMeshAgent.isStopped = true;
 				IsMove = false;
 				return;
@@ -92,11 +95,11 @@ namespace BC.LowLevelAI
 			navMeshAgent.isStopped = false;
 			IsMove = true;
 
-			if(navMeshAgent.CalculatePath(inputTarget, navMeshPath))
+			if(navMeshAgent.CalculatePath(inputVectorTarget, navMeshPath))
 			{
 				if(navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
 				{
-					navMeshAgent.SetDestination(inputTarget);
+					navMeshAgent.SetDestination(inputVectorTarget);
 					navMeshPath = navMeshAgent.path;
 				}
 				else
@@ -106,151 +109,240 @@ namespace BC.LowLevelAI
 			}
 			else
 			{
-				navMeshAgent.SetDestination(inputTarget);
+				navMeshAgent.SetDestination(inputVectorTarget);
 				navMeshPath = navMeshAgent.path;
 			}
 		}
+		internal void InputMoveTarget(MapPathNode target)
+		{
+			if(navMeshAgent is null) return;
 
+			inputNodeTarget = target;
+			if(inputNodeTarget == null)
+			{
+				InputMoveStop();
+				return;
+			}
+			var thisPoint = inputNodeTarget.ThisPoint;
+			if(thisPoint == null)
+			{
+				InputMoveStop();
+				return;
+			}
+
+			// 이 노드가 마지막 노드임.
+			if(inputNodeTarget.NextNode == null)
+			{
+				InputMoveTarget(thisPoint);
+				return;
+			}
+			var nextPoint = inputNodeTarget.NextNode.ThisPoint;
+			if(nextPoint == null)
+			{
+				InputMoveTarget(thisPoint);
+				return;
+			}
+
+			Vector3 thisPosition = thisPoint.ThisPosition();
+			Vector3 nextPosition = nextPoint.ThisPosition();
+			Vector3 currPosition = navMeshAgent.nextPosition;
+
+			NavMeshPath thisToNextPath = new NavMeshPath();
+			NavMeshPath currToNextPath = new NavMeshPath();
+			float thisToNext = 0;
+			float currToNext = 0;
+			if(NavMesh.CalculatePath(thisPosition, nextPosition, NavMesh.AllAreas, thisToNextPath))
+			{
+				thisToNext = TotalDistanceThisPath(thisToNextPath);
+			}
+			if(NavMesh.CalculatePath(currPosition, nextPosition, NavMesh.AllAreas, currToNextPath))
+			{
+				currToNext = TotalDistanceThisPath(currToNextPath);
+			}
+			if(thisToNext < currToNext)
+			{
+				// 보통 이게 일반적임.
+				InputMoveTarget(thisPoint);
+			}
+			else
+			{
+				// 이미 This 를 넘어가서 Next 에 더 가까운 상태
+				InputMoveTarget(currToNextPath);
+			}
+		}
+		internal void InputMoveTarget(MapPathPoint target)
+		{
+			InputMoveTarget(target.ThisPosition());
+		}
+		internal void InputMoveTarget(NavMeshPath target)
+		{
+			if(navMeshAgent is null) return;
+
+			navMeshPath = target;
+			inputVectorTarget = target.corners[^1];
+			navMeshAgent.SetPath(target);
+			navMeshAgent.isStopped = false;
+			IsMove = true;
+		}
 		public override void BaseUpdate()
 		{
 			base.BaseUpdate();
+
 			if(navMeshAgent is null || navMeshPath is null || !navMeshAgent.isActiveAndEnabled)
 			{
 				return;
 			}
-			if(!IsMove) return;
 
+			Vector3 currentPos = navMeshAgent.nextPosition;
 
-			navMeshPathStatus = navMeshAgent.pathStatus;
-			bool hasPath = navMeshAgent.hasPath;
-			if(!hasPath)
+			MoveToPosition();
+			MoveEndCheck();
+
+			void MoveToPosition()
 			{
-				return;
-			}
-			bool isPathStale = navMeshAgent.isPathStale;
-			bool pathPending = navMeshAgent.pathPending;
+				if(!IsMove) return;
 
-			//if(isPathStale)
-			//{
-			//	InputMoveTarget(inputTarget);
-			//	return;
-			//}
-
-			float remainingDistance = navMeshAgent.remainingDistance;
-			float stoppingDistance = navMeshAgent.stoppingDistance;
-			float radius = navMeshAgent.radius;
-
-			if(navMeshPathStatus == NavMeshPathStatus.PathComplete)
-			{
-				// 경로를 올바르게 찾음 
-			}
-			else if(pathPending)
-			{
-				Vector3 diraction = Vector3.zero;
-				Vector3 currentPos = navMeshAgent.nextPosition;
-				var corners = navMeshPath.corners;
-				if(corners.Length < 2)
+				navMeshPathStatus = navMeshAgent.pathStatus;
+				bool hasPath = navMeshAgent.hasPath;
+				if(!hasPath)
 				{
-					diraction = currentPos - inputTarget;
+					IsMove = false;
+					return;
 				}
-				else if(corners.Length == 2)
+				bool isPathStale = navMeshAgent.isPathStale;
+				if(isPathStale)
 				{
-					diraction = currentPos - corners[1];
+					IsMove = false;
+					InputMoveTarget(inputVectorTarget);
+					return;
 				}
-				else
+				bool pathPending = navMeshAgent.pathPending;
+
+				if(navMeshPathStatus == NavMeshPathStatus.PathComplete)
 				{
-					Vector3 distance1 = corners[1] - corners[2];
-					Vector3 distance2 = currentPos - corners[2];
-					if(distance1.sqrMagnitude < distance2.sqrMagnitude)
+					// 경로를 올바르게 찾음 
+				}
+				else if(pathPending)
+				{
+					Vector3 diraction = Vector3.zero;
+
+					var corners = navMeshPath.corners;
+					if(corners.Length < 2)
+					{
+						diraction = currentPos - inputVectorTarget;
+					}
+					else if(corners.Length == 2)
 					{
 						diraction = currentPos - corners[1];
 					}
 					else
 					{
-						diraction = distance2;
+						Vector3 distance1 = corners[1] - corners[2];
+						Vector3 distance2 = currentPos - corners[2];
+						if(distance1.sqrMagnitude < distance2.sqrMagnitude)
+						{
+							diraction = currentPos - corners[1];
+						}
+						else
+						{
+							diraction = distance2;
+						}
+					}
+
+
+					float velocity = navMeshAgent.velocity.magnitude;
+					velocity += navMeshAgent.acceleration * Time.deltaTime;
+
+					float speed = navMeshAgent.speed;
+					if(velocity > speed)
+					{
+						velocity = speed;
+					}
+
+					navMeshAgent.Move(diraction.normalized * velocity);
+				}
+				else if(navMeshPathStatus == NavMeshPathStatus.PathPartial || navMeshPathStatus == NavMeshPathStatus.PathInvalid)
+				{
+					navMeshAgent.SetDestination(inputVectorTarget);
+					navMeshPath = navMeshAgent.path;
+				}
+			}
+			void MoveEndCheck()
+			{
+				if(!IsMove) return;
+
+				float remainingDistance = navMeshAgent.remainingDistance;
+				float stoppingDistance = navMeshAgent.stoppingDistance;
+				float radius = navMeshAgent.radius;
+
+				if(inputNodeTarget == null || inputNodeTarget.ThisPoint == null)
+				{
+					if(remainingDistance <= stoppingDistance)
+					{
+						IsMove = false;
+						navMeshAgent.isStopped = true;
+					}
+				}
+				else
+				{
+					if(inputNodeTarget.NextNode == null)
+					{
+						if(remainingDistance <= stoppingDistance)
+						{
+							IsMove = false;
+							navMeshAgent.isStopped = true;
+						}
+					}
+					else
+					{
+						//if(remainingDistance < nextNodeDistance)
+						{
+							var nextNode = inputNodeTarget.NextNode;
+							if(!NavMesh.Raycast(currentPos, nextNode.ThisPoint.ThisPosition(), out var hit, NavMesh.AllAreas))
+							{
+								InputMoveTarget(nextNode);
+							}
+							else if(remainingDistance <= nextNodeDistance)
+							{
+								InputMoveTarget(nextNode);
+							}
+						}
 					}
 				}
 
-
-				float velocity = navMeshAgent.velocity.magnitude;
-				velocity += navMeshAgent.acceleration * Time.deltaTime;
-
-				float speed = navMeshAgent.speed;
-				if(velocity > speed)
-				{
-					velocity = speed;
-				}
-
-				navMeshAgent.Move(diraction.normalized * velocity);
 			}
-			else if(navMeshPathStatus == NavMeshPathStatus.PathPartial || navMeshPathStatus == NavMeshPathStatus.PathInvalid)
-			{
-				navMeshAgent.SetDestination(inputTarget);
-				navMeshPath = navMeshAgent.path;
-			}
-
-
-			if(IsMove && remainingDistance <= stoppingDistance)
-			{
-				IsMove = false;
-				navMeshAgent.isStopped = true;
-			}
-
-			//MovementRadiusChange();
-			//MoveEndCheck();
-			//void MovementRadiusChange()
-			//{
-			//	if(isMove)
-			//	{
-			//		if(speed > 0f)
-			//		{
-			//			float disatanceRate = (remainingDistance + stoppingDistance)/ speed;
-			//			if(disatanceRate > 1) disatanceRate = 1;
-			//			if(disatanceRate < 0.5f) disatanceRate = 0.5f;
-			//			navMeshAgent.radius = baseRadius * disatanceRate;
-
-			//			if(disatanceRate < 1f)
-			//			{
-			//				float speedRate = velocity / speed;
-			//				if(speedRate < 0.5f)
-			//				{
-			//					stoppingDistance = stoppingDistance + Time.deltaTime * (1f-speedRate);
-			//				}
-			//				else
-			//				{
-			//					stoppingDistance = stoppingDistance - Time.deltaTime * speedRate;
-			//				}
-			//				if(stoppingDistance < halfRadius) stoppingDistance = halfRadius;
-			//				navMeshAgent.stoppingDistance = stoppingDistance;
-			//			}
-			//		}
-			//	}
-			//	else
-			//	{
-			//		if(stoppingDistance != halfRadius)
-			//		{
-			//			navMeshAgent.stoppingDistance = halfRadius;
-			//			stoppingDistance = halfRadius;
-			//		}
-
-			//		if(radius != baseRadius)
-			//			navMeshAgent.radius = Mathf.MoveTowards(radius, baseRadius, Time.deltaTime * speed * 0.25f);
-			//	}
-			//}
-
-			//void MoveEndCheck()
-			//{
-			//	if(!navMeshAgent.pathPending && isMove)
-			//	{
-			//		if(stoppingDistance >= remainingDistance)
-			//		{
-
-			//			navMeshAgent.stoppingDistance = halfRadius;
-
-			//			aiStateControl.RemoveAIState(FireunitStateTag.MOVE);
-			//		}
-			//	}
-			//}
 		}
+
+		private float TotalDistanceThisPath(NavMeshPath navMeshPath)
+		{
+			float distance = 0f;
+			Vector3[] corners = navMeshPath.corners;
+			for(int i = 0 ; i < corners.Length - 1 ; i++)
+			{
+				distance += Vector3.Distance(corners[i], corners[i + 1]);
+			}
+			return distance;
+		}
+
+#if UNITY_EDITOR
+		[Header("OnDrawGizmos")]
+		public bool isOnDrawGizmos;
+		private void OnDrawGizmos()
+		{
+			if(!isOnDrawGizmos) return;
+			Vector3 currentPos = navMeshAgent.nextPosition;
+
+
+			if(inputNodeTarget != null && inputNodeTarget.ThisPoint != null)
+			{
+				Vector3 position = inputNodeTarget.ThisPoint.ThisPosition();
+
+				Gizmos.color = Color.blue;
+				Gizmos.DrawLine(currentPos + Vector3.up * 4f, position + Vector3.up * 4f);
+				inputNodeTarget.OnDrawGizmos(Vector3.up * 4f);
+			}
+
+		}
+#endif
 	}
 }

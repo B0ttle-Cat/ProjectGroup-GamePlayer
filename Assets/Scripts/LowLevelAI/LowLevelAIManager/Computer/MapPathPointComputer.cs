@@ -8,6 +8,7 @@ using BC.ODCC;
 using Sirenix.OdinInspector;
 
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
@@ -148,6 +149,34 @@ namespace BC.LowLevelAI
 				}
 			}
 			return null;
+		}
+		public bool TryGetClosedPathPoint(Vector3 position, out MapPathPoint mapPathPoint)
+		{
+			if(NavMesh.SamplePosition(position, out var hit, mapCellData.navMeshSerchRange, NavMesh.AllAreas))
+			{
+				position = hit.position;
+			}
+
+			mapPathPoint = null;
+			Vector3Int index = mapCellData.VectorToIndex(position);
+			bool findTriangles = mapCellData.IndexToTriangles(index, out var triangles);
+			if(!findTriangles) return false;
+
+			int length = triangles.Count;
+			int inTriangles = -1;
+			for(int i = 0 ; i < length ; i++)
+			{
+				if(triangles[i].IsPointInTriangle(position))
+				{
+					inTriangles = i;
+					break;
+				}
+			}
+			if(inTriangles < 0) return false;
+
+			bool isFind = mapCellData.trianglesClosedPoint.TryGetValue(triangles[inTriangles], out mapPathPoint);
+
+			return isFind && mapPathPoint != null;
 		}
 
 		//linkRayTriangleList = new List<LinkRayTriangle>();

@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Toon_Fhair 1
+  m_Shader: {fileID: 4800000, guid: be891319084e9d147b09d89e80ce60e0, type: 3}
+  m_Parent: {fileID: 2100000, guid: 3695a516340218c4bb1c2af732378200, type: 2}
+  m_ModifiedSerializedProperties: 16
+  m_ValidKeywords:
+  - _EMISSIVE_SIMPLE
+  - _IS_ANGELRING_OFF
+  - _IS_CLIPPING_MODE
+  - _IS_OUTLINE_CLIPPING_YES
+  - _OUTLINE_NML
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    IgnoreProjection: False
+    RenderType: TransparentCutout
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BakedNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClippingMask:
+        m_Texture: {fileID: 2800000, guid: 43b9b5ee0d64457da6c77c0706d8ec63, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MatCap_Sampler:
+        m_Texture: {fileID: 2800000, guid: 3b42f7c9d35a4b88a533f72baf2a89ce, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMapForMatCap:
+        m_Texture: {fileID: 2800000, guid: cf16f24e4875445784ff0bf05da66288, type: 3}
+        m_Scale: {x: 50, y: 0.001}
+        m_Offset: {x: 0, y: 0.5}
+    - _Set_MatcapMask:
+        m_Texture: {fileID: 2800000, guid: cb0e0d5b757c49ab9ec1d9aa2843d249, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _1st2nd_Shades_Feather: 0.236
+    - _1st_ShadeColor_Feather: 0.062
+    - _2nd_ShadeColor_Feather: 0.236
+    - _2nd_ShadeColor_Step: 0.727
+    - _BaseShade_Feather: 0.062
+    - _ClippingMode: 1
+    - _Inverse_Clipping: 1
+    - _Is_BakedNormal: 0
+    - _Is_NormalMapForMatCap: 1
+    - _Is_NormalMapToHighColor: 0
+    - _Is_UseTweakHighColorOnShadow: 0
+    - _Is_UseTweakMatCapOnShadow: 1
+    - _MatCap: 1
+    - _Offset_Z: 0
+    - _Outline_Width: 2.92
+    - _RimLight_Power: 0.32
+    - _ShadeColor_Step: 0.727
+    - _StencilComp: 6
+    - _StencilMode: 1
+    - _TweakMatCapOnShadow: 0.5
+    - _Tweak_MatCapUV: -0.033
+    - _Tweak_MatcapMaskLevel: 0.1
+    - _Use_BaseAs1st: 0
+    m_Colors:
+    - _2nd_ShadeColor: {r: 0.85882354, g: 0.6666667, b: 0.45490196, a: 1}
+    - _HighColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimLightColor: {r: 0.6117647, g: 0.5137255, b: 0.2, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

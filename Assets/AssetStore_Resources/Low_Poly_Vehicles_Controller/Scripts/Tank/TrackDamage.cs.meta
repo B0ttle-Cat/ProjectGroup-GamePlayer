@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e2b695a92f41c1345b242a991a65324e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Scripts/Tank/TrackDamage.cs
+  uploadId: 373860

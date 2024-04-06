@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1e25b8a63d0730b439ec478ec8fea21e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Vehicles/T72/MAT_T72_Left.mat
+  uploadId: 373860

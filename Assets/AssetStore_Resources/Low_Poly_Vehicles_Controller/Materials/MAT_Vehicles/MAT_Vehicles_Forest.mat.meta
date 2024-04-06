@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4b511d4e1c0581b40b2c3041378d5bbc
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Vehicles/MAT_Vehicles_Forest.mat
+  uploadId: 373860

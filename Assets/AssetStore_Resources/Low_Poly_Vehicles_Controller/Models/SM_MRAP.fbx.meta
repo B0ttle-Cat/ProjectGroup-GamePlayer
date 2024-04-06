@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 29f660a0e41b76a4c832b65d8d3ae087
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Bolt
+    100002: Doors
+    100004: Front_Left
+    100006: Front_Left_2
+    100008: Front_Right
+    100010: Front_Right_2
+    100012: Gun
+    100014: Magazin
+    100016: //RootNode
+    100018: Rear_Left
+    100020: Rear_Left_2
+    100022: Rear_Right
+    100024: Rear_Right_2
+    100026: Slide
+    100028: Trigger
+    100030: Turret
+    100032: Wheels
+    100034: M_ATV
+    400000: Bolt
+    400002: Doors
+    400004: Front_Left
+    400006: Front_Left_2
+    400008: Front_Right
+    400010: Front_Right_2
+    400012: Gun
+    400014: Magazin
+    400016: //RootNode
+    400018: Rear_Left
+    400020: Rear_Left_2
+    400022: Rear_Right
+    400024: Rear_Right_2
+    400026: Slide
+    400028: Trigger
+    400030: Turret
+    400032: Wheels
+    400034: M_ATV
+    2100000: MAT_Vehicle
+    2300000: Bolt
+    2300002: Front_Left
+    2300004: Front_Left_2
+    2300006: Front_Right
+    2300008: Front_Right_2
+    2300010: Gun
+    2300012: Magazin
+    2300014: //RootNode
+    2300016: Rear_Left
+    2300018: Rear_Left_2
+    2300020: Rear_Right
+    2300022: Rear_Right_2
+    2300024: Slide
+    2300026: Trigger
+    2300028: Turret
+    2300030: M_ATV
+    3300000: Bolt
+    3300002: Front_Left
+    3300004: Front_Left_2
+    3300006: Front_Right
+    3300008: Front_Right_2
+    3300010: Gun
+    3300012: Magazin
+    3300014: //RootNode
+    3300016: Rear_Left
+    3300018: Rear_Left_2
+    3300020: Rear_Right
+    3300022: Rear_Right_2
+    3300024: Slide
+    3300026: Trigger
+    3300028: Turret
+    3300030: M_ATV
+    4300000: M_ATV
+    4300002: Turret
+    4300004: Gun
+    4300006: Magazin
+    4300008: Bolt
+    4300010: Trigger
+    4300012: Slide
+    4300014: Rear_Right
+    4300016: Rear_Left
+    4300018: Front_Right
+    4300020: Front_Left
+    4300022: Rear_Left_2
+    4300024: Front_Left_2
+    4300026: Rear_Right_2
+    4300028: Front_Right_2
+    6400000: Bolt
+    6400002: Front_Left
+    6400004: Front_Left_2
+    6400006: Front_Right
+    6400008: Front_Right_2
+    6400010: Gun
+    6400012: Magazin
+    6400014: //RootNode
+    6400016: Rear_Left
+    6400018: Rear_Left_2
+    6400020: Rear_Right
+    6400022: Rear_Right_2
+    6400024: Slide
+    6400026: Trigger
+    6400028: Turret
+    6400030: M_ATV
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_Vehicle
+    second: {fileID: 2100000, guid: 1010624aeffe64d43a309ef6cb10b3f8, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Models/SM_MRAP.fbx
+  uploadId: 373860

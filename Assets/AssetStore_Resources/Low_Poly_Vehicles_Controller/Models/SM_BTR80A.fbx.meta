@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: a9a76afcfac798e48b04e5a0d305a985
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Canon
+    100004: Front_Left
+    100006: Front_Right
+    100008: MID_Front_Left
+    100010: MID_Front_Right
+    100012: MID_Rear_Left
+    100014: MID_Rear_Right
+    100016: Rear_Left
+    100018: Rear_Right
+    100020: Turret
+    100022: Wheels
+    100024: Barrel
+    400000: //RootNode
+    400002: Canon
+    400004: Front_Left
+    400006: Front_Right
+    400008: MID_Front_Left
+    400010: MID_Front_Right
+    400012: MID_Rear_Left
+    400014: MID_Rear_Right
+    400016: Rear_Left
+    400018: Rear_Right
+    400020: Turret
+    400022: Wheels
+    400024: Barrel
+    2100000: No Name
+    2100002: MAT_Vehicles
+    2300000: //RootNode
+    2300002: Canon
+    2300004: Front_Left
+    2300006: Front_Right
+    2300008: MID_Front_Left
+    2300010: MID_Front_Right
+    2300012: MID_Rear_Left
+    2300014: MID_Rear_Right
+    2300016: Rear_Left
+    2300018: Rear_Right
+    2300020: Turret
+    2300022: Barrel
+    3300000: //RootNode
+    3300002: Canon
+    3300004: Front_Left
+    3300006: Front_Right
+    3300008: MID_Front_Left
+    3300010: MID_Front_Right
+    3300012: MID_Rear_Left
+    3300014: MID_Rear_Right
+    3300016: Rear_Left
+    3300018: Rear_Right
+    3300020: Turret
+    3300022: Barrel
+    4300000: BTR_80A
+    4300002: Turret
+    4300004: Canon
+    4300006: Rear_Right
+    4300008: MID_Rear_Right
+    4300010: Front_Right
+    4300012: MID_Front_Right
+    4300014: Front_Left
+    4300016: MID_Front_Left
+    4300018: Rear_Left
+    4300020: MID_Rear_Left
+    4300022: Barrel
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_Vehicles
+    second: {fileID: 2100000, guid: 1010624aeffe64d43a309ef6cb10b3f8, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Models/SM_BTR80A.fbx
+  uploadId: 373860

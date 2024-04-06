@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 03569368069d5d04097341f0b42707dc
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Vehicles/MAT_Destroy_Track.mat
+  uploadId: 373860

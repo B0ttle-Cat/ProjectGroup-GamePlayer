@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b02956d2ca3900843bd8b1aa45f77033
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Vehicles/M1A2/MAT_M1A2_Right.mat
+  uploadId: 373860

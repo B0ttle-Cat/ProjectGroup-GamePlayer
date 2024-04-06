@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f19e1e5fc55d0da49b24c910f46cd713
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Scene/MAT_Props.mat
+  uploadId: 373860

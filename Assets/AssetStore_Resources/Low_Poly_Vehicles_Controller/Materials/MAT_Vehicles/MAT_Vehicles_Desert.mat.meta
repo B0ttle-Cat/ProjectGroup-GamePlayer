@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1010624aeffe64d43a309ef6cb10b3f8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Materials/MAT_Vehicles/MAT_Vehicles_Desert.mat
+  uploadId: 373860

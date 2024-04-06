@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8db2d74aeb1241a4fae94016cf1182e6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 168618
+  packageName: Low Poly Vehicles Controller
+  packageVersion: 1.0
+  assetPath: Assets/Low_Poly_Vehicles_Controller/Prefabs/Vehicles/Destroy_Track.prefab
+  uploadId: 373860

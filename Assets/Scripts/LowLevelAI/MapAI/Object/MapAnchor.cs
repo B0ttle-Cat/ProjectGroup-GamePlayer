@@ -34,15 +34,15 @@ namespace BC.LowLevelAI
 			anchorData.anchorIndex = ThisTransform.GetSiblingIndex();
 			if(ThisContainer.TryGetComponent<StrategicPoint>(out _))
 			{
-				gameObject.name = $"{anchorData.anchorIndex:00}\t: StrategicPoint";
+				gameObject.name = $"{anchorData.anchorIndex:00} | StrategicPoint";
 			}
 			else if(ThisContainer.TryGetComponent<MapPathPoint>(out _))
 			{
-				gameObject.name = $"{anchorData.anchorIndex:00}\t: PathPoint";
+				gameObject.name = $"{anchorData.anchorIndex:00} | PathPoint";
 			}
 			else
 			{
-				gameObject.name = $"{anchorData.anchorIndex:00}\t: NonePoint";
+				gameObject.name = $"{anchorData.anchorIndex:00} | NonePoint";
 			}
 			mapAnchorTrigger = GetComponentsInChildren<Collider>();
 		}

@@ -94,7 +94,20 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
+		public void Foreach(Action<FireunitObject, int> action, Func<FireunitObject, int, bool> condition = null)
+		{
+			if(action == null) return;
 
+			int length = thisMember.Count;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var member = thisMember[i];
+				if(condition == null || condition.Invoke(member, i))
+				{
+					action.Invoke(member, i);
+				}
+			}
+		}
 
 		internal void SetCinemachineTargetGroup(CinemachineTargetGroup cinemachineTargetGroup)
 		{

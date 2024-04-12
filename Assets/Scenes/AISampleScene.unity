@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 38780006}
   - component: {fileID: 38780008}
   m_Layer: 18
-  m_Name: "07\t: PathPoint"
+  m_Name: 07 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1844,7 +1844,7 @@ GameObject:
   - component: {fileID: 284452649}
   - component: {fileID: 284452651}
   m_Layer: 18
-  m_Name: "06\t: PathPoint"
+  m_Name: 06 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2453,7 +2453,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -2468,7 +2468,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3237,7 +3237,7 @@ GameObject:
   - component: {fileID: 352683979}
   - component: {fileID: 352683981}
   m_Layer: 18
-  m_Name: "05\t: PathPoint"
+  m_Name: 05 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5651,7 +5651,7 @@ GameObject:
   - component: {fileID: 606220811}
   - component: {fileID: 606220813}
   m_Layer: 18
-  m_Name: "08\t: PathPoint"
+  m_Name: 08 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6565,7 +6565,7 @@ GameObject:
   - component: {fileID: 735860322}
   - component: {fileID: 735860324}
   m_Layer: 18
-  m_Name: "10\t: PathPoint"
+  m_Name: 10 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7812,7 +7812,7 @@ GameObject:
   - component: {fileID: 835856224}
   - component: {fileID: 835856221}
   m_Layer: 18
-  m_Name: "00\t: StrategicPoint"
+  m_Name: 00 | StrategicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8964,7 +8964,7 @@ GameObject:
   - component: {fileID: 918971674}
   - component: {fileID: 918971676}
   m_Layer: 18
-  m_Name: "13\t: PathPoint"
+  m_Name: 13 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9085,7 +9085,7 @@ GameObject:
   - component: {fileID: 975602103}
   - component: {fileID: 975602105}
   m_Layer: 18
-  m_Name: "11\t: PathPoint"
+  m_Name: 11 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9841,7 +9841,7 @@ GameObject:
   - component: {fileID: 1081994774}
   - component: {fileID: 1081994772}
   m_Layer: 18
-  m_Name: "04\t: StrategicPoint"
+  m_Name: 04 | StrategicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11307,7 +11307,7 @@ GameObject:
   - component: {fileID: 1275255297}
   - component: {fileID: 1275255293}
   m_Layer: 18
-  m_Name: "01\t: StrategicPoint"
+  m_Name: 01 | StrategicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11667,7 +11667,7 @@ GameObject:
   - component: {fileID: 1345156727}
   - component: {fileID: 1345156729}
   m_Layer: 18
-  m_Name: "14\t: PathPoint"
+  m_Name: 14 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11789,7 +11789,7 @@ GameObject:
   - component: {fileID: 1402652762}
   - component: {fileID: 1402652760}
   m_Layer: 18
-  m_Name: "02\t: StrategicPoint"
+  m_Name: 02 | StrategicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13753,7 +13753,7 @@ GameObject:
   - component: {fileID: 1596833351}
   - component: {fileID: 1596833349}
   m_Layer: 18
-  m_Name: "03\t: StrategicPoint"
+  m_Name: 03 | StrategicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15550,7 +15550,7 @@ GameObject:
   - component: {fileID: 1889110811}
   - component: {fileID: 1889110813}
   m_Layer: 18
-  m_Name: "12\t: PathPoint"
+  m_Name: 12 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15899,7 +15899,7 @@ GameObject:
   - component: {fileID: 1946860024}
   - component: {fileID: 1946860026}
   m_Layer: 18
-  m_Name: "09\t: PathPoint"
+  m_Name: 09 | PathPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -23,7 +23,9 @@ namespace BC.LowLevelAI
 		[ShowInInspector, ReadOnly]
 		protected Vector3 inputVectorTarget;
 		[ShowInInspector, ReadOnly]
-		MapPathNode inputNodeTarget;
+		protected MapPathNode inputNodeTarget;
+		[ShowInInspector, ReadOnly]
+		protected Vector3 inputFormationPosition;
 
 		protected float baseRadius;
 		protected float halfRadius;
@@ -113,11 +115,13 @@ namespace BC.LowLevelAI
 				navMeshPath = navMeshAgent.path;
 			}
 		}
-		internal void InputMoveTarget(MapPathNode target)
+		internal void InputMoveTarget(MapPathNode target, Vector3 formationPosition)
 		{
 			if(navMeshAgent is null) return;
 
 			inputNodeTarget = target;
+			inputFormationPosition = formationPosition;
+
 			if(inputNodeTarget == null)
 			{
 				InputMoveStop();
@@ -130,20 +134,29 @@ namespace BC.LowLevelAI
 				return;
 			}
 
+			Vector3 thisPosition  = thisPoint.ThisPosition();
+
 			// 이 노드가 마지막 노드임.
 			if(inputNodeTarget.NextNode == null)
 			{
-				InputMoveTarget(thisPoint);
+				if(NavMesh.Raycast(thisPosition, thisPosition += inputFormationPosition, out var hit, NavMesh.AllAreas))
+				{
+					thisPosition = hit.position;
+				}
+				else
+				{
+					thisPosition += inputFormationPosition;
+				}
+				InputMoveTarget(thisPosition);
 				return;
 			}
 			var nextPoint = inputNodeTarget.NextNode.ThisPoint;
 			if(nextPoint == null)
 			{
-				InputMoveTarget(thisPoint);
+				InputMoveTarget(thisPosition);
 				return;
 			}
 
-			Vector3 thisPosition = thisPoint.ThisPosition();
 			Vector3 nextPosition = nextPoint.ThisPosition();
 			Vector3 currPosition = navMeshAgent.nextPosition;
 
@@ -162,17 +175,13 @@ namespace BC.LowLevelAI
 			if(thisToNext < currToNext)
 			{
 				// 보통 이게 일반적임.
-				InputMoveTarget(thisPoint);
+				InputMoveTarget(thisPosition);
 			}
 			else
 			{
 				// 이미 This 를 넘어가서 Next 에 더 가까운 상태
 				InputMoveTarget(currToNextPath);
 			}
-		}
-		internal void InputMoveTarget(MapPathPoint target)
-		{
-			InputMoveTarget(target.ThisPosition());
 		}
 		internal void InputMoveTarget(NavMeshPath target)
 		{
@@ -300,11 +309,11 @@ namespace BC.LowLevelAI
 							var nextNode = inputNodeTarget.NextNode;
 							if(!NavMesh.Raycast(currentPos, nextNode.ThisPoint.ThisPosition(), out var hit, NavMesh.AllAreas))
 							{
-								InputMoveTarget(nextNode);
+								InputMoveTarget(nextNode, inputFormationPosition);
 							}
 							else if(remainingDistance <= nextNodeDistance)
 							{
-								InputMoveTarget(nextNode);
+								InputMoveTarget(nextNode, inputFormationPosition);
 							}
 						}
 					}

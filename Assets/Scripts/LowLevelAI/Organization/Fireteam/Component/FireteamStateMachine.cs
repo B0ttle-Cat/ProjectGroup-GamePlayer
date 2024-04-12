@@ -45,7 +45,6 @@ namespace BC.LowLevelAI
 			var moveTargetPoint = computer.SelectAnchorIndex(anchorIndex);
 			if(closedPathPoint ==null || moveTargetPoint == null) return;
 
-
 			if(!closedPathPoint.CalculatePath(moveTargetPoint, out var pathNode)) return;
 			stateData.MovePathNode = pathNode;
 		}

@@ -27,6 +27,7 @@ namespace BC.LowLevelAI
 
 		private float pathCost; // prevNode 를 거쳐 이곳까지 오는 누적 비용
 		private float nextCost; // 이곳에서 next 로 가는 비용
+
 		public MapPathNode()
 		{
 			mapPathPoint = null;
@@ -95,6 +96,15 @@ namespace BC.LowLevelAI
 		public MapPathPoint ThisPoint => mapPathPoint;
 		public MapPathNode PrevNode => prevNode;
 		public MapPathNode NextNode => nextNode;
+
+		public MapPathNode StartNode { get; private set; }
+		public MapPathNode EndedNode { get; private set; }
+
+		public void SetStartAndLast(MapPathNode startNode, MapPathNode endedNode)
+		{
+			StartNode = startNode;
+			EndedNode = endedNode;
+		}
 
 		public bool IsStart => PrevNode == null;
 		public bool IsEnded => NextNode == null;
@@ -292,8 +302,22 @@ namespace BC.LowLevelAI
 		{
 			return mapAnchor.ClosestPoint(position, out distance);
 		}
-
 		public bool CalculatePath(MapPathPoint target, out MapPathNode pathNode)
+		{
+			bool result = _CalculatePath(target, out pathNode);
+			if(result)
+			{
+				var start = pathNode;
+				var ended = pathNode.Last();
+				foreach(var item in pathNode)
+				{
+					item.SetStartAndLast(start, ended);
+				}
+			}
+
+			return result;
+		}
+		private bool _CalculatePath(MapPathPoint target, out MapPathNode pathNode)
 		{
 			pathNode = null;
 			if(target == null || target.IsBrakePath) return false;
@@ -308,7 +332,8 @@ namespace BC.LowLevelAI
 			if(startPoint.nextPathPointList.Contains(endedPoint))
 			{
 				pathNode = new MapPathNode(this);
-				MapPathNode.LinkNode(pathNode, new MapPathNode(endedPoint));
+				var endedNode = new MapPathNode(endedPoint);
+				MapPathNode.LinkNode(pathNode, endedNode);
 				return true;
 			}
 
@@ -376,47 +401,64 @@ namespace BC.LowLevelAI
 			if(finded == null) return false;
 
 			Stack<MapPathNode> stack = new Stack<MapPathNode>();
-			while(!finded.IsStart)
+			MapPathNode first = finded;
+			while(!first.IsStart)
 			{
-				stack.Push(finded);
-				finded = finded.PrevNode;
+				//stack.Push(first);
+				MapPathNode.LinkNode(first.PrevNode, first);
+				first = first.PrevNode;
 			}
-			pathNode = finded;
-			while(stack.Count > 0)
-			{
-				var next = stack.Pop();
-				MapPathNode.LinkNode(finded, next);
-				finded = next;
-			}
+			pathNode = first;
+			//while(stack.Count > 0)
+			//{
+			//	var next = stack.Pop();
+			//	MapPathNode.LinkNode(finded, next);
+			//	finded = next;
+			//}
 			return true;
 		}
 
-		internal Vector3[] GetRandomAroundPosition(int divisionCount = 0)
+		internal Vector3[] GetRandomAroundDiraction(int divisionCount, Vector3 angleDiraction)
 		{
 			if(divisionCount == 0)
 			{
 				return new Vector3[1] { ThisPosition() };
+			}
+			angleDiraction = angleDiraction.normalized;
+			if(angleDiraction == Vector3.zero)
+			{
+				angleDiraction = Vector3.forward;
 			}
 
 			Vector3[] points = new Vector3[divisionCount];
 
 			float pointsPerDivision = 360f / divisionCount;
 
+			float startOffset = 0f;
+			float endedOffset = 2f;
+			Vector2 randomCenter = Random.insideUnitCircle * Random.Range(startOffset, endedOffset);
+			Vector3 centerOffset = new Vector3(randomCenter.x, 0f, randomCenter.y);
+
+			NavMeshHit hit = default;
+			//center = NavMesh.SamplePosition(center, out hit, 5f, NavMesh.AllAreas) ? hit.position : ThisPosition();
+
 			for(int i = 0 ; i < divisionCount ; i++)
 			{
 				// 각 구역을 등분하여 시작 각도와 끝 각도 계산
 				float startAngle = i * pointsPerDivision;
-				float endAngle = (i + 1) * pointsPerDivision;
-
+				float endedAngle = (i + 1) * pointsPerDivision;
 				// 각 구역에서 랜덤한 각도 선택
-				float angle = Random.Range(startAngle, endAngle);
+				float angle = Random.Range(startAngle, endedAngle);
+
+				float startRadius = 0.5f;
+				float endedRadius = 2f;
+				float radius = Random.Range(startRadius, endedRadius);
 
 				// 선택된 각도에 해당하는 위치 계산
-				Quaternion rotation = Quaternion.Euler(0, angle, 0);
-				Vector3 direction = rotation * Vector3.forward;
-				Vector3 point = ThisPosition() + direction * Random.Range(0.5f, 2.5f);
+				Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * angleDiraction;
+				Vector3 point = centerOffset + direction * radius;
 
-				points[i] = (point);
+				points[i] = point;
 			}
 
 			return points;

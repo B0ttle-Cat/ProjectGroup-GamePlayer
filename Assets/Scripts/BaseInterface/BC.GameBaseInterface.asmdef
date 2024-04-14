@@ -1,0 +1,17 @@
+{
+    "name": "BC.GameBaseInterface",
+    "rootNamespace": "BC.GameBaseInterface",
+    "references": [
+        "GUID:7aa6ab5ead1fe264493d2913bdea2fe1",
+        "GUID:32c0207fd50e2e34eae82fd7843d237a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

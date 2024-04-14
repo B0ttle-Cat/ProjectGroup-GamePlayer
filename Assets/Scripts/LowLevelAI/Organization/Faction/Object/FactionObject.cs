@@ -1,3 +1,4 @@
+using BC.GameBaseInterface;
 using BC.ODCC;
 
 namespace BC.LowLevelAI
@@ -19,27 +20,14 @@ namespace BC.LowLevelAI
 				factionData = ThisContainer.AddData<FactionData>();
 			}
 
-			if(!SetName())
+			gameObject.name = $"{factionData.FactionIndex:00} Faction";
+		}
+
+		public void UpdateObjectName()
+		{
+			if(ThisContainer.TryGetData<FactionData>(out factionData))
 			{
-				gameObject.name = $"__ Faction __";
-			}
-			bool SetName()
-			{
-				if(factionData != null && ThisContainer.TryGetParentObject<ObjectBehaviour>(out var @object, obj => obj.ThisContainer.TryGetData<DiplomacyData>(out _)))
-				{
-					DiplomacyData diplomacyData = @object.ThisContainer.GetData<DiplomacyData>();
-					if(diplomacyData.Table != null)
-					{
-						int findIndex = diplomacyData.Table.ItemList.FindIndex(item => item.FactionIndex == factionData.FactionIndex);
-						if(findIndex>=0)
-						{
-							var findItem = diplomacyData.Table.ItemList[findIndex];
-							gameObject.name = $"{findIndex:00} Faction {findItem.FactionName}";
-							return true;
-						}
-					}
-				}
-				return false;
+				gameObject.name = $"{factionData.FactionIndex:00} Faction";
 			}
 		}
 

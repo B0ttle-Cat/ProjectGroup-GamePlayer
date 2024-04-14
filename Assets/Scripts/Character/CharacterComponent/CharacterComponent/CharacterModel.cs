@@ -1,11 +1,10 @@
-using BC.ODCC;
-
 using RootMotion.FinalIK;
 
 namespace BC.Character
 {
-	public class CharacterModel : ComponentBehaviour
+	public class CharacterModel : ModelObject
 	{
+		public override bool IsReady { get; protected set; } = false;
 #if UNITY_EDITOR
 		public override void BaseReset() { }
 		public override void BaseValidate() { }
@@ -27,13 +26,14 @@ namespace BC.Character
 		}
 		public override void BaseEnable()
 		{
-			if(ThisObject.ThisContainer.TryGetComponent<WeaponModel>(out var Weapon))
+			if(ThisContainer.ParentContainer.TryGetChildObject<WeaponModel>(out var Weapon))
 			{
 				grabWeapon.weaponPivot = Weapon.WeaponPivot;
 				grabWeapon.weaponPivotAim = Weapon.muzzlePivot;
 				grabWeapon.leftHand = Weapon.leftHandPivot;
 				grabWeapon.rightHand = Weapon.rightHandPivot;
 			}
+			IsReady = true;
 		}
 		public override void BaseDisable()
 		{
@@ -45,7 +45,6 @@ namespace BC.Character
 		}
 		public override void BaseUpdate()
 		{
-
 		}
 	}
 }

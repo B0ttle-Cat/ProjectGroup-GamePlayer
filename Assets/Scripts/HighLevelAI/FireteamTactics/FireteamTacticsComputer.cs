@@ -1,4 +1,4 @@
-using BC.LowLevelAI;
+using BC.GameBaseInterface;
 using BC.ODCC;
 
 namespace BC.HighLevelAI

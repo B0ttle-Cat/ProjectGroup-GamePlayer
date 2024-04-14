@@ -12,7 +12,7 @@ namespace BC.Character
 		IAgentMoveStart<CharacterAgent>,
 		IAgentMoveStop<CharacterAgent>
 	{
-		public NavMeshAgent NavAgent { get; private set; }
+		public NavMeshAgent NavAgent { get; set; }
 		public PlayingID NavID { get; private set; }
 
 		public override void BaseAwake()

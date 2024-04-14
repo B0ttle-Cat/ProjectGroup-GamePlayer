@@ -1,3 +1,4 @@
+using BC.GameBaseInterface;
 using BC.ODCC;
 
 namespace BC.LowLevelAI
@@ -18,23 +19,16 @@ namespace BC.LowLevelAI
 			{
 				fireunitData = ThisContainer.AddData<FireunitData>();
 			}
-			if(fireunitData != null)
+
+			gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
+		}
+		public void UpdateObjectName()
+		{
+			if(ThisContainer.TryGetData<FireunitData>(out fireunitData))
 			{
-				if(ThisContainer.TryGetParentObject<IGetFireteamData>(out var iGetFireteamData, (item) => item.IFireteamData != null))
-				{
-					IFireteamData fireteamData = iGetFireteamData.IFireteamData;
-					fireunitData.FactionIndex = fireteamData.FactionIndex;
-					fireunitData.TeamIndex = fireteamData.TeamIndex;
-					fireunitData.UnitIndex = ThisTransform.GetSiblingIndex();
-					gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
-				}
-				else
-				{
-					gameObject.name = $"__ | __ | __ Unit";
-				}
+				gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
 			}
 		}
-
 		public IFireunitData IFireunitData => fireunitData;
 		public IFireteamData IFireteamData => fireunitData;
 		public IFactionData IFactionData => fireunitData;

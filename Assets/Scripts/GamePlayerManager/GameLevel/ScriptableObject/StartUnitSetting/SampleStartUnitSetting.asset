@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8631408f43f6b6e4db8937843f217895, type: 3}
+  m_Name: SampleStartUnitSetting
+  m_EditorClassIdentifier: 
+  characterDatas:
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 0
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 1
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 1
+    unitIndex: 0
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 1
+    unitIndex: 1
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 1
+    teamIndex: 0
+    unitIndex: 0
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 1
+    teamIndex: 0
+    unitIndex: 1
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 1
+    teamIndex: 1
+    unitIndex: 0
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  - factionIndex: 1
+    teamIndex: 1
+    unitIndex: 1
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      GameObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      GameObjectAsset: {fileID: 0}
+  positionDatas:
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 0
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}

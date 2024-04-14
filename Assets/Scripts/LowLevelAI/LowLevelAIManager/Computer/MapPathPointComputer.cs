@@ -35,11 +35,7 @@ namespace BC.LowLevelAI
 		public override void BaseAwake()
 		{
 			IsComputing = false;
-			mapCellData = ThisContainer.GetData<MapCellData>();
 			allPathPoints = new MapPathPoint[0];
-			//pathPointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
-			//	.WithAll<MapAnchor, MapPathPoint>()
-			//	.Build());
 		}
 		public override void BaseDestroy()
 		{
@@ -59,10 +55,6 @@ namespace BC.LowLevelAI
 				StopCoroutine(asyncUpdate);
 			}
 			asyncUpdate = StartCoroutine(AsyncUpdate());
-
-			//_allPathPoints.ForEach(item => PathPointSetNavMeshPosition(item));
-			//_allPathPoints.ForEach(item => PathPointConnectNeighbor(item));
-			//IsComputing = true;
 		}
 		public override void BaseDisable()
 		{
@@ -76,6 +68,24 @@ namespace BC.LowLevelAI
 
 		public IEnumerator AsyncUpdate()
 		{
+			yield return null;
+			while(mapCellData == null)
+			{
+				mapCellData = ThisContainer.GetData<MapCellData>();
+				if(IsAsyncUpdate)
+				{
+					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
+					{
+						previousTime = DateTime.Now;
+						yield return null;
+					}
+				}
+				else
+				{
+					yield break;
+				}
+			}
+
 			var _allPathPoints = ThisContainer.GetChildAllObject<MapAnchor>()
 				.Select(item => item.ThisContainer.GetComponent<MapPathPoint>())
 				.Where(item => item != null);

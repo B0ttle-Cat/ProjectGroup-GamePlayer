@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using BC.GameBaseInterface;
 using BC.GamePlayerInterface;
 using BC.HighLevelAI;
 using BC.LowLevelAI;
@@ -10,18 +11,20 @@ namespace BC.GamePlayerManager
 {
 	public abstract class GamePlayer : ComponentBehaviour, IGamePlayer
 	{
+		protected GamePlayerData playerData;
+		protected GamePlayingData playingData;
 		protected IGetLowLevelAIManager lowLevelAIManager;
 		protected IGetHighLevelAIManager highLevelAIManager;
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			if(!ThisContainer.TryGetData<GamePlayerData>(out _))
+			if(!ThisContainer.TryGetData<GamePlayerData>(out playerData))
 			{
-				ThisContainer.AddData<GamePlayerData>();
+				playerData = ThisContainer.AddData<GamePlayerData>();
 			}
-			if(!ThisContainer.TryGetData<GamePlayingData>(out _))
+			if(!ThisContainer.TryGetData<GamePlayingData>(out playingData))
 			{
-				ThisContainer.AddData<GamePlayingData>();
+				playingData = ThisContainer.AddData<GamePlayingData>();
 			}
 			ThisContainer.TryGetParentObject<IGetLowLevelAIManager>(out lowLevelAIManager);
 			ThisContainer.TryGetParentObject<IGetHighLevelAIManager>(out highLevelAIManager);
@@ -35,6 +38,14 @@ namespace BC.GamePlayerManager
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
+			if(!ThisContainer.TryGetData<GamePlayerData>(out playerData))
+			{
+				playerData = ThisContainer.AddData<GamePlayerData>();
+			}
+			if(!ThisContainer.TryGetData<GamePlayingData>(out playingData))
+			{
+				playingData = ThisContainer.AddData<GamePlayingData>();
+			}
 
 			factionData = ThisContainer.GetData<FactionData>();
 			fireteamObjectList = new List<FireteamObject>();
@@ -94,27 +105,34 @@ namespace BC.GamePlayerManager
 
 		public virtual void OnSelectFireteam(int selectTeamIndex)
 		{
-			if(ThisContainer.TryGetData<GamePlayingData>(out var data))
+			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
 			{
-				data.CurrentSelectTeamIndex = selectTeamIndex;
+				playingData = data;
 			}
+			if(playingData == null) return;
+
+			playingData.CurrentSelectTeamIndex = selectTeamIndex;
 		}
 		public virtual void OnSetMoveTarget(int anchorIndex)
 		{
-			if(ThisContainer.TryGetData<GamePlayingData>(out var data))
+			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
 			{
-				int currentSelectTeam = data.CurrentSelectTeamIndex;
-				if(currentSelectTeam < 0) return;
-				int findSelectTeamIndex = fireteamObjectList.FindIndex(item=>item.ThisContainer.GetData<FireteamData>().TeamIndex == currentSelectTeam);
-				if(findSelectTeamIndex < 0) return;
-
-				FireteamObject selectTeamObject = fireteamObjectList[findSelectTeamIndex];
-
-				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var movement))
-				{
-					movement.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
-				}
+				playingData = data;
 			}
+			if(playingData == null) return;
+
+			int currentSelectTeam = playingData.CurrentSelectTeamIndex;
+			if(currentSelectTeam < 0) return;
+			int findSelectTeamIndex = fireteamObjectList.FindIndex(item=>item.ThisContainer.GetData<FireteamData>().TeamIndex == currentSelectTeam);
+			if(findSelectTeamIndex < 0) return;
+
+			FireteamObject selectTeamObject = fireteamObjectList[findSelectTeamIndex];
+
+			if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var movement))
+			{
+				movement.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
+			}
+
 		}
 	}
 }

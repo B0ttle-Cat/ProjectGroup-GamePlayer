@@ -48,16 +48,23 @@ namespace BC.LowLevelAI
 			if(!ThisContainer.TryGetData<MapCellData>(out var cellIndexData))
 			{
 				cellIndexData = ThisContainer.AddData<MapCellData>();
-				cellIndexData.trianglesTile = new Dictionary<Vector3Int, List<Triangle>>();
-				cellIndexData.trianglesToLink = new Dictionary<Triangle, LinkRayTriangle[]>();
-				cellIndexData.trianglesClosedPoint = new Dictionary<Triangle, MapPathPoint>();
-				cellIndexData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
 			}
+			cellIndexData.trianglesTile = new Dictionary<Vector3Int, List<Triangle>>();
+			cellIndexData.trianglesToLink = new Dictionary<Triangle, LinkRayTriangle[]>();
+			cellIndexData.trianglesClosedPoint = new Dictionary<Triangle, MapPathPoint>();
+			cellIndexData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
 		}
 
 		public override void BaseAwake()
 		{
-
+			if(!ThisContainer.TryGetData<MapCellData>(out var cellIndexData))
+			{
+				cellIndexData = ThisContainer.AddData<MapCellData>();
+			}
+			cellIndexData.trianglesTile = new Dictionary<Vector3Int, List<Triangle>>();
+			cellIndexData.trianglesToLink = new Dictionary<Triangle, LinkRayTriangle[]>();
+			cellIndexData.trianglesClosedPoint = new Dictionary<Triangle, MapPathPoint>();
+			cellIndexData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
 		}
 		public override void BaseDestroy()
 		{

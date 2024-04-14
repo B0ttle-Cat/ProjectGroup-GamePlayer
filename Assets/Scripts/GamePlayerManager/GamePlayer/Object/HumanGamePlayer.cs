@@ -5,10 +5,12 @@ namespace BC.GamePlayerManager
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
-			if(ThisContainer.TryGetData<GamePlayerData>(out var data))
-			{
-				data.IsAI = false;
-			}
+			playerData.IsAI = false;
+		}
+		public override void BaseAwake()
+		{
+			base.BaseAwake();
+			playerData.IsAI = false;
 		}
 	}
 }

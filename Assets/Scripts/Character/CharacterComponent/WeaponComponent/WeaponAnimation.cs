@@ -31,9 +31,9 @@ namespace BC.Character
 
 		public override void BaseAwake()
 		{
-			if (bulletPrefab == null)
+			if(bulletPrefab == null)
 				bulletPrefab = null;
-			if (casePrefab == null)
+			if(casePrefab == null)
 				casePrefab = null;
 
 			bulletPrefab?.SetActive(false);
@@ -42,17 +42,15 @@ namespace BC.Character
 
 		public override void BaseEnable()
 		{
-			if (model == null && !ThisObject.ThisContainer.TryGetComponent<WeaponModel>(out model))
-			{
-				model = null;
-			}
+			model = ThisObject is WeaponModel _model ? _model : null;
 
-			if (animator == null) animator = null;
-			if (audioSource == null) audioSource = null;
-			if (fireSoundClip == null) fireSoundClip = null;
-			if (muzzleFlame == null) muzzleFlame = null;
-			if (bulletPrefab == null) bulletPrefab = null;
-			if (casePrefab == null) casePrefab = null;
+
+			if(animator == null) animator = null;
+			if(audioSource == null) audioSource = null;
+			if(fireSoundClip == null) fireSoundClip = null;
+			if(muzzleFlame == null) muzzleFlame = null;
+			if(bulletPrefab == null) bulletPrefab = null;
+			if(casePrefab == null) casePrefab = null;
 		}
 
 		[Header("BulletRandom")]
@@ -70,16 +68,16 @@ namespace BC.Character
 		[Button]
 		void IWeaponFire.DoFire()
 		{
-			if (model is null) return;
+			if(model is null) return;
 
 			animator?.SetTrigger("DoFire");
 
-			if (audioSource is not null && fireSoundClip is not null)
+			if(audioSource is not null && fireSoundClip is not null)
 			{
 				audioSource.PlayOneShot(fireSoundClip);
 			}
 
-			if (muzzleFlame is not null)
+			if(muzzleFlame is not null)
 			{
 				VisualEffect newEffect = GameObject.Instantiate(muzzleFlame);
 				newEffect.transform.position = model.muzzlePivot.position;
@@ -89,7 +87,7 @@ namespace BC.Character
 				Destroy(newEffect.gameObject, 0.25f);
 			}
 
-			if (casePrefab is not null)
+			if(casePrefab is not null)
 			{
 				GameObject newCase = GameObject.Instantiate(casePrefab);
 				newCase.transform.position = model.ejectionPort.position;
@@ -109,14 +107,14 @@ namespace BC.Character
 				newCaseRigidbody.maxAngularVelocity = randomTorque.y;
 				Destroy(newCase, 3f);
 			}
-			if (bulletPrefab is not null)
+			if(bulletPrefab is not null)
 			{
 				GameObject newBullet = GameObject.Instantiate(bulletPrefab);
 				newBullet.transform.position = model.muzzlePivot.position;
 				newBullet.transform.rotation = model.muzzlePivot.rotation;
 				newBullet.transform.localScale = model.muzzlePivot.localScale;
 
-				if (EventManager.Call<IBulletProjectile, bool>(false,
+				if(EventManager.Call<IBulletProjectile, bool>(false,
 					item => item.CreateBullet(ThisObject as IShotterProjectile, newBullet)))
 				{
 					/// IBulletProjectile �� ���ؼ� �߻�ü�� ������.

@@ -1,11 +1,10 @@
-using BC.ODCC;
-
 using UnityEngine;
 
 namespace BC.Character
 {
-	public class WeaponModel : ComponentBehaviour
+	public class WeaponModel : ModelObject
 	{
+		public override bool IsReady { get; protected set; } = false;
 #if UNITY_EDITOR
 		public override void BaseReset() { }
 		public override void BaseValidate() { }
@@ -26,7 +25,7 @@ namespace BC.Character
 		}
 		public override void BaseEnable()
 		{
-
+			IsReady = true;
 		}
 		public override void BaseDisable()
 		{

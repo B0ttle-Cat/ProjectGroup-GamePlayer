@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 
 using BC.Base;
-using BC.GameBaseInterface;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -27,10 +27,10 @@ namespace BC.GamePlayerManager
 		private int unitIndex;
 
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/CharacterModel")]
+		[FoldoutGroup("Model Resources"), HorizontalGroup("Model Resources/Model"), BoxGroup("Model Resources/Model/Character")]
 		private ResourcesKey characterKey;
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/WeaponeModel")]
+		[FoldoutGroup("Model Resources"), HorizontalGroup("Model Resources/Model"), BoxGroup("Model Resources/Model/Weapone")]
 		private ResourcesKey weaponeKey;
 
 

@@ -17,10 +17,10 @@ namespace BC.GamePlayerManager
 
 
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/MapNavmesModel")]
+		[FoldoutGroup("MapNavmesModel")]
 		private ResourcesKey mapNavmeshKey;
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/MapAnchorModel")]
+		[FoldoutGroup("MapAnchorModel")]
 		private ResourcesKey mapAnchorKey;
 
 		private NavMeshConnectComputer mapNavmesh;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using BC.Base;
 using BC.Character;
-using BC.GameBaseInterface;
+using BC.OdccBase;
 using BC.LowLevelAI;
 using BC.ODCC;
 

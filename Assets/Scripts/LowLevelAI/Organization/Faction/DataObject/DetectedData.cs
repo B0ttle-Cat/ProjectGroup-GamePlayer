@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using BC.GameBaseInterface;
+using BC.OdccBase;
 using BC.ODCC;
 
 namespace BC.LowLevelAI

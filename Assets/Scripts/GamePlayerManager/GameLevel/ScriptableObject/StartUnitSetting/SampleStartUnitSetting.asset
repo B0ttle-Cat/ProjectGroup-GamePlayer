@@ -20,12 +20,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 0
     teamIndex: 0
     unitIndex: 1
@@ -33,12 +33,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 0
     teamIndex: 1
     unitIndex: 0
@@ -46,12 +46,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 0
     teamIndex: 1
     unitIndex: 1
@@ -59,12 +59,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 1
     teamIndex: 0
     unitIndex: 0
@@ -72,12 +72,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 1
     teamIndex: 0
     unitIndex: 1
@@ -85,12 +85,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 1
     teamIndex: 1
     unitIndex: 0
@@ -98,12 +98,12 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
   - factionIndex: 1
     teamIndex: 1
     unitIndex: 1
@@ -111,15 +111,9 @@ MonoBehaviour:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
-      GameObjectAsset: {fileID: 0}
+      ObjectAsset: {fileID: 0}
     weaponeKey:
       LoadType: 0
       BundleName: 
       FullPath: BC.Character/ModelWeapon/Weapon_M4
-      GameObjectAsset: {fileID: 0}
-  positionDatas:
-  - factionIndex: 0
-    teamIndex: 0
-    unitIndex: 0
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0}
+      ObjectAsset: {fileID: 0}

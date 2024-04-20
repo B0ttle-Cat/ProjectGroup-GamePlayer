@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.GameBaseInterface;
+using BC.OdccBase;
 using BC.ODCC;
 
 using Sirenix.OdinInspector;

@@ -5,7 +5,7 @@ using BC.Base;
 
 using Sirenix.OdinInspector;
 
-namespace BC.GameBaseInterface
+namespace BC.OdccBase
 {
 	[Serializable]
 	public struct DiplomacyItem : IEquatable<DiplomacyItem>

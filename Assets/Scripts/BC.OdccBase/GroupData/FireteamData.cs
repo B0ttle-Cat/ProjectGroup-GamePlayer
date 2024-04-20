@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 using UnityEngine;
 
-namespace BC.GameBaseInterface
+namespace BC.OdccBase
 {
 	public interface IFireteamData : IOdccData, IFactionData
 	{

@@ -7,7 +7,7 @@
         "Unity.AI.Navigation",
         "Unity.EditorCoroutines.Editor",
         "Cinemachine",
-        "BC.GameBaseInterface"
+        "BC.OdccBase"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

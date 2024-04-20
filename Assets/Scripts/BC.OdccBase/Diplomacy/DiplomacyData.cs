@@ -1,6 +1,6 @@
 using BC.ODCC;
 
-namespace BC.GameBaseInterface
+namespace BC.OdccBase
 {
 	public class DiplomacyData : DataObject
 	{

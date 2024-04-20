@@ -8,7 +8,7 @@
         "Unity.EditorCoroutines.Editor",
         "BC.LowLevelAI",
         "BC.GamePlayerInterface",
-        "BC.GameBaseInterface"
+        "BC.OdccBase"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

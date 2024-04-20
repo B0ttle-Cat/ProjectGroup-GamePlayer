@@ -1,6 +1,5 @@
 using System;
 
-using BC.Base;
 using BC.ODCC;
 
 using UnityEngine;
@@ -8,11 +7,11 @@ using UnityEngine;
 namespace BC.Character
 {
 	[RequireComponent(typeof(Animator))]
-	public class CharacterAnimation : ComponentBehaviour,
-		IAgentMoveStart<CharacterAgent>,
-		IAgentMoveStop<CharacterAgent>,
-		IWeaponFire,
-		IWeaponReload
+	public class CharacterAnimator : ComponentBehaviour
+	//IAgentMoveStart<CharacterAgent>,
+	//IAgentMoveStop<CharacterAgent>,
+	//IWeaponFire,
+	//IWeaponReload
 	{
 		public Animator animator;
 
@@ -53,39 +52,39 @@ namespace BC.Character
 			agentMoveUpdate?.Invoke();
 		}
 
-		void IWeaponFire.DoFire()
-		{
-			if(animator is null) return;
-			animator.enabled = false;
-		}
-
-		void IWeaponReload.DoReload()
-		{
-
-		}
-
-		void IAgentMoveStart<CharacterAgent>.DoAgentMoveStart(CharacterAgent agent, Vector3 target)
-		{
-			if(animator is null || agent is null) return;
-
-			agentMoveUpdate = () =>
-			{
-				if(animator is null || agent is null)
-				{
-					agentMoveUpdate = null;
-					return;
-				}
-				float realMoveSpeed = agent?.NavAgent.velocity.magnitude ?? 0f;
-				animator.SetFloat(KEY_F_MOVE_SPEED, realMoveSpeed);
-			};
-		}
-
-		void IAgentMoveStop<CharacterAgent>.DoAgentMoveStop(CharacterAgent agent)
-		{
-			if(animator is null) return;
-
-			agentMoveUpdate = null;
-			animator.SetFloat(KEY_F_MOVE_SPEED, 0f);
-		}
+		//void IWeaponFire.DoFire()
+		//{
+		//	if(animator is null) return;
+		//	animator.enabled = false;
+		//}
+		//
+		//void IWeaponReload.DoReload()
+		//{
+		//
+		//}
+		//
+		//void IAgentMoveStart<CharacterAgent>.DoAgentMoveStart(CharacterAgent agent, Vector3 target)
+		//{
+		//	if(animator is null || agent is null) return;
+		//
+		//	agentMoveUpdate = () =>
+		//	{
+		//		if(animator is null || agent is null)
+		//		{
+		//			agentMoveUpdate = null;
+		//			return;
+		//		}
+		//		//float realMoveSpeed = agent?.NavAgent.velocity.magnitude ?? 0f;
+		//		//animator.SetFloat(KEY_F_MOVE_SPEED, realMoveSpeed);
+		//	};
+		//}
+		//
+		//void IAgentMoveStop<CharacterAgent>.DoAgentMoveStop(CharacterAgent agent)
+		//{
+		//	if(animator is null) return;
+		//
+		//	agentMoveUpdate = null;
+		//	animator.SetFloat(KEY_F_MOVE_SPEED, 0f);
+		//}
 	}
 }

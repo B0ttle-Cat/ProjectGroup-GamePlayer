@@ -1,7 +1,7 @@
 using System.Collections;
 
 using BC.Base;
-using BC.GameBaseInterface;
+using BC.OdccBase;
 using BC.ODCC;
 
 using Sirenix.OdinInspector;

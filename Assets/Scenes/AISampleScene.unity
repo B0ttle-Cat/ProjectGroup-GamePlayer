@@ -965,12 +965,12 @@ MonoBehaviour:
     LoadType: 0
     BundleName: 
     FullPath: 
-    GameObjectAsset: {fileID: 0}
+    ObjectAsset: {fileID: 0}
   mapAnchorKey:
     LoadType: 0
     BundleName: 
     FullPath: 
-    GameObjectAsset: {fileID: 0}
+    ObjectAsset: {fileID: 0}
 --- !u!1 &1268186661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,26 +1317,9 @@ MonoBehaviour:
     ContainerNode:
       thisObject: {fileID: 2074201083}
       parent: {fileID: 0}
-      childs:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      childs: []
       componentList:
       - {fileID: 1080914727}
-      - {fileID: 0}
-      - {fileID: 0}
       - {fileID: 1718360627}
       dataList:
       - rid: 7701795608639832317

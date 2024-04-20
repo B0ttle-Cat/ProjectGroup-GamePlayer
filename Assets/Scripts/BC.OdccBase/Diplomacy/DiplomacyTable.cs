@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 
 using UnityEngine;
 
-namespace BC.GameBaseInterface
+namespace BC.OdccBase
 {
 	[CreateAssetMenu(fileName = "new Table", menuName = "BC/Faction/new DiplomacyTableList")]
 	public class DiplomacyTable : SerializedScriptableObject

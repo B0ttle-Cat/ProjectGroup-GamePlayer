@@ -1,6 +1,6 @@
 using BC.Base;
 
-namespace BC.GameBaseInterface
+namespace BC.OdccBase
 {
 	public interface ICharacterModelData
 	{

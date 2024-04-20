@@ -1,5 +1,5 @@
 using BC.Base;
-using BC.GameBaseInterface;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -11,10 +11,10 @@ namespace BC.GamePlayerManager
 	public class StartMapSetting : ScriptableObject, IMapModelData
 	{
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/MapNavmesModel")]
+		[FoldoutGroup("MapNavmesModel")]
 		private ResourcesKey mapNavmeshKey;
 		[SerializeField, HideLabel]
-		[HorizontalGroup("Model"), FoldoutGroup("Model/MapAnchorModel")]
+		[FoldoutGroup("MapAnchorModel")]
 		private ResourcesKey mapAnchorKey;
 
 		public ResourcesKey MapNavmeshKey { get => mapNavmeshKey; set => mapNavmeshKey = value; }

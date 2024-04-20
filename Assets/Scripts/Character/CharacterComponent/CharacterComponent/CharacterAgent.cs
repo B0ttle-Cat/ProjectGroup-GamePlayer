@@ -1,5 +1,5 @@
-using BC.Base;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,48 +7,33 @@ using UnityEngine.AI;
 namespace BC.Character
 {
 	[RequireComponent(typeof(NavMeshAgent))]
-	public class CharacterAgent : ComponentBehaviour,
-		INavAgent<PlayingID, Vector3>,
-		IAgentMoveStart<CharacterAgent>,
-		IAgentMoveStop<CharacterAgent>
+	public class CharacterAgent : ComponentBehaviour, IAgentToCharacter
+	//ICharacterAgent<PlayingID, Vector3>,
+	//IAgentMoveStart<CharacterAgent>,
+	//IAgentMoveStop<CharacterAgent>
 	{
-		public NavMeshAgent NavAgent { get; set; }
-		public PlayingID NavID { get; private set; }
+		private CharacterAnimator characterAnimation;
 
-		public override void BaseAwake()
+		public override void BaseEnable()
 		{
-			NavAgent = GetComponent<NavMeshAgent>();
-			if(NavAgent == null) NavAgent = null;
-		}
-
-		public override void BaseStart()
-		{
-			NavID = ThisObject.ThisContainer.GetData<PlayingID>();
+			base.BaseEnable();
+			characterAnimation = null;
 		}
 
 
-		void INavAgent<PlayingID, Vector3>.OnMoveStart(INavTarget<PlayingID, Vector3> navTarget)
+		void IAgentToCharacter.OnUpdatePose(Vector3 position, Quaternion rotation)
 		{
-			ThisObject.ThisContainer.CallActionAllComponent<IAgentMoveStart<CharacterAgent>>((i) => i.DoAgentMoveStart(this, navTarget.NavTargetValue));
+			ThisTransform.position = position;
+			ThisTransform.rotation = rotation;
 		}
 
-		void INavAgent<PlayingID, Vector3>.OnMoveStop()
+		void IAgentToCharacter.OnUpdateMovment(Vector3 velocity)
 		{
-			ThisObject.ThisContainer.CallActionAllComponent<IAgentMoveStop<CharacterAgent>>((i) => i.DoAgentMoveStop(this));
-		}
-		void IAgentMoveStart<CharacterAgent>.DoAgentMoveStart(CharacterAgent agent, Vector3 target)
-		{
-			if(NavAgent is null || !NavAgent.SetDestination(target))
+			if(characterAnimation == null && !ThisContainer.TryGetComponent<CharacterAnimator>(out characterAnimation))
 			{
-				ThisObject.ThisContainer.CallActionAllComponent<IAgentMoveStop<CharacterAgent>>((i) => i.DoAgentMoveStop(this));
+				return;
 			}
-		}
-		void IAgentMoveStop<CharacterAgent>.DoAgentMoveStop(CharacterAgent agent)
-		{
-			if(NavAgent is null)
-			{
-				NavAgent.isStopped = true;
-			}
+			//characterAnimation.
 		}
 	}
 }

@@ -76,14 +76,12 @@ MonoBehaviour:
           LoadType: 0
           BundleName: 
           FullPath: 
-          AssetObject: {fileID: 0}
-          onDisableLoad: 0
+          ObjectAsset: {fileID: 0}
         weaponeKey:
           LoadType: 0
           BundleName: 
           FullPath: 
-          AssetObject: {fileID: 0}
-          onDisableLoad: 0
+          ObjectAsset: {fileID: 0}
 --- !u!114 &8822873925900971387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,16 +107,14 @@ MonoBehaviour:
     LoadType: 0
     BundleName: 
     FullPath: 
-    AssetObject: {fileID: 0}
-    onDisableLoad: 1
+    ObjectAsset: {fileID: 0}
   weaponModel:
     LoadType: 0
     BundleName: 
     FullPath: 
-    AssetObject: {fileID: 0}
-    onDisableLoad: 1
+    ObjectAsset: {fileID: 0}
   IsDisableWhenReady: 1
   IsDestoryWhenReadyAndDisable: 1
-  IsRerady: 0
+  IsReady: 0
   model: {fileID: 0}
   weapon: {fileID: 0}

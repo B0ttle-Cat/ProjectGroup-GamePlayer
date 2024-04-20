@@ -511,7 +511,7 @@ Material:
     - _utsVersion: 2.075
     - _utsVersionX: 0
     - _utsVersionY: 9
-    - _utsVersionZ: 5
+    - _utsVersionZ: 7
     m_Colors:
     - _1st_ShadeColor: {r: 1, g: 1, b: 1, a: 1}
     - _2nd_ShadeColor: {r: 0.7490196, g: 0.69411767, b: 0.88235295, a: 1}
@@ -549,3 +549,4 @@ Material:
     - _ViewShift: {r: 0, g: 0, b: 0, a: 1}
     - emissive: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

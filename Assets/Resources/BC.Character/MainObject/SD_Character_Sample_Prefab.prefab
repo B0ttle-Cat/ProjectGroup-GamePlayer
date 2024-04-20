@@ -89,19 +89,17 @@ MonoBehaviour:
     SerializationNodes: []
   characterModel:
     LoadType: 0
-    BundleName: 
-    FullPath: BC.Character/Sample/SD_unitychan_humanoid
-    AssetObject: {fileID: 0}
-    onDisableLoad: 1
+    BundleName: Resources
+    FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+    ObjectAsset: {fileID: 0}
   weaponModel:
     LoadType: 0
     BundleName: 
-    FullPath: BC.Character/Sample/Weapon_M4
-    AssetObject: {fileID: 0}
-    onDisableLoad: 1
+    FullPath: BC.Character/ModelWeapon/Weapon_M4
+    ObjectAsset: {fileID: 0}
   IsDisableWhenReady: 0
   IsDestoryWhenReadyAndDisable: 0
-  IsRerady: 0
+  IsReady: 0
   model: {fileID: 0}
   weapon: {fileID: 0}
 --- !u!1001 &5607177399342657074

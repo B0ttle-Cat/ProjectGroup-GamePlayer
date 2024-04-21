@@ -670,6 +670,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7701795580420292998
       type: {class: DiplomacyData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
       data:
@@ -1058,6 +1060,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7701795580420292980
       type: {class: FactionData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
       data:
@@ -1271,6 +1275,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7701795580420292981
       type: {class: FactionData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
       data:

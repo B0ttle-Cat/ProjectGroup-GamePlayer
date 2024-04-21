@@ -4437,7 +4437,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5836494941420650573}
   - component: {fileID: 7793522752513607521}
-  - component: {fileID: -5242301685895940625}
   - component: {fileID: 6526840573183376754}
   - component: {fileID: 382475153065772972}
   - component: {fileID: 6073042378420922378}
@@ -4495,35 +4494,13 @@ MonoBehaviour:
       parent: {fileID: 0}
       childs: []
       componentList:
-      - {fileID: -5242301685895940625}
+      - {fileID: 0}
       dataList: []
   aimController: {fileID: 6873018644516520340}
   grabWeapon: {fileID: 889041914454027659}
   references:
     version: 2
     RefIds: []
---- !u!114 &-5242301685895940625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8437899898182083799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0b429497de647340901bbb18872abb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  animator: {fileID: 6526840573183376754}
 --- !u!95 &6526840573183376754
 Animator:
   serializedVersion: 7

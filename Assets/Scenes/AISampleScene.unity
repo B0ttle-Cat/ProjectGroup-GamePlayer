@@ -662,7 +662,7 @@ MonoBehaviour:
       - {fileID: 582968239}
       - {fileID: 27742374}
       dataList:
-      - rid: 7701795580420292998
+      - rid: 7701795883776999426
       - rid: 7701795580420293117
       - rid: 7701795580420293441
   lowLevelAIManager: {fileID: 2074201083}
@@ -670,12 +670,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 7701795580420292998
-      type: {class: DiplomacyData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
-      data:
-        table: {fileID: 11400000, guid: 6146fad9169ae20428cac008ecdc8f85, type: 2}
     - rid: 7701795580420293117
       type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
       data:
@@ -686,6 +680,10 @@ MonoBehaviour:
       data:
         moveTargetPathNode:
           mapPathPoint: {fileID: 0}
+    - rid: 7701795883776999426
+      type: {class: DiplomacyData, ns: BC.OdccBase, asm: BC.OdccBase}
+      data:
+        table: {fileID: 11400000, guid: 6146fad9169ae20428cac008ecdc8f85, type: 2}
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1056,14 +1054,12 @@ MonoBehaviour:
       componentList:
       - {fileID: 1268186663}
       dataList:
-      - rid: 7701795580420292980
+      - rid: 7701795883776999442
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 7701795580420292980
-      type: {class: FactionData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
+    - rid: 7701795883776999442
+      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
       data:
         factionIndex: 1
 --- !u!1 &1555824965
@@ -1271,14 +1267,12 @@ MonoBehaviour:
       componentList:
       - {fileID: 2049135161}
       dataList:
-      - rid: 7701795580420292981
+      - rid: 7701795883776999441
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 7701795580420292981
-      type: {class: FactionData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
+    - rid: 7701795883776999441
+      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
       data:
         factionIndex: 0
 --- !u!1 &2074201082

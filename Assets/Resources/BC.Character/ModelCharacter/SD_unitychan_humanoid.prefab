@@ -4495,7 +4495,7 @@ MonoBehaviour:
       parent: {fileID: 0}
       childs: []
       componentList:
-      - {fileID: 0}
+      - {fileID: 2606116538762812220}
       dataList: []
   aimController: {fileID: 6873018644516520340}
   grabWeapon: {fileID: 889041914454027659}

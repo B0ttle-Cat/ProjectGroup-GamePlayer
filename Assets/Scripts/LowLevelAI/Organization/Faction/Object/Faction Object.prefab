@@ -62,12 +62,12 @@ MonoBehaviour:
       componentList:
       - {fileID: 8988723699225859953}
       dataList:
-      - rid: 7701795580420293002
+      - rid: 7701795883776999438
   references:
     version: 2
     RefIds:
-    - rid: 7701795580420293002
-      type: {class: FactionData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
+    - rid: 7701795883776999438
+      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
       data:
         factionIndex: 0
 --- !u!114 &8988723699225859953

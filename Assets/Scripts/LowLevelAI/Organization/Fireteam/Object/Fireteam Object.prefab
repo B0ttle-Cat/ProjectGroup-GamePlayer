@@ -69,21 +69,21 @@ MonoBehaviour:
       - {fileID: 3893770311700049741}
       - {fileID: 7375637341260729743}
       dataList:
-      - rid: 7701795580420293439
+      - rid: 7701795883776999440
       - rid: 7701795580420293440
   references:
     version: 2
     RefIds:
-    - rid: 7701795580420293439
-      type: {class: FireteamData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
-      data:
-        factionIndex: 0
-        fireteamIndex: 0
     - rid: 7701795580420293440
       type: {class: FireteamStateData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
       data:
         moveTargetPathNode:
           mapPathPoint: {fileID: 0}
+    - rid: 7701795883776999440
+      type: {class: FireteamData, ns: BC.OdccBase, asm: BC.OdccBase}
+      data:
+        factionIndex: 0
+        fireteamIndex: 0
 --- !u!114 &5731603688894371368
 MonoBehaviour:
   m_ObjectHideFlags: 0

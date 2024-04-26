@@ -67,12 +67,12 @@ MonoBehaviour:
       - {fileID: 7006357634680063751}
       - {fileID: 3585492155785131513}
       dataList:
-      - rid: 1000
+      - rid: 7701795883776999439
   references:
     version: 2
     RefIds:
-    - rid: 1000
-      type: {class: FireunitData, ns: BC.GameBaseInterface, asm: BC.GameBaseInterface}
+    - rid: 7701795883776999439
+      type: {class: FireunitData, ns: BC.OdccBase, asm: BC.OdccBase}
       data:
         factionIndex: 0
         fireteamIndex: 0

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb62b7000f96c04cbb3cab6d23b69e3, type: 3}
+  m_Name: SD_Character_Animator_StateList
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  Controller: {fileID: 22100000, guid: 60213f30c52d0b74c90d64605e0d12b0, type: 2}
+  AniamtorStateInfo:
+  - LayerName: Move Layer
+    Infos:
+    - MachineName: Move Layer
+      Infos:
+      - layerName: Move Layer
+        machineName: Move Layer
+        Name: Init
+        Tag: 
+        Motion: {fileID: 7400000, guid: 45565799be67104428819ed87d173545, type: 2}
+      - layerName: Move Layer
+        machineName: Move Layer
+        Name: Idle_Move
+        Tag: 
+        Motion: {fileID: 7150451848569397615, guid: bd2c4d49cd13f15499ddc8724375aca3,
+          type: 2}
+      - layerName: Move Layer
+        machineName: Move Layer
+        Name: Aiming
+        Tag: 
+        Motion: {fileID: 7400000, guid: 266e8e95875a44f0aa086f6e752b4508, type: 3}
+      - layerName: Move Layer
+        machineName: Move Layer
+        Name: Fire
+        Tag: 
+        Motion: {fileID: 0}
+      - layerName: Move Layer
+        machineName: Move Layer
+        Name: Reloading
+        Tag: 
+        Motion: {fileID: 7400000, guid: 850d40cf1dc5fd04fbc37d283be6a801, type: 2}
+  - LayerName: Aim Layer
+    Infos:
+    - MachineName: Aim Layer
+      Infos:
+      - layerName: Aim Layer
+        machineName: Aim Layer
+        Name: Aiming
+        Tag: 
+        Motion: {fileID: 7737866957514345008, guid: bd2c4d49cd13f15499ddc8724375aca3,
+          type: 2}
+  - LayerName: Face Layer
+    Infos:
+    - MachineName: Face Layer
+      Infos:
+      - layerName: Face Layer
+        machineName: Face Layer
+        Name: Idle
+        Tag: 
+        Motion: {fileID: 0}

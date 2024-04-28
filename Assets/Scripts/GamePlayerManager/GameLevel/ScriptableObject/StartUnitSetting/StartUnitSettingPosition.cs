@@ -26,9 +26,9 @@ namespace BC.GamePlayerManager
 		private int unitIndex;
 
 
-		[HorizontalGroup("Pose"), SerializeField]
+		[HorizontalGroup("TransformPose"), SerializeField]
 		private Vector3 position;
-		[HorizontalGroup("Pose"), SerializeField]
+		[HorizontalGroup("TransformPose"), SerializeField]
 		private Vector3 rotation;
 
 		public int UnitIndex { get => unitIndex; set => unitIndex=value; }

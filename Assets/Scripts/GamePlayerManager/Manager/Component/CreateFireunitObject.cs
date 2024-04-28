@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using BC.Base;
 using BC.Character;
-using BC.OdccBase;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 
@@ -175,19 +175,25 @@ namespace BC.GamePlayerManager
 				return;
 			}
 
-			var characterTransform = character.ThisTransform;
-			var fireunitTransform = fireunitObject.ThisTransform;
-			characterTransform.position = fireunitTransform.position;
-			characterTransform.rotation = fireunitTransform.rotation;
-			characterTransform.localScale = fireunitTransform.localScale;
+			ModelObject modelObject = character.Model;
+			if(modelObject != null)
+			{
+				var fireunitTransform = fireunitObject.ThisTransform;
+				modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.TransformPose>(i =>
+				{
+					i.OnUpdatePose(fireunitTransform.position, fireunitTransform.rotation);
+				});
 
-			//if(character.ThisContainer.TryGetComponent<CharacterAgent>(out var characterAgent))
-			//{
-			//	if(characterAgent.NavAgent == null)
-			//	{
-			//		characterAgent.NavAgent = fireunitObject.gameObject.GetComponentInChildren<NavMeshAgent>(true);
-			//	}
-			//}
+				FireunitMovementAgent fireunitMovementAgent = fireunitObject.ThisContainer.GetComponent<FireunitMovementAgent>();
+				if(fireunitMovementAgent != null && fireunitMovementAgent.NavMeshAgent != null)
+				{
+					float moveSpeed = fireunitMovementAgent.NavMeshAgent.velocity.magnitude;
+					modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.MoveSpeed>(i =>
+					{
+						i.OnUpdateMoveSpeed(moveSpeed);
+					});
+				}
+			}
 		}
 	}
 }

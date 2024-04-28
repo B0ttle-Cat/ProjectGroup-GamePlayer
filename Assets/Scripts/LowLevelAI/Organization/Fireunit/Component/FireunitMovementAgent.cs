@@ -18,7 +18,7 @@ namespace BC.LowLevelAI
 
 	public class FireunitMovementAgent : ComponentBehaviour
 	{
-		protected NavMeshAgent navMeshAgent;
+		private NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;
 		[ShowInInspector, ReadOnly]
 		protected Vector3 inputVectorTarget;
@@ -36,6 +36,8 @@ namespace BC.LowLevelAI
 		private NavMeshPath navMeshPath;
 		public bool IsMove;
 
+		public NavMeshAgent NavMeshAgent { get => navMeshAgent; private set => navMeshAgent=value; }
+
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
@@ -43,10 +45,10 @@ namespace BC.LowLevelAI
 		}
 		public virtual void InitAgent()
 		{
-			navMeshAgent = ThisObject.GetComponentInChildren<NavMeshAgent>();
-			if(navMeshAgent == null)
+			NavMeshAgent = ThisObject.GetComponentInChildren<NavMeshAgent>();
+			if(NavMeshAgent == null)
 			{
-				navMeshAgent = null;
+				NavMeshAgent = null;
 				return;
 			}
 
@@ -56,29 +58,29 @@ namespace BC.LowLevelAI
 				navMeshObstacle = null;
 			}
 
-			baseRadius = navMeshAgent.radius;
+			baseRadius = NavMeshAgent.radius;
 			halfRadius = baseRadius * 0.5f;
 
-			navMeshAgent.stoppingDistance = halfRadius;
+			NavMeshAgent.stoppingDistance = halfRadius;
 
 			navMeshPath = new NavMeshPath();
 		}
 
 		public void InputMoveStop(Vector3? stopWarp = null)
 		{
-			if(navMeshAgent is null || navMeshPath is null) return;
+			if(NavMeshAgent is null || navMeshPath is null) return;
 
-			navMeshAgent.ResetPath();
+			NavMeshAgent.ResetPath();
 			if(stopWarp.HasValue)
 			{
-				navMeshAgent.Warp(stopWarp.Value);
+				NavMeshAgent.Warp(stopWarp.Value);
 			}
-			navMeshAgent.isStopped = true;
+			NavMeshAgent.isStopped = true;
 			IsMove = false;
 		}
 		public void InputMoveTarget(Vector3 target, bool isWarp = false)
 		{
-			if(navMeshAgent is null || navMeshPath is null) return;
+			if(NavMeshAgent is null || navMeshPath is null) return;
 			if(NavMesh.SamplePosition(target, out var navMeshHit, 10f, NavMesh.AllAreas))
 			{
 				target = navMeshHit.position;
@@ -87,37 +89,37 @@ namespace BC.LowLevelAI
 			inputVectorTarget = target;
 			if(isWarp)
 			{
-				navMeshAgent.ResetPath();
-				navMeshAgent.Warp(inputVectorTarget);
-				navMeshAgent.isStopped = true;
+				NavMeshAgent.ResetPath();
+				NavMeshAgent.Warp(inputVectorTarget);
+				NavMeshAgent.isStopped = true;
 				IsMove = false;
 				return;
 			}
 
-			navMeshAgent.isStopped = false;
+			NavMeshAgent.isStopped = false;
 			IsMove = true;
 
-			if(navMeshAgent.CalculatePath(inputVectorTarget, navMeshPath))
+			if(NavMeshAgent.CalculatePath(inputVectorTarget, navMeshPath))
 			{
-				if(navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+				if(NavMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
 				{
-					navMeshAgent.SetDestination(inputVectorTarget);
-					navMeshPath = navMeshAgent.path;
+					NavMeshAgent.SetDestination(inputVectorTarget);
+					navMeshPath = NavMeshAgent.path;
 				}
 				else
 				{
-					navMeshAgent.SetPath(navMeshPath);
+					NavMeshAgent.SetPath(navMeshPath);
 				}
 			}
 			else
 			{
-				navMeshAgent.SetDestination(inputVectorTarget);
-				navMeshPath = navMeshAgent.path;
+				NavMeshAgent.SetDestination(inputVectorTarget);
+				navMeshPath = NavMeshAgent.path;
 			}
 		}
 		internal void InputMoveTarget(MapPathNode target, Vector3 formationPosition)
 		{
-			if(navMeshAgent is null) return;
+			if(NavMeshAgent is null) return;
 
 			inputNodeTarget = target;
 			inputFormationPosition = formationPosition;
@@ -158,7 +160,7 @@ namespace BC.LowLevelAI
 			}
 
 			Vector3 nextPosition = nextPoint.ThisPosition();
-			Vector3 currPosition = navMeshAgent.nextPosition;
+			Vector3 currPosition = NavMeshAgent.nextPosition;
 
 			NavMeshPath thisToNextPath = new NavMeshPath();
 			NavMeshPath currToNextPath = new NavMeshPath();
@@ -185,24 +187,24 @@ namespace BC.LowLevelAI
 		}
 		internal void InputMoveTarget(NavMeshPath target)
 		{
-			if(navMeshAgent is null) return;
+			if(NavMeshAgent is null) return;
 
 			navMeshPath = target;
 			inputVectorTarget = target.corners[^1];
-			navMeshAgent.SetPath(target);
-			navMeshAgent.isStopped = false;
+			NavMeshAgent.SetPath(target);
+			NavMeshAgent.isStopped = false;
 			IsMove = true;
 		}
 		public override void BaseUpdate()
 		{
 			base.BaseUpdate();
 
-			if(navMeshAgent is null || navMeshPath is null || !navMeshAgent.isActiveAndEnabled)
+			if(NavMeshAgent is null || navMeshPath is null || !NavMeshAgent.isActiveAndEnabled)
 			{
 				return;
 			}
 
-			Vector3 currentPos = navMeshAgent.nextPosition;
+			Vector3 currentPos = NavMeshAgent.nextPosition;
 
 			MoveToPosition();
 			MoveEndCheck();
@@ -211,21 +213,21 @@ namespace BC.LowLevelAI
 			{
 				if(!IsMove) return;
 
-				navMeshPathStatus = navMeshAgent.pathStatus;
-				bool hasPath = navMeshAgent.hasPath;
+				navMeshPathStatus = NavMeshAgent.pathStatus;
+				bool hasPath = NavMeshAgent.hasPath;
 				if(!hasPath)
 				{
 					IsMove = false;
 					return;
 				}
-				bool isPathStale = navMeshAgent.isPathStale;
+				bool isPathStale = NavMeshAgent.isPathStale;
 				if(isPathStale)
 				{
 					IsMove = false;
 					InputMoveTarget(inputVectorTarget);
 					return;
 				}
-				bool pathPending = navMeshAgent.pathPending;
+				bool pathPending = NavMeshAgent.pathPending;
 
 				if(navMeshPathStatus == NavMeshPathStatus.PathComplete)
 				{
@@ -259,37 +261,37 @@ namespace BC.LowLevelAI
 					}
 
 
-					float velocity = navMeshAgent.velocity.magnitude;
-					velocity += navMeshAgent.acceleration * Time.deltaTime;
+					float velocity = NavMeshAgent.velocity.magnitude;
+					velocity += NavMeshAgent.acceleration * Time.deltaTime;
 
-					float speed = navMeshAgent.speed;
+					float speed = NavMeshAgent.speed;
 					if(velocity > speed)
 					{
 						velocity = speed;
 					}
 
-					navMeshAgent.Move(diraction.normalized * velocity);
+					NavMeshAgent.Move(diraction.normalized * velocity);
 				}
 				else if(navMeshPathStatus == NavMeshPathStatus.PathPartial || navMeshPathStatus == NavMeshPathStatus.PathInvalid)
 				{
-					navMeshAgent.SetDestination(inputVectorTarget);
-					navMeshPath = navMeshAgent.path;
+					NavMeshAgent.SetDestination(inputVectorTarget);
+					navMeshPath = NavMeshAgent.path;
 				}
 			}
 			void MoveEndCheck()
 			{
 				if(!IsMove) return;
 
-				float remainingDistance = navMeshAgent.remainingDistance;
-				float stoppingDistance = navMeshAgent.stoppingDistance;
-				float radius = navMeshAgent.radius;
+				float remainingDistance = NavMeshAgent.remainingDistance;
+				float stoppingDistance = NavMeshAgent.stoppingDistance;
+				float radius = NavMeshAgent.radius;
 
 				if(inputNodeTarget == null || inputNodeTarget.ThisPoint == null)
 				{
 					if(remainingDistance <= stoppingDistance)
 					{
 						IsMove = false;
-						navMeshAgent.isStopped = true;
+						NavMeshAgent.isStopped = true;
 					}
 				}
 				else
@@ -299,7 +301,7 @@ namespace BC.LowLevelAI
 						if(remainingDistance <= stoppingDistance)
 						{
 							IsMove = false;
-							navMeshAgent.isStopped = true;
+							NavMeshAgent.isStopped = true;
 						}
 					}
 					else
@@ -339,7 +341,7 @@ namespace BC.LowLevelAI
 		private void OnDrawGizmos()
 		{
 			if(!isOnDrawGizmos) return;
-			Vector3 currentPos = navMeshAgent.nextPosition;
+			Vector3 currentPos = NavMeshAgent.nextPosition;
 
 
 			if(inputNodeTarget != null && inputNodeTarget.ThisPoint != null)

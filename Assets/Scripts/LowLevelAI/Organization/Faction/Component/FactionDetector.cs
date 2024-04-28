@@ -270,7 +270,7 @@ namespace BC.LowLevelAI
 
 			//		continue;
 			//	}
-			//	if(RaycastComputing(component, enemy, maxLenght))
+			//	if(RaycastComputing(Component, enemy, maxLenght))
 			//	{
 			//		if(filter.Count > 0) rayFilter.AddRange(filter);
 

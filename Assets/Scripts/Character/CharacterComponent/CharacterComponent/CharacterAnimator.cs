@@ -1,90 +1,39 @@
-using System;
+using BC.OdccBase;
 
-using BC.ODCC;
+using Sirenix.OdinInspector;
 
 using UnityEngine;
 
 namespace BC.Character
 {
-	[RequireComponent(typeof(Animator))]
-	public class CharacterAnimator : ComponentBehaviour
-	//IAgentMoveStart<CharacterAgent>,
-	//IAgentMoveStop<CharacterAgent>,
-	//IWeaponFire,
-	//IWeaponReload
+
+	public class CharacterAnimator : AnimatorComponent, ICharacterAgent.MoveSpeed, ICharacterAgent.IsAimTarget
 	{
-		public Animator animator;
-
-		public const string KEY_F_MOVE_SPEED = "Move_Speed";
-		public const string KEY_B_AIMMING = "Aimming";
-		public const string KEY_F_AIM_FORWARD = "Aim_Forward";
-		public const string KEY_F_AIM_BACK = "Aim_Right";
-		public const string KEY_F_AIM_RIGHT = "Aim_Back";
-		public const string KEY_F_AIM_LEFT = "Aim_Left";
-		public const string KEY_F_AIM_UP = "Aim_Up";
-		public const string KEY_F_AIM_DOWN = "Aim_Down";
-		public const string KEY_T_ON_FIRE = "On_FIre";
-		public const string KEY_T_ON_RELOAD = "On_Reload";
-		public const string KEY_I_FACE_ID = "Face_ID";
-
-		private Action agentMoveUpdate;
-
+		[SerializeField, InlineProperty, HideLabel, Title("Animator_Parameters")]
+		private SD_Character_Animator_Parameters parameters = new SD_Character_Animator_Parameters();
+#if UNITY_EDITOR
+		public override void BaseValidate()
+		{
+			base.BaseValidate();
+			parameters.animator = ThisAnimator;
+		}
+#endif
 		public override void BaseAwake()
 		{
-			animator = GetComponent<Animator>();
-			if(animator == null) animator = null;
-			agentMoveUpdate = null;
-		}
-		public override void BaseDestroy()
-		{
-			animator = null;
-			agentMoveUpdate = null;
+			base.BaseAwake();
+			parameters.animator = ThisAnimator;
 		}
 
-		public override void BaseEnable()
+		public void OnAimTarget(bool aimTarget)
 		{
-			if(animator is null) return;
-			animator.enabled = true;
+			if(parameters == null) return;
+			parameters.Aimming = aimTarget;
 		}
 
-		public override void BaseUpdate()
+		public void OnUpdateMoveSpeed(float moveSpeed)
 		{
-			agentMoveUpdate?.Invoke();
+			if(parameters == null) return;
+			parameters.Move_Speed = moveSpeed;
 		}
-
-		//void IWeaponFire.DoFire()
-		//{
-		//	if(animator is null) return;
-		//	animator.enabled = false;
-		//}
-		//
-		//void IWeaponReload.DoReload()
-		//{
-		//
-		//}
-		//
-		//void IAgentMoveStart<CharacterAgent>.DoAgentMoveStart(CharacterAgent agent, Vector3 target)
-		//{
-		//	if(animator is null || agent is null) return;
-		//
-		//	agentMoveUpdate = () =>
-		//	{
-		//		if(animator is null || agent is null)
-		//		{
-		//			agentMoveUpdate = null;
-		//			return;
-		//		}
-		//		//float realMoveSpeed = agent?.NavAgent.velocity.magnitude ?? 0f;
-		//		//animator.SetFloat(KEY_F_MOVE_SPEED, realMoveSpeed);
-		//	};
-		//}
-		//
-		//void IAgentMoveStop<CharacterAgent>.DoAgentMoveStop(CharacterAgent agent)
-		//{
-		//	if(animator is null) return;
-		//
-		//	agentMoveUpdate = null;
-		//	animator.SetFloat(KEY_F_MOVE_SPEED, 0f);
-		//}
 	}
 }

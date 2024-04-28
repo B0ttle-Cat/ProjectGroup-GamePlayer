@@ -2,38 +2,38 @@ using BC.ODCC;
 using BC.OdccBase;
 
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace BC.Character
 {
-	[RequireComponent(typeof(NavMeshAgent))]
-	public class CharacterAgent : ComponentBehaviour, IAgentToCharacter
+	public class CharacterAgent : ComponentBehaviour, ICharacterAgent.Agent, ICharacterAgent.TransformPose, IAnimatorStateChangeListener
 	//ICharacterAgent<PlayingID, Vector3>,
 	//IAgentMoveStart<CharacterAgent>,
 	//IAgentMoveStop<CharacterAgent>
 	{
-		private CharacterAnimator characterAnimation;
+		public AnimatorComponent.State CurrentAnimatorState { get; set; }
 
 		public override void BaseEnable()
 		{
 			base.BaseEnable();
-			characterAnimation = null;
 		}
 
-
-		void IAgentToCharacter.OnUpdatePose(Vector3 position, Quaternion rotation)
+		void ICharacterAgent.TransformPose.OnUpdatePose(Vector3 position, Quaternion rotation)
 		{
-			ThisTransform.position = position;
-			ThisTransform.rotation = rotation;
+			ThisTransform.SetPositionAndRotation(position, rotation);
+		}
+		void ICharacterAgent.TransformPose.OnUpdateLocalPose(Vector3 position, Quaternion rotation)
+		{
+			ThisTransform.SetLocalPositionAndRotation(position, rotation);
 		}
 
-		void IAgentToCharacter.OnUpdateMovment(Vector3 velocity)
+		void IAnimatorStateChangeListener.OnAnimatorStateEnter(AnimatorComponent.State state)
 		{
-			if(characterAnimation == null && !ThisContainer.TryGetComponent<CharacterAnimator>(out characterAnimation))
-			{
-				return;
-			}
-			//characterAnimation.
+
+		}
+
+		void IAnimatorStateChangeListener.OnAnimatorStateExit(AnimatorComponent.State state)
+		{
+
 		}
 	}
 }

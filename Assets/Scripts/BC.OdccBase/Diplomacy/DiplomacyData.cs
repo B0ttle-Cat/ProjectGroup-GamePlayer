@@ -1,10 +1,17 @@
 using BC.ODCC;
 
+using Sirenix.OdinInspector;
+
+using UnityEngine;
+
 namespace BC.OdccBase
 {
 	public class DiplomacyData : DataObject
 	{
-		[UnityEngine.SerializeField]
+		[SerializeField]
+#if UNITY_EDITOR
+		[AssetSelector, ValidateInput("@IsMustNotNull(table)", "Is Must Not Null")]
+#endif
 		private DiplomacyTable table;
 		public DiplomacyTable Table { get => table; set => table=value; }
 

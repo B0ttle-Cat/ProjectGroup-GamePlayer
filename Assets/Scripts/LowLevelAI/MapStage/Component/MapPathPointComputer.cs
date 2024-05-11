@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using BC.Base;
 using BC.ODCC;
 
 using Sirenix.OdinInspector;
@@ -21,7 +22,8 @@ namespace BC.LowLevelAI
 
 		//OdccQueryCollector pathPointCollector;
 		[ShowInInspector, ReadOnly]
-		private MapPathPoint[] allPathPoints;
+		private MapAnchor[] allMapAnchor;
+		private TupleDictionary<MapAnchor, MapAnchorData, MapPathPoint> mapAnchorLink;
 
 		Coroutine asyncUpdate;
 		public float tiemForCalculationCount = 1/10;
@@ -32,10 +34,46 @@ namespace BC.LowLevelAI
 #endif
 			asyncUpdate != null;
 
+		public bool IsCompleteUpdate => !IsAsyncUpdate && AllMapAnchor != null && AllMapAnchor.Length > 0;
+
+		public MapAnchor[] AllMapAnchor {
+			get => allMapAnchor;
+			set {
+				allMapAnchor=value;
+
+				if(allMapAnchor == null)
+				{
+					mapAnchorLink = null;
+				}
+				else if(allMapAnchor.Length == 0)
+				{
+					mapAnchorLink = new TupleDictionary<MapAnchor, MapAnchorData, MapPathPoint>();
+				}
+				else
+				{
+					mapAnchorLink = new TupleDictionary<MapAnchor, MapAnchorData, MapPathPoint>();
+					foreach(var item in allMapAnchor)
+					{
+						mapAnchorLink.Add(item, new TupleItem<MapAnchorData, MapPathPoint>(item.ThisContainer.GetData<MapAnchorData>(), item.ThisContainer.GetComponent<MapPathPoint>()));
+					}
+				}
+			}
+		}
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+
+			asyncUpdate = null;
+			mapCellData = null;
+			allMapAnchor = null;
+			mapAnchorLink = null;
+		}
 		public override void BaseAwake()
 		{
 			IsComputing = false;
-			allPathPoints = new MapPathPoint[0];
+			AllMapAnchor = new MapAnchor[0];
+			//allMapAnchorData = new Dictionary<MapAnchor, MapAnchorData>();
+			//allMapPathPoint = new Dictionary<MapAnchor, MapPathPoint>();
 		}
 		public override void BaseDestroy()
 		{
@@ -50,6 +88,7 @@ namespace BC.LowLevelAI
 #if UNITY_EDITOR
 			editorCoroutine = null;
 #endif
+			AllMapAnchor = new MapAnchor[0];
 			if(IsAsyncUpdate)
 			{
 				StopCoroutine(asyncUpdate);
@@ -58,7 +97,7 @@ namespace BC.LowLevelAI
 		}
 		public override void BaseDisable()
 		{
-			allPathPoints = new MapPathPoint[0];
+			AllMapAnchor = new MapAnchor[0];
 			if(IsAsyncUpdate)
 			{
 				StopCoroutine(asyncUpdate);
@@ -87,19 +126,18 @@ namespace BC.LowLevelAI
 			}
 
 			var _allPathPoints = ThisContainer.GetChildAllObject<MapAnchor>()
-				.Select(item => item.ThisContainer.GetComponent<MapPathPoint>())
 				.Where(item => item != null);
-			allPathPoints = _allPathPoints.ToArray();
+			AllMapAnchor = _allPathPoints.ToArray();
 
 			yield return null;
 
-			foreach(var item in _allPathPoints)
+			foreach(var item in mapAnchorLink)
 			{
-				PathPointSetNavMeshPosition(item);
+				PathPointSetNavMeshPosition(item.Value.Item2);
 			}
-			foreach(var item in _allPathPoints)
+			foreach(var item in mapAnchorLink)
 			{
-				yield return PathPointConnectNeighbor(item);
+				yield return PathPointConnectNeighbor(item.Value.Item2);
 			}
 			asyncUpdate = null;
 			yield break;
@@ -108,21 +146,22 @@ namespace BC.LowLevelAI
 
 		private void PathPointSetNavMeshPosition(MapPathPoint pathPoint)
 		{
+			if(pathPoint == null) return;
 			pathPoint.SetNavMeshPosition();
 		}
 		private IEnumerator PathPointConnectNeighbor(MapPathPoint pathPoint)
 		{
-			if(!pathPoint.isActiveAndEnabled)
+			if(pathPoint == null || !pathPoint.isActiveAndEnabled)
 			{
 				yield break;
 			}
 
 			List<MapPathPoint> asyncPathPointList = new List<MapPathPoint>();
-			int length = allPathPoints.Length;
-			for(int i = 0 ; i < length ; i++)
+
+			foreach(var item in mapAnchorLink)
 			{
-				var targetPathPoint = allPathPoints[i];
-				if(targetPathPoint == pathPoint) continue;
+				var targetPathPoint = item.Value.Item2;
+				if(targetPathPoint == null || targetPathPoint == pathPoint) continue;
 				if(targetPathPoint.IsBrakePath ||!targetPathPoint.isActiveAndEnabled) continue;
 
 				pathPoint.ConnectingNeighbor(targetPathPoint, asyncPathPointList);
@@ -143,16 +182,32 @@ namespace BC.LowLevelAI
 
 			pathPoint.ConnectNeighborEnded(asyncPathPointList);
 		}
-
-		public MapPathPoint SelectAnchorIndex(int selectIndex)
+		public MapAnchor SelectAnchorIndex(int selectIndex)
 		{
-			int length = allPathPoints.Length;
+			int length = AllMapAnchor.Length;
 			for(int i = 0 ; i < length ; i++)
 			{
-				MapPathPoint pathpoint = allPathPoints[i];
+				MapAnchor pathpoint = AllMapAnchor[i];
 				if(pathpoint.ThisContainer.TryGetData<MapAnchorData>(out var data))
 				{
 					if(data.anchorIndex == selectIndex)
+					{
+						return pathpoint;
+					}
+				}
+			}
+			return null;
+		}
+		public MapPathPoint SelectPathPointIndex(int selectIndex)
+		{
+			int length = AllMapAnchor.Length;
+			foreach(var item in mapAnchorLink)
+			{
+				var data = item.Value.Item1;
+				if(data != null && data.anchorIndex == selectIndex)
+				{
+					var pathpoint = item.Value.Item2;
+					if(pathpoint != null)
 					{
 						return pathpoint;
 					}
@@ -215,27 +270,25 @@ namespace BC.LowLevelAI
 		public void OnDrawGizmos()
 		{
 			if(!IsOnDrawGizmos) return;
-			if(allPathPoints == null) return;
+			if(AllMapAnchor == null || mapAnchorLink == null) return;
 
-			int Length = allPathPoints.Length;
-			for(int i = 0 ; i < Length ; i++)
+			foreach(var item in mapAnchorLink)
 			{
-				var pathpoint = allPathPoints[i];
+				var pathpoint = item.Value.Item2;
 				if(pathpoint == null) continue;
-
 				Vector3 positionA = pathpoint.closeNavMeshPosition + Vector3.up * 4f;
 				int connectLength = pathpoint.nextPathPointList.Length;
 				Gizmos.color = Color.white;
-				for(int ii = 0 ; ii <  connectLength ; ii++)
+				for(int i = 0 ; i <  connectLength ; i++)
 				{
-					var other = pathpoint.nextPathPointList[ii];
+					var other = pathpoint.nextPathPointList[i];
 					Vector3 positionB = other.closeNavMeshPosition+ Vector3.up * 4f;
 					Gizmos.DrawLine(positionA, positionB);
 				}
 			}
-			for(int i = 0 ; i < Length ; i++)
+			foreach(var item in mapAnchorLink)
 			{
-				var pathpoint = allPathPoints[i];
+				var pathpoint = item.Value.Item2;
 				if(pathpoint == null) continue;
 				Vector3 positionA = pathpoint.closeNavMeshPosition + Vector3.up * 4f;
 				Gizmos.color = Color.blue;
@@ -247,8 +300,8 @@ namespace BC.LowLevelAI
 				debugMapPathNode = null;
 				if(startPointId >= 0 && endedPointId >= 0)
 				{
-					var start = SelectAnchorIndex(startPointId);
-					var ended = SelectAnchorIndex(endedPointId);
+					var start = SelectPathPointIndex(startPointId);
+					var ended = SelectPathPointIndex(endedPointId);
 					if(start != null)
 					{
 						if(start.CalculatePath(ended, out MapPathNode node))

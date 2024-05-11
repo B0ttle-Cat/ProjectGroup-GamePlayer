@@ -35,6 +35,7 @@ namespace BC.OdccBase
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
 		public int TeamIndex { get => fireteamIndex; set => fireteamIndex=value; }
 
+
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{

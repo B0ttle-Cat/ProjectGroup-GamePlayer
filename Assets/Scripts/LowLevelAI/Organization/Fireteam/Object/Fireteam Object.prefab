@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5731603688894371368}
   - component: {fileID: 4538645315164216160}
   - component: {fileID: 1275598504825318748}
+  - component: {fileID: -6126972672133799413}
   - component: {fileID: 3893770311700049741}
   - component: {fileID: 7375637341260729743}
   m_Layer: 0
@@ -145,8 +146,8 @@ MonoBehaviour:
     SerializationNodes: []
   OnDebugLog: 0
   enableStateList:
-  - {fileID: 3893770311700049741}
---- !u!114 &3893770311700049741
+  - {fileID: -6126972672133799413}
+--- !u!114 &-6126972672133799413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,6 +155,33 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7275886164925660364}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae053dfa3689a7479fc9e9f169512d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: IsEnableinState
+      Entry: 5
+      Data: false
+  _StateGroupKey: 0
+  destroyWhenDisable: 1
+  ThisStateMachine: {fileID: 0}
+--- !u!114 &3893770311700049741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7275886164925660364}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2cc3bd4afb1c20408520429e578f438, type: 3}
   m_Name: 

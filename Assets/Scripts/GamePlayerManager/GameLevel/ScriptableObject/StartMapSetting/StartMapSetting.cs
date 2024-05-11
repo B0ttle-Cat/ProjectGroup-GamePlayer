@@ -1,5 +1,7 @@
+using System;
+using System.Collections.Generic;
+
 using BC.Base;
-using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -7,17 +9,27 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	[CreateAssetMenu(fileName = "StartMapSetting", menuName = "BC/new StartMapSetting")]
-	public class StartMapSetting : ScriptableObject, IMapModelData
+	[CreateAssetMenu(fileName = "StartMapSetting", menuName = "BC/StartSetting/new StartMapSetting")]
+	public partial class StartMapSetting : ScriptableObject
 	{
 		[SerializeField, HideLabel]
-		[FoldoutGroup("MapNavmesModel")]
-		private ResourcesKey mapNavmeshKey;
+		[FoldoutGroup("PlayMapObject")]
+		public ResourcesKey playMapKey;
 		[SerializeField, HideLabel]
-		[FoldoutGroup("MapAnchorModel")]
-		private ResourcesKey mapAnchorKey;
+		[FoldoutGroup("MapStageInfo")]
+		public MapStageInfo playMapStageInfo;
 
-		public ResourcesKey MapNavmeshKey { get => mapNavmeshKey; set => mapNavmeshKey = value; }
-		public ResourcesKey MapAnchorKey { get => mapAnchorKey; set => mapAnchorKey = value; }
+		[Serializable]
+		public partial struct MapStageInfo
+		{
+			[Serializable]
+			public partial struct AnchorInfo
+			{
+				public string anchorName;
+				public int anchorIndex;
+			}
+			[TableList]
+			public List<AnchorInfo> anchorInfos;
+		}
 	}
 }

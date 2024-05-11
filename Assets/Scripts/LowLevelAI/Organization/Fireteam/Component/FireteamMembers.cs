@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Cinemachine;
 
@@ -21,7 +21,9 @@ namespace BC.LowLevelAI
 		private CinemachineTargetGroup cinemachineTargetGroup;
 
 		private OdccQueryCollector  memberCollector;
+		public List<FireunitObject> MemberList => thisMember;
 		public int Count => thisMember.Count;
+
 
 		public override void BaseAwake()
 		{

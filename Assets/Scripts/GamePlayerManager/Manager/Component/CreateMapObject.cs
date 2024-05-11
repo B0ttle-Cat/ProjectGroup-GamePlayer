@@ -17,11 +17,8 @@ namespace BC.GamePlayerManager
 
 
 		[SerializeField, HideLabel]
-		[FoldoutGroup("MapNavmesModel")]
-		private ResourcesKey mapNavmeshKey;
-		[SerializeField, HideLabel]
-		[FoldoutGroup("MapAnchorModel")]
-		private ResourcesKey mapAnchorKey;
+		[FoldoutGroup("PlayMap")]
+		private ResourcesKey playMapKey;
 
 		private NavMeshConnectComputer mapNavmesh;
 		private MapPathPointComputer mapAnchor;
@@ -34,13 +31,13 @@ namespace BC.GamePlayerManager
 			mapNavmesh = ThisContainer.GetComponent<NavMeshConnectComputer>();
 			mapAnchor = ThisContainer.GetComponent<MapPathPointComputer>();
 
-			if(mapNavmesh == null)
+			if(mapNavmesh == null || mapAnchor == null)
 			{
 				if(MapSetting != null)
 				{
-					mapNavmeshKey = MapSetting.MapNavmeshKey;
+					playMapKey = MapSetting.playMapKey;
 				}
-				mapNavmeshKey.AsyncInstantiate<GameObject>(this, thisObject =>
+				playMapKey.AsyncInstantiate<GameObject>(this, thisObject =>
 				{
 					if(thisObject == null)
 					{
@@ -48,25 +45,8 @@ namespace BC.GamePlayerManager
 						return;
 					}
 					thisObject.transform.ResetLcoalPose(ThisTransform);
-					mapNavmesh = thisObject.GetComponent<NavMeshConnectComputer>();
-					thisObject.SetActive(true);
-				});
-			}
-			if(mapAnchor == null)
-			{
-				if(MapSetting != null)
-				{
-					mapAnchorKey = MapSetting.MapAnchorKey;
-				}
-				mapAnchorKey.AsyncInstantiate<GameObject>(this, thisObject =>
-				{
-					if(thisObject == null)
-					{
-						Debug.LogError("MapPathPointComputer Instantiate Is Null");
-						return;
-					}
-					thisObject.transform.ResetLcoalPose(ThisTransform);
-					mapAnchor = thisObject.GetComponent<MapPathPointComputer>();
+					mapNavmesh = thisObject.GetComponentInChildren<NavMeshConnectComputer>();
+					mapAnchor = thisObject.GetComponentInChildren<MapPathPointComputer>();
 					thisObject.SetActive(true);
 				});
 			}

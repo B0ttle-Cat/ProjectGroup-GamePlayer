@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using BC.Base;
 using BC.Character;
-using BC.OdccBase;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 
@@ -16,9 +16,6 @@ namespace BC.GamePlayerManager
 		private FireteamObject ObjectPrefab;
 
 		private Dictionary<(int,int), List<CharacterData>> groupInUnit;
-
-		private QuerySystem teamQuerySystem;
-		private OdccQueryCollector teamQueryCollector;
 
 		private QuerySystem characterQuerySystem;
 		private OdccQueryCollector characterQueryCollector;
@@ -33,13 +30,6 @@ namespace BC.GamePlayerManager
 
 			groupInUnit = new Dictionary<(int, int), List<CharacterData>>();
 
-			teamQuerySystem = QuerySystemBuilder.CreateQuery()
-				.WithAll<FireteamObject, FireteamData>().Build();
-
-			teamQueryCollector = OdccQueryCollector.CreateQueryCollector(teamQuerySystem)
-				.CreateChangeListEvent(InitList, UpdateList);
-
-
 			characterQuerySystem = QuerySystemBuilder.CreateQuery()
 				.WithAll<CharacterObject, CharacterData>().Build();
 
@@ -49,16 +39,14 @@ namespace BC.GamePlayerManager
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
-			if(teamQueryCollector != null)
-			{
-				teamQueryCollector.DeleteChangeListEvent(UpdateList);
-				teamQueryCollector = null;
-			}
 			if(characterQueryCollector != null)
 			{
 				characterQueryCollector.DeleteChangeListEvent(UpdateList);
 				characterQueryCollector = null;
 			}
+			characterQuerySystem = null;
+			groupInUnit = null;
+			ObjectPrefab = null;
 		}
 
 		private void InitList(IEnumerable<ObjectBehaviour> initList)
@@ -153,6 +141,7 @@ namespace BC.GamePlayerManager
 				{
 					data = createObject.ThisContainer.AddData<FireteamData>();
 				}
+
 				data.FactionIndex = key.factionIndex;
 				data.TeamIndex = key.teamIndex;
 				createObject.UpdateObjectName();

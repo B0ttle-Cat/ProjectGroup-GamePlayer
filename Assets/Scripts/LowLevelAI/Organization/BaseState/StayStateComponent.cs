@@ -11,6 +11,12 @@ namespace BC.LowLevelAI
 	{
 		private IStayStateData iStateData;
 
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			iStateData = null;
+		}
+
 		protected override void StateEnable()
 		{
 			iStateData = ThisStateData as IStayStateData;
@@ -21,7 +27,7 @@ namespace BC.LowLevelAI
 		{
 			iStateData.IsStay = false;
 		}
-		protected override void StateChangeBeforeUpdate()
+		protected override void StateChangeInHere()
 		{
 			if(iStateData.HasMoveTarget)
 			{

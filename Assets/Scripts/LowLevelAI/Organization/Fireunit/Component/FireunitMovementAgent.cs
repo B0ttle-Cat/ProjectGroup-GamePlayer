@@ -7,16 +7,13 @@ using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
-	public interface IFireteamMovement
+	public interface IAgentMoveTarget : IOdccComponent
 	{
 		public void InputMoveTarget(Vector3 target);
-	}
-	public interface IFireunitMovement
-	{
-		public void InputMoveTarget(Vector3 target);
+		public void InputMoveTarget(Vector3 target, bool isWarp);
 	}
 
-	public class FireunitMovementAgent : ComponentBehaviour
+	public class FireunitMovementAgent : ComponentBehaviour, IAgentMoveTarget
 	{
 		private NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;
@@ -78,7 +75,11 @@ namespace BC.LowLevelAI
 			NavMeshAgent.isStopped = true;
 			IsMove = false;
 		}
-		public void InputMoveTarget(Vector3 target, bool isWarp = false)
+		public void InputMoveTarget(Vector3 target)
+		{
+			InputMoveTarget(target, false);
+		}
+		public void InputMoveTarget(Vector3 target, bool isWarp)
 		{
 			if(NavMeshAgent is null || navMeshPath is null) return;
 			if(NavMesh.SamplePosition(target, out var navMeshHit, 10f, NavMesh.AllAreas))

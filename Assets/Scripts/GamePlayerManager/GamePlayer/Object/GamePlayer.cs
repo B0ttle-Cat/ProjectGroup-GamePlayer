@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
-using BC.OdccBase;
 using BC.GamePlayerInterface;
 using BC.HighLevelAI;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.GamePlayerManager
 {
-	public abstract class GamePlayer : ComponentBehaviour, IGamePlayer
+	public abstract class GamePlayer : ComponentBehaviour, IGamePlayingInterface
 	{
 		protected GamePlayerData playerData;
 		protected GamePlayingData playingData;
@@ -113,7 +114,18 @@ namespace BC.GamePlayerManager
 
 			playingData.CurrentSelectTeamIndex = selectTeamIndex;
 		}
-		public virtual void OnSetMoveTarget(int anchorIndex)
+		public bool TrySelectFireteam(int currentSelectTeam, out FireteamObject select)
+		{
+			select = null;
+			if(currentSelectTeam < 0) return false;
+			if(fireteamObjectList == null) return false;
+			currentSelectTeam = fireteamObjectList.FindIndex(item => item.ThisContainer.GetData<FireteamData>().TeamIndex == currentSelectTeam);
+			if(currentSelectTeam < 0) return false;
+
+			select = fireteamObjectList[currentSelectTeam];
+			return select is not null;
+		}
+		public virtual void OnSetMoveTarget(int anchorIndex, int? selectTeamIndex = null)
 		{
 			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
 			{
@@ -121,17 +133,36 @@ namespace BC.GamePlayerManager
 			}
 			if(playingData == null) return;
 
-			int currentSelectTeam = playingData.CurrentSelectTeamIndex;
-			if(currentSelectTeam < 0) return;
-			int findSelectTeamIndex = fireteamObjectList.FindIndex(item=>item.ThisContainer.GetData<FireteamData>().TeamIndex == currentSelectTeam);
-			if(findSelectTeamIndex < 0) return;
-
-			FireteamObject selectTeamObject = fireteamObjectList[findSelectTeamIndex];
-
-			if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var movement))
+			int currentSelectTeam = selectTeamIndex ?? playingData.CurrentSelectTeamIndex;
+			if(TrySelectFireteam(currentSelectTeam, out var selectTeamObject))
 			{
-				movement.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
+				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var statemachine))
+				{
+					statemachine.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
+				}
 			}
+		}
+
+		public void OnTeamSpawnTarget(int anchorIndex, int? selectTeamIndex = null)
+		{
+			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
+			{
+				playingData = data;
+			}
+			if(playingData == null) return;
+
+
+			int currentSelectTeam = selectTeamIndex ?? playingData.CurrentSelectTeamIndex;
+			if(TrySelectFireteam(currentSelectTeam, out var selectTeamObject))
+			{
+				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var statemachine))
+				{
+					statemachine.OnTeamSpawnTarget(lowLevelAIManager, anchorIndex);
+				}
+			}
+		}
+		public void OnUnitSpawnIndex(int unitIndex, int? selectTeamIndex = null)
+		{
 
 		}
 	}

@@ -15,5 +15,11 @@ namespace BC.LowLevelAI
 		public bool HasMoveTarget { get => MovePathNode != null && MovePathNode.ThisPoint != null; }
 		public bool IsStay { get; set; }
 		public bool IsMovement { get; set; }
+
+		protected override void Dispose(bool disposing)
+		{
+			moveTargetPathNode = null;
+		}
+
 	}
 }

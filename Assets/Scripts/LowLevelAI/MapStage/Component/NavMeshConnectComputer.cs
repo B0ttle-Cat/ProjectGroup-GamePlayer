@@ -65,6 +65,8 @@ namespace BC.LowLevelAI
 			cellIndexData.trianglesToLink = new Dictionary<Triangle, LinkRayTriangle[]>();
 			cellIndexData.trianglesClosedPoint = new Dictionary<Triangle, MapPathPoint>();
 			cellIndexData.navMeshSurface = GetComponentInChildren<NavMeshSurface>();
+
+			cellIndexData.navMeshSurface.BuildNavMesh();
 		}
 		public override void BaseDestroy()
 		{

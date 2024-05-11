@@ -10,8 +10,7 @@ namespace BC.LowLevelAI
 		private Collider[] mapAnchorTrigger;
 
 		public Collider[] AnchorTrigger {
-			get
-			{
+			get {
 				if(mapAnchorTrigger == null)
 				{
 					mapAnchorTrigger = GetComponentsInChildren<Collider>();
@@ -103,7 +102,5 @@ namespace BC.LowLevelAI
 			}
 			return minClose;
 		}
-
-
 	}
 }

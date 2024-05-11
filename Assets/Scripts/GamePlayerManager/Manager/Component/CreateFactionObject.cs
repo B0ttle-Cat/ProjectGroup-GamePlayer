@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 using BC.Base;
 using BC.Character;
-using BC.OdccBase;
 using BC.GamePlayerInterface;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 
@@ -17,9 +17,6 @@ namespace BC.GamePlayerManager
 		private FactionObject ObjectPrefab;
 
 		private Dictionary<int, List<CharacterData>> groupInUnit;
-
-		private QuerySystem factionQuerySystem;
-		private OdccQueryCollector factionQueryCollector;
 
 		private QuerySystem characterQuerySystem;
 		private OdccQueryCollector characterQueryCollector;
@@ -34,13 +31,6 @@ namespace BC.GamePlayerManager
 
 			groupInUnit = new Dictionary<int, List<CharacterData>>();
 
-			factionQuerySystem = QuerySystemBuilder.CreateQuery()
-				.WithAll<FactionObject, FactionData>().Build();
-
-			factionQueryCollector = OdccQueryCollector.CreateQueryCollector(factionQuerySystem)
-				.CreateChangeListEvent(InitList, UpdateList);
-
-
 			characterQuerySystem = QuerySystemBuilder.CreateQuery()
 				.WithAll<CharacterObject, CharacterData>().Build();
 
@@ -51,16 +41,14 @@ namespace BC.GamePlayerManager
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
-			if(factionQueryCollector != null)
-			{
-				factionQueryCollector.DeleteChangeListEvent(UpdateList);
-				factionQueryCollector = null;
-			}
 			if(characterQueryCollector != null)
 			{
 				characterQueryCollector.DeleteChangeListEvent(UpdateList);
 				characterQueryCollector = null;
 			}
+			characterQuerySystem = null;
+			groupInUnit = null;
+			ObjectPrefab = null;
 		}
 		private void InitList(IEnumerable<ObjectBehaviour> initList)
 		{
@@ -95,10 +83,6 @@ namespace BC.GamePlayerManager
 					{
 						RemoveUnit(data);
 					}
-				}
-				else if(behaviour is FactionObject faction)
-				{
-
 				}
 			}
 		}
@@ -162,12 +146,12 @@ namespace BC.GamePlayerManager
 						if(diplomacyItem.IsAIFaction)
 						{
 							createObject.gameObject.AddComponent<AIGamePlayer>();
-							createObject.gameObject.AddComponent<PlayerRawInterface>();
+							createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 						else
 						{
 							createObject.gameObject.AddComponent<HumanPlayer>();
-							createObject.gameObject.AddComponent<PlayerRawInterface>();
+							createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 					}
 				}

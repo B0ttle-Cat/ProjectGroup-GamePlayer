@@ -17,6 +17,14 @@ namespace BC.LowLevelAI
 		public MapPathNode movePathNode;
 
 		private FireteamMembers fireteamMembers;
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			iStateData = null;
+			movePathNode = null;
+			fireteamMembers = null;
+		}
+
 		protected override void StateEnable()
 		{
 			iStateData = ThisStateData as IMovementStateData;
@@ -33,7 +41,7 @@ namespace BC.LowLevelAI
 			UpdateMove(null);
 			fireteamMembers = null;
 		}
-		protected override void StateChangeBeforeUpdate()
+		protected override void StateChangeInHere()
 		{
 			if(!iStateData.HasMoveTarget)
 			{
@@ -54,8 +62,7 @@ namespace BC.LowLevelAI
 			if(movePathNode == moveTarget)
 			{
 				bool isAllStop = true;
-				fireteamMembers.Foreach(item =>
-				{
+				fireteamMembers.Foreach(item => {
 					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent) && agent.IsMove)
 					{
 						isAllStop = false;
@@ -79,8 +86,7 @@ namespace BC.LowLevelAI
 
 			if(movePathNode == null || movePathNode.ThisPoint == null)
 			{
-				fireteamMembers.Foreach(item =>
-				{
+				fireteamMembers.Foreach(item => {
 					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent, (agent) => agent.IsMove))
 					{
 						agent.InputMoveStop();
@@ -97,13 +103,13 @@ namespace BC.LowLevelAI
 				Vector3 lastPrevPosition = lastPrevNode == null ? fireteamMembers.CenterPosition() : lastPrevNode.ThisPoint.ThisPosition();
 				Vector3 angleNormal = (lastPosition - lastPrevPosition).normalized;
 
-				Vector3[] formaitionPosition = lastNode.ThisPoint.GetRandomAroundDiraction(fireteamMembers.Count, angleNormal);
+				Vector3 anchorPosition = lastNode.ThisPoint.ThisAnchor.ThisPosition();
+				Vector3[] spawnAroundPoints = GetAroundPosition.GetAroundMovePosition(fireteamMembers.Count, 2f, angleNormal);
 
-				fireteamMembers.Foreach((item, index) =>
-				{
+				fireteamMembers.Foreach((item, index) => {
 					if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent))
 					{
-						agent.InputMoveTarget(movePathNode, formaitionPosition[index]);
+						agent.InputMoveTarget(movePathNode, spawnAroundPoints[index] + anchorPosition);
 					}
 				});
 			}

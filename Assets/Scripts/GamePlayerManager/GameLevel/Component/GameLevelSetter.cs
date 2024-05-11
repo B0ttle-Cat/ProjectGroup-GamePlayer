@@ -45,13 +45,13 @@ namespace BC.GamePlayerManager
 			mapCreater = null;
 			characterCreater = null;
 
-			if(startLevelData.mapSetting != null && ThisObject is IGetLowLevelAIManager manager)
+			if(startLevelData.MapSetting != null && ThisObject is IGetLowLevelAIManager manager)
 			{
 				if(manager.LowLevelAI.ThisContainer.TryGetComponent<CreateMapObject>(out var map))
 				{
 					if(map is IStartSetup setter)
 					{
-						map.MapSetting = startLevelData.mapSetting;
+						map.MapSetting = startLevelData.MapSetting;
 
 						mapCreater = setter;
 						setter.OnStartSetting();
@@ -59,12 +59,12 @@ namespace BC.GamePlayerManager
 				}
 			}
 
-			if(startLevelData.unitSetting != null && ThisContainer.TryGetComponent<CreateCharacterObject>(out var character))
+			if(startLevelData.UnitSetting != null && ThisContainer.TryGetComponent<CreateCharacterObject>(out var character))
 			{
 				if(character is IStartSetup setter)
 				{
-					character.UnitSetting = startLevelData.unitSetting;
-
+					character.UnitSetting = startLevelData.UnitSetting;
+					character.SpawnList = startLevelData.SpawnList;
 					characterCreater = setter;
 					setter.OnStartSetting();
 				}

@@ -8,6 +8,8 @@ using BC.OdccBase;
 
 using UnityEngine;
 
+using static BC.GamePlayerManager.StartGameSetting;
+
 namespace BC.GamePlayerManager
 {
 	public class CreateFireunitObject : ComponentBehaviour
@@ -17,11 +19,10 @@ namespace BC.GamePlayerManager
 
 		private Dictionary<(int,int,int), CharacterObject> groupInUnit;
 
-		private QuerySystem unitQuerySystem;
-		private OdccQueryCollector unitQueryCollector;
-
 		private QuerySystem characterQuerySystem;
 		private OdccQueryCollector characterQueryCollector;
+
+		public List<SpawnAnchor> SpawnList;
 
 		public override void BaseAwake()
 		{
@@ -33,36 +34,26 @@ namespace BC.GamePlayerManager
 
 			groupInUnit = new Dictionary<(int, int, int), CharacterObject>();
 
-			unitQuerySystem = QuerySystemBuilder.CreateQuery()
-				.WithAll<FireunitObject, FireunitData>().Build();
-
-			unitQueryCollector = OdccQueryCollector.CreateQueryCollector(unitQuerySystem)
-				.CreateChangeListEvent(InitList, UpdateList)
-				.CreateLooper(nameof(SyncUnitToCharacter), false)
-				.Foreach<FireunitObject, IFireunitData>(SyncUnitToCharacter)
-				.GetCollector();
-
-
 			characterQuerySystem = QuerySystemBuilder.CreateQuery()
 				.WithAll<CharacterObject, CharacterData>().Build();
 
 			characterQueryCollector = OdccQueryCollector.CreateQueryCollector(characterQuerySystem)
 				.CreateChangeListEvent(InitList, UpdateList);
+
 		}
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
-			if(unitQueryCollector != null)
-			{
-				unitQueryCollector.DeleteChangeListEvent(UpdateList);
-				unitQueryCollector.DeleteLooper(nameof(SyncUnitToCharacter));
-				unitQueryCollector = null;
-			}
+
 			if(characterQueryCollector != null)
 			{
 				characterQueryCollector.DeleteChangeListEvent(UpdateList);
 				characterQueryCollector = null;
 			}
+			characterQuerySystem = null;
+
+			groupInUnit = null;
+			ObjectPrefab = null;
 		}
 
 		private void InitList(IEnumerable<ObjectBehaviour> initList)
@@ -73,7 +64,10 @@ namespace BC.GamePlayerManager
 				{
 					if(character.ThisContainer.TryGetData<CharacterData>(out var data))
 					{
-						AddedUnit(character, data);
+						if(character.ThisContainer.TryGetData<SpawnData>(out var spawn))
+						{
+							AddedUnit(character, data, spawn);
+						}
 					}
 				}
 			}
@@ -86,7 +80,10 @@ namespace BC.GamePlayerManager
 				{
 					if(character.ThisContainer.TryGetData<CharacterData>(out var data))
 					{
-						AddedUnit(character, data);
+						if(character.ThisContainer.TryGetData<SpawnData>(out var spawn))
+						{
+							AddedUnit(character, data, spawn);
+						}
 					}
 				}
 			}
@@ -102,7 +99,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private void AddedUnit(CharacterObject character, CharacterData data)
+		private void AddedUnit(CharacterObject character, CharacterData data, SpawnData spawn)
 		{
 			int factionIndex = data.FactionIndex;
 			int teamIndex = data.TeamIndex;
@@ -112,7 +109,7 @@ namespace BC.GamePlayerManager
 			if(!groupInUnit.ContainsKey(key))
 			{
 				groupInUnit.Add(key, character);
-				CreateObject(key);
+				CreateObject(key, spawn);
 			}
 		}
 		private void RemoveUnit(CharacterObject character, CharacterData data)
@@ -129,25 +126,31 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private void CreateObject((int factionIndex, int teamIndex, int unitIndex) key)
+		private void CreateObject((int factionIndex, int teamIndex, int unitIndex) key, SpawnData spawn)
 		{
 			if(ObjectPrefab == null) return;
 			if(!ThisContainer.TryGetChildObject<FireunitObject>(out var _object, item => FindObject(item, key)))
 			{
 				ObjectPrefab.gameObject.SetActive(false);
-				var createObject = GameObject.Instantiate(ObjectPrefab);
-				createObject.ThisTransform.ResetLcoalPose(ThisTransform);
+				var unitObject = GameObject.Instantiate(ObjectPrefab);
+				unitObject.ThisTransform.ResetLcoalPose(ThisTransform);
 
-				if(!createObject.ThisContainer.TryGetData<FireunitData>(out var data))
+				if(!unitObject.ThisContainer.TryGetData<FireunitData>(out var data))
 				{
-					data = createObject.ThisContainer.AddData<FireunitData>();
+					data = unitObject.ThisContainer.AddData<FireunitData>();
 				}
 				data.FactionIndex = key.factionIndex;
 				data.TeamIndex = key.teamIndex;
 				data.UnitIndex = key.unitIndex;
-				createObject.UpdateObjectName();
+				unitObject.UpdateObjectName();
 
-				createObject.gameObject.SetActive(true);
+				unitObject.ThisContainer.RemoveData<SpawnData>();
+				unitObject.ThisContainer.RemoveComponent<SpawnComponent>();
+
+				unitObject.ThisContainer.AddData<SpawnData>(spawn);
+				unitObject.ThisContainer.AddComponent<SpawnComponent>();
+
+				unitObject.gameObject.SetActive(true);
 			}
 			static bool FindObject(FireunitObject _object, (int factionIndex, int teamIndex, int unitIndex) key)
 			{
@@ -164,35 +167,6 @@ namespace BC.GamePlayerManager
 			static bool FindObject(FireunitObject _object, (int factionIndex, int teamIndex, int unitIndex) key)
 			{
 				return _object.ThisContainer.TryGetData<IFireunitData>(out var data) && data.IsEqualsUnit(key.factionIndex, key.teamIndex, key.unitIndex);
-			}
-		}
-
-
-		private void SyncUnitToCharacter(FireunitObject fireunitObject, IFireunitData iFireunitData)
-		{
-			if(!groupInUnit.TryGetValue((iFireunitData.FactionIndex, iFireunitData.TeamIndex, iFireunitData.UnitIndex), out var character))
-			{
-				return;
-			}
-
-			ModelObject modelObject = character.Model;
-			if(modelObject != null)
-			{
-				var fireunitTransform = fireunitObject.ThisTransform;
-				modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.TransformPose>(i =>
-				{
-					i.OnUpdatePose(fireunitTransform.position, fireunitTransform.rotation);
-				});
-
-				FireunitMovementAgent fireunitMovementAgent = fireunitObject.ThisContainer.GetComponent<FireunitMovementAgent>();
-				if(fireunitMovementAgent != null && fireunitMovementAgent.NavMeshAgent != null)
-				{
-					float moveSpeed = fireunitMovementAgent.NavMeshAgent.velocity.magnitude;
-					modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.MoveSpeed>(i =>
-					{
-						i.OnUpdateMoveSpeed(moveSpeed);
-					});
-				}
 			}
 		}
 	}

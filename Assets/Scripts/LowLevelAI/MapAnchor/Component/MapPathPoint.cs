@@ -11,8 +11,6 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
-using Random = UnityEngine.Random;
-
 namespace BC.LowLevelAI
 {
 	[Serializable]
@@ -155,6 +153,7 @@ namespace BC.LowLevelAI
 		public Vector3 closeNavMeshPosition;
 		public MapPathPoint[] nextPathPointList;
 
+		public MapAnchor ThisAnchor => mapAnchor;
 		public float DistancePerCost => IsBrakePath ? float.PositiveInfinity : defaultPathCost;
 		public bool IsBrakePath { get => isBrakePath; set => isBrakePath=value; }
 
@@ -416,52 +415,6 @@ namespace BC.LowLevelAI
 			//	finded = next;
 			//}
 			return true;
-		}
-
-		internal Vector3[] GetRandomAroundDiraction(int divisionCount, Vector3 angleDiraction)
-		{
-			if(divisionCount == 0)
-			{
-				return new Vector3[1] { ThisPosition() };
-			}
-			angleDiraction = angleDiraction.normalized;
-			if(angleDiraction == Vector3.zero)
-			{
-				angleDiraction = Vector3.forward;
-			}
-
-			Vector3[] points = new Vector3[divisionCount];
-
-			float pointsPerDivision = 360f / divisionCount;
-
-			float startOffset = 0f;
-			float endedOffset = 2f;
-			Vector2 randomCenter = Random.insideUnitCircle * Random.Range(startOffset, endedOffset);
-			Vector3 centerOffset = new Vector3(randomCenter.x, 0f, randomCenter.y);
-
-			NavMeshHit hit = default;
-			//center = NavMesh.SamplePosition(center, out hit, 5f, NavMesh.AllAreas) ? hit.position : ThisPosition();
-
-			for(int i = 0 ; i < divisionCount ; i++)
-			{
-				// 각 구역을 등분하여 시작 각도와 끝 각도 계산
-				float startAngle = i * pointsPerDivision;
-				float endedAngle = (i + 1) * pointsPerDivision;
-				// 각 구역에서 랜덤한 각도 선택
-				float angle = Random.Range(startAngle, endedAngle);
-
-				float startRadius = 0.5f;
-				float endedRadius = 2f;
-				float radius = Random.Range(startRadius, endedRadius);
-
-				// 선택된 각도에 해당하는 위치 계산
-				Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * angleDiraction;
-				Vector3 point = centerOffset + direction * radius;
-
-				points[i] = point;
-			}
-
-			return points;
 		}
 	}
 }

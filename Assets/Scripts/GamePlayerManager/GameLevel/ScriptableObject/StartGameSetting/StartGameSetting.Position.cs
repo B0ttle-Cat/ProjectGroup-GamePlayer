@@ -18,20 +18,22 @@ namespace BC.GamePlayerManager
 	public partial class StartGameSetting : ScriptableObject//.Editor
 	{
 		[PropertyOrder(-98)]
+		[TabGroup("Tap", nameof(SpawnList))]
 		[Button("Fill Spawn Anchor List")]
 		public void FillSpawnAnchorList()
 		{
 			if(unitSetting == null) return;
 			SpawnList ??= new System.Collections.Generic.List<SpawnAnchor>();
+			var list = SpawnList;
 			foreach(var character in unitSetting.characterDatas)
 			{
-				int findIndex = SpawnList.FindIndex(item =>
+				int findIndex = list.FindIndex(item =>
 				item.factionIndex == character.FactionIndex &&
 				item.teamIndex == character.TeamIndex);
 
 				if(findIndex < 0)
 				{
-					SpawnList.Add(new SpawnAnchor() {
+					list.Add(new() {
 						factionIndex = character.FactionIndex,
 						teamIndex = character.TeamIndex,
 						anchorIndex = -1,
@@ -42,9 +44,9 @@ namespace BC.GamePlayerManager
 
 			void SortCharacterDatas()
 			{
-				if(SpawnList != null && SpawnList.Count > 0)
+				if(list != null && list.Count > 0)
 				{
-					SpawnList.Sort((a, b) => {
+					list.Sort((a, b) => {
 						int compare = a.factionIndex.CompareTo(b.factionIndex);
 						if(compare != 0) return compare;
 						compare = a.teamIndex.CompareTo(b.teamIndex);

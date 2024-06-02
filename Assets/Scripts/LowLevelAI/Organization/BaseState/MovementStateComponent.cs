@@ -100,7 +100,7 @@ namespace BC.LowLevelAI
 				var lastPrevNode = movePathNode.EndedNode.PrevNode;
 
 				Vector3 lastPosition = lastNode.ThisPoint.ThisPosition();
-				Vector3 lastPrevPosition = lastPrevNode == null ? fireteamMembers.CenterPosition() : lastPrevNode.ThisPoint.ThisPosition();
+				Vector3 lastPrevPosition = lastPrevNode == null ? fireteamMembers.CenterPosition : lastPrevNode.ThisPoint.ThisPosition();
 				Vector3 angleNormal = (lastPosition - lastPrevPosition).normalized;
 
 				Vector3 anchorPosition = lastNode.ThisPoint.ThisAnchor.ThisPosition();

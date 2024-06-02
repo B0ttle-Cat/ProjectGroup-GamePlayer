@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.OdccBase;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 
@@ -60,7 +60,7 @@ namespace BC.HighLevelAI
 
 			if(factionStrategyAICollector != null)
 			{
-				factionStrategyAICollector.DeleteLooper(nameof(FactionStrategyComputer));
+				factionStrategyAICollector.DeleteLooperEvent(nameof(FactionStrategyComputer));
 			}
 		}
 

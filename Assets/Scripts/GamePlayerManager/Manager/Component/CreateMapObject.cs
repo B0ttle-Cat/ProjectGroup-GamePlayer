@@ -20,7 +20,9 @@ namespace BC.GamePlayerManager
 		[FoldoutGroup("PlayMap")]
 		private ResourcesKey playMapKey;
 
+		[SerializeField]
 		private NavMeshConnectComputer mapNavmesh;
+		[SerializeField]
 		private MapPathPointComputer mapAnchor;
 
 		public override void BaseEnable()
@@ -28,8 +30,8 @@ namespace BC.GamePlayerManager
 			IsCompleteSetting = false;
 
 
-			mapNavmesh = ThisContainer.GetComponent<NavMeshConnectComputer>();
-			mapAnchor = ThisContainer.GetComponent<MapPathPointComputer>();
+			mapNavmesh = ThisContainer.GetComponentInChild<NavMeshConnectComputer>();
+			mapAnchor = ThisContainer.GetComponentInChild<MapPathPointComputer>();
 
 			if(mapNavmesh == null || mapAnchor == null)
 			{
@@ -37,8 +39,7 @@ namespace BC.GamePlayerManager
 				{
 					playMapKey = MapSetting.playMapKey;
 				}
-				playMapKey.AsyncInstantiate<GameObject>(this, thisObject =>
-				{
+				playMapKey.AsyncInstantiate<GameObject>(this, thisObject => {
 					if(thisObject == null)
 					{
 						Debug.LogError("NavMeshConnectComputer Instantiate Is Null");
@@ -49,6 +50,13 @@ namespace BC.GamePlayerManager
 					mapAnchor = thisObject.GetComponentInChildren<MapPathPointComputer>();
 					thisObject.SetActive(true);
 				});
+			}
+			else
+			{
+				if(MapSetting != null)
+				{
+					playMapKey = MapSetting.playMapKey;
+				}
 			}
 		}
 

@@ -5,11 +5,13 @@ namespace BC.LowLevelAI
 {
 	public interface IGetLowLevelAIManager : IOdccObject
 	{
-		ObjectBehaviour LowLevelAI { get; }
+		LowLevelAIManager LowLevelAI { get; }
+		MapStage MapStage { get { return LowLevelAI.MapStage; } }
 	}
 
 	public class LowLevelAIManager : ObjectBehaviour
 	{
+		public MapStage MapStage { get; private set; }
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
@@ -20,6 +22,8 @@ namespace BC.LowLevelAI
 		{
 			DiplomacyQuery = QuerySystemBuilder.CreateQuery().WithAll<DiplomacyData, DiplomacyComputer>().Build();
 			OdccQueryCollector.CreateQueryCollector(DiplomacyQuery);
+
+			MapStage = ThisContainer.GetChildObject<MapStage>();
 		}
 		public override void BaseDestroy()
 		{

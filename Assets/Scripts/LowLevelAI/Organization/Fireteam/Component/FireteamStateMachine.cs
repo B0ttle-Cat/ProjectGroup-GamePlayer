@@ -33,11 +33,11 @@ namespace BC.LowLevelAI
 		{
 			if(manager == null || manager.LowLevelAI == null) return;
 
-			if(!manager.LowLevelAI.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
+			if(!manager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
 			if(!ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
 
-			Vector3 center = members.CenterPosition();
+			Vector3 center = members.CenterPosition;
 
 			if(!computer.TryGetClosedPathPoint(center, out var closedPathPoint)) return;
 
@@ -52,7 +52,7 @@ namespace BC.LowLevelAI
 		{
 			if(manager == null || manager.LowLevelAI == null) return;
 
-			if(!manager.LowLevelAI.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
+			if(!manager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
 			var spawnAnchor = computer.SelectAnchorIndex(anchorIndex);
 			if(spawnAnchor == null) return;

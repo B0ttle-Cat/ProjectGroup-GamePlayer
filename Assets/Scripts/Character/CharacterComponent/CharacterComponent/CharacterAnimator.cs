@@ -35,5 +35,11 @@ namespace BC.Character
 			if(parameters == null) return;
 			parameters.Move_Speed = moveSpeed;
 		}
+
+
+		public void OnCallChangeFace()
+		{
+
+		}
 	}
 }

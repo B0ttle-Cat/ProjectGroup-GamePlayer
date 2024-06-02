@@ -560,7 +560,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Aim Layer
     m_StateMachine: {fileID: 8343864035085569832}
-    m_Mask: {fileID: 31900000, guid: c0247ddaa8ddc8e498f08d6ef8f7c47c, type: 2}
+    m_Mask: {fileID: 31900000, guid: 12d7cb6239e94ee4fa4e10879a806252, type: 2}
     m_Motions:
     - serializedVersion: 2
       m_State: {fileID: 368770035501106263}

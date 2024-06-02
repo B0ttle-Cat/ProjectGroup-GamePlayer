@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2543499430751640734}
   - component: {fileID: 4076850161751021115}
   - component: {fileID: 8988723699225859953}
-  - component: {fileID: 2401021760108700533}
   m_Layer: 0
   m_Name: Faction Object
   m_TagString: Untagged
@@ -93,26 +92,3 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   thisMember: []
---- !u!114 &2401021760108700533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884572875860924201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e010c2e1ba8d4a647a9c83a72f358f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  selectTeamIndex: 0
-  movementToAnchor: 0

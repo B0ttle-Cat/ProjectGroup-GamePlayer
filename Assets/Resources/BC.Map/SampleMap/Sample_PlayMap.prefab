@@ -328,7 +328,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   tiemForCalculationCount: 0.5
-  IsOnDrawGizmos: 1
+  IsOnDrawGizmos: 0
   startPointId: 0
   endedPointId: 0
   debugCalculatePath: 0
@@ -3597,6 +3597,7 @@ MonoBehaviour:
   usingNavMeshRaycast: 0
   areaMask: -1
   tiemForCalculationCount: 0.5
+  isAsyncUpdate: 0
   IsOnDrawGizmos: 0
   IsOnDrawGizmos_ShowPerfectLink: 1
   IsOnDrawGizmos_ShowPartialLink: 1

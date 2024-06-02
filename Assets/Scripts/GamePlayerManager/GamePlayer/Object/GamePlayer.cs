@@ -143,7 +143,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		public void OnTeamSpawnTarget(int anchorIndex, int? selectTeamIndex = null)
+		public void OnSpawnTeamToAnchor(int anchorIndex, int? selectTeamIndex = null)
 		{
 			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
 			{
@@ -161,7 +161,7 @@ namespace BC.GamePlayerManager
 				}
 			}
 		}
-		public void OnUnitSpawnIndex(int unitIndex, int? selectTeamIndex = null)
+		public void OnSpawnUnitIndex(int unitIndex, int? selectTeamIndex = null)
 		{
 
 		}

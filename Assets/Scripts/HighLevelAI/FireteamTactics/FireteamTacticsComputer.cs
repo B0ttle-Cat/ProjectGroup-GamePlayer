@@ -1,5 +1,5 @@
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.HighLevelAI
 {
@@ -20,12 +20,12 @@ namespace BC.HighLevelAI
 		{
 			base.BaseEnable();
 
-			fireteamTacticsAICollector.CreateLooper(nameof(FireteamTacticsComputer))
+			fireteamTacticsAICollector.CreateLooperEvent(nameof(FireteamTacticsComputer))
 				.IsBreakFunction(() => watingStrategyComputing)
-				.Action(StartAction)
+				.CallNext(StartAction)
 				.Foreach<FireteamTacticsAI, FireteamData, FireteamTacticsData>(StartComputing)
 				.Foreach<FireteamTacticsAI, FireteamData, FireteamTacticsData>(UpdateComputing)
-				.Action(EndedAction);
+				.CallNext(EndedAction);
 		}
 
 		public override void BaseDisable()
@@ -34,7 +34,7 @@ namespace BC.HighLevelAI
 
 			if(fireteamTacticsAICollector != null)
 			{
-				fireteamTacticsAICollector.DeleteLooper(nameof(FireteamTacticsComputer));
+				fireteamTacticsAICollector.DeleteLooperEvent(nameof(FireteamTacticsComputer));
 			}
 		}
 
@@ -56,11 +56,11 @@ namespace BC.HighLevelAI
 
 		}
 
-		private void StartComputing(FireteamTacticsAI tacticsAI, FireteamData fireteamData, FireteamTacticsData tacticsData)
+		private void StartComputing(OdccQueryLooper.LoopInfo loopInfo, FireteamTacticsAI tacticsAI, FireteamData fireteamData, FireteamTacticsData tacticsData)
 		{
 			tacticsAI.UpdateTacticsValue();
 		}
-		private void UpdateComputing(FireteamTacticsAI tacticsAI, FireteamData fireteamData, FireteamTacticsData tacticsData)
+		private void UpdateComputing(OdccQueryLooper.LoopInfo loopInfo, FireteamTacticsAI tacticsAI, FireteamData fireteamData, FireteamTacticsData tacticsData)
 		{
 			tacticsAI.UpdateTacticsState();
 		}

@@ -25,6 +25,7 @@ namespace BC.LowLevelAI
 		public int Count => thisMember.Count;
 
 
+		public Vector3 CenterPosition { get; private set; }
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
@@ -54,7 +55,16 @@ namespace BC.LowLevelAI
 
 			cinemachineTargetGroup = null;
 		}
-
+		public override void BaseUpdate()
+		{
+			base.BaseUpdate();
+			CenterPosition =_CenterPosition();
+		}
+		public override void BaseLateUpdate()
+		{
+			base.BaseLateUpdate();
+			CenterPosition =_CenterPosition();
+		}
 		private void InitList(IEnumerable<ObjectBehaviour> enumerable)
 		{
 			thisMember = enumerable.Select(item => item as FireunitObject)
@@ -144,7 +154,7 @@ namespace BC.LowLevelAI
 			}
 		}
 
-		public Vector3 CenterPosition()
+		private Vector3 _CenterPosition()
 		{
 			Vector3 sumPosition = Vector3.zero;
 			int length = thisMember.Count;

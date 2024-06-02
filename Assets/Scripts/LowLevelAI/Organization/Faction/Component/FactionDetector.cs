@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -79,12 +79,12 @@ namespace BC.LowLevelAI
 
 				OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
 					.CreateChangeListEvent(InitList, ChangeList)
-					.CreateLooper(nameof(FactionDetector))
+					.CreateLooperEvent(nameof(FactionDetector))
 					//.IsBreakFunction(() => !(NavMeshConnectComputer != null && NavMeshConnectComputer.IsAsyncUpdate))
-					.Action(InitFactionDetector)
+					.CallNext(InitFactionDetector)
 					.Foreach<FireunitDetector>(DetectorUpdate)//.SetFrameCount(() => 5)
 					.Foreach<IFactionData, FireunitDetector>(DetectorComputing)//.SetFrameCount(() => 5)
-					.Action(UpdateFactionDetector);
+					.CallNext(UpdateFactionDetector);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace BC.LowLevelAI
 
 			OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
 				.DeleteChangeListEvent(ChangeList)
-				.DeleteLooper(nameof(FactionDetector));
+				.DeleteLooperEvent(nameof(FactionDetector));
 		}
 
 		public void InitFactionDetector()
@@ -165,8 +165,7 @@ namespace BC.LowLevelAI
 			{
 				if(isAdded)
 				{
-					list.Add(new DetectedData.Info()
-					{
+					list.Add(new DetectedData.Info() {
 						detectorComponent = component,
 						factionData = factionData,
 						fireteamData = fireteamData,
@@ -208,11 +207,11 @@ namespace BC.LowLevelAI
 			}
 		}
 
-		private void DetectorUpdate(FireunitDetector component)
+		private void DetectorUpdate(OdccQueryLooper.LoopInfo loopInfo, FireunitDetector component)
 		{
 			component.UpdateDetector(NavMeshConnectComputer, MapAICellData);
 		}
-		public void DetectorComputing(IFactionData factionData, FireunitDetector component)
+		public void DetectorComputing(OdccQueryLooper.LoopInfo loopInfo, IFactionData factionData, FireunitDetector component)
 		{
 			if(!factionDiplomacyTypeCash.TryGetValue(factionData.FactionIndex, out FactionDiplomacyType factionDiplomacyType)) return;
 

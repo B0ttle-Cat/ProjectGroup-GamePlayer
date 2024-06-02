@@ -28,7 +28,7 @@ namespace BC.GamePlayerManager
 			.WithAll<FireunitObject, FireunitData>().Build();
 
 			unitQueryCollector = OdccQueryCollector.CreateQueryCollector(unitQuerySystem)
-				.CreateLooper(nameof(SyncCharacterWithUnit), false)
+				.CreateLooperEvent(nameof(SyncCharacterWithUnit), false)
 				.Foreach<FireunitObject, IFireunitData>(OnSyncUnitToCharacter)
 				.GetCollector();
 
@@ -45,7 +45,7 @@ namespace BC.GamePlayerManager
 
 			if(unitQueryCollector != null)
 			{
-				unitQueryCollector.DeleteLooper(nameof(OnSyncUnitToCharacter));
+				unitQueryCollector.DeleteLooperEvent(nameof(OnSyncUnitToCharacter));
 				unitQueryCollector = null;
 			}
 			unitQuerySystem = null;
@@ -119,7 +119,7 @@ namespace BC.GamePlayerManager
 				groupInUnit.Remove(key);
 			}
 		}
-		private void OnSyncUnitToCharacter(FireunitObject fireunitObject, IFireunitData iFireunitData)
+		private void OnSyncUnitToCharacter(OdccQueryLooper.LoopInfo loopInfo, FireunitObject fireunitObject, IFireunitData iFireunitData)
 		{
 			if(!groupInUnit.TryGetValue((iFireunitData.FactionIndex, iFireunitData.TeamIndex, iFireunitData.UnitIndex), out var character))
 			{

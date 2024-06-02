@@ -8,8 +8,8 @@ namespace BC.GamePlayerInterface
 	{
 		void OnSelectFireteam(int selectTeamIndex);
 		void OnSetMoveTarget(int anchorIndex, int? selectTeamIndex = null);
-		void OnTeamSpawnTarget(int anchorIndex, int? selectTeamIndex = null);
-		void OnUnitSpawnIndex(int unitIndex, int? selectTeamIndex = null);
+		void OnSpawnTeamToAnchor(int anchorIndex, int? selectTeamIndex = null);
+		void OnSpawnUnitIndex(int unitIndex, int? selectTeamIndex = null);
 	}
 
 
@@ -43,13 +43,19 @@ namespace BC.GamePlayerInterface
 			interfaceReceiver.OnSetMoveTarget(movementToAnchor, selectTeamIndex);
 		}
 
-
-		[InlineButton("OnUnitSpawnIndex")]
-		public int unitSpawnIndex;
-		public void OnUnitSpawnIndex()
+		[InlineButton("OnSpawnTeamToAnchor")]
+		public int teamSpawnToAnchor;
+		public void OnSpawnTeamToAnchor()
 		{
 			if(IsNotValid) return;
-			interfaceReceiver.OnUnitSpawnIndex(unitSpawnIndex, selectTeamIndex);
+			interfaceReceiver.OnSpawnTeamToAnchor(teamSpawnToAnchor, selectTeamIndex);
+		}
+		[InlineButton("OnSpawnUnitIndex")]
+		public int unitSpawnIndex;
+		public void OnSpawnUnitIndex()
+		{
+			if(IsNotValid) return;
+			interfaceReceiver.OnSpawnUnitIndex(unitSpawnIndex, selectTeamIndex);
 		}
 	}
 }

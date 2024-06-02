@@ -4,7 +4,7 @@ namespace BC.HighLevelAI
 {
 	public interface IGetHighLevelAIManager : IOdccObject
 	{
-		ObjectBehaviour HighLevelAI { get; }
+		HighLevelAIManager HighLevelAI { get; }
 	}
 	public class HighLevelAIManager : ObjectBehaviour
 	{

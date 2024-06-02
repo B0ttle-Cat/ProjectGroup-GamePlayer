@@ -12,12 +12,19 @@ namespace BC.GamePlayerManager
 		private LowLevelAIManager lowLevelAIManager;
 		[SerializeField]
 		private HighLevelAIManager highLevelAIManager;
-		public ObjectBehaviour LowLevelAI { get => lowLevelAIManager; }
-		public ObjectBehaviour HighLevelAI { get => highLevelAIManager; }
+		public LowLevelAIManager LowLevelAI { get => lowLevelAIManager; }
+		public HighLevelAIManager HighLevelAI { get => highLevelAIManager; }
 
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
+
+			lowLevelAIManager = lowLevelAIManager != null ? lowLevelAIManager : FindAnyObjectByType<LowLevelAIManager>();
+			highLevelAIManager = highLevelAIManager != null ? highLevelAIManager : FindAnyObjectByType<HighLevelAIManager>();
+		}
+		public override void BaseAwake()
+		{
+			base.BaseAwake();
 
 			lowLevelAIManager = lowLevelAIManager != null ? lowLevelAIManager : FindAnyObjectByType<LowLevelAIManager>();
 			highLevelAIManager = highLevelAIManager != null ? highLevelAIManager : FindAnyObjectByType<HighLevelAIManager>();

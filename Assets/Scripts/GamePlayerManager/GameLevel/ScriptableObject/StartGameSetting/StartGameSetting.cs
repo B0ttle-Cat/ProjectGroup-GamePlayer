@@ -36,8 +36,31 @@ namespace BC.GamePlayerManager
 			[ValueDropdown("ShowAnchorList")]
 			public int anchorIndex;
 		}
-		[TableList]
-		[PropertyOrder(-97)]
+#if UNITY_EDITOR
+		[TabGroup("Tap", nameof(SpawnList)), TableList, PropertyOrder(-97)]
+#endif
 		public List<SpawnAnchor> SpawnList;
+
+#if UNITY_EDITOR
+		[Serializable]
+		public partial struct GizmosInfo
+		{
+			[ValueDropdown("ShowFactionList")]
+			[TableColumnWidth(150, false)]
+			[ReadOnly]
+			public int factionIndex;
+			[ValueDropdown("ShowTeamList")]
+			[TableColumnWidth(100, false)]
+			[ReadOnly]
+			public int teamIndex;
+#if UNITY_EDITOR
+			[InlineButton("RandomColor","",Icon = SdfIconType.Dice6Fill)]
+#endif
+			public Color gizmoColor;
+		}
+		[TabGroup("Tap", nameof(TeamGizmosInfo)), TableList, PropertyOrder(-97)]
+		public List<GizmosInfo> TeamGizmosInfo;
+
+#endif
 	}
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,8 +12,6 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
-using Debug = UnityEngine.Debug;
-
 namespace BC.LowLevelAI
 {
 	public class NavMeshConnectComputer : ComponentBehaviour
@@ -23,7 +20,7 @@ namespace BC.LowLevelAI
 		public bool usingNavMeshRaycast;
 		[ShowIf("usingNavMeshRaycast")]
 		public int areaMask = NavMesh.AllAreas;
-
+		private int physicsLayerMask = -1;
 
 		internal List<Triangle> triangleList;
 		internal List<LinkRayTriangle> linkRayTriangleList;
@@ -36,11 +33,13 @@ namespace BC.LowLevelAI
 		Coroutine asyncUpdate;
 		public float tiemForCalculationCount = 1/10;
 		private DateTime previousTime;
-		public bool IsAsyncUpdate =>
-#if UNITY_EDITOR
-			editorCoroutine != null ||
-#endif
-			asyncUpdate != null;
+		[SerializeField,ReadOnly]
+		private bool isAsyncUpdate;
+		public bool IsAsyncUpdate => isAsyncUpdate && !DisableCancelToken.IsCancellationRequested;
+		//#if UNITY_EDITOR
+		//			editorCoroutine != null ||
+		//#endif
+		//			asyncUpdate != null;
 
 		public override void BaseValidate()
 		{
@@ -84,74 +83,64 @@ namespace BC.LowLevelAI
 #if UNITY_EDITOR
 			editorCoroutine = null;
 #endif
-			if(IsAsyncUpdate)
+			if(!isAsyncUpdate)
 			{
-				StopCoroutine(asyncUpdate);
+				AsyncUpdate();
 			}
-			asyncUpdate = StartCoroutine(AsyncUpdate());
 		}
 		public override void BaseDisable()
 		{
-			if(IsAsyncUpdate)
-			{
-				StopCoroutine(asyncUpdate);
-				asyncUpdate = null;
-			}
+			isAsyncUpdate = false;
 		}
-		string waitingLog = "";
-		int waitCount = 0;
-		public IEnumerator AsyncUpdate()
-		{
-			waitCount = 0;
-			mapCellData = ThisContainer.GetData<MapCellData>();
 
-			previousTime = DateTime.Now;
-			waitingLog = "Start PathPointConnectNeighbor";
-			Debug.Log($"AsyncUpdate : {waitingLog}");
-			yield return null;
+		public async void AsyncUpdate()
+		{
+			isAsyncUpdate = true;
+			mapCellData = ThisContainer.GetData<MapCellData>();
+			physicsLayerMask = TagAndLayer.GetHitLayerMask(TagAndLayer.NavMeshRaycast);
+
+			await Awaitable.NextFrameAsync();
 			if(IsAsyncUpdate)
 			{
-				waitingLog = "Start InitTriangleList";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return InitTriangleList();
+				await InitTriangleList();
 			}
 			if(IsAsyncUpdate)
 			{
-				waitingLog = "Start BuindingAllTriangle";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return BuindingAllTriangle();
+				await BuindingAllTriangle();
 			}
 			if(IsAsyncUpdate)
 			{
-				waitingLog = "Start Cashing";
 				triangleList.Clear();
 				linkRayTriangleList.Clear();
 				triangleList.AddRange(asyncTriangleList);
 				linkRayTriangleList.AddRange(asyncLinkRayTriangleList);
-
-				waitingLog = "Start Cashing TrianglesTile";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return CashingTrianglesTile();
-				waitingLog = "Start Cashing TrianglesToLink";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return CashingTrianglesToLink();
-				waitingLog = "Start Cashing TrianglesClosedPoint";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return CashingTrianglesClosedPoint();
-				waitingLog = "Start ClearIsolatedTriangles";
-				Debug.Log($"AsyncUpdate : {waitingLog}");
-				yield return ClearIsolatedTriangles();
-				asyncTrianglesTile.Clear();
-				asyncTriangleList.Clear();
-				asyncLinkRayTriangleList.Clear();
 			}
-			asyncUpdate = null;
-			waitingLog = "Ended PathPointConnectNeighbor";
-			Debug.Log($"AsyncUpdate : {waitingLog}");
+			if(IsAsyncUpdate)
+			{
+				await CashingTrianglesTile();
+			}
+			if(IsAsyncUpdate)
+			{
+				await CashingTrianglesToLink();
+			}
+			if(IsAsyncUpdate)
+			{
+				await CashingTrianglesClosedPoint();
+			}
+			if(IsAsyncUpdate)
+			{
+				await ClearIsolatedTriangles();
+			}
+			asyncTrianglesTile.Clear();
+			asyncTriangleList.Clear();
+			asyncLinkRayTriangleList.Clear();
+			isAsyncUpdate = false;
 		}
-		private IEnumerator InitTriangleList()
+		private async Awaitable InitTriangleList()
 		{
+			await Awaitable.MainThreadAsync();
 			NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
+			await Awaitable.BackgroundThreadAsync();
 
 			asyncTriangleList ??= new List<Triangle>();
 			asyncTriangleList.Clear();
@@ -159,7 +148,7 @@ namespace BC.LowLevelAI
 			// NavMesh의 삼각형 배열을 가져옴
 			int[] indices = navMeshData.indices;
 			int Length = indices.Length;
-			if(Length == 0) yield break;
+			if(Length == 0) return;
 
 			// NavMesh의 삼각형을 통해 정점을 가져옴
 			Vector3[] vertices = navMeshData.vertices;
@@ -173,21 +162,6 @@ namespace BC.LowLevelAI
 				Vector3 vertex3 = vertices[indices[i + 2]];
 				Triangle triangle = new Triangle(asyncTriangleList.Count, vertex1 , vertex2, vertex3);
 				asyncTriangleList.Add(triangle);
-				//triangle.Log();
-
-				if(IsAsyncUpdate)
-				{
-					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
-					{
-						previousTime = DateTime.Now;
-						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-						yield return null;
-					}
-				}
-				else
-				{
-					yield break;
-				}
 			}
 
 			asyncTrianglesTile ??= new Dictionary<Vector3Int, List<Triangle>>();
@@ -207,27 +181,17 @@ namespace BC.LowLevelAI
 				}
 				titleValue.Add(triangle);
 
-				if(IsAsyncUpdate)
-				{
-					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
-					{
-						previousTime = DateTime.Now;
-						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-						yield return null;
-					}
-				}
-				else
-				{
-					yield break;
-				}
 			}
 		}
-		private IEnumerator BuindingAllTriangle()
+		private async Awaitable BuindingAllTriangle()
 		{
+			await Awaitable.MainThreadAsync();
+
 			asyncLinkRayTriangleList ??= new List<LinkRayTriangle>();
 			asyncLinkRayTriangleList.Clear();
 
 			int Count = asyncTriangleList.Count;
+
 			for(int i = 0 ; i < Count ; i++)
 			{
 				var triangleA = asyncTriangleList[i];
@@ -263,8 +227,8 @@ namespace BC.LowLevelAI
 							Ray ray1 = new Ray(a, direction);
 							Ray ray2 = new Ray(b, -direction);
 							bool isHit =
-							Physics.Raycast(ray1, out _, distance, TagAndLayer.GetHitLayerMask(TagAndLayer.NavMeshRaycast), QueryTriggerInteraction.Ignore) ||
-							Physics.Raycast(ray2, out _, distance, TagAndLayer.GetHitLayerMask(TagAndLayer.NavMeshRaycast), QueryTriggerInteraction.Ignore);
+							Physics.Raycast(ray1, out _, distance, physicsLayerMask, QueryTriggerInteraction.Ignore) ||
+							Physics.Raycast(ray2, out _, distance, physicsLayerMask, QueryTriggerInteraction.Ignore);
 							return isHit;
 						}
 					});
@@ -273,7 +237,6 @@ namespace BC.LowLevelAI
 					{
 						var linkTriangle = new LinkRayTriangle(linkType , triangleA, triangleB);
 						asyncLinkRayTriangleList.Add(linkTriangle);
-						//linkTriangle.Log();
 					}
 
 					if(IsAsyncUpdate)
@@ -281,40 +244,30 @@ namespace BC.LowLevelAI
 						if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 						{
 							previousTime = DateTime.Now;
-							Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-							yield return null;
+							await Awaitable.NextFrameAsync(DisableCancelToken);
 						}
 					}
 					else
 					{
-						yield break;
+						return;
 					}
 				}
 			}
 		}
-		private IEnumerator CashingTrianglesTile()
+		private async Awaitable CashingTrianglesTile()
 		{
+			await Awaitable.BackgroundThreadAsync();
+
 			mapCellData.trianglesTile.Clear();
 			foreach(var key in asyncTrianglesTile)
 			{
 				mapCellData.trianglesTile.Add(key.Key, key.Value);
-				if(IsAsyncUpdate)
-				{
-					if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
-					{
-						previousTime = DateTime.Now;
-						Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-						yield return null;
-					}
-				}
-				else
-				{
-					yield break;
-				}
 			}
 		}
-		private IEnumerator CashingTrianglesToLink()
+		private async Awaitable CashingTrianglesToLink()
 		{
+			await Awaitable.BackgroundThreadAsync();
+
 			mapCellData.trianglesToLink.Clear();
 			foreach(Triangle triangle in asyncTriangleList)
 			{
@@ -325,25 +278,14 @@ namespace BC.LowLevelAI
 					{
 						linkList.Add(link);
 					}
-					if(IsAsyncUpdate)
-					{
-						if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
-						{
-							previousTime = DateTime.Now;
-							Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-							yield return null;
-						}
-					}
-					else
-					{
-						yield break;
-					}
 				}
 				mapCellData.trianglesToLink.Add(triangle, linkList.ToArray());
 			}
 		}
-		private IEnumerator CashingTrianglesClosedPoint()
+		private async Awaitable CashingTrianglesClosedPoint()
 		{
+			await Awaitable.MainThreadAsync();
+
 			mapCellData.trianglesClosedPoint.Clear();
 			MapAnchor[] mapAnchors = ThisContainer.GetChildAllObject<MapAnchor>();
 			for(int i = 0 ; i<asyncTriangleList.Count ; i++)
@@ -389,6 +331,7 @@ namespace BC.LowLevelAI
 								{
 									closePoint = hit.position;
 								}
+
 								if(NavMesh.CalculatePath(center, closePoint, NavMesh.AllAreas, path))
 								{
 									if(path.status == NavMeshPathStatus.PathComplete)
@@ -412,13 +355,12 @@ namespace BC.LowLevelAI
 							if((DateTime.Now - previousTime).TotalSeconds >= tiemForCalculationCount)
 							{
 								previousTime = DateTime.Now;
-								Debug.Log($"AsyncUpdate : {waitingLog} : {waitCount++}");
-								yield return null;
+								await Awaitable.NextFrameAsync(DisableCancelToken);
 							}
 						}
 						else
 						{
-							yield break;
+							return;
 						}
 					}
 				}
@@ -427,10 +369,11 @@ namespace BC.LowLevelAI
 					mapCellData.trianglesClosedPoint.Add(triangle, closePathPoint);
 				}
 			}
-			yield break;
 		}
-		private IEnumerator ClearIsolatedTriangles()
+		private async Awaitable ClearIsolatedTriangles()
 		{
+			await Awaitable.BackgroundThreadAsync();
+
 			Dictionary<Triangle, MapPathPoint> trianglesClosedPoint = mapCellData.trianglesClosedPoint;
 			var tileList = mapCellData.trianglesTile;
 			var linkList = mapCellData.trianglesToLink;
@@ -474,8 +417,6 @@ namespace BC.LowLevelAI
 					=> trianglesClosedPoint.ContainsKey(item.linkTriangleA)
 					|| trianglesClosedPoint.ContainsKey(item.linkTriangleB)).ToList();
 			}
-
-			yield break;
 		}
 		public bool FindPointInTriangle(Vector3 point, out Triangle triangle)
 		{
@@ -656,7 +597,7 @@ namespace BC.LowLevelAI
 			}
 			triangleList = new List<Triangle>();
 			linkRayTriangleList = new List<LinkRayTriangle>();
-			editorCoroutine = Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
+			//editorCoroutine = Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(AsyncUpdate(), this);
 		}
 
 		[Header("OnDrawGizmos")]
@@ -781,8 +722,7 @@ namespace BC.LowLevelAI
 							}
 						}
 					}
-					UnityEditor.Handles.Label(onMouseTrianglePosition, $"::{onMouseTriangleIndex}", new GUIStyle()
-					{
+					UnityEditor.Handles.Label(onMouseTrianglePosition, $"::{onMouseTriangleIndex}", new GUIStyle() {
 						fontSize = Mathf.RoundToInt(30),
 						normal = new GUIStyleState() { textColor = Color.red }
 					});

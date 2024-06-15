@@ -1,10 +1,13 @@
 using BC.ODCC;
 using BC.OdccBase;
 
+using UnityEngine;
+
 namespace BC.HighLevelAI
 {
 	public class FireteamTacticsComputer : ComponentBehaviour
 	{
+		[SerializeField]
 		private OdccQueryCollector fireteamTacticsAICollector;
 		private bool watingStrategyComputing;
 
@@ -21,7 +24,7 @@ namespace BC.HighLevelAI
 			base.BaseEnable();
 
 			fireteamTacticsAICollector.CreateLooperEvent(nameof(FireteamTacticsComputer))
-				.IsBreakFunction(() => watingStrategyComputing)
+				.SetBreakFunction(() => watingStrategyComputing)
 				.CallNext(StartAction)
 				.Foreach<FireteamTacticsAI, FireteamData, FireteamTacticsData>(StartComputing)
 				.Foreach<FireteamTacticsAI, FireteamData, FireteamTacticsData>(UpdateComputing)

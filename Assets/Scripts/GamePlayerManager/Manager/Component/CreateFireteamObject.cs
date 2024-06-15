@@ -18,7 +18,7 @@ namespace BC.GamePlayerManager
 		private Dictionary<(int,int), List<CharacterData>> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
-		private OdccQueryCollector characterQueryCollector;
+		[SerializeField] private OdccQueryCollector characterQueryCollector;
 
 		public override void BaseAwake()
 		{

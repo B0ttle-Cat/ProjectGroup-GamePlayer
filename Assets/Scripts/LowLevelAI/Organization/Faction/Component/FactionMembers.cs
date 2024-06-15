@@ -17,7 +17,7 @@ namespace BC.LowLevelAI
 		[SerializeField, ReadOnly]
 		private List<FireteamObject> thisMember;
 
-		private OdccQueryCollector  memberCollector;
+		[SerializeField] private OdccQueryCollector  memberCollector;
 		public int Count => thisMember.Count;
 
 		public override void BaseAwake()

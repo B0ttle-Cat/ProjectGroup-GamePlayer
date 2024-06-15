@@ -10,8 +10,8 @@ namespace BC.LowLevelAI
 		public MapPathNode MovePathNode { get; set; }
 		public bool HasMoveTarget { get; }
 	}
-
-	public class MovementStateComponent : OdccStateComponent
+	[RequireComponent(typeof(FireteamStateMachine))]
+	public class MovementFireteamState : OdccStateComponent
 	{
 		private IMovementStateData iStateData;
 		public MapPathNode movePathNode;
@@ -45,7 +45,7 @@ namespace BC.LowLevelAI
 		{
 			if(!iStateData.HasMoveTarget)
 			{
-				OnTransitionState<StayStateComponent>();
+				OnTransitionState<StayFireteamState>();
 				return;
 			}
 		}

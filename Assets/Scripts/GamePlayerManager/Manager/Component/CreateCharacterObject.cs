@@ -11,7 +11,6 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 using static BC.GamePlayerManager.StartGameSetting;
-using static BC.ODCC.ContainerObject;
 
 namespace BC.GamePlayerManager
 {
@@ -23,8 +22,6 @@ namespace BC.GamePlayerManager
 		private Queue<(StartUnitSettingCharacter, SpawnData)> characterSettingDatas;
 
 		private IGetLowLevelAIManager lowLevelAIManager;
-
-		private Awaiter<MapPathPointComputer> awaitMapPathPointComputer;
 
 		[ShowInInspector, ReadOnly]
 		public bool IsCompleteSetting { get; private set; }
@@ -67,7 +64,7 @@ namespace BC.GamePlayerManager
 				return;
 			}
 
-			var computer = await lowLevelAIManager.ThisContainer.AwaitGetComponentInChild<MapPathPointComputer>(DisableCancelToken, item=>item.IsCompleteUpdate);
+			var computer = await lowLevelAIManager.ThisContainer.AwaitGetComponentInChild<MapPathPointComputer>(item=>item.IsCompleteUpdate);
 
 			characterSettingDatas = new Queue<(StartUnitSettingCharacter, SpawnData)>();
 

@@ -8,6 +8,8 @@ using BC.LowLevelAI;
 using BC.ODCC;
 using BC.OdccBase;
 
+using UnityEngine;
+
 namespace BC.GamePlayerManager
 {
 	public abstract class GamePlayer : ComponentBehaviour, IGamePlayingInterface
@@ -31,6 +33,7 @@ namespace BC.GamePlayerManager
 			ThisContainer.TryGetParentObject<IGetHighLevelAIManager>(out highLevelAIManager);
 		}
 
+		[SerializeField]
 		private OdccQueryCollector fireteamCollector;
 
 		private FactionData factionData;
@@ -114,7 +117,7 @@ namespace BC.GamePlayerManager
 
 			playingData.CurrentSelectTeamIndex = selectTeamIndex;
 		}
-		public bool TrySelectFireteam(int currentSelectTeam, out FireteamObject select)
+		private bool TrySelectFireteam(int currentSelectTeam, out FireteamObject select)
 		{
 			select = null;
 			if(currentSelectTeam < 0) return false;
@@ -127,39 +130,40 @@ namespace BC.GamePlayerManager
 		}
 		public virtual void OnSetMoveTarget(int anchorIndex, int? selectTeamIndex = null)
 		{
-			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
-			{
-				playingData = data;
-			}
-			if(playingData == null) return;
-
+			if(lowLevelAIManager == null || lowLevelAIManager.LowLevelAI == null) return;
+			if(playingData == null && !ThisContainer.TryGetData<GamePlayingData>(out playingData)) return;
 			int currentSelectTeam = selectTeamIndex ?? playingData.CurrentSelectTeamIndex;
-			if(TrySelectFireteam(currentSelectTeam, out var selectTeamObject))
-			{
-				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var statemachine))
-				{
-					statemachine.OnSetMoveTarget(lowLevelAIManager, anchorIndex);
-				}
-			}
+			if(!TrySelectFireteam(currentSelectTeam, out var selectTeamObject)) return;
+			if(!selectTeamObject.ThisContainer.TryGetComponent<FireteamCommandController>(out var controller)) return;
+			if(!selectTeamObject.ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
+
+
+			if(!lowLevelAIManager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
+			if(!computer.TryGetClosedPathPoint(members.CenterPosition, out var closedPathPoint)) return;
+			var moveTargetPoint = computer.SelectPathPointIndex(anchorIndex);
+			if(moveTargetPoint == null) return;
+			if(!closedPathPoint.CalculatePath(moveTargetPoint, out var pathNode)) return;
+
+
+			controller.OnSetMoveTarget(members, pathNode);
 		}
 
 		public void OnSpawnTeamToAnchor(int anchorIndex, int? selectTeamIndex = null)
 		{
-			if(playingData == null && ThisContainer.TryGetData<GamePlayingData>(out var data))
-			{
-				playingData = data;
-			}
-			if(playingData == null) return;
-
-
+			if(lowLevelAIManager == null || lowLevelAIManager.LowLevelAI == null) return;
+			if(playingData == null && !ThisContainer.TryGetData<GamePlayingData>(out playingData)) return;
 			int currentSelectTeam = selectTeamIndex ?? playingData.CurrentSelectTeamIndex;
-			if(TrySelectFireteam(currentSelectTeam, out var selectTeamObject))
-			{
-				if(selectTeamObject.ThisContainer.TryGetComponent<FireteamStateMachine>(out var statemachine))
-				{
-					statemachine.OnTeamSpawnTarget(lowLevelAIManager, anchorIndex);
-				}
-			}
+			if(!TrySelectFireteam(currentSelectTeam, out var selectTeamObject)) return;
+			if(!selectTeamObject.ThisContainer.TryGetComponent<FireteamCommandController>(out var controller)) return;
+			if(!selectTeamObject.ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
+
+
+			if(!lowLevelAIManager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
+			var spawnAnchor = computer.SelectAnchorIndex(anchorIndex);
+			if(spawnAnchor == null) return;
+
+
+			controller.OnTeamSpawnTarget(members, spawnAnchor);
 		}
 		public void OnSpawnUnitIndex(int unitIndex, int? selectTeamIndex = null)
 		{

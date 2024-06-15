@@ -16,7 +16,7 @@ namespace BC.GamePlayerManager
 		public bool onShowGizmos;
 
 		private QuerySystem teamQuerySystem;
-		private OdccQueryCollector teamQueryCollector;
+		[SerializeField] private OdccQueryCollector teamQueryCollector;
 		private List<GizmosInfo> teamGizmosINfo;
 
 		private Queue<Action> drawGizmos;
@@ -41,7 +41,7 @@ namespace BC.GamePlayerManager
 			teamQueryCollector = OdccQueryCollector.CreateQueryCollector(teamQuerySystem)
 				.CreateLooperEvent(nameof(OnSyncTeamToGizmos), false)
 				.Foreach<FireteamMembers, IFireteamData>(OnSyncTeamToGizmos)
-				.IsBreakFunction(() => !onShowGizmos)
+				.SetBreakFunction(() => !onShowGizmos)
 				.GetCollector();
 
 			teamGizmosINfo = new List<GizmosInfo>();

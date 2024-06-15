@@ -80,7 +80,7 @@ namespace BC.LowLevelAI
 				OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
 					.CreateChangeListEvent(InitList, ChangeList)
 					.CreateLooperEvent(nameof(FactionDetector))
-					//.IsBreakFunction(() => !(NavMeshConnectComputer != null && NavMeshConnectComputer.IsAsyncUpdate))
+					//.SetBreakFunction(() => !(NavMeshConnectComputer != null && NavMeshConnectComputer.IsAsyncUpdate))
 					.CallNext(InitFactionDetector)
 					.Foreach<FireunitDetector>(DetectorUpdate)//.SetFrameCount(() => 5)
 					.Foreach<IFactionData, FireunitDetector>(DetectorComputing)//.SetFrameCount(() => 5)

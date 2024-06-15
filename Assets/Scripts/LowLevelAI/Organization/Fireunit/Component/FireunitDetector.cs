@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using BC.ODCC;
@@ -63,8 +64,27 @@ namespace BC.LowLevelAI
 
 			ColliderRadius = thisCollider.radius;
 
-			OnUpdateDatas(ThisContainer.DataList);
+			ThisContainer.AwaitGetData<DetectorRangeData>((item) => {
+				DetectorRangeData = item;
+			}, null, DisableCancelToken);
+			ThisContainer.AwaitGetData<AidDetectorRangeData>((item) => {
+				AidDetectorRange = item.detectRadius;
+			}, null, DisableCancelToken);
+			ThisContainer.AwaitGetData<AntiDetectorRangeData>((item) => {
+				AntiDetectorRange = item.detectRadius;
+			}, null, DisableCancelToken);
 		}
+
+		private void InitDataList(IEnumerable<ObjectBehaviour> enumerable)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void ChageDataList(ObjectBehaviour behaviour, bool arg2)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void BaseDisable()
 		{
 			base.BaseDisable();
@@ -74,33 +94,6 @@ namespace BC.LowLevelAI
 		public override void BaseStart()
 		{
 
-		}
-
-		protected override void OnUpdateDatas(DataObject[] update)
-		{
-			AidDetectorRange = 0f;
-			AntiDetectorRange = 0f;
-			int Length = update.Length;
-			for(int i = 0 ; i < Length ; i++)
-			{
-				var data = update[i];
-				if(data is null)
-				{
-					continue;
-				}
-				else if(data is DetectorRangeData rangeData)
-				{
-					DetectorRangeData = rangeData;
-				}
-				else if(data is AidDetectorRangeData aidData)
-				{
-					AidDetectorRange += aidData.detectRadius;
-				}
-				else if(data is AntiDetectorRangeData antiData)
-				{
-					AntiDetectorRange += antiData.detectRadius;
-				}
-			}
 		}
 
 		internal void UpdateDetector(NavMeshConnectComputer navMeshConnectComputer, MapCellData mapAICellData)

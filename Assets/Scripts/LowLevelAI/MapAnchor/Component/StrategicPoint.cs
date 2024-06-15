@@ -40,7 +40,7 @@ namespace BC.LowLevelAI
 		{
 			try
 			{
-				if(!Application.isPlaying) ThisContainer.ContainerNode.AllUpdate();
+				if(!Application.isPlaying) ThisContainer.ContainerNode.AllRefresh();
 
 				if(ThisContainer.TryGetData<StrategicPointData>(out strategicPointData))
 				{

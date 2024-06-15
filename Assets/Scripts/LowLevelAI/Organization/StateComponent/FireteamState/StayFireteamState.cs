@@ -1,5 +1,8 @@
 using BC.ODCC;
 
+
+using UnityEngine;
+
 namespace BC.LowLevelAI
 {
 	public interface IStayStateData : IStateData
@@ -7,7 +10,8 @@ namespace BC.LowLevelAI
 		public bool IsStay { get; set; }
 		public bool HasMoveTarget { get; }
 	}
-	public class StayStateComponent : OdccStateComponent
+	[RequireComponent(typeof(FireteamStateMachine))]
+	public class StayFireteamState : OdccStateComponent
 	{
 		private IStayStateData iStateData;
 
@@ -21,6 +25,7 @@ namespace BC.LowLevelAI
 		{
 			iStateData = ThisStateData as IStayStateData;
 			iStateData.IsStay = true;
+
 		}
 
 		protected override void StateDisable()
@@ -31,7 +36,7 @@ namespace BC.LowLevelAI
 		{
 			if(iStateData.HasMoveTarget)
 			{
-				OnTransitionState<MovementStateComponent>();
+				OnTransitionState<MovementFireteamState>();
 				return;
 			}
 		}

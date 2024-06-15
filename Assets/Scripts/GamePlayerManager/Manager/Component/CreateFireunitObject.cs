@@ -20,7 +20,7 @@ namespace BC.GamePlayerManager
 		private Dictionary<(int,int,int), CharacterObject> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
-		private OdccQueryCollector characterQueryCollector;
+		[SerializeField] private OdccQueryCollector characterQueryCollector;
 
 		public List<SpawnAnchor> SpawnList;
 

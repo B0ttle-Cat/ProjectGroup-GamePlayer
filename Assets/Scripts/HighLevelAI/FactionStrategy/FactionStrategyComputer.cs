@@ -15,9 +15,9 @@ namespace BC.HighLevelAI
 		private FireteamTacticsComputer fireteamTacticsComputer;
 		private MapPathPointComputer mapPathPointComputer;
 
-		private OdccQueryCollector factionStrategyAICollector;
-		private OdccQueryCollector fireteamStrategyAICollector;
-		private OdccQueryCollector strategicPointCollector;
+		[SerializeField] private OdccQueryCollector factionStrategyAICollector;
+		[SerializeField] private OdccQueryCollector fireteamStrategyAICollector;
+		[SerializeField] private OdccQueryCollector strategicPointCollector;
 
 		public float StrategyUpdateTime;
 		private bool IsWaitPathPointComputing => mapPathPointComputer == null ? true : mapPathPointComputer.IsComputing;
@@ -44,7 +44,7 @@ namespace BC.HighLevelAI
 			base.BaseEnable();
 
 			//factionStrategyAICollector.CreateLooper(nameof(FactionStrategyComputer))
-			//	.IsBreakFunction(() => IsWaitPathPointComputing)
+			//	.SetBreakFunction(() => IsWaitPathPointComputing)
 			//	.Action(StartAction)
 			//	.Foreach<FactionStrategyAI>(UpdateComputer)
 			//	.Action(EndedAction)

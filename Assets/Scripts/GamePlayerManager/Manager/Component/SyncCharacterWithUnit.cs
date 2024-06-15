@@ -5,6 +5,8 @@ using BC.LowLevelAI;
 using BC.ODCC;
 using BC.OdccBase;
 
+using UnityEngine;
+
 namespace BC.GamePlayerManager
 {
 	public class SyncCharacterWithUnit : ComponentBehaviour
@@ -12,9 +14,11 @@ namespace BC.GamePlayerManager
 		private Dictionary<(int,int,int), CharacterObject> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
+		[SerializeField]
 		private OdccQueryCollector characterQueryCollector;
 
 		private QuerySystem unitQuerySystem;
+		[SerializeField]
 		private OdccQueryCollector unitQueryCollector;
 
 

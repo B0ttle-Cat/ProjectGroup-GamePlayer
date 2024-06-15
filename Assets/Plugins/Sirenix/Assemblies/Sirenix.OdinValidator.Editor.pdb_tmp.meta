@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 985bd5df1354497d76ecb19d56114d54
+timeCreated: 1488828285
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 227861
+  packageName: Odin Validator
+  packageVersion: 3.3.1.3
+  assetPath: Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinValidator.Editor.pdb_tmp
+  uploadId: 669374

@@ -20,7 +20,7 @@ namespace BC.LowLevelAI
 		private List<FireunitObject> thisMember;
 		private CinemachineTargetGroup cinemachineTargetGroup;
 
-		private OdccQueryCollector  memberCollector;
+		[SerializeField] private OdccQueryCollector  memberCollector;
 		public List<FireunitObject> MemberList => thisMember;
 		public int Count => thisMember.Count;
 

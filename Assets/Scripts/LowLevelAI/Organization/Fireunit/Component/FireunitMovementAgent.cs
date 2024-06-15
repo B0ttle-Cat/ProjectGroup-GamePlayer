@@ -17,18 +17,17 @@ namespace BC.LowLevelAI
 	{
 		private NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;
-		[ShowInInspector, ReadOnly]
+		[SerializeField, ReadOnly]
 		protected Vector3 inputVectorTarget;
-		[ShowInInspector, ReadOnly]
+		[SerializeField, ReadOnly]
 		protected MapPathNode inputNodeTarget;
-		[ShowInInspector, ReadOnly]
+		[SerializeField, ReadOnly]
 		protected Vector3 inputFormationPosition;
 
 		protected float baseRadius;
 		protected float halfRadius;
 		private const float nextNodeDistance = 5f;
 
-		[ShowInInspector, ReadOnly]
 		private NavMeshPathStatus navMeshPathStatus;
 		private NavMeshPath navMeshPath;
 		public bool IsMove;

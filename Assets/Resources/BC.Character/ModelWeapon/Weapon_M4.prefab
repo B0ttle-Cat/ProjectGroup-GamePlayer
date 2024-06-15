@@ -107,7 +107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5025013027749096398
 Transform:
   m_ObjectHideFlags: 0
@@ -139,17 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4850b5847a2824e999fe96d0f4752d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 240499442079477659}
       parent: {fileID: 0}
       childs: []
@@ -176,15 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3baaae451c6fb4ab35eb8db551675e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   model: {fileID: 240499442079477659}
   animator: {fileID: -5611412656061055991}
   audioSource: {fileID: -4427440104938763135}

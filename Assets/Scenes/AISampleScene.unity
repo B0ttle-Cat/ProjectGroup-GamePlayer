@@ -714,7 +714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 0
+      showInspector: 6
       thisObject: {fileID: 448125903}
       parent: {fileID: 0}
       childs:
@@ -1099,7 +1099,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1268186662}
   - component: {fileID: 1268186664}
-  - component: {fileID: 1268186663}
   m_Layer: 0
   m_Name: 01 Faction
   m_TagString: Untagged
@@ -1122,18 +1121,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1555824967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1268186663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268186661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e545e9a23893764aafb40ce250c13b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1268186664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1148,12 +1135,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 0
+      showInspector: 6
       thisObject: {fileID: 1268186664}
       parent: {fileID: 1555824966}
       childs: []
-      componentList:
-      - {fileID: 1268186663}
+      componentList: []
       dataList:
       - rid: 7701795883776999442
   references:
@@ -2033,7 +2019,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2049135160}
   - component: {fileID: 2049135162}
-  - component: {fileID: 2049135161}
   m_Layer: 0
   m_Name: 00 Faction
   m_TagString: Untagged
@@ -2056,18 +2041,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1555824967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2049135161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049135159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e545e9a23893764aafb40ce250c13b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2049135162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2082,12 +2055,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 0
+      showInspector: 6
       thisObject: {fileID: 2049135162}
       parent: {fileID: 1555824966}
       childs: []
-      componentList:
-      - {fileID: 2049135161}
+      componentList: []
       dataList:
       - rid: 7701795883776999441
   references:
@@ -2219,6 +2191,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireteamMovementCommander
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899840512398458155, guid: 30fd5a25f2d64914ca015f162aca497d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
         type: 3}

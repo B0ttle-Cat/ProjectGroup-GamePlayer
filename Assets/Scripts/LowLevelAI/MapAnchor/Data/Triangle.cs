@@ -39,6 +39,11 @@ namespace BC.LowLevelAI
 			float beta = Vector3.Dot(Vector3.Cross(w, v), n) / n.sqrMagnitude;
 			float alpha = 1.0f - gamma - beta;
 
+			if(0 > gamma && gamma > -0.001f) gamma = 0f;
+			if(0 > beta && beta > -0.001f) beta = 0f;
+			if(0 > alpha && alpha > -0.001f) alpha = 0f;
+
+
 			// 모든 거리가 양수이면 점은 삼각형 내부에 있음
 			return alpha >= 0 && beta >= 0 && gamma >= 0;
 		}

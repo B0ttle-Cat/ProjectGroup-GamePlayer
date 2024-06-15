@@ -40,6 +40,97 @@ MonoBehaviour:
       FullPath: BC.Character/ModelWeapon/Weapon_M4
       ObjectAsset: {fileID: 0}
   - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 3
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 4
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 5
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 6
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 7
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 8
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
+    teamIndex: 0
+    unitIndex: 9
+    characterKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
+      ObjectAsset: {fileID: 0}
+    weaponeKey:
+      LoadType: 0
+      BundleName: 
+      FullPath: BC.Character/ModelWeapon/Weapon_M4
+      ObjectAsset: {fileID: 0}
+  - factionIndex: 0
     teamIndex: 1
     unitIndex: 0
     characterKey:

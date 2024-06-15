@@ -59,9 +59,9 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 
 			asyncUpdate = null;
 			mapCellData = null;
@@ -182,8 +182,9 @@ namespace BC.LowLevelAI
 
 			pathPoint.ConnectNeighborEnded(asyncPathPointList);
 		}
-		public MapAnchor SelectAnchorIndex(int selectIndex)
+		public bool TrySelectAnchorIndex(int selectIndex, out MapAnchor mapAnchor)
 		{
+			mapAnchor = null;
 			int length = AllMapAnchor.Length;
 			for(int i = 0 ; i < length ; i++)
 			{
@@ -192,14 +193,16 @@ namespace BC.LowLevelAI
 				{
 					if(data.anchorIndex == selectIndex)
 					{
-						return pathpoint;
+						mapAnchor = pathpoint;
+						break;
 					}
 				}
 			}
-			return null;
+			return mapAnchor != null;
 		}
-		public MapPathPoint SelectPathPointIndex(int selectIndex)
+		public bool TrySelectPathPointIndex(int selectIndex, out MapPathPoint mapPathPoint)
 		{
+			mapPathPoint = null;
 			int length = AllMapAnchor.Length;
 			foreach(var item in mapAnchorLink)
 			{
@@ -209,11 +212,12 @@ namespace BC.LowLevelAI
 					var pathpoint = item.Value.Item2;
 					if(pathpoint != null)
 					{
-						return pathpoint;
+						mapPathPoint = pathpoint;
+						break;
 					}
 				}
 			}
-			return null;
+			return mapPathPoint != null;
 		}
 		public bool TryGetClosedPathPoint(Vector3 position, out MapPathPoint mapPathPoint)
 		{
@@ -300,10 +304,9 @@ namespace BC.LowLevelAI
 				debugMapPathNode = null;
 				if(startPointId >= 0 && endedPointId >= 0)
 				{
-					var start = SelectPathPointIndex(startPointId);
-					var ended = SelectPathPointIndex(endedPointId);
-					if(start != null)
+					if(TrySelectPathPointIndex(startPointId, out var start))
 					{
+						TrySelectPathPointIndex(endedPointId, out var ended);
 						if(start.CalculatePath(ended, out MapPathNode node))
 						{
 							debugMapPathNode = node;

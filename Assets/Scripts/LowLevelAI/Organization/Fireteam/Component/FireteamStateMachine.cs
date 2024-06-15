@@ -27,42 +27,42 @@ namespace BC.LowLevelAI
 			stateData = null;
 		}
 
-		//public void OnSetMoveTarget(IGetLowLevelAIManager manager, int anchorIndex)
+		//public void OnTeamCommand_SetMoveTarget(IGetLowLevelAIManager manager, int anchorIndex)
 		//{
 		//	if(manager == null || manager.LowLevelAI == null) return;
 
 		//	if(!manager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
-		//	if(!ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
+		//	if(!ThisContainer.TryGetComponent<FireteamMemberCollector>(out var members)) return;
 
 		//	Vector3 center = members.CenterPosition;
 
 		//	if(!computer.TryGetClosedPathPoint(center, out var closedPathPoint)) return;
 
-		//	var moveTargetPoint = computer.SelectPathPointIndex(anchorIndex);
+		//	var moveTargetPoint = computer.TrySelectPathPointIndex(anchorIndex);
 		//	if(closedPathPoint ==null || moveTargetPoint == null) return;
 
 		//	if(!closedPathPoint.CalculatePath(moveTargetPoint, out var pathNode)) return;
 		//	stateData.MovePathNode = pathNode;
 		//}
 
-		//public void OnTeamSpawnTarget(IGetLowLevelAIManager manager, int anchorIndex)
+		//public void OnTeamCommand_SpawnOnAnchor(IGetLowLevelAIManager manager, int anchorIndex)
 		//{
 		//	if(manager == null || manager.LowLevelAI == null) return;
 
 		//	if(!manager.MapStage.ThisContainer.TryGetComponent<MapPathPointComputer>(out var computer)) return;
 
-		//	var spawnAnchor = computer.SelectAnchorIndex(anchorIndex);
+		//	var spawnAnchor = computer.TrySelectAnchorIndex(anchorIndex);
 		//	if(spawnAnchor == null) return;
 
-		//	if(!ThisContainer.TryGetComponent<FireteamMembers>(out var members)) return;
+		//	if(!ThisContainer.TryGetComponent<FireteamMemberCollector>(out var members)) return;
 		//	int index = 0;
 		//	members.Foreach(unitObject => {
 		//		var spawn = new SpawnData() {
 		//			spawnAnchorTarget = spawnAnchor,
 		//			spawnUnitCount = members.Count,
 		//			spawnUnitIndex = index++,
-		//			spaenRadius = 2f,
+		//			spawnRadius = 2f,
 		//		};
 		//		unitObject.ThisContainer.RemoveData<SpawnData>();
 		//		unitObject.ThisContainer.RemoveComponent<SpawnComponent>();

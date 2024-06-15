@@ -403,17 +403,10 @@ namespace BC.LowLevelAI
 			MapPathNode first = finded;
 			while(!first.IsStart)
 			{
-				//stack.Push(first);
 				MapPathNode.LinkNode(first.PrevNode, first);
 				first = first.PrevNode;
 			}
 			pathNode = first;
-			//while(stack.Count > 0)
-			//{
-			//	var next = stack.Pop();
-			//	MapPathNode.LinkNode(finded, next);
-			//	finded = next;
-			//}
 			return true;
 		}
 	}

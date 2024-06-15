@@ -1,5 +1,5 @@
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
@@ -8,7 +8,7 @@ namespace BC.LowLevelAI
 		public IFactionData IFactionData { get; }
 	}
 
-	public class FactionObject : ObjectBehaviour, IGetFactionData
+	public class FactionObject : MemberObject, IGetFactionData
 	{
 		private FactionData factionData = null;
 		public override void BaseValidate()

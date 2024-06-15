@@ -10,9 +10,9 @@ namespace BC.LowLevelAI
 		private IAgentMoveTarget agentMove;
 		[SerializeField]
 		private bool isEndedSpawn;
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 			spawnData = null;
 			agentMove = null;
 		}
@@ -45,8 +45,9 @@ namespace BC.LowLevelAI
 
 			if(spawnData.spawnAnchorTarget == null) return;
 
+			Vector3 randomOffset = Random.insideUnitSphere * spawnData.spawnRandomRadius;
 			Vector3 anchorPosition = spawnData.spawnAnchorTarget.ThisPosition();
-			Vector3 spawnAroundPoint = GetAroundPosition.GetAroundSpwanPosition(spawnData.spawnUnitIndex, spawnData.spawnUnitCount, spawnData.spaenRadius);
+			Vector3 spawnAroundPoint = randomOffset + GetAroundPosition.GetAroundSpawnPosition(spawnData.spawnUnitIndex, spawnData.spawnUnitCount, spawnData.spawnRadius, spawnData.spawnRandomRadius);
 
 			agentMove.InputMoveTarget(anchorPosition, true);
 			agentMove.InputMoveTarget(anchorPosition + spawnAroundPoint);

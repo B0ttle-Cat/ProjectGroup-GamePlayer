@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 using BC.Base;
 using BC.Character;
-using BC.GamePlayerInterface;
 using BC.LowLevelAI;
 using BC.ODCC;
 using BC.OdccBase;
@@ -145,13 +144,13 @@ namespace BC.GamePlayerManager
 					{
 						if(diplomacyItem.IsAIFaction)
 						{
-							createObject.gameObject.AddComponent<AIGamePlayer>();
-							createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
+							createObject.gameObject.AddComponent<AIGamePlayerInterface>();
+							//createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 						else
 						{
-							createObject.gameObject.AddComponent<HumanPlayer>();
-							createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
+							createObject.gameObject.AddComponent<HumanPlayerInterface>();
+							//createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 					}
 				}

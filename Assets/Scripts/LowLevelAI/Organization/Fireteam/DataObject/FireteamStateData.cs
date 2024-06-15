@@ -5,8 +5,8 @@ using UnityEngine;
 namespace BC.LowLevelAI
 {
 	public class FireteamStateData : OdccStateData,
-		IStayStateData,
-		IMovementStateData
+		IStayStateData//,
+					  //IMovementStateData
 	{
 		[SerializeField]
 		private MapPathNode moveTargetPathNode;
@@ -16,7 +16,7 @@ namespace BC.LowLevelAI
 		public bool IsStay { get; set; }
 		public bool IsMovement { get; set; }
 
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
 			moveTargetPathNode = null;
 		}

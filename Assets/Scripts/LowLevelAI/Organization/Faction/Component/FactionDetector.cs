@@ -38,6 +38,7 @@ namespace BC.LowLevelAI
 
 
 		private QuerySystem detectorQuerySystem;
+		private OdccQueryCollector detectorQueryCollector;
 
 
 		public override void BaseAwake()
@@ -66,7 +67,7 @@ namespace BC.LowLevelAI
 			detectorQuerySystem = QuerySystemBuilder.CreateQuery()
 				.WithAll<IFactionData, FireunitDetector>()
 				.Build();
-
+			detectorQueryCollector = null;
 		}
 
 		public override void BaseEnable()
@@ -77,14 +78,15 @@ namespace BC.LowLevelAI
 			{
 				factionDiplomacyTypeCash.Add(FactionData.FactionIndex, FactionDiplomacyType.My_Faction);
 
-				OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
+				detectorQueryCollector = OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
 					.CreateChangeListEvent(InitList, ChangeList)
 					.CreateLooperEvent(nameof(FactionDetector))
 					//.SetBreakFunction(() => !(NavMeshConnectComputer != null && NavMeshConnectComputer.IsAsyncUpdate))
 					.CallNext(InitFactionDetector)
 					.Foreach<FireunitDetector>(DetectorUpdate)//.SetFrameCount(() => 5)
 					.Foreach<IFactionData, FireunitDetector>(DetectorComputing)//.SetFrameCount(() => 5)
-					.CallNext(UpdateFactionDetector);
+					.CallNext(UpdateFactionDetector)
+					.GetCollector();
 			}
 		}
 
@@ -114,9 +116,12 @@ namespace BC.LowLevelAI
 		{
 			base.BaseDisable();
 
-			OdccQueryCollector.CreateQueryCollector(detectorQuerySystem)
-				.DeleteChangeListEvent(ChangeList)
-				.DeleteLooperEvent(nameof(FactionDetector));
+			if(detectorQueryCollector != null)
+			{
+				detectorQueryCollector
+					.DeleteChangeListEvent(ChangeList)
+					.DeleteLooperEvent(nameof(FactionDetector));
+			}
 		}
 
 		public void InitFactionDetector()

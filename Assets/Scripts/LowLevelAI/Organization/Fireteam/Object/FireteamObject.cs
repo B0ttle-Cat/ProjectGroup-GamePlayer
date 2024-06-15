@@ -1,5 +1,5 @@
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
@@ -9,7 +9,7 @@ namespace BC.LowLevelAI
 		public IFactionData IFactionData { get; }
 	}
 
-	public class FireteamObject : ObjectBehaviour, IGetFireteamData
+	public class FireteamObject : MemberObject, IGetFireteamData
 	{
 		private FireteamData fireteamData = null;
 		public override void BaseValidate()

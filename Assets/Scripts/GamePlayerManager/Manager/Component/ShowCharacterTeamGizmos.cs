@@ -21,9 +21,9 @@ namespace BC.GamePlayerManager
 
 		private Queue<Action> drawGizmos;
 
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 			teamQuerySystem = null;
 			teamQueryCollector = null;
 
@@ -36,11 +36,11 @@ namespace BC.GamePlayerManager
 			base.BaseAwake();
 
 			teamQuerySystem = QuerySystemBuilder.CreateQuery()
-				.WithAll<FireteamObject, FireteamMembers, IFireteamData>().Build();
+				.WithAll<FireteamObject, FireteamMemberCollector, IFireteamData>().Build();
 
 			teamQueryCollector = OdccQueryCollector.CreateQueryCollector(teamQuerySystem)
 				.CreateLooperEvent(nameof(OnSyncTeamToGizmos), false)
-				.Foreach<FireteamMembers, IFireteamData>(OnSyncTeamToGizmos)
+				.Foreach<FireteamMemberCollector, IFireteamData>(OnSyncTeamToGizmos)
 				.SetBreakFunction(() => !onShowGizmos)
 				.GetCollector();
 
@@ -69,7 +69,7 @@ namespace BC.GamePlayerManager
 
 
 
-		private void OnSyncTeamToGizmos(OdccQueryLooper.LoopInfo loopInfo, FireteamMembers member, IFireteamData data)
+		private void OnSyncTeamToGizmos(OdccQueryLooper.LoopInfo loopInfo, FireteamMemberCollector member, IFireteamData data)
 		{
 			Vector3 centerPosition = member.CenterPosition;
 			int findGizmos = teamGizmosINfo.FindIndex(item => item.factionIndex == data.FactionIndex && item.teamIndex ==data.TeamIndex);

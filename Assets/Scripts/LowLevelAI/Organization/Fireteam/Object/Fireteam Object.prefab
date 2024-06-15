@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 5597930125344667247}
   - component: {fileID: 5731603688894371368}
   - component: {fileID: 4538645315164216160}
-  - component: {fileID: 1275598504825318748}
-  - component: {fileID: 3893770311700049741}
-  - component: {fileID: 7375637341260729743}
+  - component: {fileID: -6279028362280402158}
   m_Layer: 0
   m_Name: Fireteam Object
   m_TagString: Untagged
@@ -49,25 +47,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28948ac98d6d8cb4eb5cae9d10caa360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 5597930125344667247}
       parent: {fileID: 0}
       childs: []
       componentList:
       - {fileID: 5731603688894371368}
-      - {fileID: 1275598504825318748}
-      - {fileID: 3893770311700049741}
-      - {fileID: 7375637341260729743}
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
       dataList:
       - rid: 7701795883776999440
       - rid: 7701795580420293440
@@ -96,16 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c8ce254d5437842b774b1359efb5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  thisMember: []
+  cinemachineTargetGroup: {fileID: 0}
 --- !u!114 &4538645315164216160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +103,7 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 2
   m_Targets: []
---- !u!114 &1275598504825318748
+--- !u!114 &-6279028362280402158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,74 +112,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7275886164925660364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20c697ea7a9063741951c2bb6bb8787e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d15bd4817d11eb4f8efd8631231247e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  OnDebugLog: 0
-  enableStateList:
-  - {fileID: 3893770311700049741}
---- !u!114 &3893770311700049741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7275886164925660364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2cc3bd4afb1c20408520429e578f438, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: IsEnableinState
-      Entry: 5
-      Data: false
-  _StateGroupKey: 0
-  destroyWhenDisable: 0
-  ThisStateMachine: {fileID: 1275598504825318748}
---- !u!114 &7375637341260729743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7275886164925660364}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdd57be0a08b81947bc6307ebe6ebeac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: IsEnableinState
-      Entry: 5
-      Data: false
-  _StateGroupKey: 0
-  destroyWhenDisable: 0
-  ThisStateMachine: {fileID: 1275598504825318748}
-  movePathNode:
-    mapPathPoint: {fileID: 0}

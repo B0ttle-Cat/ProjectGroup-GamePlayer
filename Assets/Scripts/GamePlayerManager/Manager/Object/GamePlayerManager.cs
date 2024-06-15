@@ -29,7 +29,11 @@ namespace BC.GamePlayerManager
 			lowLevelAIManager = lowLevelAIManager != null ? lowLevelAIManager : FindAnyObjectByType<LowLevelAIManager>();
 			highLevelAIManager = highLevelAIManager != null ? highLevelAIManager : FindAnyObjectByType<HighLevelAIManager>();
 		}
-
+		public override void BaseDestroy()
+		{
+			lowLevelAIManager  = null;
+			highLevelAIManager = null;
+		}
 
 		public override void BaseEnable()
 		{

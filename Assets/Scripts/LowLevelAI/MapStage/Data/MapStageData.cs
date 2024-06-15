@@ -6,9 +6,9 @@ namespace BC.LowLevelAI
 	{
 
 
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 
 		}
 	}

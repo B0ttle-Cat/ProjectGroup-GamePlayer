@@ -15,9 +15,9 @@ namespace BC.LowLevelAI
 	{
 		private IStayStateData iStateData;
 
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 			iStateData = null;
 		}
 
@@ -36,7 +36,7 @@ namespace BC.LowLevelAI
 		{
 			if(iStateData.HasMoveTarget)
 			{
-				OnTransitionState<MovementFireteamState>();
+				//OnTransitionState<MovementFireteamState>();
 				return;
 			}
 		}

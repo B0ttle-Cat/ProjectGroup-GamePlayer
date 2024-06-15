@@ -1,61 +1,44 @@
-using BC.ODCC;
-
-using Sirenix.OdinInspector;
-
 namespace BC.GamePlayerInterface
 {
-	public interface IGamePlayingInterface : IOdccComponent
-	{
-		void OnSelectFireteam(int selectTeamIndex);
-		void OnSetMoveTarget(int anchorIndex, int? selectTeamIndex = null);
-		void OnSpawnTeamToAnchor(int anchorIndex, int? selectTeamIndex = null);
-		void OnSpawnUnitIndex(int unitIndex, int? selectTeamIndex = null);
-	}
+	//public class LowLevelPlayingInterface : ComponentBehaviour
+	//{
+	//	private ILowLevelPlayingInterface interfaceReceiver;
+
+	//	private bool IsValid => interfaceReceiver != null;
+	//	private bool IsNotValid => !IsValid;
+
+	//	public override void BaseEnable()
+	//	{
+	//		base.BaseEnable();
+	//		interfaceReceiver = ThisContainer.GetComponent<ILowLevelPlayingInterface>();
+
+	//	}
 
 
-	public class LowLevelPlayingInterface : ComponentBehaviour
-	{
-		private IGamePlayingInterface interfaceReceiver;
+	//	[InlineButton("OnPlayingInterface_SelectFireteam")]
+	//	public int selectTeamIndex;
+	//	public void OnLowPlayingInterface_SelectFireteam()
+	//	{
+	//		if(IsNotValid) return;
+	//		interfaceReceiver.OnPlayingInterface_SelectFireteam(selectTeamIndex);
+	//	}
 
-		private bool IsValid => interfaceReceiver != null;
-		private bool IsNotValid => !IsValid;
+	//	[InlineButton("OnTeamCommand_SetMoveTarget")]
+	//	public int movementToAnchor;
+	//	public void OnPlayingInterface_SetMoveTarget()
+	//	{
+	//		if(IsNotValid) return;
+	//		if(selectTeamIndex < 0) selectTeamIndex = interfaceReceiver.OnPlayingInterface_GetSelectedFireteam();
+	//		interfaceReceiver.OnPlayingInterface_SetMoveTarget(movementToAnchor, selectTeamIndex);
+	//	}
 
-		public override void BaseEnable()
-		{
-			base.BaseEnable();
-			interfaceReceiver = ThisContainer.GetComponent<IGamePlayingInterface>();
-		}
-
-
-		[InlineButton("OnSelectFireteam")]
-		public int selectTeamIndex;
-		public void OnSelectFireteam()
-		{
-			if(IsNotValid) return;
-			interfaceReceiver.OnSelectFireteam(selectTeamIndex);
-		}
-
-		[InlineButton("OnSetMoveTarget")]
-		public int movementToAnchor;
-		public void OnSetMoveTarget()
-		{
-			if(IsNotValid) return;
-			interfaceReceiver.OnSetMoveTarget(movementToAnchor, selectTeamIndex);
-		}
-
-		[InlineButton("OnSpawnTeamToAnchor")]
-		public int teamSpawnToAnchor;
-		public void OnSpawnTeamToAnchor()
-		{
-			if(IsNotValid) return;
-			interfaceReceiver.OnSpawnTeamToAnchor(teamSpawnToAnchor, selectTeamIndex);
-		}
-		[InlineButton("OnSpawnUnitIndex")]
-		public int unitSpawnIndex;
-		public void OnSpawnUnitIndex()
-		{
-			if(IsNotValid) return;
-			interfaceReceiver.OnSpawnUnitIndex(unitSpawnIndex, selectTeamIndex);
-		}
-	}
+	//	[InlineButton("OnPlayingInterface_SpawnTeamToAnchor")]
+	//	public int teamSpawnToAnchor;
+	//	public void OnPlayingInterface_SpawnTeamToAnchor()
+	//	{
+	//		if(IsNotValid) return;
+	//		if(selectTeamIndex < 0) selectTeamIndex = interfaceReceiver.OnPlayingInterface_GetSelectedFireteam();
+	//		interfaceReceiver.OnPlayingInterface_SpawnTeamToAnchor(teamSpawnToAnchor, selectTeamIndex);
+	//	}
+	//}
 }

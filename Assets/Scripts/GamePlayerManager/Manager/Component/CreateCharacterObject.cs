@@ -29,9 +29,9 @@ namespace BC.GamePlayerManager
 		public List<SpawnAnchor> SpawnList { get; internal set; }
 
 
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 
 			characterPrefab = null;
 			characterSettingDatas = null;
@@ -85,14 +85,13 @@ namespace BC.GamePlayerManager
 				int findAnchorIndex = SpawnList.FindIndex(_item => _item.factionIndex == unit.FactionIndex && _item.teamIndex == unit.TeamIndex);
 				if(findAnchorIndex>=0)
 				{
-					var spawnAnchor = computer.SelectAnchorIndex(SpawnList[findAnchorIndex].anchorIndex);
-					if(spawnAnchor != null)
+					if(computer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].anchorIndex, out var spawnAnchor))
 					{
 						spawn = new SpawnData() {
 							spawnAnchorTarget = spawnAnchor,
 							spawnUnitCount = findGroupCount,
 							spawnUnitIndex = unit.UnitIndex,
-							spaenRadius = 2f,
+							spawnRadius = 2f,
 						};
 					}
 				}

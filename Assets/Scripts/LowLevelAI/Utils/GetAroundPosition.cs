@@ -4,7 +4,7 @@ namespace BC.LowLevelAI
 {
 	public static class GetAroundPosition
 	{
-		public static Vector3 GetAroundMovePosition(int unitIndex, int positionCount, float radius, Vector3 moveDiraction)
+		public static Vector3 GetAroundMovePosition(int unitIndex, int positionCount, float radius, float radiusRandomOffset, Vector3 moveDiraction)
 		{
 			if(positionCount == 0 || positionCount == 1)
 			{
@@ -12,13 +12,12 @@ namespace BC.LowLevelAI
 			}
 			moveDiraction = moveDiraction.normalized;
 
-			Vector3 randomPos = Random.onUnitSphere * (radius / (positionCount + 1));
 			float splitAngle = 360f / positionCount;
-			float angle = unitIndex * splitAngle;
+			float angle = splitAngle * (unitIndex + Random.Range(-0.45f,0.45f));
 			Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * moveDiraction;
-			return randomPos + direction * radius;
+			return direction *  (radius + Random.Range(-radiusRandomOffset, 0f));
 		}
-		public static Vector3[] GetAroundMovePosition(int positionCount, float radius, Vector3 moveDiraction)
+		public static Vector3[] GetAroundMovePosition(int positionCount, float radius, float radiusRandomOffset, Vector3 moveDiraction)
 		{
 			if(positionCount == 0 || positionCount == 1)
 			{
@@ -27,21 +26,20 @@ namespace BC.LowLevelAI
 			moveDiraction = moveDiraction.normalized;
 
 			Vector3[] points = new Vector3[positionCount];
-			Vector3 randomPos = Random.onUnitSphere * (radius / (positionCount + 1));
 			float splitAngle = 360f / positionCount;
 
 			for(int i = 0 ; i < positionCount ; i++)
 			{
-				float angle = i * splitAngle;
+				float angle = splitAngle * (i + Random.Range(-0.45f,0.45f));
 				Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * moveDiraction;
-				Vector3 point = randomPos + direction * radius;
+				Vector3 point = direction * (radius + Random.Range(-radiusRandomOffset, 0f));
 
 				points[i] = point;
 			}
 
 			return points;
 		}
-		public static Vector3 GetAroundSpwanPosition(int unitIndex, int totalUnitCount, float radius)
+		public static Vector3 GetAroundSpawnPosition(int unitIndex, int totalUnitCount, float radiusRandomOffset, float radius)
 		{
 			Vector3 diraction = Random.onUnitSphere;
 			diraction.y = 0;
@@ -50,9 +48,9 @@ namespace BC.LowLevelAI
 				diraction = Vector3.forward;
 			}
 
-			return GetAroundMovePosition(unitIndex, totalUnitCount, radius, diraction);
+			return GetAroundMovePosition(unitIndex, totalUnitCount, radius, radiusRandomOffset, diraction);
 		}
-		public static Vector3[] GetAroundSpwanPosition(int totalUnitCount, float radius)
+		public static Vector3[] GetAroundSpawnPosition(int totalUnitCount, float radius, float radiusRandomOffset)
 		{
 			Vector3 diraction = Random.onUnitSphere;
 			diraction.y = 0;
@@ -61,7 +59,7 @@ namespace BC.LowLevelAI
 				diraction = Vector3.forward;
 			}
 
-			return GetAroundMovePosition(totalUnitCount, radius, diraction);
+			return GetAroundMovePosition(totalUnitCount, radius, radiusRandomOffset, diraction);
 		}
 	}
 }

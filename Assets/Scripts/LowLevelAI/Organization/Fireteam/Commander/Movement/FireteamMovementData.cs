@@ -5,8 +5,8 @@ namespace BC.LowLevelAI
 	public class FireteamMovementData : FireteamCommandData
 	{
 		[SerializeField]
-		private FireteamMembers fireteamMembers;
-		public FireteamMembers Members { get => fireteamMembers; set => fireteamMembers = value; }
+		private FireteamMemberCollector fireteamMembers;
+		public FireteamMemberCollector Members { get => fireteamMembers; set => fireteamMembers = value; }
 
 		[SerializeField]
 		private MapPathNode moveTargetPathNode;

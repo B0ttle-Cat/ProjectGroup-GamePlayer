@@ -5,9 +5,9 @@ namespace BC.LowLevelAI
 	public partial class MapStage : ObjectBehaviour
 	{
 		private MapStageData mapStageData;
-		protected override void Dispose(bool disposing)
+		protected override void Disposing()
 		{
-			base.Dispose(disposing);
+			base.Disposing();
 			mapStageData = null;
 		}
 		public override void BaseAwake()

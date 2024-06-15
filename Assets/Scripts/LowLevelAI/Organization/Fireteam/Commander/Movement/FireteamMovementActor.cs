@@ -73,7 +73,7 @@ namespace BC.LowLevelAI
 				float formationRandomRadius = 1f;
 
 				Vector3 randomOffset = Random.insideUnitSphere * 2f;
-				Vector3 lastPosition = lastNode.ThisPoint.ThisPosition() + Random.insideUnitSphere * formationRandomRadius;
+				Vector3 lastPosition = lastNode.ThisPoint.ThisPosition() + randomOffset;
 				Vector3 lastPrevPosition = lastPrevNode == null ? fireteamMembers.CenterPosition : lastPrevNode.ThisPoint.ThisPosition();
 				Vector3 angleNormal = (lastPosition - lastPrevPosition).normalized;
 

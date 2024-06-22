@@ -254,7 +254,7 @@ MonoBehaviour:
     ContainerNode:
       showInspector: 0
       thisObject: {fileID: 280405639}
-      parent: {fileID: 0}
+      parent: {fileID: 448125903}
       childs: []
       componentList: []
       dataList:
@@ -359,7 +359,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 448125902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -698,6 +698,7 @@ Transform:
   - {fileID: 27742373}
   - {fileID: 2074201084}
   - {fileID: 1555824967}
+  - {fileID: 280405644}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &448125903
@@ -738,6 +739,7 @@ MonoBehaviour:
       - {fileID: 1555824966}
       - {fileID: 2049135162}
       - {fileID: 1268186664}
+      - {fileID: 280405639}
       componentList:
       - {fileID: 448125904}
       - {fileID: 448125906}
@@ -746,7 +748,6 @@ MonoBehaviour:
       - {fileID: 27742376}
       dataList:
       - rid: 7701795580420293117
-      - rid: 7701795580420293441
   lowLevelAIManager: {fileID: 2074201083}
   highLevelAIManager: {fileID: 1555824966}
   references:
@@ -756,11 +757,6 @@ MonoBehaviour:
       type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
       data:
         gameSetting: {fileID: 11400000, guid: e271e49a40029144b9c0cb4a502ebc42, type: 2}
-    - rid: 7701795580420293441
-      type: {class: FireteamStateData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        moveTargetPathNode:
-          mapPathPoint: {fileID: 0}
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1261,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1676452851}
+  - component: {fileID: 1676452852}
+  - component: {fileID: 1676452853}
   m_Layer: 0
   m_Name: Commander
   m_TagString: Untagged
@@ -1287,6 +1285,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1676452852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676452850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828ad09a1e02e074b81dcbf07d32b40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _container:
+    ContainerNode:
+      showInspector: 6
+      thisObject: {fileID: 1676452852}
+      parent: {fileID: 0}
+      childs: []
+      componentList:
+      - {fileID: 1676452853}
+      dataList:
+      - rid: 3639921612814811339
+      - rid: 3639921612814811354
+  references:
+    version: 2
+    RefIds:
+    - rid: 3639921612814811339
+      type: {class: AntiDetectorRangeData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
+      data:
+        detectRadius: 0
+    - rid: 3639921612814811354
+      type: {class: AbilityData, ns: BC.OdccBase, asm: BC.OdccBase}
+      data:
+        value: 0
+--- !u!114 &1676452853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676452850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc042158c3894a4bbe70b8c36ae631e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: Infinity
+  min: 0
+  max: 0
 --- !u!1 &1718360625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,6 +2127,7 @@ GameObject:
   - component: {fileID: 2074201084}
   - component: {fileID: 2074201083}
   - component: {fileID: 2074201085}
+  - component: {fileID: 2074201086}
   m_Layer: 0
   m_Name: LowLevelAIManager
   m_TagString: Untagged
@@ -2123,6 +2171,7 @@ MonoBehaviour:
       - {fileID: 968870361}
       componentList:
       - {fileID: 2074201085}
+      - {fileID: 2074201086}
       - {fileID: 1080914727}
       - {fileID: 713611035}
       - {fileID: 582968239}
@@ -2167,6 +2216,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4eba6a7256e1584e9735fb36cbf180f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2074201086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074201082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d7acc135ee1fa4088ec7304820d096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2106581665 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5942923633425379538, guid: 7ecb579ed90154048bbfe9bca1431197,
@@ -2179,79 +2240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &8652612700877872765
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3899840512398458155, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_Name
-      value: FireteamMovementCommander
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899840512398458155, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001278967876085329, guid: 30fd5a25f2d64914ca015f162aca497d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 30fd5a25f2d64914ca015f162aca497d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2260,6 +2248,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 330585546}
   - {fileID: 448125902}
-  - {fileID: 280405644}
   - {fileID: 1676452851}
-  - {fileID: 8652612700877872765}

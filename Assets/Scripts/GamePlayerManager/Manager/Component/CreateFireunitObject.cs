@@ -145,10 +145,10 @@ namespace BC.GamePlayerManager
 				unitObject.UpdateObjectName();
 
 				unitObject.ThisContainer.RemoveData<SpawnData>();
-				unitObject.ThisContainer.RemoveComponent<SpawnComponent>();
+				unitObject.ThisContainer.RemoveComponent<FireunitSpawnActor>();
 
 				unitObject.ThisContainer.AddData<SpawnData>(spawn);
-				unitObject.ThisContainer.AddComponent<SpawnComponent>();
+				unitObject.ThisContainer.AddComponent<FireunitSpawnActor>();
 
 				unitObject.gameObject.SetActive(true);
 			}

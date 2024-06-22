@@ -88,10 +88,10 @@ namespace BC.GamePlayerManager
 					if(computer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].anchorIndex, out var spawnAnchor))
 					{
 						spawn = new SpawnData() {
-							spawnAnchorTarget = spawnAnchor,
-							spawnUnitCount = findGroupCount,
-							spawnUnitIndex = unit.UnitIndex,
-							spawnRadius = 2f,
+							targetAnchor = spawnAnchor,
+							totalUnitCount = findGroupCount,
+							unitIndex = unit.UnitIndex,
+							targetRadius = 2f,
 						};
 					}
 				}

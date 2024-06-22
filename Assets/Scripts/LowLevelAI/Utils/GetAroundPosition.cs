@@ -39,7 +39,7 @@ namespace BC.LowLevelAI
 
 			return points;
 		}
-		public static Vector3 GetAroundSpawnPosition(int unitIndex, int totalUnitCount, float radiusRandomOffset, float radius)
+		public static Vector3 GetAroundTeleportationPosition(int unitIndex, int totalUnitCount, float radiusRandomOffset, float radius)
 		{
 			Vector3 diraction = Random.onUnitSphere;
 			diraction.y = 0;
@@ -50,7 +50,7 @@ namespace BC.LowLevelAI
 
 			return GetAroundMovePosition(unitIndex, totalUnitCount, radius, radiusRandomOffset, diraction);
 		}
-		public static Vector3[] GetAroundSpawnPosition(int totalUnitCount, float radius, float radiusRandomOffset)
+		public static Vector3[] GetAroundTeleportationPosition(int totalUnitCount, float radius, float radiusRandomOffset)
 		{
 			Vector3 diraction = Random.onUnitSphere;
 			diraction.y = 0;

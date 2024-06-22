@@ -12,9 +12,9 @@ namespace BC.GamePlayerManager
 	{
 #if UNITY_EDITOR
 		[AssetSelector]
-		[ValidateInput("@IsMustNotNull(gameSetting)", "Is Must Not Null")]
-		[ValidateInput("@gameSetting == null || IsMustNotNull(UnitSetting)", "UnitSetting Must Not Null")]
-		[ValidateInput("@gameSetting == null || IsMustNotNull(MapSetting)", "MapSetting Must Not Null")]
+		[ValidateInput("@gameSetting != null", "Is Must Not Null")]
+		[ValidateInput("@UnitSetting != null", "UnitSetting Must Not Null")]
+		[ValidateInput("@MapSetting != null", "MapSetting Must Not Null")]
 #endif
 		public StartGameSetting gameSetting;
 

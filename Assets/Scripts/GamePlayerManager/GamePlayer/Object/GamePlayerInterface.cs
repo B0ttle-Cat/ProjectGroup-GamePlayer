@@ -10,7 +10,7 @@ namespace BC.GamePlayerManager
 	{
 		int OnLowPlayingInterface_GetSelectedFireteam();
 		void OnLowPlayingInterface_SelectFireteam(int selectTeamIndex);
-		void OnLowPlayingInterface_SetMoveTarget(int anchorIndex, int selectTeamIndex = -1);
+		void OnLowPlayingInterface_MoveTargetAnchor(int anchorIndex, int selectTeamIndex = -1);
 		void OnLowPlayingInterface_SpawnTeamToAnchor(int anchorIndex, int selectTeamIndex = -1);
 	}
 
@@ -84,9 +84,9 @@ namespace BC.GamePlayerManager
 			SelectFireteam(selectTeamIndex);
 		}
 		[Button("OnLowPlayingInterface_SetMoveTarget")]
-		void ILowLevelPlayerInterface.OnLowPlayingInterface_SetMoveTarget(int movementToAnchor, int tempSelectTeamIndex = -1)
+		void ILowLevelPlayerInterface.OnLowPlayingInterface_MoveTargetAnchor(int movementToAnchor, int tempSelectTeamIndex = -1)
 		{
-			SetMoveTarget(movementToAnchor, tempSelectTeamIndex);
+			MoveTargetAnchor(movementToAnchor, tempSelectTeamIndex);
 		}
 		[Button("OnLowPlayingInterface_SpawnTeamToAnchor")]
 		void ILowLevelPlayerInterface.OnLowPlayingInterface_SpawnTeamToAnchor(int teamSpawnToAnchor, int tempSelectTeamIndex = -1)
@@ -108,7 +108,7 @@ namespace BC.GamePlayerManager
 
 			return playingData.CurrentSelectTeamIndex;
 		}
-		public virtual void SetMoveTarget(int anchorIndex, int selectTeamIndex)
+		public virtual void MoveTargetAnchor(int anchorIndex, int selectTeamIndex)
 		{
 			if(BreakLowLevelAIManager() || BreakPlayingData()) return;
 			int currentSelectTeam = selectTeamIndex >= 0 ? selectTeamIndex : GetSelectedFireteam();
@@ -119,7 +119,7 @@ namespace BC.GamePlayerManager
 			if(!TryGetMapPathPointComputer(out var computer)) return;
 			if(!TryGetPathPointToNode(computer, anchorIndex, teamMembers, out var pathNode)) return;
 
-			teamCommand.OnTeamCommand_SetMoveTarget(pathNode);
+			teamCommand.OnTeamCommand_MoveTargetAnchor(teamMembers, pathNode);
 		}
 		public void SpawnOnAnchor(int anchorIndex, int selectTeamIndex)
 		{
@@ -132,7 +132,7 @@ namespace BC.GamePlayerManager
 			if(!TryGetMapPathPointComputer(out var computer)) return;
 			if(TrySelectAnchorIndex(computer, anchorIndex, out var spawnAnchor)) return;
 
-			teamCommand.OnTeamCommand_SpawnOnAnchor(spawnAnchor);
+			teamCommand.OnTeamCommand_SpawnOnAnchor(teamMembers, spawnAnchor);
 		}
 		#endregion
 		#region LowLevelPlaying Function-Utils

@@ -18,10 +18,7 @@ namespace BC.OdccBase
 #endif
 		public float lifeTime = float.PositiveInfinity;
 
-		//public abstract void Calculation(ref int value);
-		//public abstract void Calculation(ref long value);
-		//public abstract void Calculation(ref float value);
-		public abstract void Calculation(ref double value);
+		public abstract void Calculation(ref dynamic value);
 
 		public override void BaseLateUpdate()
 		{

@@ -2,9 +2,11 @@ using BC.ODCC;
 
 namespace BC.OdccBase
 {
-	public abstract class AbilityObject : ObjectBehaviour
+	public abstract class AbilityObject<TNumber, TType> : ObjectBehaviour
+		where TNumber : NumberValue<TType>, new()
+		where TType : unmanaged
 	{
-		protected AbilityData ThisAbility;
+		protected TNumber ThisValue;
 		public sealed override void BaseReset()
 		{
 			base.BaseReset();
@@ -16,17 +18,17 @@ namespace BC.OdccBase
 		}
 		public virtual void BaseAbilityValidate()
 		{
-			if(!ThisContainer.TryGetData<AbilityData>(out _))
+			if(!ThisContainer.TryGetData<TNumber>(out _))
 			{
-				ThisContainer.AddData<AbilityData>();
+				ThisContainer.AddData<TNumber>();
 			}
 		}
 		public sealed override void BaseAwake()
 		{
 			base.BaseAwake();
-			if(!ThisContainer.TryGetData<AbilityData>(out var ThisAbility))
+			if(!ThisContainer.TryGetData<TNumber>(out ThisValue))
 			{
-				ThisAbility = ThisContainer.AddData<AbilityData>();
+				ThisValue = ThisContainer.AddData<TNumber>();
 			}
 			BaseAbilityAwake();
 		}
@@ -37,16 +39,16 @@ namespace BC.OdccBase
 		}
 		public abstract void BaseAbilityAwake();
 		public abstract void BaseAbilityDestroy();
-		public abstract void OnCalculation();
+		public abstract TType OnCalculation();
 
-		protected double Calculation(double value)
+		protected dynamic Calculation(dynamic value)
 		{
 			FirstFilter(ref value);
 			ThisContainer.CallActionAllComponent<AbilityCalculationModule>(module => module.Calculation(ref value));
 			LastFilter(ref value);
 			return value;
 		}
-		protected virtual void FirstFilter(ref double value) { }
-		protected virtual void LastFilter(ref double value) { }
+		protected virtual void FirstFilter(ref dynamic value) { }
+		protected virtual void LastFilter(ref dynamic value) { }
 	}
 }

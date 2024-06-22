@@ -1306,17 +1306,12 @@ MonoBehaviour:
       componentList:
       - {fileID: 1676452853}
       dataList:
-      - rid: 3639921612814811339
-      - rid: 3639921612814811354
+      - rid: 3639921660767764570
   references:
     version: 2
     RefIds:
-    - rid: 3639921612814811339
-      type: {class: AntiDetectorRangeData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        detectRadius: 0
-    - rid: 3639921612814811354
-      type: {class: AbilityData, ns: BC.OdccBase, asm: BC.OdccBase}
+    - rid: 3639921660767764570
+      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
       data:
         value: 0
 --- !u!114 &1676452853
@@ -1332,8 +1327,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: Infinity
-  min: 0
-  max: 0
+  min:
+    rid: 3639921660767764609
+  max:
+    rid: 3639921660767764593
+  references:
+    version: 2
+    RefIds:
+    - rid: 3639921660767764593
+      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
+      data:
+        value: 0
+    - rid: 3639921660767764609
+      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
+      data:
+        value: 0
 --- !u!1 &1718360625
 GameObject:
   m_ObjectHideFlags: 0

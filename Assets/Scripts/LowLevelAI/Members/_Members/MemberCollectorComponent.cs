@@ -69,10 +69,6 @@ namespace BC.LowLevelAI
 		public abstract List<T> Base_MemberInitList(IEnumerable<T> enumerable);
 		public abstract void Base_MemberUpdateList(T member, bool isAdded);
 
-
-
-
-
 		public void Foreach(Action<T> action, Func<T, bool> condition = null)
 		{
 			if(action == null) return;
@@ -107,6 +103,49 @@ namespace BC.LowLevelAI
 					try
 					{
 						action.Invoke(member, i);
+					}
+					catch(Exception ex)
+					{
+						Debug.LogException(ex);
+					}
+				}
+			}
+		}
+
+		public async Awaitable AsyncForeach(Func<T, Awaitable> action, Func<T, bool> condition = null)
+		{
+			if(action == null) return;
+
+			int length = Count;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var member = ThisMembers[i];
+				if(condition == null || condition.Invoke(member))
+				{
+					try
+					{
+						await action.Invoke(member);
+					}
+					catch(Exception ex)
+					{
+						Debug.LogException(ex);
+					}
+				}
+			}
+		}
+		public async Awaitable AsyncForeach(Func<T, int, Awaitable> action, Func<T, int, bool> condition = null)
+		{
+			if(action == null) return;
+
+			int length = Count;
+			for(int i = 0 ; i < length ; i++)
+			{
+				var member = ThisMembers[i];
+				if(condition == null || condition.Invoke(member, i))
+				{
+					try
+					{
+						await action.Invoke(member, i);
 					}
 					catch(Exception ex)
 					{

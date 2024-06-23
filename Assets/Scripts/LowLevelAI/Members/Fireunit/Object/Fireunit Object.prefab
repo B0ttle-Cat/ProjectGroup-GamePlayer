@@ -48,17 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb69c803c4e04542bd7131912ee177b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 4979445675213644879}
       parent: {fileID: 0}
       childs: []
@@ -134,6 +126,7 @@ GameObject:
   - component: {fileID: 2023882812668771531}
   - component: {fileID: 7006357634680063751}
   - component: {fileID: 3585492155785131513}
+  - component: {fileID: 3093246961024328143}
   m_Layer: 15
   m_Name: Brain
   m_TagString: Untagged
@@ -168,15 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b672d8b9194b6c248a99f93c26f5f7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
 --- !u!114 &7006357634680063751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,15 +173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd9c560962c7124ba3f667daed15971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
+  inputVectorTarget: {x: 0, y: 0, z: 0}
+  inputNodeTarget:
+    mapPathPoint: {fileID: 0}
+  inputFormationPosition: {x: 0, y: 0, z: 0}
   IsMove: 0
   isOnDrawGizmos: 0
 --- !u!114 &3585492155785131513
@@ -212,16 +191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154530399d9149e46a83774b4385fb1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  thisCollider: {fileID: 7693463319733423763}
+--- !u!114 &3093246961024328143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434564763287462604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86dadff7bebf7a34993105e7082fa45c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6633364517474136365
 GameObject:
   m_ObjectHideFlags: 0

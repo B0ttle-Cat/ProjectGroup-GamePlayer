@@ -39,10 +39,14 @@ namespace BC.OdccBase
 		}
 		public abstract void BaseAbilityAwake();
 		public abstract void BaseAbilityDestroy();
-		public abstract TType OnCalculation();
-
-		protected dynamic Calculation(dynamic value)
+		public virtual TType OnCalculation()
 		{
+			return Calculation(ThisValue);
+		}
+
+		protected dynamic Calculation(TNumber number)
+		{
+			dynamic value = number.Value;
 			FirstFilter(ref value);
 			ThisContainer.CallActionAllComponent<AbilityCalculationModule>(module => module.Calculation(ref value));
 			LastFilter(ref value);

@@ -10,11 +10,6 @@ namespace BC.OdccBase
 		{
 		}
 
-		public override long OnCalculation()
-		{
-			var value = Calculation(ThisValue.value);
-			return value;
-		}
 		protected override void LastFilter(ref dynamic value)
 		{
 			if(value < 0d)

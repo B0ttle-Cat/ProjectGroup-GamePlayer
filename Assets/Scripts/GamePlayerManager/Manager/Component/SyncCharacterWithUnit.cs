@@ -32,7 +32,7 @@ namespace BC.GamePlayerManager
 			.WithAll<FireunitObject, FireunitData>().Build();
 
 			unitQueryCollector = OdccQueryCollector.CreateQueryCollector(unitQuerySystem)
-				.CreateLooperEvent(nameof(SyncCharacterWithUnit), false)
+				.CreateLooperEvent(nameof(SyncCharacterWithUnit), 1)
 				.Foreach<FireunitObject, IFireunitData>(OnSyncUnitToCharacter)
 				.GetCollector();
 

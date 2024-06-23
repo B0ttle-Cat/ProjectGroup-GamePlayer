@@ -99,11 +99,11 @@
 //		//		var lastNode = movePathNode.EndedNode;
 //		//		var lastPrevNode = movePathNode.EndedNode.PrevNode;
 //		//
-//		//		Vector3 lastPosition = lastNode.ThisPoint.ThisPosition();
-//		//		Vector3 lastPrevPosition = lastPrevNode == null ? FireteamMembers.CenterPosition : lastPrevNode.ThisPoint.ThisPosition();
+//		//		Vector3 lastPosition = lastNode.ThisPoint.TargetingPosition();
+//		//		Vector3 lastPrevPosition = lastPrevNode == null ? FireteamMembers.CenterPosition : lastPrevNode.ThisPoint.TargetingPosition();
 //		//		Vector3 angleNormal = (lastPosition - lastPrevPosition).normalized;
 //		//
-//		//		Vector3 anchorPosition = lastNode.ThisPoint.ThisAnchor.ThisPosition();
+//		//		Vector3 anchorPosition = lastNode.ThisPoint.ThisAnchor.TargetingPosition();
 //		//		Vector3[] spawnAroundPoints = GetAroundPosition.GetAroundMovePosition(FireteamMembers.Count, 0f, 0f, angleNormal);
 //		//
 //		//		FireteamMembers.Foreach((item, index) => {

@@ -39,7 +39,7 @@ namespace BC.GamePlayerManager
 				.WithAll<FireteamObject, FireteamMemberCollector, IFireteamData>().Build();
 
 			teamQueryCollector = OdccQueryCollector.CreateQueryCollector(teamQuerySystem)
-				.CreateLooperEvent(nameof(OnSyncTeamToGizmos), false)
+				.CreateLooperEvent(nameof(OnSyncTeamToGizmos), 1)
 				.Foreach<FireteamMemberCollector, IFireteamData>(OnSyncTeamToGizmos)
 				.SetBreakFunction(() => !onShowGizmos)
 				.GetCollector();

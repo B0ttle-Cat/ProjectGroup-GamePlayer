@@ -72,7 +72,7 @@ namespace BC.GamePlayerManager
 		private void OnSyncTeamToGizmos(OdccQueryLooper.LoopInfo loopInfo, FireteamMemberCollector member, IFireteamData data)
 		{
 			Vector3 centerPosition = member.CenterPosition;
-			int findGizmos = teamGizmosINfo.FindIndex(item => item.factionIndex == data.FactionIndex && item.teamIndex ==data.TeamIndex);
+			int findGizmos = teamGizmosINfo.FindIndex(item => item.FactionIndex == data.FactionIndex && item.TeamIndex ==data.TeamIndex);
 			if(findGizmos < 0) return;
 			GizmosInfo gizmosInfo = teamGizmosINfo[findGizmos];
 

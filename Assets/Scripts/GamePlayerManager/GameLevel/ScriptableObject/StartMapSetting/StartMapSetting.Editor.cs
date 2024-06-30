@@ -11,6 +11,13 @@ namespace BC.GamePlayerManager
 {
 	public partial class StartMapSetting : ScriptableObject//.Editor
 	{
+		StartGameSetting startGameSetting;
+		public void ConnectStartGameSetting(StartGameSetting startGameSetting)
+		{
+			this.startGameSetting = startGameSetting;
+		}
+
+
 
 		[PropertyOrder(-99)]
 		[InlineButton("_UpdateMapStage", "Update MapStage")]

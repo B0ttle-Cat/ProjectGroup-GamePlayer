@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapSetting: {fileID: 11400000, guid: 90e6d05ad2efffd48abe7b3f16ab3a64, type: 2}
   unitSetting: {fileID: 11400000, guid: ef851097110499441bd2b1f43abc61e6, type: 2}
+  factionSetting: {fileID: 11400000, guid: 484b09b8ebfa3f44691b6319b61aa93e, type: 2}
   SpawnList:
   - factionIndex: 0
     teamIndex: 0

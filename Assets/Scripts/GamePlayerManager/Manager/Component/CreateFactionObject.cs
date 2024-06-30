@@ -145,12 +145,10 @@ namespace BC.GamePlayerManager
 						if(diplomacyItem.IsAIFaction)
 						{
 							createObject.gameObject.AddComponent<AIGamePlayerInterface>();
-							//createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 						else
 						{
 							createObject.gameObject.AddComponent<HumanPlayerInterface>();
-							//createObject.gameObject.AddComponent<LowLevelPlayingInterface>();
 						}
 					}
 				}

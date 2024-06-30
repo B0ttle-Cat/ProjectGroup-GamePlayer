@@ -31,7 +31,6 @@ namespace BC.OdccBase
 		private int factionIndex;
 
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
-
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{

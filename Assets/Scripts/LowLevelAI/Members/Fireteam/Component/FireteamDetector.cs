@@ -9,9 +9,9 @@ namespace BC.LowLevelAI
 {
 	public class FireteamDetector : ComponentBehaviour, IDetectorUpdate
 	{
-		public List<IUnitTarget> ResultList { get; set; }
-		public List<IUnitTarget> ComputeList { get; set; }
-		public async Awaitable StartCompute(List<IUnitTarget> checkList)
+		public List<IUnitInteractiveValue> ResultList { get; set; }
+		public List<IUnitInteractiveValue> ComputeList { get; set; }
+		public async Awaitable StartCompute(List<IUnitInteractiveValue> checkList)
 		{
 			if(ThisContainer.TryGetComponent<FactionMemberCollector>(out var collector))
 			{

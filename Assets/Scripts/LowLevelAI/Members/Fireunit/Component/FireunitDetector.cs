@@ -9,10 +9,10 @@ namespace BC.LowLevelAI
 {
 	public class FireunitDetector : ComponentBehaviour, IDetectorUpdate
 	{
-		public List<IUnitTarget> ResultList { get; set; }
-		public List<IUnitTarget> ComputeList { get; set; }
+		public List<IUnitInteractiveValue> ResultList { get; set; }
+		public List<IUnitInteractiveValue> ComputeList { get; set; }
 
-		public async Awaitable StartCompute(List<IUnitTarget> checkList)
+		public async Awaitable StartCompute(List<IUnitInteractiveValue> checkList)
 		{
 			for(int i = 0 ; i < checkList.Count ; i++)
 			{

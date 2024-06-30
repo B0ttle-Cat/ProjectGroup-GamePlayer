@@ -15,9 +15,28 @@ using Object = UnityEngine.Object;
 
 namespace BC.GamePlayerManager
 {
-	public partial class StartGameSetting : ScriptableObject//.Editor
+	public partial class StartGameSetting//.Editor
 	{
-		[PropertyOrder(-98)]
+		[Serializable]
+		public partial struct GizmosInfo
+		{
+			[ValueDropdown("ShowFactionList")]
+			[TableColumnWidth(150, false)]
+			[SerializeField, ReadOnly]
+			private int factionIndex;
+			[ValueDropdown("ShowTeamList")]
+			[TableColumnWidth(100, false)]
+			[SerializeField, ReadOnly]
+			private int teamIndex;
+
+			[InlineButton("RandomColor", "", Icon = SdfIconType.Dice6Fill)]
+			public Color gizmoColor;
+
+			public int FactionIndex { get => factionIndex; set => factionIndex=value; }
+			public int TeamIndex { get => teamIndex; set => teamIndex=value; }
+		}
+
+		[PropertyOrder(99)]
 		[TabGroup("Tap", nameof(TeamGizmosInfo))]
 		[Button("Set Team Gizmos Color")]
 		public void SetTeamGizmosColor()
@@ -29,14 +48,14 @@ namespace BC.GamePlayerManager
 			foreach(var character in unitSetting.characterDatas)
 			{
 				int findIndex = list.FindIndex(item =>
-				item.factionIndex == character.FactionIndex &&
-				item.teamIndex == character.TeamIndex);
+				item.FactionIndex == character.FactionIndex &&
+				item.TeamIndex == character.TeamIndex);
 
 				if(findIndex < 0)
 				{
 					list.Add(new() {
-						factionIndex = character.FactionIndex,
-						teamIndex = character.TeamIndex,
+						FactionIndex = character.FactionIndex,
+						TeamIndex = character.TeamIndex,
 						gizmoColor = Color.clear,
 					});
 				}
@@ -48,9 +67,9 @@ namespace BC.GamePlayerManager
 				if(list != null && list.Count > 0)
 				{
 					list.Sort((a, b) => {
-						int compare = a.factionIndex.CompareTo(b.factionIndex);
+						int compare = a.FactionIndex.CompareTo(b.FactionIndex);
 						if(compare != 0) return compare;
-						compare = a.teamIndex.CompareTo(b.teamIndex);
+						compare = a.TeamIndex.CompareTo(b.TeamIndex);
 						return compare;
 					});
 				}
@@ -58,10 +77,22 @@ namespace BC.GamePlayerManager
 		}
 
 
-		public partial struct GizmosInfo
+		public IEnumerable ShowTargetFactionName()
 		{
-#if UNITY_EDITOR
-			public IEnumerable ShowFactionList()
+			var result = new ValueDropdownList<int>();
+			var list = factionSetting?.factionInfoList.Select(s => (s.FactionName, s.FactionIndex));
+			if(list == null) return result;
+
+			foreach(var item in list)
+			{
+				result.Add(item.FactionName, item.FactionIndex);
+			}
+			return result;
+		}
+
+		public interface IShowFactionList
+		{
+			public IEnumerable _ShowFactionList()
 			{
 				var list = new ValueDropdownList<int>();
 				Object selectedObject = Selection.activeObject;
@@ -74,7 +105,6 @@ namespace BC.GamePlayerManager
 					var characters = thisSetting.unitSetting.characterDatas;
 					var factionList = characters.GroupBy(i => i.FactionIndex)
 						.Select(i => i.First().FactionIndex);
-
 
 					var table = DiplomacyTable.SelectDiplomacyTable;
 					foreach(var item in factionList)
@@ -98,7 +128,11 @@ namespace BC.GamePlayerManager
 				}
 				return list;
 			}
-			public IEnumerable ShowTeamList()
+		}
+		public interface IShowTeamList
+		{
+			public int FactionIndex { get; set; }
+			public IEnumerable _ShowTeamList()
 			{
 				var list = new ValueDropdownList<int>();
 				Object selectedObject = Selection.activeObject;
@@ -106,7 +140,7 @@ namespace BC.GamePlayerManager
 				if(selectedObject is not StartGameSetting thisSetting) return list;
 				if(thisSetting.unitSetting == null) return list;
 
-				int thisFactionIndex = factionIndex;
+				int thisFactionIndex = FactionIndex;
 				if(thisFactionIndex < 0) return list;
 				try
 				{
@@ -128,7 +162,12 @@ namespace BC.GamePlayerManager
 				}
 				return list;
 			}
-			public IEnumerable ShowUnitList()
+		}
+		public interface IShowUnitList
+		{
+			public int FactionIndex { get; set; }
+			public int TeamIndex { get; set; }
+			public IEnumerable _ShowUnitList()
 			{
 				var list = new ValueDropdownList<int>();
 				Object selectedObject = Selection.activeObject;
@@ -136,8 +175,8 @@ namespace BC.GamePlayerManager
 				if(selectedObject is not StartGameSetting thisSetting) return list;
 				if(thisSetting.unitSetting == null) return list;
 
-				int thisFactionIndex = factionIndex;
-				int thisTeamIndex = teamIndex;
+				int thisFactionIndex = FactionIndex;
+				int thisTeamIndex = TeamIndex;
 				if(thisFactionIndex < 0 || thisTeamIndex < 0) return list;
 				try
 				{
@@ -159,12 +198,53 @@ namespace BC.GamePlayerManager
 				}
 				return list;
 			}
+		}
+		public interface IShowAnchorList
+		{
+			public IEnumerable _ShowAnchorList()
+			{
+				var list = new ValueDropdownList<int>();
+				Object selectedObject = Selection.activeObject;
+				if(selectedObject ==null) return list;
+				if(selectedObject is not StartGameSetting thisSetting) return list;
+				if(thisSetting.mapSetting == null) return list;
+
+				try
+				{
+					var anchorList = thisSetting.mapSetting.playMapStageInfo.anchorInfos;
+					foreach(var item in anchorList)
+					{
+						list.Add(item.anchorName, item.anchorIndex);
+					}
+				}
+				catch(Exception ex)
+				{
+					Debug.LogException(ex);
+					list = new ValueDropdownList<int>();
+				}
+				return list;
+			}
+		}
+		public partial struct GizmosInfo : IShowFactionList, IShowTeamList, IShowUnitList
+		{
+			public IEnumerable ShowFactionList()
+			{
+				return (this as IShowFactionList)._ShowFactionList();
+			}
+			public IEnumerable ShowTeamList()
+			{
+				return (this as IShowTeamList)._ShowTeamList();
+			}
+			public IEnumerable ShowUnitList()
+			{
+				return (this as IShowUnitList)._ShowUnitList();
+			}
 			private void RandomColor()
 			{
 				gizmoColor = UnityEngine.Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.5f, 1f);
 			}
-#endif
 		}
+
 	}
 }
 #endif

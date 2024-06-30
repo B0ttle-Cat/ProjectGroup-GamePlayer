@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -9,16 +9,6 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public enum FactionDiplomacyType : int
-	{
-		My_Faction = 3,
-		Alliance_Faction = 2,   // 가장 낮은 점수가 50 이상
-		Positive_Faction = 1,   // 가장 낮은 점수가 25 이상 & 높은 점수가 50 이상
-		Neutral_Faction = 0,    // 그외
-		Negative_Faction = -1, // 가장 높은 점수가 -25 이하 & 높은 점수가 -50 이하
-		Enemy_Faction = -2,     // 가장 높은 점수가 -50 이하
-	}
-
 	public class DiplomacyComputer : ComponentBehaviour
 	{
 		private DiplomacyTable DiplomacyTable { get; set; }
@@ -93,7 +83,7 @@ namespace BC.LowLevelAI
 		{
 			if(factionA == factionB)
 			{
-				return FactionDiplomacyType.My_Faction;
+				return FactionDiplomacyType.Equal_Faction;
 			}
 
 			if(GetFaction(factionA, out var _factionA) && GetFaction(factionB, out var _factionB))
@@ -105,7 +95,7 @@ namespace BC.LowLevelAI
 				return FactionDiplomacyType.Neutral_Faction;
 			}
 		}
-		public FactionDiplomacyType GetFactionDiplomacyType(FactionData factionA, FactionData factionB)
+		public FactionDiplomacyType GetFactionDiplomacyType(IFactionData factionA, IFactionData factionB)
 		{
 			if(factionA == null || factionB == null) return FactionDiplomacyType.Neutral_Faction;
 			if(factionA == factionB) return FactionDiplomacyType.Alliance_Faction;
@@ -114,10 +104,10 @@ namespace BC.LowLevelAI
 		}
 		public FactionDiplomacyType GetFactionDiplomacyType(DiplomacyItem factionA, DiplomacyItem factionB)
 		{
-			if(factionA == factionB)
-			{
-				return FactionDiplomacyType.My_Faction;
-			}
+			//if(factionA == factionB)
+			//{
+			//	return FactionDiplomacyType.Equal_Faction;
+			//}
 
 			int A2B = factionA.GetFriendshipValue(factionB.FactionIndex);
 			int B2A = factionB.GetFriendshipValue(factionA.FactionIndex);
@@ -140,14 +130,14 @@ namespace BC.LowLevelAI
 			{
 				return FactionDiplomacyType.Alliance_Faction;
 			}
-			else if(!checkAlliance && checkPositive)
-			{
-				return FactionDiplomacyType.Positive_Faction;
-			}
-			else if(!checkEnemy && checkNegative)
-			{
-				return FactionDiplomacyType.Negative_Faction;
-			}
+			//else if(!checkAlliance && checkPositive)
+			//{
+			//	return FactionDiplomacyType.Positive_Faction;
+			//}
+			//else if(!checkEnemy && checkNegative)
+			//{
+			//	return FactionDiplomacyType.Negative_Faction;
+			//}
 			else if(checkEnemy && checkNegative)
 			{
 				return FactionDiplomacyType.Enemy_Faction;

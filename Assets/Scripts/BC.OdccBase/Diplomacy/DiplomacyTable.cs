@@ -11,6 +11,13 @@ namespace BC.OdccBase
 	{
 		[TableList]
 		public List<DiplomacyItem> ItemList;
+
+		public int AllianceValue = 50;
+		public int PositiveValue = 25;
+		public int NegativeValue = -25;
+		public int EnemyValue = -50;
+		public int MaxDistance = 50;
+
 #if UNITY_EDITOR
 		private void OnValidate()
 		{

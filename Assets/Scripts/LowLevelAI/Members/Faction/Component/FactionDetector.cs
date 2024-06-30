@@ -10,15 +10,15 @@ namespace BC.LowLevelAI
 {
 	public partial class FactionDetector : ComponentBehaviour, IDetectorUpdate
 	{
-		public List<IUnitTarget> ResultList { get; set; }
-		public List<IUnitTarget> ComputeList { get; set; }
+		public List<IUnitInteractiveValue> ResultList { get; set; }
+		public List<IUnitInteractiveValue> ComputeList { get; set; }
 
 		OdccQueryCollector visibleTargetCollector;
 		public override void BaseEnable()
 		{
 			base.BaseEnable();
 			var query = QuerySystemBuilder.CreateQuery()
-				.WithAll<FireunitObject, FireunitData, IUnitTarget>()
+				.WithAll<FireunitObject, FireunitData, IUnitInteractiveValue>()
 				.Build();
 
 			visibleTargetCollector = OdccQueryCollector.CreateQueryCollector(query, this);
@@ -34,10 +34,10 @@ namespace BC.LowLevelAI
 			}
 		}
 
-		public async Awaitable StartCompute(List<IUnitTarget> checkList)
+		public async Awaitable StartCompute(List<IUnitInteractiveValue> checkList)
 		{
 			if(visibleTargetCollector == null) return;
-			checkList = visibleTargetCollector.GetQueryItems().SelectMany(item => item.ThisContainer.GetAllComponent<IUnitTarget>()).ToList();
+			checkList = visibleTargetCollector.GetQueryItems().SelectMany(item => item.ThisContainer.GetAllComponent<IUnitInteractiveValue>()).ToList();
 
 			if(ThisContainer.TryGetComponent<FactionMemberCollector>(out var collector))
 			{

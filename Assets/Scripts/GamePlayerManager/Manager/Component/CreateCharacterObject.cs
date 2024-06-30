@@ -82,10 +82,10 @@ namespace BC.GamePlayerManager
 				}).Count();
 
 				SpawnData spawn = null;
-				int findAnchorIndex = SpawnList.FindIndex(_item => _item.factionIndex == unit.FactionIndex && _item.teamIndex == unit.TeamIndex);
+				int findAnchorIndex = SpawnList.FindIndex(_item => _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex);
 				if(findAnchorIndex>=0)
 				{
-					if(computer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].anchorIndex, out var spawnAnchor))
+					if(computer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].AnchorIndex, out var spawnAnchor))
 					{
 						spawn = new SpawnData() {
 							targetAnchor = spawnAnchor,

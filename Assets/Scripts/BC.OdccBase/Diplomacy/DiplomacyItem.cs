@@ -66,8 +66,7 @@ namespace BC.OdccBase
 					return;
 				}
 			}
-			friendshipItems.Add(new FriendshipItem()
-			{
+			friendshipItems.Add(new FriendshipItem() {
 				factionIndex = targetIndex,
 				friendshipValue = value
 			});

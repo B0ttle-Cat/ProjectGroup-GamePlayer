@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 
 using BC.Base;
 using BC.OdccBase;
@@ -11,7 +10,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[Serializable]
-	public struct StartUnitSettingCharacter : IFireunitData, ICharacterModelData
+	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterModelData
 	{
 		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetFactionName")]
 		[HideLabel,SuffixLabel("faction", Overlay = true)]
@@ -40,35 +39,5 @@ namespace BC.GamePlayerManager
 
 		public ResourcesKey CharacterKey { get => characterKey; set => characterKey=value; }
 		public ResourcesKey WeaponeKey { get => weaponeKey; set => weaponeKey=value; }
-#if UNITY_EDITOR
-		private bool IsDouble { get; set; }
-		private Color DoubleColor() { return IsDouble ? Color.red : Color.white; }
-		private static IEnumerable ShowTargetFactionName()
-		{
-			return FriendshipItem.ShowTargetFactionName();
-		}
-		private static IEnumerable ShowTargetTeamIndex()
-		{
-			var result = new ValueDropdownList<int>();
-			for(int i = 0 ; i < 100 ; i++)
-			{
-				result.Add(i.ToString(), i);
-			}
-			return result;
-		}
-		private static IEnumerable ShowTargetUnitIndex()
-		{
-			var result = new ValueDropdownList<int>();
-			for(int i = 0 ; i < 10 ; i++)
-			{
-				result.Add(i.ToString(), i);
-			}
-			return result;
-		}
-		internal void SetDouble(bool _isDouble)
-		{
-			IsDouble = _isDouble;
-		}
-#endif
 	}
 }

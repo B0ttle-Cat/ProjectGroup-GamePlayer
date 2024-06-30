@@ -261,12 +261,12 @@ namespace BC.LowLevelAI
 			}
 
 			//Vector3 diraction = b - a;
-			//float distance = diraction.distance;
+			//float Distance = diraction.Distance;
 			//diraction = diraction.normalized;
 			//Ray ray = new Ray(a, diraction);
 			//
 			////List<MapPathPoint> asyncPathPointList = nextPathPointList.ToList();
-			//if(Physics.Raycast(ray, out var hit, distance, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
+			//if(Physics.Raycast(ray, out var hit, Distance, TagAndLayer.GetHitLayerMask(TagAndLayer.MapAnchor), QueryTriggerInteraction.Collide))
 			//{
 			//	MapPathPoint mapPathPoint = hit.collider.gameObject.GetComponentInParent<MapPathPoint>();
 			//

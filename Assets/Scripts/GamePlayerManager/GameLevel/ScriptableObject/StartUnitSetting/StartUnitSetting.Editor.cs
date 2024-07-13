@@ -8,22 +8,25 @@ using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
+using UnityEditor;
+
 using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	public partial class StartUnitSetting//.Editor
+	public partial class StartUnitSetting : IConnectStartGameSetting_Editor//.Editor
 	{
-		StartGameSetting editorStartGameSetting;
+		[ShowInInspector, ReadOnly, PropertyOrder(-999)]
+		public StartGameSetting startGameSetting { get; set; }
 		public void ConnectStartGameSetting(StartGameSetting startGameSetting)
 		{
-			editorStartGameSetting = startGameSetting;
+			this.startGameSetting = startGameSetting;
 			if(characterDatas != null)
 			{
 				for(int i = 0 ; i < characterDatas.Count ; i++)
 				{
 					var data = characterDatas[i];
-					data.editorStartGameSetting = startGameSetting;
+					data.startGameSetting = startGameSetting;
 					characterDatas[i] = data;
 				}
 			}
@@ -31,10 +34,13 @@ namespace BC.GamePlayerManager
 
 		public void OnValidate()
 		{
+			ConnectStartGameSetting(startGameSetting);
+
 			IsDouble_CharacterDatas = CheckForDuplicates(
 				characterDatas.Select(s => s as IFireunitData).ToList(),
 				(int index, bool change) => characterDatas[index].SetDouble(change));
 		}
+
 		private bool IsDouble_CharacterDatas;
 		private string DuplicatesMessage => $"중복된 요소가 존재합니다.";
 		private bool CheckForDuplicates(List<IFireunitData> checkList, Action<int, bool> onSetDouble)
@@ -72,8 +78,7 @@ namespace BC.GamePlayerManager
 			}
 			return isDuplicates;
 		}
-		[PropertySpace(50)]
-		[Button(ButtonHeight = (int)ButtonSizes.Large)]
+		[Button(ButtonHeight = (int)ButtonSizes.Large), PropertyOrder(-1)]
 		private void SortCharacterDatas()
 		{
 			if(characterDatas != null && characterDatas.Count > 0)
@@ -91,12 +96,12 @@ namespace BC.GamePlayerManager
 	}
 	public partial struct StartUnitSettingCharacter//Editor
 	{
-		internal StartGameSetting editorStartGameSetting { get; set; }
+		internal StartGameSetting startGameSetting { get; set; }
 		private bool IsDouble { get; set; }
 		private Color DoubleColor() { return IsDouble ? Color.red : Color.white; }
 		private IEnumerable ShowTargetFactionName()
 		{
-			return editorStartGameSetting.ShowTargetFactionName();
+			return startGameSetting.ShowTargetFactionName();
 		}
 		private IEnumerable ShowTargetTeamIndex()
 		{
@@ -113,6 +118,18 @@ namespace BC.GamePlayerManager
 			for(int i = 0 ; i < 10 ; i++)
 			{
 				result.Add(i.ToString(), i);
+			}
+			return result;
+		}
+		private IEnumerable ShowTargetCharacterResourcesCard()
+		{
+			var result = new ValueDropdownList<CharacterResourcesCard>();
+			string[] guids = AssetDatabase.FindAssets("t:CharacterResourcesCard");
+			for(int i = 0 ; i < guids.Length ; i++)
+			{
+				string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+				var card = AssetDatabase.LoadAssetAtPath<CharacterResourcesCard>(path);
+				result.Add(card.name, card);
 			}
 			return result;
 		}

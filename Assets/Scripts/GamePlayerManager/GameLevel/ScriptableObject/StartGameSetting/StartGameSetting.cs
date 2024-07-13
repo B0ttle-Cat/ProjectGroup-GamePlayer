@@ -35,4 +35,11 @@ namespace BC.GamePlayerManager
 		}
 #endif
 	}
+	public interface IConnectStartGameSetting_Editor
+	{
+#if UNITY_EDITOR
+		public StartGameSetting startGameSetting { get; set; }
+		void ConnectStartGameSetting(StartGameSetting startGameSetting);
+#endif
+	}
 }

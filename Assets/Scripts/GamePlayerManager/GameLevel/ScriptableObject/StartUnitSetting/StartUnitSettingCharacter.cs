@@ -12,32 +12,27 @@ namespace BC.GamePlayerManager
 	[Serializable]
 	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterModelData
 	{
-		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetFactionName")]
-		[HideLabel,SuffixLabel("faction", Overlay = true)]
+		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard",NumberOfItemsBeforeEnablingSearch = 0)]
+		private CharacterResourcesCard characterResourcesCard;
+
+		[TableColumnWidth(50), SerializeField, ValueDropdown("ShowTargetFactionName")]
 		[GUIColor("DoubleColor")]
 		private int factionIndex;
-		[HorizontalGroup,SerializeField, ValueDropdown("ShowTargetTeamIndex")]
-		[HideLabel,SuffixLabel("team", Overlay = true)]
+
+		[TableColumnWidth(10), SerializeField, ValueDropdown("ShowTargetTeamIndex")]
 		[GUIColor("DoubleColor")]
 		private int teamIndex;
-		[HorizontalGroup,SerializeField, ValueDropdown("ShowTargetUnitIndex")]
-		[HideLabel,SuffixLabel("unit", Overlay = true)]
+
+		[TableColumnWidth(10), SerializeField, ValueDropdown("ShowTargetUnitIndex")]
 		[GUIColor("DoubleColor")]
 		private int unitIndex;
-
-		[SerializeField, HideLabel]
-		[FoldoutGroup("Model Resources"), HorizontalGroup("Model Resources/Model"), BoxGroup("Model Resources/Model/Character")]
-		private ResourcesKey characterKey;
-		[SerializeField, HideLabel]
-		[FoldoutGroup("Model Resources"), HorizontalGroup("Model Resources/Model"), BoxGroup("Model Resources/Model/Weapone")]
-		private ResourcesKey weaponeKey;
 
 
 		public int UnitIndex { get => unitIndex; set => unitIndex=value; }
 		public int TeamIndex { get => teamIndex; set => teamIndex=value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex=value; }
 
-		public ResourcesKey CharacterKey { get => characterKey; set => characterKey=value; }
-		public ResourcesKey WeaponeKey { get => weaponeKey; set => weaponeKey=value; }
+		public ResourcesKey CharacterKey { get => characterResourcesCard == null ? default : characterResourcesCard.CharacterKey; }
+		public ResourcesKey WeaponeKey { get => characterResourcesCard == null ? default : characterResourcesCard.WeaponeKey; }
 	}
 }

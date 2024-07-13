@@ -10,6 +10,7 @@ namespace BC.GamePlayerManager
 	public partial class StartUnitSetting : ScriptableObject
 	{
 		[InfoBox("@DuplicatesMessage", "IsDouble_CharacterDatas", InfoMessageType = InfoMessageType.Error)]
+		[TableList]
 		public List<StartUnitSettingCharacter> characterDatas;
 	}
 }

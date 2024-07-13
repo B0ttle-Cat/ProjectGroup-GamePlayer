@@ -9,9 +9,10 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	public partial class StartMapSetting : ScriptableObject//.Editor
+	public partial class StartMapSetting : IConnectStartGameSetting_Editor //.Editor
 	{
-		StartGameSetting startGameSetting;
+		[ShowInInspector, ReadOnly, PropertyOrder(-999)]
+		public StartGameSetting startGameSetting { get; set; }
 		public void ConnectStartGameSetting(StartGameSetting startGameSetting)
 		{
 			this.startGameSetting = startGameSetting;

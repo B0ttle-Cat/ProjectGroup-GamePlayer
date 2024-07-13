@@ -30,6 +30,13 @@ namespace BC.LowLevelAI
 
 		private Queue<Action> afterValueUpdate;
 		private Queue<Action> afterComputeUpdate;
+
+		OdccQueryLooper OnFactionInteractive;
+		public override void BaseValidate()
+		{
+			base.BaseValidate();
+		}
+
 		public override void BaseAwake()
 		{
 			var computeQuery = QuerySystemBuilder.CreateQuery()
@@ -61,6 +68,9 @@ namespace BC.LowLevelAI
 				.JoinNext(_ValueListUpdate)
 				.CallNext(ComputeListUpdate)
 				.GetCollector();
+
+
+
 		}
 		public override void BaseDestroy()
 		{
@@ -363,6 +373,7 @@ namespace BC.LowLevelAI
 
 				void ComputeDiplomacy()
 				{
+					//ThisContainer.TryGetData<>
 					info.FactionDiplomacy = FactionDiplomacyType.Neutral_Faction;
 				}
 			}

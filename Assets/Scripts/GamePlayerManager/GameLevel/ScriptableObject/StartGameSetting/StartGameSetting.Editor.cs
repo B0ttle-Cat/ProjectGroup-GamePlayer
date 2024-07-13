@@ -3,8 +3,6 @@ using System;
 using System.Collections;
 using System.Linq;
 
-using BC.OdccBase;
-
 using Sirenix.OdinInspector;
 
 using UnityEditor;
@@ -97,28 +95,16 @@ namespace BC.GamePlayerManager
 				var list = new ValueDropdownList<int>();
 				Object selectedObject = Selection.activeObject;
 				if(selectedObject ==null) return list;
-				if(selectedObject is not StartGameSetting thisSetting) return list;
-				if(thisSetting.unitSetting == null) return list;
+				if(selectedObject is not StartFactionSetting thisSetting) return list;
+				if(thisSetting.factionInfoList == null) return list;
 
 				try
 				{
-					var characters = thisSetting.unitSetting.characterDatas;
-					var factionList = characters.GroupBy(i => i.FactionIndex)
-						.Select(i => i.First().FactionIndex);
+					var factionList = thisSetting.factionInfoList;
 
-					var table = DiplomacyTable.SelectDiplomacyTable;
-					foreach(var item in factionList)
+					foreach(StartFactionSetting.FactionInfo item in factionList)
 					{
-						var findIndex = table.ItemList.FindIndex(i => i.FactionIndex == item);
-						if(findIndex >= 0)
-						{
-							var diplomacy = table.ItemList[findIndex];
-							list.Add($"Faction {diplomacy.FactionName}", diplomacy.FactionIndex);
-						}
-						else
-						{
-							list.Add($"Faction {item}", item);
-						}
+						list.Add($"{item.FactionIndex:00}:{item.FactionName}", item.FactionIndex);
 					}
 				}
 				catch(Exception ex)

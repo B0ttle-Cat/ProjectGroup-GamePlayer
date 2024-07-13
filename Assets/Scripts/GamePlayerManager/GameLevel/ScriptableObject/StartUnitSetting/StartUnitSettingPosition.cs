@@ -42,7 +42,7 @@ namespace BC.GamePlayerManager
 		private Color DoubleColor() { return IsDouble ? Color.red : Color.white; }
 		private static IEnumerable ShowTargetFactionName()
 		{
-			return FriendshipItem.ShowTargetFactionName();
+			return null;// FriendshipItem.ShowTargetFactionName();
 		}
 		private static IEnumerable ShowTargetTeamIndex()
 		{

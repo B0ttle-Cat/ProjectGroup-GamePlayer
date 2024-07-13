@@ -20,7 +20,7 @@ namespace BC.GamePlayerManager
 
 		public StartUnitSetting UnitSetting => gameSetting?.unitSetting;
 		public StartMapSetting MapSetting => gameSetting?.mapSetting;
-		public StartFactionSetting DiplomacyList => gameSetting?.factionSetting;
+		public StartFactionSetting FactionSetting => gameSetting?.factionSetting;
 		public List<SpawnAnchor> SpawnList => gameSetting.SpawnList;
 	}
 }

@@ -35,13 +35,13 @@
 
 //#if UNITY_EDITOR
 //		[PropertyOrder(-1)]
-//		[TabGroup("Tap", nameof(DiplomacyList))]
+//		[TabGroup("Tap", nameof(FactionSetting))]
 //		[Button("Fill Diplomacy List")]
 //		public void FillDiplomacyList()
 //		{
 //			if(unitSetting == null) return;
-//			DiplomacyList ??= new List<DiplomacyItem>();
-//			var list = DiplomacyList;
+//			FactionSetting ??= new List<DiplomacyItem>();
+//			var list = FactionSetting;
 //			foreach(var actor in unitSetting.characterDatas)
 //			{
 //				foreach(var target in unitSetting.characterDatas)

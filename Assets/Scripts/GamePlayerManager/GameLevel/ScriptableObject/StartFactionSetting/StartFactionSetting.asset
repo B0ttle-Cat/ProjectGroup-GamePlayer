@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: StartFactionSetting
   m_EditorClassIdentifier: 
   factionInfoList:
-  - factionIndex: 0
+  - factionControlType: 0
+    factionIndex: 0
     factionName: FactionA
-  - factionIndex: 1
+  - factionControlType: 10
+    factionIndex: 1
     factionName: FactionB
-  - factionIndex: 2
+  - factionControlType: 10
+    factionIndex: 2
     factionName: FactionC
-  - factionIndex: 3
+  - factionControlType: 10
+    factionIndex: 3
     factionName: FactionD
   DiplomacyList:
   - factionActor: 0

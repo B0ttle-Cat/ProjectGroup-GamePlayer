@@ -1,6 +1,6 @@
 namespace BC.GamePlayerManager
 {
-	public class HumanPlayerInterface : GamePlayerInterface
+	public class LocalPlayerInterface : GamePlayerInterface
 	{
 		public override void BaseValidate()
 		{

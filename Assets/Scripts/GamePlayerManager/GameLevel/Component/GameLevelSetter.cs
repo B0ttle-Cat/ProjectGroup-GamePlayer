@@ -22,8 +22,9 @@ namespace BC.GamePlayerManager
 #endif
 		private StartLevelData startLevelData;
 
-		private IStartSetup mapCreater;
-		private IStartSetup characterCreater;
+		private IStartSetup mapCreator;
+		private IStartSetup factionCreator;
+		private IStartSetup characterCreator;
 
 		[SerializeField, ReadOnly]
 		private bool isCompleteSetting = false;
@@ -42,8 +43,8 @@ namespace BC.GamePlayerManager
 		public override void BaseEnable()
 		{
 			IsCompleteSetting = false;
-			mapCreater = null;
-			characterCreater = null;
+			mapCreator = null;
+			characterCreator = null;
 
 			if(startLevelData.MapSetting != null && ThisObject is IGetLowLevelAIManager manager)
 			{
@@ -53,9 +54,19 @@ namespace BC.GamePlayerManager
 					{
 						map.MapSetting = startLevelData.MapSetting;
 
-						mapCreater = setter;
+						mapCreator = setter;
 						setter.OnStartSetting();
 					}
+				}
+			}
+
+			if(startLevelData.UnitSetting != null && ThisContainer.TryGetComponent<CreateFactionObject>(out var faction))
+			{
+				if(faction is IStartSetup setter)
+				{
+					faction.FactionSetting = startLevelData.FactionSetting;
+					factionCreator = setter;
+					setter.OnStartSetting();
 				}
 			}
 
@@ -65,7 +76,7 @@ namespace BC.GamePlayerManager
 				{
 					character.UnitSetting = startLevelData.UnitSetting;
 					character.SpawnList = startLevelData.SpawnList;
-					characterCreater = setter;
+					characterCreator = setter;
 					setter.OnStartSetting();
 				}
 			}
@@ -92,11 +103,11 @@ namespace BC.GamePlayerManager
 				return;
 			}
 
-			if(mapCreater !=  null && !mapCreater.IsCompleteSetting)
+			if(mapCreator !=  null && !mapCreator.IsCompleteSetting)
 			{
 				return;
 			}
-			if(characterCreater !=  null && !characterCreater.IsCompleteSetting)
+			if(characterCreator !=  null && !characterCreator.IsCompleteSetting)
 			{
 				return;
 			}

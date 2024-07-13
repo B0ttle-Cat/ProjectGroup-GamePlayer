@@ -1,5 +1,4 @@
 using BC.ODCC;
-using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
@@ -17,12 +16,8 @@ namespace BC.LowLevelAI
 			base.BaseValidate();
 		}
 
-		public static QuerySystem DiplomacyQuery;
 		public override void BaseAwake()
 		{
-			DiplomacyQuery = QuerySystemBuilder.CreateQuery().WithAll<DiplomacyData, DiplomacyComputer>().Build();
-			OdccQueryCollector.CreateQueryCollector(DiplomacyQuery);
-
 			MapStage = ThisContainer.GetChildObject<MapStage>();
 		}
 		public override void BaseDestroy()

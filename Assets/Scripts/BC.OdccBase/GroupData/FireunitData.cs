@@ -47,7 +47,12 @@ namespace BC.OdccBase
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{
-			return FriendshipItem.ShowTargetFactionName();
+			if(OdccContainerTree.TryFindOdccType_InEditor<FactionDiplomacyData>(out var result))
+			{
+
+			}
+
+			return null;
 		}
 #endif
 	}

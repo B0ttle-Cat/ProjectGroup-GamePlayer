@@ -18,7 +18,10 @@ namespace BC.GamePlayerManager
 		private Dictionary<int, List<CharacterData>> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
-		[SerializeField] private OdccQueryCollector characterQueryCollector;
+		[SerializeField]
+		private OdccQueryCollector characterQueryCollector;
+
+		public StartFactionSetting FactionSetting { get; set; }
 
 		public override void BaseAwake()
 		{
@@ -138,19 +141,16 @@ namespace BC.GamePlayerManager
 				data.FactionIndex = factionIndex;
 				createObject.UpdateObjectName();
 
-				if(ThisContainer.TryGetData<DiplomacyData>(out var diplomacy))
+				var factionInfoIndex = FactionSetting.factionInfoList.FindIndex(item => item.FactionIndex == factionIndex);
+				if(factionInfoIndex>=0)
 				{
-					if(diplomacy.GetDiplomacy(factionIndex, out var diplomacyItem))
-					{
-						if(diplomacyItem.IsAIFaction)
-						{
-							createObject.gameObject.AddComponent<AIGamePlayerInterface>();
-						}
-						else
-						{
-							createObject.gameObject.AddComponent<HumanPlayerInterface>();
-						}
-					}
+					StartFactionSetting.FactionInfo factionInfo = FactionSetting.factionInfoList[factionInfoIndex];
+					GamePlayerInterface playerInterface = factionInfo.FactionControl switch {
+						FactionControlType.Local => createObject.gameObject.AddComponent<LocalPlayerInterface>(),
+						FactionControlType.Remote => createObject.gameObject.AddComponent<RemotePlayerInterface>(),
+						FactionControlType.AI => createObject.gameObject.AddComponent<AIGamePlayerInterface>(),
+						_ => createObject.gameObject.AddComponent<AIGamePlayerInterface>(),
+					};
 				}
 				createObject.gameObject.SetActive(true);
 			}

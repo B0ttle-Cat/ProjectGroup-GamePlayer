@@ -1,8 +1,8 @@
 using System.Collections;
 
 using BC.Base;
-using BC.OdccBase;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -50,7 +50,7 @@ namespace BC.Character
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{
-			return FriendshipItem.ShowTargetFactionName();
+			return null;// FriendshipItem.ShowTargetFactionName();
 		}
 #endif
 	}

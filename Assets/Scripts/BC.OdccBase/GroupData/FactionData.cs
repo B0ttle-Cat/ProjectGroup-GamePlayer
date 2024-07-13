@@ -34,7 +34,7 @@ namespace BC.OdccBase
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{
-			return FriendshipItem.ShowTargetFactionName();
+			return null; // FriendshipItem.ShowTargetFactionName();
 		}
 #endif
 	}

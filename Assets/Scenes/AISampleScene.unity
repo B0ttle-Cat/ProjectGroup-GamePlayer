@@ -913,7 +913,6 @@ GameObject:
   - component: {fileID: 713611034}
   - component: {fileID: 713611035}
   - component: {fileID: 713611036}
-  - component: {fileID: 713611037}
   m_Layer: 0
   m_Name: Faction
   m_TagString: Untagged
@@ -960,18 +959,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3439d8e3be08194489c7dfecc7d87c1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &713611037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713611033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4eba6a7256e1584e9735fb36cbf180f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &719285764 stripped
@@ -2231,20 +2218,14 @@ MonoBehaviour:
       - {fileID: 1080914727}
       - {fileID: 713611035}
       - {fileID: 713611036}
-      - {fileID: 713611037}
       - {fileID: 582968239}
       - {fileID: 582968240}
       - {fileID: 1718360627}
       - {fileID: 1718360628}
-      dataList:
-      - rid: 3639921821717889155
+      dataList: []
   references:
     version: 2
-    RefIds:
-    - rid: 3639921821717889155
-      type: {class: DiplomacyData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        table: {fileID: 0}
+    RefIds: []
 --- !u!4 &2074201084
 Transform:
   m_ObjectHideFlags: 0

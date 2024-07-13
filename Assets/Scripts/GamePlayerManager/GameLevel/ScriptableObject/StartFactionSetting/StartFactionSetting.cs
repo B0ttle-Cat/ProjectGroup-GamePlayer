@@ -9,6 +9,12 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
+	public enum FactionControlType
+	{
+		Local = 0,
+		Remote = 1,
+		AI = 10
+	}
 
 	[CreateAssetMenu(fileName = "StartFactionSetting", menuName = "BC/StartSetting/new StartFactionSetting")]
 	public partial class StartFactionSetting : ScriptableObject
@@ -16,11 +22,14 @@ namespace BC.GamePlayerManager
 		[Serializable]
 		public struct FactionInfo
 		{
+			[SerializeField, EnumPaging]
+			private FactionControlType factionControlType;
 			[SerializeField]
 			private int factionIndex;
 			[SerializeField]
 			private string factionName;
 
+			public FactionControlType FactionControl { get => factionControlType; set => factionControlType=value; }
 			public int FactionIndex { get => factionIndex; set => factionIndex=value; }
 			public string FactionName { get => factionName; set => factionName=value; }
 		}

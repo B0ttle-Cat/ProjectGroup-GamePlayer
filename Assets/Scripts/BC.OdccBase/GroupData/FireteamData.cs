@@ -42,7 +42,7 @@ namespace BC.OdccBase
 			//	GameObject.FindObjectOfType<FactionDiplomacyData>
 
 
-			return FriendshipItem.ShowTargetFactionName();
+			return null;// FriendshipItem.ShowTargetFactionName();
 		}
 #endif
 	}

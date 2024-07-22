@@ -24,7 +24,7 @@ namespace BC.GamePlayerManager
 			this.startGameSetting = startGameSetting;
 		}
 
-		public partial struct DiplomacyItem : IShowFactionList
+		public partial struct DiplomacySettingInfo : IShowFactionList
 		{
 			private IEnumerable ShowFactionList()
 			{
@@ -49,7 +49,7 @@ namespace BC.GamePlayerManager
 				{
 					var factionList = thisSetting.factionInfoList;
 
-					foreach(FactionInfo item in factionList)
+					foreach(FactionSettingInfo item in factionList)
 					{
 						list.Add($"{item.FactionIndex:00}:{item.FactionName}", item.FactionIndex);
 					}
@@ -74,8 +74,8 @@ namespace BC.GamePlayerManager
 
 			var infoList = thisSetting.factionInfoList;
 
-			DiplomacyList ??= new List<DiplomacyItem>();
-			var list = DiplomacyList;
+			diplomacyInfoList ??= new List<DiplomacySettingInfo>();
+			var list = diplomacyInfoList;
 			foreach(var actor in infoList)
 			{
 				foreach(var target in infoList)
@@ -137,37 +137,65 @@ namespace BC.GamePlayerManager
 
 
 		Color prevColor;
+		Color prevBGColor;
+		Color prevContentColor;
 		private void DrawOnBeginListElementGUI(int index)
 		{
-			if(DiplomacyList == null) return;
-			int length = DiplomacyList.Count;
+			if(diplomacyInfoList == null) return;
+			prevColor = GUI.color;
+			prevBGColor = GUI.backgroundColor;
+			prevContentColor = GUI.contentColor;
 
-			var thisItem = DiplomacyList[index];
-			bool check = true;
-			for(int i = 0 ; i < length ; i++)
+			int length = diplomacyInfoList.Count;
+			var thisItem = diplomacyInfoList[index];
+			if(thisItem.FactionActor == thisItem.FactionTarget)
 			{
-				if(i == index) continue;
-				var checkItem = DiplomacyList[i];
-
-				if(thisItem.FactionActor == checkItem.FactionTarget && thisItem.FactionTarget == checkItem.FactionActor)
+				GUI.backgroundColor = Color.gray;
+				GUI.contentColor = Color.black;
+			}
+			else
+			{
+				if(thisItem.FactionActor > thisItem.FactionTarget)
 				{
-					if(thisItem.FactionDiplomacy != checkItem.FactionDiplomacy)
+					GUI.backgroundColor = Color.gray;
+					GUI.contentColor = Color.gray;
+					for(int i = 0 ; i < index+1 ; i++)
 					{
-						check = false;
-						break;
+						var checkItem = diplomacyInfoList[i];
+						if(thisItem.FactionActor == checkItem.FactionTarget && thisItem.FactionTarget == checkItem.FactionActor)
+						{
+							thisItem.FactionDiplomacy = checkItem.FactionDiplomacy;
+							diplomacyInfoList[index] = thisItem;
+							break;
+						}
 					}
 				}
-			}
-
-			prevColor = GUI.backgroundColor;
-			if(!check)
-			{
-				GUI.backgroundColor = Color.yellow;
+				//bool check = true;
+				//for(int i = 0 ; i < length ; i++)
+				//{
+				//	if(i == index) continue;
+				//	var checkItem = diplomacyInfoList[i];
+				//
+				//	if(thisItem.FactionActor == checkItem.FactionTarget && thisItem.FactionTarget == checkItem.FactionActor)
+				//	{
+				//		if(thisItem.FactionDiplomacy != checkItem.FactionDiplomacy)
+				//		{
+				//			check = false;
+				//			break;
+				//		}
+				//	}
+				//}
+				//if(!check)
+				//{
+				//	GUI.contentColor = Color.red;
+				//}
 			}
 		}
 		private void DrawOnEndListElementGUI(int index)
 		{
-			GUI.backgroundColor = prevColor;
+			GUI.color = prevColor;
+			GUI.backgroundColor = prevBGColor;
+			GUI.contentColor = prevColor;
 		}
 	}
 }

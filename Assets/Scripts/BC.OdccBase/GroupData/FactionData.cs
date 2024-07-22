@@ -1,5 +1,3 @@
-using System.Collections;
-
 using BC.ODCC;
 
 using Sirenix.OdinInspector;
@@ -8,6 +6,12 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
+	public enum FactionControlType
+	{
+		Local = 0,
+		Remote = 1,
+		AI = 10
+	}
 	public interface IFactionData : IOdccData
 	{
 		public int FactionIndex { get; set; }
@@ -26,16 +30,17 @@ namespace BC.OdccBase
 	}
 	public class FactionData : DataObject, IFactionData
 	{
+		[SerializeField, EnumPaging]
+		private FactionControlType factionControlType;
+
 		[SerializeField]
-		[ValueDropdown("ShowTargetFactionName")]
 		private int factionIndex;
 
+		[SerializeField]
+		private string factionName;
+
+		public FactionControlType FactionControlType { get => factionControlType; set => factionControlType = value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
-#if UNITY_EDITOR
-		public static IEnumerable ShowTargetFactionName()
-		{
-			return null; // FriendshipItem.ShowTargetFactionName();
-		}
-#endif
+		public string FactionName { get => factionName; set => factionName = value; }
 	}
 }

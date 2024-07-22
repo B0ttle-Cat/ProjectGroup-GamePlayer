@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c38153f5e8ce62843a3a3259025fcfaf, type: 3}
-  m_Name: StartFactionSetting
+  m_Name: SampleFactionSetting
   m_EditorClassIdentifier: 
   factionInfoList:
   - factionControlType: 0
@@ -22,10 +22,7 @@ MonoBehaviour:
   - factionControlType: 10
     factionIndex: 2
     factionName: FactionC
-  - factionControlType: 10
-    factionIndex: 3
-    factionName: FactionD
-  DiplomacyList:
+  diplomacyInfoList:
   - factionActor: 0
     factionTarget: 0
     factionDiplomacy: 100
@@ -34,9 +31,6 @@ MonoBehaviour:
     factionDiplomacy: -10
   - factionActor: 0
     factionTarget: 2
-    factionDiplomacy: 0
-  - factionActor: 0
-    factionTarget: 3
     factionDiplomacy: 10
   - factionActor: 1
     factionTarget: 1
@@ -47,30 +41,12 @@ MonoBehaviour:
   - factionActor: 1
     factionTarget: 2
     factionDiplomacy: 0
-  - factionActor: 1
-    factionTarget: 3
-    factionDiplomacy: -10
   - factionActor: 2
     factionTarget: 2
     factionDiplomacy: 100
   - factionActor: 2
-    factionTarget: 0
-    factionDiplomacy: 0
-  - factionActor: 2
-    factionTarget: 1
-    factionDiplomacy: 0
-  - factionActor: 2
-    factionTarget: 3
-    factionDiplomacy: 0
-  - factionActor: 3
-    factionTarget: 3
-    factionDiplomacy: 100
-  - factionActor: 3
     factionTarget: 0
     factionDiplomacy: 10
-  - factionActor: 3
+  - factionActor: 2
     factionTarget: 1
-    factionDiplomacy: -10
-  - factionActor: 3
-    factionTarget: 2
     factionDiplomacy: 0

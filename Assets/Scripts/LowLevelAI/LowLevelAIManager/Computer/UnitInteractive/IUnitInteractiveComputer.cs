@@ -1,25 +1,17 @@
 using System.Collections.Generic;
 
 using BC.ODCC;
-using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
+	/// <summary>
+	/// <see cref="IFactionInteractiveComputer"/>
+	/// <see cref="ITeamInteractiveComputer"/>
+	/// <see cref="IUnitInteractiveComputer"/>
+	/// </summary>
 	public interface IUnitInteractiveComputer : IOdccComponent
 	{
-		bool TryUnitTargetList(IUnitInteractiveActor actor, out Dictionary<IUnitInteractiveTarget, UnitInteractiveInfo> targetToList);
-		bool TryUnitTargetingInfo(IUnitInteractiveActor actor, IUnitInteractiveTarget target, out UnitInteractiveInfo info);
-	}
-	public interface IUnitInteractiveActor : IOdccComponent
-	{
-		public IFireunitData ThisUnitData => ThisContainer.GetData<IFireunitData>();
-		public IUnitInteractiveValue ThisUnitComputeValue => ThisContainer.GetComponent<IUnitInteractiveValue>();
-		void OnUpdateStartCompute(IUnitInteractiveComputer iComputer);
-		void OnUpdateEndedCompute(IUnitInteractiveComputer iComputer);
-	}
-	public interface IUnitInteractiveTarget : IOdccComponent
-	{
-		public IFireunitData ThisUnitData => ThisContainer.GetData<IFireunitData>();
-		public IUnitInteractiveValue ThisUnitComputeValue => ThisContainer.GetComponent<IUnitInteractiveValue>();
+		bool TryUnitTargetList(IUnitInteractiveValue actor, out Dictionary<IUnitInteractiveValue, UnitInteractiveInfo> targetToList);
+		bool TryUnitTargetingInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info);
 	}
 }

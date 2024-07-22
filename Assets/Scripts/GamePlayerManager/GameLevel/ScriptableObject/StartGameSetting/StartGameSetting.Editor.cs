@@ -102,7 +102,7 @@ namespace BC.GamePlayerManager
 				{
 					var factionList = thisSetting.factionInfoList;
 
-					foreach(StartFactionSetting.FactionInfo item in factionList)
+					foreach(StartFactionSetting.FactionSettingInfo item in factionList)
 					{
 						list.Add($"{item.FactionIndex:00}:{item.FactionName}", item.FactionIndex);
 					}

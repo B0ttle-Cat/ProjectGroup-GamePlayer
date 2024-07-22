@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[CreateAssetMenu(fileName = "CharacterCard", menuName = "BC/StartSetting/new CharacterResourcesCard")]
-	public partial class CharacterResourcesCard : ScriptableObject, ICharacterModelData
+	public partial class CharacterResourcesCard : ScriptableObject, ICharacterResourcesData
 	{
 		[InlineButton("UpdateAssetName")]
 		[HideLabel, SuffixLabel("CharacterName", Overlay = true)]
@@ -16,11 +16,11 @@ namespace BC.GamePlayerManager
 		public string characterName;
 		[SerializeField, HideLabel, FoldoutGroup("Model Resources Character")]
 		private ResourcesKey characterKey;
-		[SerializeField, HideLabel, FoldoutGroup("Model Resources Weapone")]
-		private ResourcesKey weaponeKey;
+		[SerializeField, HideLabel, FoldoutGroup("Model Resources Weapon")]
+		private ResourcesKey weaponKey;
 
 
-		public ResourcesKey CharacterKey { get => characterKey; }
-		public ResourcesKey WeaponeKey { get => weaponeKey; }
+		public ResourcesKey CharacterResourcesKey { get => characterKey; }
+		public ResourcesKey WeaponResourcesKey { get => weaponKey; }
 	}
 }

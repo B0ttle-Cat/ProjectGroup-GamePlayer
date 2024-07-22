@@ -10,10 +10,10 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[Serializable]
-	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterModelData
+	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterResourcesData
 	{
-		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard",NumberOfItemsBeforeEnablingSearch = 0)]
-		private CharacterResourcesCard characterResourcesCard;
+		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard",NumberOfItemsBeforeEnablingSearch = 0, DropdownWidth =300)]
+		private CharacterResourcesCard characterCard;
 
 		[TableColumnWidth(50), SerializeField, ValueDropdown("ShowTargetFactionName")]
 		[GUIColor("DoubleColor")]
@@ -32,7 +32,7 @@ namespace BC.GamePlayerManager
 		public int TeamIndex { get => teamIndex; set => teamIndex=value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex=value; }
 
-		public ResourcesKey CharacterKey { get => characterResourcesCard == null ? default : characterResourcesCard.CharacterKey; }
-		public ResourcesKey WeaponeKey { get => characterResourcesCard == null ? default : characterResourcesCard.WeaponeKey; }
+		public ResourcesKey CharacterResourcesKey { get => characterCard == null ? default : characterCard.CharacterResourcesKey; }
+		public ResourcesKey WeaponResourcesKey { get => characterCard == null ? default : characterCard.WeaponResourcesKey; }
 	}
 }

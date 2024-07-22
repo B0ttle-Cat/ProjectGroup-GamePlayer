@@ -18,7 +18,7 @@ MonoBehaviour:
     BundleName: 
     FullPath: BC.Character/ModelCharacter/SD_unitychan_humanoid
     ObjectAsset: {fileID: 0}
-  weaponeKey:
+  weaponKey:
     LoadType: 0
     BundleName: 
     FullPath: BC.Character/ModelWeapon/Weapon_M4

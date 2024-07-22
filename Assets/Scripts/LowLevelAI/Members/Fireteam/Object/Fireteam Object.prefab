@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 5731603688894371368}
   - component: {fileID: 4538645315164216160}
   - component: {fileID: -6279028362280402158}
+  - component: {fileID: 3017756571772089170}
   m_Layer: 0
   m_Name: Fireteam Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6949938332782841439
 Transform:
   m_ObjectHideFlags: 0
@@ -64,6 +65,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7701795580420293440
       type: {class: FireteamStateData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
       data:
@@ -113,5 +116,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d15bd4817d11eb4f8efd8631231247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3017756571772089170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7275886164925660364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464d7ebabaced1d4c9fc60c78e6e421c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

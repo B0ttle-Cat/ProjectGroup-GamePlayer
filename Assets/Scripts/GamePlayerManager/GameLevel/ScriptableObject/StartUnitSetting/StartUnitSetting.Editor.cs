@@ -129,7 +129,7 @@ namespace BC.GamePlayerManager
 			{
 				string path = AssetDatabase.GUIDToAssetPath(guids[i]);
 				var card = AssetDatabase.LoadAssetAtPath<CharacterResourcesCard>(path);
-				result.Add(card.name, card);
+				result.Add(card.characterName, card);
 			}
 			return result;
 		}

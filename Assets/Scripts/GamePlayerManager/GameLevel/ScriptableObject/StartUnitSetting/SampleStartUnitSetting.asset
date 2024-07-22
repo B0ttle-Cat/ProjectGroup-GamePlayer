@@ -13,78 +13,63 @@ MonoBehaviour:
   m_Name: SampleStartUnitSetting
   m_EditorClassIdentifier: 
   characterDatas:
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 0
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 1
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 3
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 4
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 5
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 6
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 7
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 8
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 0
     unitIndex: 9
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 1
     unitIndex: 0
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 0
+  - characterCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e, type: 2}
+    factionIndex: 0
     teamIndex: 1
     unitIndex: 1
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 1
+  - characterCard: {fileID: 11400000, guid: ce26a485b84189742966737dc8e6d10b, type: 2}
+    factionIndex: 1
     teamIndex: 0
     unitIndex: 0
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 1
+  - characterCard: {fileID: 11400000, guid: ce26a485b84189742966737dc8e6d10b, type: 2}
+    factionIndex: 1
     teamIndex: 0
     unitIndex: 1
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 1
+  - characterCard: {fileID: 11400000, guid: ce26a485b84189742966737dc8e6d10b, type: 2}
+    factionIndex: 1
     teamIndex: 1
     unitIndex: 0
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}
-  - factionIndex: 1
+  - characterCard: {fileID: 11400000, guid: ce26a485b84189742966737dc8e6d10b, type: 2}
+    factionIndex: 1
     teamIndex: 1
     unitIndex: 1
-    characterResourcesCard: {fileID: 11400000, guid: 2d056af57cb77ba478828cc76b0ff84e,
-      type: 2}

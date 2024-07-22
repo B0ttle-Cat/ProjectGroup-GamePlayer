@@ -3,11 +3,17 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public interface IFactionInteractiveValue : IOdccComponent
+	public class FactionInteractiveValue : ComponentBehaviour, IFactionInteractiveValue
 	{
 		public IFactionData ThisFactionData { get; set; }
 		public IFactionDiplomacyData ThisDiplomacyData { get; set; }
-		void OnUpdateInit();
-		void OnUpdateValue();
+
+		public void OnUpdateInit()
+		{
+		}
+
+		public void OnUpdateValue()
+		{
+		}
 	}
 }

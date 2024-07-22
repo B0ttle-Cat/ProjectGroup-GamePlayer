@@ -7,9 +7,9 @@ namespace BC.LowLevelAI
 	/// </summary>
 	public class FactionInteractiveInfo
 	{
-		public IFactionInteractiveActor Actor { get; private set; }
-		public IFactionInteractiveTarget Target { get; private set; }
-		public FactionInteractiveInfo(IFactionInteractiveActor actor, IFactionInteractiveTarget target)
+		public IFactionInteractiveValue Actor { get; private set; }
+		public IFactionInteractiveValue Target { get; private set; }
+		public FactionInteractiveInfo(IFactionInteractiveValue actor, IFactionInteractiveValue target)
 		{
 			Actor=actor;
 			Target=target;

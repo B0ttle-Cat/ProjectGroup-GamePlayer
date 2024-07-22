@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using BC.Base;
 using BC.Character;
@@ -22,6 +23,10 @@ namespace BC.GamePlayerManager
 		private OdccQueryCollector characterQueryCollector;
 
 		public StartFactionSetting FactionSetting { get; set; }
+		public override void BaseValidate()
+		{
+			base.BaseValidate();
+		}
 
 		public override void BaseAwake()
 		{
@@ -127,32 +132,54 @@ namespace BC.GamePlayerManager
 		private void CreateObject(int factionIndex)
 		{
 			if(ObjectPrefab == null) return;
+			if(FactionSetting == null) return;
 
 			if(!ThisContainer.TryGetChildObject<FactionObject>(out var faction, item => FindObject(item, factionIndex)))
 			{
-				ObjectPrefab.gameObject.SetActive(false);
-				var createObject = GameObject.Instantiate(ObjectPrefab);
-				createObject.ThisTransform.ResetLcoalPose(ThisTransform);
-
-				if(!createObject.ThisContainer.TryGetData<FactionData>(out var data))
-				{
-					data = createObject.ThisContainer.AddData<FactionData>();
-				}
-				data.FactionIndex = factionIndex;
-				createObject.UpdateObjectName();
-
 				var factionInfoIndex = FactionSetting.factionInfoList.FindIndex(item => item.FactionIndex == factionIndex);
 				if(factionInfoIndex>=0)
 				{
-					StartFactionSetting.FactionInfo factionInfo = FactionSetting.factionInfoList[factionInfoIndex];
-					GamePlayerInterface playerInterface = factionInfo.FactionControl switch {
+					var factionInfo = FactionSetting.factionInfoList[factionInfoIndex];
+					var diplomacyList = FactionSetting.diplomacyInfoList;
+
+					ObjectPrefab.gameObject.SetActive(false);
+					var createObject = GameObject.Instantiate(ObjectPrefab);
+					createObject.ThisTransform.ResetLcoalPose(ThisTransform);
+
+					if(!createObject.ThisContainer.TryGetData<FactionData>(out var data))
+					{
+						data = createObject.ThisContainer.AddData<FactionData>();
+					}
+					data.FactionIndex = factionIndex;
+					data.FactionName = factionInfo.FactionName;
+					data.FactionControlType = factionInfo.FactionControl;
+
+					if(!createObject.ThisContainer.TryGetData<FactionDiplomacyData>(out var diplomacyData))
+					{
+						diplomacyData = createObject.ThisContainer.AddData<FactionDiplomacyData>();
+					}
+					diplomacyData.thisFactionData = factionIndex;
+					diplomacyData.allianceFactionList = diplomacyList
+						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Alliance_Faction)
+						.Select(item => item.FactionTarget).ToList();
+					diplomacyData.enemyFactionList = diplomacyList
+						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Enemy_Faction)
+						.Select(item => item.FactionTarget).ToList();
+					diplomacyData.neutralFactionList = diplomacyList
+						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Neutral_Faction)
+						.Select(item => item.FactionTarget).ToList();
+
+					createObject.UpdateObjectName();
+
+					GamePlayerInterface playerInterface = data.FactionControlType switch {
 						FactionControlType.Local => createObject.gameObject.AddComponent<LocalPlayerInterface>(),
 						FactionControlType.Remote => createObject.gameObject.AddComponent<RemotePlayerInterface>(),
 						FactionControlType.AI => createObject.gameObject.AddComponent<AIGamePlayerInterface>(),
 						_ => createObject.gameObject.AddComponent<AIGamePlayerInterface>(),
 					};
+
+					createObject.gameObject.SetActive(true);
 				}
-				createObject.gameObject.SetActive(true);
 			}
 			static bool FindObject(FactionObject factionObject, int factionIndex)
 			{

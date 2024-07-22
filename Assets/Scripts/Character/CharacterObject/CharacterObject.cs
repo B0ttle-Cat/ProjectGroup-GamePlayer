@@ -35,7 +35,7 @@ namespace BC.Character
 			if(characterData != null && ThisContainer.TryGetComponent<CharacterResourcesSetup>(out var resourcesSetup))
 			{
 				resourcesSetup.enabled = false;
-				resourcesSetup.ResourcesSetup(characterData.CharacterKey, characterData.WeaponeKey, (m, w) =>
+				resourcesSetup.ResourcesSetup(characterData.CharacterResourcesKey, characterData.WeaponResourcesKey, (m, w) =>
 				{
 					Model = m;
 					Weapon = w;

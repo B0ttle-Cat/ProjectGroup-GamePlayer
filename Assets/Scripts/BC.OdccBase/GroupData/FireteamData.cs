@@ -39,7 +39,7 @@ namespace BC.OdccBase
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()
 		{
-			//	GameObject.FindObjectOfType<FactionDiplomacyData>
+			//	GameObject.FindObjectOfType<FactionData>
 
 
 			return null;// FriendshipItem.ShowTargetFactionName();

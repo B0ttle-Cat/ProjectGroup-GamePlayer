@@ -13,7 +13,7 @@
 //	public partial class StartGameSetting//.Diplomacy : MonoBehaviour
 //	{
 //		[Serializable]
-//		public partial struct DiplomacyItem
+//		public partial struct DiplomacySettingInfo
 //		{
 //			[ValueDropdown("ShowFactionList")]
 //			[TableColumnWidth(100, false)]
@@ -40,7 +40,7 @@
 //		public void FillDiplomacyList()
 //		{
 //			if(unitSetting == null) return;
-//			FactionSetting ??= new List<DiplomacyItem>();
+//			FactionSetting ??= new List<DiplomacySettingInfo>();
 //			var list = FactionSetting;
 //			foreach(var actor in unitSetting.characterDatas)
 //			{
@@ -89,7 +89,7 @@
 //			}
 //		}
 
-//		public partial struct DiplomacyItem : IShowFactionList
+//		public partial struct DiplomacySettingInfo : IShowFactionList
 //		{
 //			public IEnumerable ShowFactionList()
 //			{

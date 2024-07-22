@@ -737,8 +737,8 @@ MonoBehaviour:
       - {fileID: 617949367}
       - {fileID: 968870361}
       - {fileID: 1555824966}
-      - {fileID: 2049135162}
-      - {fileID: 1268186664}
+      - {fileID: 0}
+      - {fileID: 0}
       - {fileID: 280405639}
       componentList:
       - {fileID: 448125904}
@@ -1111,66 +1111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1268186661
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1268186662}
-  - component: {fileID: 1268186664}
-  m_Layer: 0
-  m_Name: 01 Faction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1268186662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268186661}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30, y: -0.25, z: -30}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1555824967}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1268186664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268186661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78d3cf53b66c26143878e5c388d87cbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _container:
-    ContainerNode:
-      showInspector: 6
-      thisObject: {fileID: 1268186664}
-      parent: {fileID: 1555824966}
-      childs: []
-      componentList: []
-      dataList:
-      - rid: 7701795883776999442
-  references:
-    version: 2
-    RefIds:
-    - rid: 7701795883776999442
-      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        factionIndex: 1
 --- !u!114 &1424430891 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1977429781995233922, guid: 7ecb579ed90154048bbfe9bca1431197,
@@ -1242,8 +1182,8 @@ MonoBehaviour:
       thisObject: {fileID: 1555824966}
       parent: {fileID: 448125903}
       childs:
-      - {fileID: 2049135162}
-      - {fileID: 1268186664}
+      - {fileID: 0}
+      - {fileID: 0}
       componentList: []
       dataList: []
   references:
@@ -1261,9 +1201,7 @@ Transform:
   m_LocalPosition: {x: 30, y: 0.25, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2049135160}
-  - {fileID: 1268186662}
+  m_Children: []
   m_Father: {fileID: 448125902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1610727862 stripped
@@ -1278,96 +1216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1676452850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1676452851}
-  - component: {fileID: 1676452852}
-  - component: {fileID: 1676452853}
-  m_Layer: 0
-  m_Name: Commander
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1676452851
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1676452850}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.432693, y: 45.904736, z: -10.821693}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1676452852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1676452850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 828ad09a1e02e074b81dcbf07d32b40e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _container:
-    ContainerNode:
-      showInspector: 6
-      thisObject: {fileID: 1676452852}
-      parent: {fileID: 0}
-      childs: []
-      componentList:
-      - {fileID: 1676452853}
-      dataList:
-      - rid: 3639921660767764570
-  references:
-    version: 2
-    RefIds:
-    - rid: 3639921660767764570
-      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        value: 0
---- !u!114 &1676452853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1676452850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdc042158c3894a4bbe70b8c36ae631e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: Infinity
-  min:
-    rid: 3639921660767764609
-  max:
-    rid: 3639921660767764593
-  references:
-    version: 2
-    RefIds:
-    - rid: 3639921660767764593
-      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        value: 0
-    - rid: 3639921660767764609
-      type: {class: LongNumber, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        value: 0
 --- !u!1 &1718360625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,66 +1951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2049135159
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2049135160}
-  - component: {fileID: 2049135162}
-  m_Layer: 0
-  m_Name: 00 Faction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2049135160
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049135159}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30, y: -0.25, z: -30}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1555824967}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2049135162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049135159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78d3cf53b66c26143878e5c388d87cbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _container:
-    ContainerNode:
-      showInspector: 6
-      thisObject: {fileID: 2049135162}
-      parent: {fileID: 1555824966}
-      childs: []
-      componentList: []
-      dataList:
-      - rid: 7701795883776999441
-  references:
-    version: 2
-    RefIds:
-    - rid: 7701795883776999441
-      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        factionIndex: 0
 --- !u!1 &2074201082
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,6 +1961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2074201084}
   - component: {fileID: 2074201083}
+  - component: {fileID: 2074201085}
   m_Layer: 0
   m_Name: LowLevelAIManager
   m_TagString: Untagged
@@ -2215,6 +2004,7 @@ MonoBehaviour:
       - {fileID: 617949367}
       - {fileID: 968870361}
       componentList:
+      - {fileID: 2074201085}
       - {fileID: 1080914727}
       - {fileID: 713611035}
       - {fileID: 713611036}
@@ -2245,6 +2035,18 @@ Transform:
   - {fileID: 1718360626}
   m_Father: {fileID: 448125902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2074201085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074201082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d7acc135ee1fa4088ec7304820d096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2106581665 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5942923633425379538, guid: 7ecb579ed90154048bbfe9bca1431197,
@@ -2265,4 +2067,3 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 330585546}
   - {fileID: 448125902}
-  - {fileID: 1676452851}

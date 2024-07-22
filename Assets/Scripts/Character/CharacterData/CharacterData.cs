@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace BC.Character
 {
-	public class CharacterData : DataObject, IFireunitData, ICharacterModelData
+	public class CharacterData : DataObject, IFireunitData, ICharacterResourcesData
 	{
 		[SerializeField]
 		[ValueDropdown("ShowTargetFactionName")]
@@ -31,8 +31,8 @@ namespace BC.Character
 		public int TeamIndex { get => fireteamIndex; set => fireteamIndex=value; }
 		public int UnitIndex { get => fireunitIndex; set => fireunitIndex = value; }
 
-		public ResourcesKey CharacterKey { get => characterKey; set => characterKey=value; }
-		public ResourcesKey WeaponeKey { get => weaponeKey; set => weaponeKey=value; }
+		public ResourcesKey CharacterResourcesKey { get => characterKey; set => characterKey=value; }
+		public ResourcesKey WeaponResourcesKey { get => weaponeKey; set => weaponeKey=value; }
 
 		public bool IsEqualsUnit(int faction, int team, int unit)
 		{

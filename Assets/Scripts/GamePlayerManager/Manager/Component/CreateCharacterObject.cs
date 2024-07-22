@@ -150,8 +150,8 @@ namespace BC.GamePlayerManager
 			characterData.FactionIndex = characterSettingData.FactionIndex;
 			characterData.TeamIndex = characterSettingData.TeamIndex;
 			characterData.UnitIndex = characterSettingData.UnitIndex;
-			characterData.CharacterKey = characterSettingData.CharacterKey;
-			characterData.WeaponeKey = characterSettingData.WeaponeKey;
+			characterData.CharacterResourcesKey = characterSettingData.CharacterResourcesKey;
+			characterData.WeaponResourcesKey = characterSettingData.WeaponResourcesKey;
 			characterObject.UpdateObjectName();
 
 			characterObject.ThisContainer.RemoveData<SpawnData>();

@@ -13,18 +13,10 @@ namespace BC.LowLevelAI
 {
 	public class FactionInteractiveComputer : ComponentBehaviour, IFactionInteractiveComputer
 	{
-		[Space]
-		[SerializeField]
-		private OdccQueryCollector computeCollector;
 		[SerializeField]
 		private OdccQueryCollector valueCollector;
 
-		private Dictionary<IFactionInteractiveActor, Dictionary<IFactionInteractiveTarget, FactionInteractiveInfo>> computingList;
-		[Space]
-		[ShowInInspector, ReadOnly]
-		private List<IFactionInteractiveActor> updateActorList;
-		[ShowInInspector, ReadOnly]
-		private List<IFactionInteractiveTarget> updateTargetList;
+		private Dictionary<IFactionInteractiveValue, Dictionary<IFactionInteractiveValue, FactionInteractiveInfo>> computingList;
 		[ShowInInspector, ReadOnly]
 		private List<IFactionInteractiveValue> updateValueList;
 
@@ -39,11 +31,6 @@ namespace BC.LowLevelAI
 
 		public override void BaseAwake()
 		{
-			var computeQuery = QuerySystemBuilder.CreateQuery()
-					.WithAny<IFactionInteractiveActor, IFactionInteractiveTarget>()
-					.WithAll<IFactionInteractiveValue>()
-					.Build();
-
 			var computeValueQuery = QuerySystemBuilder.CreateQuery()
 					.WithAll<IFactionInteractiveValue>()
 					.Build();
@@ -51,36 +38,21 @@ namespace BC.LowLevelAI
 			afterValueUpdate = new Queue<Action>();
 			afterComputeUpdate = new Queue<Action>();
 
-			updateActorList = new List<IFactionInteractiveActor>();
-			updateTargetList = new List<IFactionInteractiveTarget>();
 			updateValueList = new List<IFactionInteractiveValue>();
 
-			computingList = new Dictionary<IFactionInteractiveActor, Dictionary<IFactionInteractiveTarget, FactionInteractiveInfo>>();
+			computingList = new Dictionary<IFactionInteractiveValue, Dictionary<IFactionInteractiveValue, FactionInteractiveInfo>>();
 
 			valueCollector = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
 				.CreateChangeListEvent(InitValueList, UpdateValueList)
-				.CreateActionEvent(nameof(ValueListUpdate), out var _ValueListUpdate)
+				.CreateLooperEvent(nameof(ValueListUpdate), -1)
+				.CallNext(ValueListUpdate)
+				.CallNext(ValueListCompute)
 				.GetCollector();
-
-			computeCollector = OdccQueryCollector.CreateQueryCollector(computeQuery, this)
-				.CreateChangeListEvent(InitComputeList, UpdateComputeList)
-				.CreateLooperEvent(nameof(ComputeListUpdate), -1)
-				.JoinNext(_ValueListUpdate)
-				.CallNext(ComputeListUpdate)
-				.GetCollector();
-
-
-
 		}
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
 
-			if(computeCollector != null)
-			{
-				computeCollector.DeleteLooperEvent(nameof(ComputeListUpdate));
-				computeCollector = null;
-			}
 			if(valueCollector != null)
 			{
 				valueCollector.DeleteLooperEvent(nameof(ValueListUpdate));
@@ -93,16 +65,6 @@ namespace BC.LowLevelAI
 				computingList = null;
 			}
 
-			if(updateActorList != null)
-			{
-				updateActorList.Clear();
-				updateActorList = null;
-			}
-			if(updateTargetList != null)
-			{
-				updateTargetList.Clear();
-				updateTargetList = null;
-			}
 			if(updateValueList != null)
 			{
 				updateValueList.Clear();
@@ -120,113 +82,6 @@ namespace BC.LowLevelAI
 				afterValueUpdate = null;
 			}
 		}
-		private void InitComputeList(IEnumerable<ObjectBehaviour> enumerable)
-		{
-			afterComputeUpdate.Enqueue(() => _InitList(enumerable));
-			void _InitList(IEnumerable<ObjectBehaviour> enumerable)
-			{
-				updateActorList.AddRange(enumerable.SelectMany(item => item.ThisContainer.GetAllComponent<IFactionInteractiveActor>()));
-				updateTargetList.AddRange(enumerable.SelectMany(item => item.ThisContainer.GetAllComponent<IFactionInteractiveTarget>()));
-				int actorLength = updateActorList.Count;
-				int targetLength = updateTargetList.Count;
-				for(int i = 0 ; i < actorLength ; i++)
-				{
-					for(int ii = 0 ; ii < targetLength ; ii++)
-					{
-						NewTarget(updateActorList[i], updateTargetList[ii]);
-					}
-				}
-			}
-		}
-		private void UpdateComputeList(ObjectBehaviour behaviour, bool added)
-		{
-			afterComputeUpdate.Enqueue(() => _UpdateList(behaviour, added));
-			void _UpdateList(ObjectBehaviour behaviour, bool added)
-			{
-				if(added)
-				{
-					var addedActorList = behaviour.ThisContainer.GetAllComponent<IFactionInteractiveActor>();
-					var addedTargetList = behaviour.ThisContainer.GetAllComponent<IFactionInteractiveTarget>();
-
-					updateTargetList.AddRange(addedTargetList);
-
-					int actorLength = addedActorList.Length;
-					int targetLength = updateTargetList.Count;
-					for(int i = 0 ; i < actorLength ; i++)
-					{
-						for(int ii = 0 ; ii < targetLength ; ii++)
-						{
-							var actor = addedActorList[i];
-							var target = updateTargetList[ii];
-							NewTarget(actor, target);
-						}
-					}
-
-					actorLength = updateActorList.Count;
-					targetLength = addedTargetList.Length;
-					for(int i = 0 ; i < actorLength ; i++)
-					{
-						for(int ii = 0 ; ii < targetLength ; ii++)
-						{
-							var actor = updateActorList[i];
-							var target = addedTargetList[ii];
-							NewTarget(actor, target);
-						}
-					}
-
-					updateActorList.AddRange(addedActorList);
-				}
-				else
-				{
-					var deleteActorList = behaviour.ThisContainer.GetAllComponent<IFactionInteractiveActor>();
-					var deleteTargetList = behaviour.ThisContainer.GetAllComponent<IFactionInteractiveTarget>();
-					int deleteActorLength = deleteActorList.Length;
-					int deleteTargetLength = deleteTargetList.Length;
-					Action deleteAction = null;
-
-					for(int i = 0 ; i < deleteActorLength ; i++)
-					{
-						updateActorList.Remove(deleteActorList[i]);
-					}
-					for(int i = 0 ; i < deleteTargetLength ; i++)
-					{
-						updateTargetList.Remove(deleteTargetList[i]);
-					}
-
-					foreach(var actorItem in computingList)
-					{
-						var actorKey = actorItem.Key;
-						var findActor = deleteActorList.FirstOrDefault(actor => actor.ThisFactionData.IsEqualsFaction(actorKey.ThisFactionData));
-
-						if(findActor != null)
-						{
-							deleteAction += () => {
-								computingList[actorKey].Clear();
-								computingList.Remove(actorKey);
-							};
-							continue;
-						}
-
-						var targetList = computingList[actorKey];
-						foreach(var targetItem in targetList)
-						{
-							var targetKey = targetItem.Key;
-							var findTarget = deleteTargetList.FirstOrDefault(actor => actor.ThisFactionData.IsEqualsFaction(targetKey.ThisFactionData));
-
-							if(findTarget != null)
-							{
-								deleteAction += () => {
-									computingList[actorKey][targetKey] = null;
-									computingList[actorKey].Remove(targetKey);
-								};
-							}
-						}
-					}
-					deleteAction?.Invoke();
-				}
-			}
-		}
-
 		private void InitValueList(IEnumerable<ObjectBehaviour> enumerable)
 		{
 			afterValueUpdate.Enqueue(() => _InitList(enumerable));
@@ -302,7 +157,7 @@ namespace BC.LowLevelAI
 				await AwaitTime();
 			}
 		}
-		private async Awaitable ComputeListUpdate()
+		private async Awaitable ValueListCompute()
 		{
 			DateTime startTime = DateTime.Now;
 			float limitTime = 0.005f;
@@ -329,30 +184,27 @@ namespace BC.LowLevelAI
 			}
 
 
-			int actorLength = updateActorList.Count;
-			int targetLength = updateTargetList.Count;
+			int actorLength = updateValueList.Count;
 			for(int i = 0 ; i < actorLength ; i++)
 			{
-				var actor = updateActorList[i];
-				actor.OnUpdateStartCompute(this);
-				for(int ii = 0 ; ii < targetLength ; ii++)
+				var actor = updateValueList[i];
+				for(int ii = 0 ; ii < actorLength ; ii++)
 				{
-					var target = updateTargetList[ii];
+					var target = updateValueList[ii];
 					Compute(actor, target);
 
 					await AwaitTime();
 				}
-				actor.OnUpdateEndedCompute(this);
 			}
 		}
 
-		private void NewTarget(IFactionInteractiveActor actor, IFactionInteractiveTarget target)
+		private void NewTarget(IFactionInteractiveValue actor, IFactionInteractiveValue target)
 		{
 			if(actor.ThisFactionData.IsEqualsFaction(target.ThisFactionData)) return;
 
 			if(!computingList.TryGetValue(actor, out var inList))
 			{
-				inList = new Dictionary<IFactionInteractiveTarget, FactionInteractiveInfo>();
+				inList = new Dictionary<IFactionInteractiveValue, FactionInteractiveInfo>();
 				computingList.Add(actor, inList);
 			}
 			if(!inList.TryGetValue(target, out var info))
@@ -361,25 +213,39 @@ namespace BC.LowLevelAI
 				inList.Add(target, info);
 			}
 		}
-		private void Compute(IFactionInteractiveActor actor, IFactionInteractiveTarget target)
+		private void Compute(IFactionInteractiveValue actor, IFactionInteractiveValue target)
 		{
 			if(computingList.TryGetValue(actor, out var inList)
 				&& inList.TryGetValue(target, out FactionInteractiveInfo info))
 			{
-				IFactionInteractiveValue actorValue = actor.ThisFactionComputeValue;
-				IFactionInteractiveValue targetValue = target.ThisFactionComputeValue;
+				IFactionInteractiveValue actorValue = actor;
+				IFactionInteractiveValue targetValue = target;
 
 				ComputeDiplomacy();
 
 				void ComputeDiplomacy()
 				{
-					//ThisContainer.TryGetData<>
-					info.FactionDiplomacy = FactionDiplomacyType.Neutral_Faction;
+					FactionDiplomacyType actor2TargetDiplomacy = actorValue.ThisDiplomacyData.GetFactionDiplomacyType(targetValue.ThisFactionData);
+					FactionDiplomacyType target2ActorDiplomacy = targetValue.ThisDiplomacyData.GetFactionDiplomacyType(actorValue.ThisFactionData);
+					info.FactionDiplomacy = (actor2TargetDiplomacy, target2ActorDiplomacy) switch {
+						(FactionDiplomacyType.Equal_Faction, _) => FactionDiplomacyType.Equal_Faction,
+						(_, FactionDiplomacyType.Equal_Faction) => FactionDiplomacyType.Equal_Faction,
+
+						(FactionDiplomacyType.Enemy_Faction, _) => FactionDiplomacyType.Enemy_Faction,
+						(_, FactionDiplomacyType.Enemy_Faction) => FactionDiplomacyType.Enemy_Faction,
+
+						(FactionDiplomacyType.Neutral_Faction, _) => FactionDiplomacyType.Neutral_Faction,
+						(_, FactionDiplomacyType.Neutral_Faction) => FactionDiplomacyType.Neutral_Faction,
+
+						(FactionDiplomacyType.Alliance_Faction, FactionDiplomacyType.Alliance_Faction) => FactionDiplomacyType.Alliance_Faction,
+
+						_ => FactionDiplomacyType.Neutral_Faction,
+					};
 				}
 			}
 		}
 
-		public bool TryFactionTargetList(IFactionInteractiveActor actor, out Dictionary<IFactionInteractiveTarget, FactionInteractiveInfo> targetToList)
+		public bool TryFactionTargetList(IFactionInteractiveValue actor, out Dictionary<IFactionInteractiveValue, FactionInteractiveInfo> targetToList)
 		{
 			if(computingList.TryGetValue(actor, out targetToList))
 			{
@@ -388,7 +254,7 @@ namespace BC.LowLevelAI
 			targetToList = null;
 			return false;
 		}
-		public bool TryFactionTargetingInfo(IFactionInteractiveActor actor, IFactionInteractiveTarget target, out FactionInteractiveInfo info)
+		public bool TryFactionTargetingInfo(IFactionInteractiveValue actor, IFactionInteractiveValue target, out FactionInteractiveInfo info)
 		{
 			if(computingList.TryGetValue(actor, out var inList) && inList.TryGetValue(target, out info))
 			{

@@ -9,18 +9,11 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	public enum FactionControlType
-	{
-		Local = 0,
-		Remote = 1,
-		AI = 10
-	}
-
 	[CreateAssetMenu(fileName = "StartFactionSetting", menuName = "BC/StartSetting/new StartFactionSetting")]
 	public partial class StartFactionSetting : ScriptableObject
 	{
 		[Serializable]
-		public struct FactionInfo
+		public struct FactionSettingInfo
 		{
 			[SerializeField, EnumPaging]
 			private FactionControlType factionControlType;
@@ -34,7 +27,7 @@ namespace BC.GamePlayerManager
 			public string FactionName { get => factionName; set => factionName=value; }
 		}
 		[Serializable]
-		public partial struct DiplomacyItem
+		public partial struct DiplomacySettingInfo
 		{
 			[ValueDropdown("ShowFactionList")]
 			[SerializeField, ReadOnly]
@@ -56,11 +49,17 @@ namespace BC.GamePlayerManager
 		}
 
 		[TableList]
-		public List<FactionInfo> factionInfoList;
+		public List<FactionSettingInfo> factionInfoList;
 
-		//[TableList]
 		[PropertyOrder(2)]
 		[ListDrawerSettings(ShowPaging = false, OnBeginListElementGUI = "DrawOnBeginListElementGUI", OnEndListElementGUI = "DrawOnEndListElementGUI")]
-		public List<DiplomacyItem> DiplomacyList;
+		public List<DiplomacySettingInfo> diplomacyInfoList;
+
+
+		public FactionData ConvertSettingToData()
+		{
+			return null;
+		}
+
 	}
 }

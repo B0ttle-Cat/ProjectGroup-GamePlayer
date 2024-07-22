@@ -128,13 +128,14 @@ namespace BC.LowLevelAI
 
 				for(int i = 0 ; i<actorMembers.Count ; i++)
 				{
-					FireunitObject actorItem = actorMembers[i];
+					if(!actorMembers[i].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var actorValue)) continue;
 					for(int ii = 0 ; ii<targetMembers.Count ; ii++)
 					{
-						FireunitObject targetItem = targetMembers[ii];
-						if(!unitInteractiveComputer.TryUnitTargetList(actorItem.ThisContainer.GetComponent<IUnitInteractiveValue>(), out var targetToList))
+						if(!targetMembers[ii].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var targetValue)) continue;
+						if(!unitInteractiveComputer.TryUnitTargetInfo(actorValue, targetValue, out var targetInfo))
 						{
 							//TODO :: 계속 이어 작업.
+							// targetInfo
 						}
 					}
 				}

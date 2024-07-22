@@ -12,6 +12,6 @@ namespace BC.LowLevelAI
 	public interface IUnitInteractiveComputer : IOdccComponent
 	{
 		bool TryUnitTargetList(IUnitInteractiveValue actor, out Dictionary<IUnitInteractiveValue, UnitInteractiveInfo> targetToList);
-		bool TryUnitTargetingInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info);
+		bool TryUnitTargetInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info);
 	}
 }

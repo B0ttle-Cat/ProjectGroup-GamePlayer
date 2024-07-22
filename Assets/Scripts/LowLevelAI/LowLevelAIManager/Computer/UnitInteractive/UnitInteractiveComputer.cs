@@ -354,7 +354,7 @@ namespace BC.LowLevelAI
 			targetToList = null;
 			return false;
 		}
-		public bool TryUnitTargetingInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info)
+		public bool TryUnitTargetInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info)
 		{
 			if(computingList.TryGetValue(actor, out var inList) && inList.TryGetValue(target, out info))
 			{

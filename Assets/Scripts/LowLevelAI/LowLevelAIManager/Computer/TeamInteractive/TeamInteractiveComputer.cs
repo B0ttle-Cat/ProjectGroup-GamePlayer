@@ -151,7 +151,7 @@ namespace BC.LowLevelAI
 			for(int i = 0 ; i < length ; i++)
 			{
 				var value = updateValueList[i];
-				value.OnUpdateValue();
+				value.OnValueRefresh();
 
 				await AwaitTime();
 			}

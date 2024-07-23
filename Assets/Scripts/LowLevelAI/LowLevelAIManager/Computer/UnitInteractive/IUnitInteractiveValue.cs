@@ -1,4 +1,3 @@
-using BC.ODCC;
 using BC.OdccBase;
 
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace BC.LowLevelAI
 	/// <summary>
 	/// <see cref="UnitInteractiveInfo"/>
 	/// </summary>
-	public interface IUnitInteractiveValue : IOdccComponent
+	public interface IUnitInteractiveValue : IMemberInteractiveValue
 	{
 		// Meta
 		public IFireunitData ThisUnitData { get; set; }
@@ -39,8 +38,5 @@ namespace BC.LowLevelAI
 		{
 			return Mathf.Clamp(deltaRange, MinAttackRange, MaxAttackRange);
 		}
-
-		void OnUpdateInit();
-		void OnValueRefresh();
 	}
 }

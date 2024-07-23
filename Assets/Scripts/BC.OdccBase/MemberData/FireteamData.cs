@@ -1,14 +1,12 @@
 using System.Collections;
 
-using BC.ODCC;
-
 using Sirenix.OdinInspector;
 
 using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IFireteamData : IOdccData, IFactionData
+	public interface IFireteamData : IMemberData, IFactionData
 	{
 		public int TeamIndex { get; set; }
 		public bool IsEqualsTeam(int faction, int team)
@@ -24,7 +22,7 @@ namespace BC.OdccBase
 			return IsEqualsFaction(fireteamData) && TeamIndex == fireteamData.TeamIndex;
 		}
 	}
-	public class FireteamData : DataObject, IFireteamData, IFactionData
+	public class FireteamData : MemberData, IFireteamData, IFactionData
 	{
 		[SerializeField]
 		[ValueDropdown("ShowTargetFactionName")]

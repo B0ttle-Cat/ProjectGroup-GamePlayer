@@ -737,8 +737,6 @@ MonoBehaviour:
       - {fileID: 617949367}
       - {fileID: 968870361}
       - {fileID: 1555824966}
-      - {fileID: 0}
-      - {fileID: 0}
       - {fileID: 280405639}
       componentList:
       - {fileID: 448125904}
@@ -1181,9 +1179,7 @@ MonoBehaviour:
       showInspector: 6
       thisObject: {fileID: 1555824966}
       parent: {fileID: 448125903}
-      childs:
-      - {fileID: 0}
-      - {fileID: 0}
+      childs: []
       componentList: []
       dataList: []
   references:
@@ -1962,6 +1958,7 @@ GameObject:
   - component: {fileID: 2074201084}
   - component: {fileID: 2074201083}
   - component: {fileID: 2074201085}
+  - component: {fileID: 2074201086}
   m_Layer: 0
   m_Name: LowLevelAIManager
   m_TagString: Untagged
@@ -2005,6 +2002,7 @@ MonoBehaviour:
       - {fileID: 968870361}
       componentList:
       - {fileID: 2074201085}
+      - {fileID: 2074201086}
       - {fileID: 1080914727}
       - {fileID: 713611035}
       - {fileID: 713611036}
@@ -2045,6 +2043,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d7acc135ee1fa4088ec7304820d096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2074201086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074201082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7910c57af7fa7445ada17040d5dc014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2106581665 stripped

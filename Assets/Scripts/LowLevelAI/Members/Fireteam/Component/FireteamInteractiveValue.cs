@@ -17,7 +17,7 @@ namespace BC.LowLevelAI
 			});
 		}
 
-		public void OnUpdateValue()
+		public void OnValueRefresh()
 		{
 			if(MemberCollector == null) return;
 

@@ -7,12 +7,12 @@ namespace BC.LowLevelAI
 	{
 		public IFactionData ThisFactionData { get; set; }
 		public IFactionDiplomacyData ThisDiplomacyData { get; set; }
-
+		public FactionMemberCollector MemberCollector { get; set; }
 		public void OnUpdateInit()
 		{
 		}
 
-		public void OnUpdateValue()
+		public void OnValueRefresh()
 		{
 		}
 	}

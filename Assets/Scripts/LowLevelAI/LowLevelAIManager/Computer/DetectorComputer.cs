@@ -106,10 +106,6 @@ namespace BC.LowLevelAI
 				info.IsInVisualRange = A2T_Distance < deltaVisualRange;
 				info.IsInActionRange = info.IsInVisualRange && A2T_Distance < deltaActionRange;
 				info.IsInAttackRange = info.IsInActionRange && A2T_Distance < deltaAttackRange;
-
-
-
-
 			}
 		}
 		private async Awaitable UpdateFireteamDetector(OdccQueryLooper.LoopInfo loopInfo, FireteamObject unit, ITeamInteractiveValue actorValue)
@@ -123,22 +119,21 @@ namespace BC.LowLevelAI
 			}
 			void UpdateInfo(ITeamInteractiveValue actor, ITeamInteractiveValue target, TeamInteractiveInfo info)
 			{
-				var actorMembers = actor.MemberCollector.ThisMembers;
-				var targetMembers = actor.MemberCollector.ThisMembers;
-
-				for(int i = 0 ; i<actorMembers.Count ; i++)
-				{
-					if(!actorMembers[i].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var actorValue)) continue;
-					for(int ii = 0 ; ii<targetMembers.Count ; ii++)
-					{
-						if(!targetMembers[ii].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var targetValue)) continue;
-						if(!unitInteractiveComputer.TryUnitTargetInfo(actorValue, targetValue, out var targetInfo))
-						{
-							//TODO :: 계속 이어 작업.
-							// targetInfo
-						}
-					}
-				}
+				//var actorMembers = actor.MemberCollector.ThisMembers;
+				//var targetMembers = actor.MemberCollector.ThisMembers;
+				//
+				//for(int i = 0 ; i<actorMembers.Count ; i++)
+				//{
+				//	if(!actorMembers[i].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var actorValue)) continue;
+				//	for(int ii = 0 ; ii<targetMembers.Count ; ii++)
+				//	{
+				//		if(!targetMembers[ii].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var targetValue)) continue;
+				//		if(!unitInteractiveComputer.TryUnitTargetInfo(actorValue, targetValue, out var targetInfo))
+				//		{
+				//			//TODO :: 여기서 두 팀간 관계를 작업
+				//		}
+				//	}
+				//}
 			}
 		}
 		private async Awaitable UpdateFactionDetector(OdccQueryLooper.LoopInfo loopInfo, FactionObject unit, IFactionInteractiveValue actorValue)
@@ -151,7 +146,21 @@ namespace BC.LowLevelAI
 			}
 			void UpdateInfo(IFactionInteractiveValue actor, IFactionInteractiveValue target, FactionInteractiveInfo info)
 			{
-
+				//var actorMembers = actor.MemberCollector.ThisMembers;
+				//var targetMembers = actor.MemberCollector.ThisMembers;
+				//
+				//for(int i = 0 ; i<actorMembers.Count ; i++)
+				//{
+				//	if(!actorMembers[i].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var actorValue)) continue;
+				//	for(int ii = 0 ; ii<targetMembers.Count ; ii++)
+				//	{
+				//		if(!targetMembers[ii].ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var targetValue)) continue;
+				//		if(!unitInteractiveComputer.TryUnitTargetInfo(actorValue, targetValue, out var targetInfo))
+				//		{
+				//			//TODO :: 여기서 두 세력간 관계를 작업
+				//		}
+				//	}
+				//}
 			}
 		}
 	}

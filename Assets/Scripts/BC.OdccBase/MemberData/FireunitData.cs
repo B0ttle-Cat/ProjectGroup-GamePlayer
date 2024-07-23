@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IFireunitData : IOdccData, IFireteamData
+	public interface IFireunitData : IMemberData, IFireteamData
 	{
 		public int UnitIndex { get; set; }
 		public bool IsEqualsUnit(int faction, int team, int unit)
@@ -30,7 +30,7 @@ namespace BC.OdccBase
 			UnitIndex = unit;
 		}
 	}
-	public class FireunitData : DataObject, IFireunitData
+	public class FireunitData : MemberData, IFireunitData
 	{
 		[SerializeField]
 		[ValueDropdown("ShowTargetFactionName")]

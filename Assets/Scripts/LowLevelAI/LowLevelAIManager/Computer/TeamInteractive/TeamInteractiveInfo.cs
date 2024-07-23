@@ -17,6 +17,6 @@ namespace BC.LowLevelAI
 		public float Distance;          // 대상의 공간상 거리
 		public Vector3 Direction;       // 대상의 공간상 방향
 
-		public bool IsInActionRange;
+		//public bool IsInActionRange;
 	}
 }

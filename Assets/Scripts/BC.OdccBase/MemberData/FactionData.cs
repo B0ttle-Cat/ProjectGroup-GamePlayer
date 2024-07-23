@@ -1,5 +1,3 @@
-using BC.ODCC;
-
 using Sirenix.OdinInspector;
 
 using UnityEngine;
@@ -12,7 +10,7 @@ namespace BC.OdccBase
 		Remote = 1,
 		AI = 10
 	}
-	public interface IFactionData : IOdccData
+	public interface IFactionData : IMemberData
 	{
 		public int FactionIndex { get; set; }
 		public bool IsEqualsFaction(int faction)
@@ -28,7 +26,7 @@ namespace BC.OdccBase
 			return FactionIndex == factionData.FactionIndex;
 		}
 	}
-	public class FactionData : DataObject, IFactionData
+	public class FactionData : MemberData, IFactionData
 	{
 		[SerializeField, EnumPaging]
 		private FactionControlType factionControlType;

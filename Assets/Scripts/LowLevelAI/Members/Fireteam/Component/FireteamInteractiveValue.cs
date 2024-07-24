@@ -25,7 +25,17 @@ namespace BC.LowLevelAI
 
 		public override void IsAfterValueUpdate()
 		{
+			if(!TryMemberTargetList(out var targetToList)) return;
 
+			foreach(var item in targetToList)
+			{
+				var interactiveValue = item.Key as ITeamInteractiveValue;
+				var interactiveInfo = item.Value as TeamInteractiveInfo;
+				if(interactiveValue == null || interactiveInfo == null) continue;
+
+				var fireteamData = interactiveValue.ThisTeamData;
+
+			}
 		}
 	}
 }

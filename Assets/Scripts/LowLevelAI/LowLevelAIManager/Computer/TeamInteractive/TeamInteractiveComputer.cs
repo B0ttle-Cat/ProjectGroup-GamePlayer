@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -24,6 +25,11 @@ namespace BC.LowLevelAI
 		private Queue<Action> afterComputeUpdate;
 		public override void BaseAwake()
 		{
+			if(ThisContainer.TryGetComponent<IFindCollectedMembers>(out var findCollectedMembers))
+			{
+				FindMembers = findCollectedMembers;
+			}
+
 			var computeValueQuery = QuerySystemBuilder.CreateQuery()
 					.WithAll<ITeamInteractiveValue>()
 					.Build();
@@ -90,6 +96,7 @@ namespace BC.LowLevelAI
 				int valueLength = updateValueList.Count;
 				for(int i = 0 ; i < valueLength ; i++)
 				{
+					updateValueList[i].FindMembers = FindMembers;
 					updateValueList[i].Computer = this;
 					updateValueList[i].OnUpdateInit();
 				}
@@ -106,6 +113,7 @@ namespace BC.LowLevelAI
 					int valueLength = addValueList.Length;
 					for(int i = 0 ; i < valueLength ; i++)
 					{
+						addValueList[i].FindMembers = FindMembers;
 						addValueList[i].Computer = this;
 						addValueList[i].OnUpdateInit();
 					}

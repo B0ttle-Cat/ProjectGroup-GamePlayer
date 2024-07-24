@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -27,6 +28,11 @@ namespace BC.LowLevelAI
 
 		public override void BaseAwake()
 		{
+			if(ThisContainer.TryGetComponent<IFindCollectedMembers>(out var findCollectedMembers))
+			{
+				FindMembers = findCollectedMembers;
+			}
+
 			var computeValueQuery = QuerySystemBuilder.CreateQuery()
 					.WithAll<IUnitInteractiveValue>()
 					.Build();
@@ -77,91 +83,6 @@ namespace BC.LowLevelAI
 				afterValueUpdate = null;
 			}
 		}
-		//private void InitComputeList(IEnumerable<ObjectBehaviour> enumerable)
-		//{
-		//	afterComputeUpdate.Enqueue(() => _InitList(enumerable));
-		//	void _InitList(IEnumerable<ObjectBehaviour> enumerable)
-		//	{
-		//		updateActorList.AddRange(enumerable.Select(item => item.ThisContainer.GetData<IUnitInteractiveValue>()));
-		//		//updateTargetList.AddRange(enumerable.Select(item => item.ThisContainer.GetData<IFireunitData>()));
-		//		int actorLength = updateActorList.Count;
-		//		//int targetLength = updateTargetList.Count;
-		//		for(int i = 0 ; i < actorLength ; i++)
-		//		{
-		//			for(int ii = 0 ; ii < actorLength ; ii++)
-		//			{
-		//				NewTarget(updateActorList[i], updateActorList[ii]);
-		//			}
-		//		}
-		//	}
-		//}
-		//private void UpdateComputeList(ObjectBehaviour behaviour, bool added)
-		//{
-		//	afterComputeUpdate.Enqueue(() => _UpdateList(behaviour, added));
-		//	void _UpdateList(ObjectBehaviour behaviour, bool added)
-		//	{
-		//		if(added)
-		//		{
-		//			var addedUnit = behaviour.ThisContainer.GetData<IFireunitData>();
-
-		//			updateTargetList.Add(addedUnit);
-
-		//			int targetLength = updateTargetList.Count;
-		//			for(int ii = 0 ; ii < targetLength ; ii++)
-		//			{
-		//				var actor = addedUnit;
-		//				var target = updateTargetList[ii];
-		//				NewTarget(actor, target);
-		//			}
-
-		//			int actorLength = updateActorList.Count;
-		//			for(int i = 0 ; i < actorLength ; i++)
-		//			{
-		//				var actor = updateActorList[i];
-		//				var target = addedUnit;
-		//				NewTarget(actor, target);
-		//			}
-
-		//			updateActorList.Add(addedUnit);
-		//		}
-		//		else
-		//		{
-		//			var deleteActor = behaviour.ThisContainer.GetData<IFireunitData>();
-		//			var deleteTarget = behaviour.ThisContainer.GetData<IFireunitData>();
-		//			Action deleteAction = null;
-		//			updateActorList.Remove(deleteActor);
-		//			updateTargetList.Remove(deleteTarget);
-
-		//			foreach(var actorItem in computingList)
-		//			{
-		//				var actorKey = actorItem.Key;
-		//				if(deleteActor != null)
-		//				{
-		//					deleteAction += () => {
-		//						computingList[actorKey].Clear();
-		//						computingList.Remove(actorKey);
-		//					};
-		//					continue;
-		//				}
-
-		//				var targetList = computingList[actorKey];
-		//				foreach(var targetItem in targetList)
-		//				{
-		//					var targetKey = targetItem.Key;
-		//					if(deleteTarget != null)
-		//					{
-		//						deleteAction += () => {
-		//							computingList[actorKey][targetKey] = null;
-		//							computingList[actorKey].Remove(targetKey);
-		//						};
-		//					}
-		//				}
-		//			}
-		//			deleteAction?.Invoke();
-		//		}
-		//	}
-		//}
-
 		private void InitValueList(IEnumerable<ObjectBehaviour> enumerable)
 		{
 			afterValueUpdate.Enqueue(() => _InitList(enumerable));
@@ -171,6 +92,7 @@ namespace BC.LowLevelAI
 				int valueLength = updateValueList.Count;
 				for(int i = 0 ; i < valueLength ; i++)
 				{
+					updateValueList[i].FindMembers = FindMembers;
 					updateValueList[i].Computer = this;
 					updateValueList[i].OnUpdateInit();
 				}
@@ -187,6 +109,7 @@ namespace BC.LowLevelAI
 					int valueLength = addValueList.Length;
 					for(int i = 0 ; i < valueLength ; i++)
 					{
+						addValueList[i].FindMembers = FindMembers;
 						addValueList[i].Computer = this;
 						addValueList[i].OnUpdateInit();
 					}

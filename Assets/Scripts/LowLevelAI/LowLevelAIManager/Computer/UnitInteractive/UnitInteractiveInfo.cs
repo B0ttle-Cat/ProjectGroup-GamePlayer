@@ -1,5 +1,3 @@
-using BC.OdccBase;
-
 using UnityEngine;
 
 namespace BC.LowLevelAI
@@ -9,9 +7,9 @@ namespace BC.LowLevelAI
 	/// </summary>
 	public class UnitInteractiveInfo : MemberInteractiveInfo
 	{
-		public IFireunitData Actor { get; private set; }
-		public IFireunitData Target { get; private set; }
-		public UnitInteractiveInfo(IFireunitData actor, IFireunitData target)
+		public IUnitInteractiveValue Actor { get; private set; }
+		public IUnitInteractiveValue Target { get; private set; }
+		public UnitInteractiveInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target)
 		{
 			Actor=actor;
 			Target=target;

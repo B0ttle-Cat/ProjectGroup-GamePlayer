@@ -27,13 +27,16 @@ namespace BC.LowLevelAI
 		{
 			ThisUnitData = ThisContainer.GetData<FireunitData>();
 		}
+		public override void IsBeforeValueUpdate()
+		{
+
+		}
 		public override void OnValueRefresh()
 		{
 			ThisUnitPosition =  ThisTransform.position;
 			ThisUnitPosition =  ThisTransform.forward;
 			ThisUnitLookUP =  ThisTransform.up;
 		}
-
 		public override void IsAfterValueUpdate()
 		{
 

@@ -1,4 +1,6 @@
-﻿using BC.ODCC;
+﻿using System;
+
+using BC.ODCC;
 using BC.OdccBase;
 
 using UnityEngine;
@@ -18,9 +20,13 @@ namespace BC.LowLevelAI
 		[SerializeField] private OdccQueryCollector fireunitCollector;
 		[SerializeField] private OdccQueryCollector fireteamCollector;
 		[SerializeField] private OdccQueryCollector factionCollector;
+
+		private DateTime startTime = DateTime.Now;
+		private float limitTime = 0.005f;
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
+
 			if(ThisContainer.TryGetComponent<IFindCollectedMembers>(out findCollectedMembers)
 				&& ThisContainer.TryGetComponent<IFactionInteractiveComputer>(out factionInteractiveComputer)
 				&& ThisContainer.TryGetComponent<ITeamInteractiveComputer>(out teamInteractiveComputer)
@@ -39,8 +45,9 @@ namespace BC.LowLevelAI
 					.Build(ThisObject, QuerySystem.RangeType.Child);
 
 				var memberQuery = QuerySystemBuilder.CreateQuery()
-					.WithAll<MemberObject, IMemberInteractiveValue>(true)
-					.Build(ThisObject, QuerySystem.RangeType.Child);
+					//.WithAll<MemberObject, IMemberInteractiveValue>(true)
+					//.Build(ThisObject, QuerySystem.RangeType.Child);
+					.Build();
 
 				fireunitCollector = OdccQueryCollector.CreateQueryCollector(fireunitQuery, this)
 					.CreateActionEvent(nameof(fireunitCollector), out var fireunitLooper)
@@ -60,10 +67,10 @@ namespace BC.LowLevelAI
 
 				memberComputer = OdccQueryCollector.CreateQueryCollector(memberQuery, this)
 					.CreateLooperEvent(nameof(memberComputer), -1)
+					.CallNext(StartMemberComputer)
 					.JoinNext(fireunitLooper)
 					//.JoinNext(fireteamLooper)
 					//.JoinNext(factionLooper)
-					.Foreach<IMemberInteractiveValue>(AfterInteractiveUpdate)
 					.GetCollector();
 			}
 		}
@@ -89,20 +96,43 @@ namespace BC.LowLevelAI
 			memberComputer = null;
 		}
 
+		private void StartMemberComputer()
+		{
+			startTime = DateTime.Now;
+		}
 
+		async Awaitable AwaitTime()
+		{
+			TimeSpan deltaTime = DateTime.Now - startTime;
+			if(deltaTime.TotalMilliseconds > limitTime)
+			{
+				await Awaitable.NextFrameAsync();
+				startTime = DateTime.Now;
+			}
+		}
 		private async Awaitable UpdateFireunitDetector(OdccQueryLooper.LoopInfo loopInfo, FireunitObject unit, IUnitInteractiveValue actorValue)
 		{
 			if(!unitInteractiveComputer.TryUnitTargetList(actorValue, out var targetToList)) return;
 
 			foreach(var target in targetToList)
 			{
-				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
+				await AwaitTime();
 				if(loopInfo.isLooperBreak()) return;
 
 				UpdateInfo(actorValue, target.Key, target.Value);
 			}
+
+			actorValue.IsAfterValueUpdate();
+
 			void UpdateInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, UnitInteractiveInfo info)
 			{
+				var actorUnitData = actor.ThisUnitData;
+				var targetUnitData = target.ThisUnitData;
+
+
+				info.IsEqualFaction = actorUnitData.IsEqualsFaction(targetUnitData);
+				info.IsEqualTeam = info.IsEqualFaction && actorUnitData.IsEqualsTeam(targetUnitData);
+
 				float A2T_Distance = info.Distance;
 
 				float deltaVisualRange = actor.ClampVisualRange(actor.ThisVisualRange - target.ThisAntiVisualRange);
@@ -120,11 +150,14 @@ namespace BC.LowLevelAI
 
 			foreach(var target in targetToList)
 			{
-				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
+				await AwaitTime();
 				if(loopInfo.isLooperBreak()) return;
 
 				UpdateInfo(actorValue, target.Key, target.Value);
 			}
+
+			actorValue.IsAfterValueUpdate();
+
 			void UpdateInfo(ITeamInteractiveValue actor, ITeamInteractiveValue target, TeamInteractiveInfo info)
 			{
 				//var actorMembers = actor.MemberCollector.ThisMembers;
@@ -149,11 +182,14 @@ namespace BC.LowLevelAI
 			if(!factionInteractiveComputer.TryFactionTargetList(actorValue, out var targetToList)) return;
 			foreach(var target in targetToList)
 			{
-				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
+				await AwaitTime();
 				if(loopInfo.isLooperBreak()) return;
 
 				UpdateInfo(actorValue, target.Key, target.Value);
 			}
+
+			actorValue.IsAfterValueUpdate();
+
 			void UpdateInfo(IFactionInteractiveValue actor, IFactionInteractiveValue target, FactionInteractiveInfo info)
 			{
 				//var actorMembers = actor.MemberCollector.ThisMembers;
@@ -173,11 +209,5 @@ namespace BC.LowLevelAI
 				//}
 			}
 		}
-
-		private async Awaitable AfterInteractiveUpdate(OdccQueryLooper.LoopInfo loopInfo, IMemberInteractiveValue memberValue)
-		{
-			memberValue.IsAfterValueUpdate();
-		}
-
 	}
 }

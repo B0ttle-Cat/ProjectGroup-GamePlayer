@@ -5,6 +5,7 @@ using BC.Base;
 using BC.Character;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -24,7 +25,7 @@ namespace BC.GamePlayerManager
 		private IGetLowLevelAIManager lowLevelAIManager;
 
 		[ShowInInspector, ReadOnly]
-		public bool IsCompleteSetting { get; private set; }
+		public bool IsCompleteSetting { get; set; }
 		public StartUnitSetting UnitSetting { get; internal set; }
 		public List<SpawnAnchor> SpawnList { get; internal set; }
 

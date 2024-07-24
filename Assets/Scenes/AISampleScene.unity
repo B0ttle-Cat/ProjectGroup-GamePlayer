@@ -833,7 +833,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582968237}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c58bfecb1dedf945b4f34418439f57b, type: 3}
   m_Name: 
@@ -940,7 +940,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713611033}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f16764fc780d9e4fa09f80a33cf7eea, type: 3}
   m_Name: 
@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718360625}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48d178666c52aaf4380229dd0bb45106, type: 3}
   m_Name: 
@@ -2001,8 +2001,8 @@ MonoBehaviour:
       - {fileID: 617949367}
       - {fileID: 968870361}
       componentList:
-      - {fileID: 2074201085}
       - {fileID: 2074201086}
+      - {fileID: 2074201085}
       - {fileID: 1080914727}
       - {fileID: 713611035}
       - {fileID: 713611036}
@@ -2010,10 +2010,14 @@ MonoBehaviour:
       - {fileID: 582968240}
       - {fileID: 1718360627}
       - {fileID: 1718360628}
-      dataList: []
+      dataList:
+      - rid: 8697407947087806618
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8697407947087806618
+      type: {class: DiplomacyData, ns: BC.OdccBase, asm: BC.OdccBase}
+      data: 
 --- !u!4 &2074201084
 Transform:
   m_ObjectHideFlags: 0

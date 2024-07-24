@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using BC.Base;
 using BC.Character;
@@ -11,7 +10,7 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	public class CreateFactionObject : ComponentBehaviour
+	public class CreateFactionObject : ComponentBehaviour, IStartSetup
 	{
 		[SerializeField]
 		private FactionObject ObjectPrefab;
@@ -23,14 +22,16 @@ namespace BC.GamePlayerManager
 		private OdccQueryCollector characterQueryCollector;
 
 		public StartFactionSetting FactionSetting { get; set; }
+		public bool IsCompleteSetting { get; set; }
+
 		public override void BaseValidate()
 		{
 			base.BaseValidate();
 		}
 
-		public override void BaseAwake()
+
+		public void OnStartSetting()
 		{
-			base.BaseAwake();
 			if(ObjectPrefab != null)
 			{
 				ObjectPrefab.gameObject.SetActive(false);
@@ -43,9 +44,10 @@ namespace BC.GamePlayerManager
 
 			characterQueryCollector = OdccQueryCollector.CreateQueryCollector(characterQuerySystem)
 				.CreateChangeListEvent(InitList, UpdateList);
-		}
 
-		public override void BaseDestroy()
+			IsCompleteSetting = true;
+		}
+		public void OnStopSetting()
 		{
 			base.BaseDestroy();
 			if(characterQueryCollector != null)
@@ -56,6 +58,9 @@ namespace BC.GamePlayerManager
 			characterQuerySystem = null;
 			groupInUnit = null;
 			ObjectPrefab = null;
+		}
+		public void OnUpdateSetting()
+		{
 		}
 		private void InitList(IEnumerable<ObjectBehaviour> initList)
 		{
@@ -154,21 +159,6 @@ namespace BC.GamePlayerManager
 					data.FactionName = factionInfo.FactionName;
 					data.FactionControlType = factionInfo.FactionControl;
 
-					if(!createObject.ThisContainer.TryGetData<FactionDiplomacyData>(out var diplomacyData))
-					{
-						diplomacyData = createObject.ThisContainer.AddData<FactionDiplomacyData>();
-					}
-					diplomacyData.thisFactionData = factionIndex;
-					diplomacyData.allianceFactionList = diplomacyList
-						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Alliance_Faction)
-						.Select(item => item.FactionTarget).ToList();
-					diplomacyData.enemyFactionList = diplomacyList
-						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Enemy_Faction)
-						.Select(item => item.FactionTarget).ToList();
-					diplomacyData.neutralFactionList = diplomacyList
-						.Where(item => item.FactionActor == factionIndex && item.FactionDiplomacy == FactionDiplomacyType.Neutral_Faction)
-						.Select(item => item.FactionTarget).ToList();
-
 					createObject.UpdateObjectName();
 
 					GamePlayerInterface playerInterface = data.FactionControlType switch {
@@ -198,5 +188,6 @@ namespace BC.GamePlayerManager
 				return factionObject.ThisContainer.TryGetData<IFactionData>(out var data) && data.IsEqualsFaction(factionIndex);
 			}
 		}
+
 	}
 }

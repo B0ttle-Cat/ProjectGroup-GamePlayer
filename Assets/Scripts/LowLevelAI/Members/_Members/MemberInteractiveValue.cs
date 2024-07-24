@@ -11,6 +11,7 @@ namespace BC.LowLevelAI
 		public IMemberInteractiveComputer Computer { get; set; }
 
 		public abstract void OnUpdateInit();
+		public abstract void IsBeforeValueUpdate();
 		public abstract void OnValueRefresh();
 		public abstract void IsAfterValueUpdate();
 

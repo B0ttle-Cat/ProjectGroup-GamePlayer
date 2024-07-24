@@ -14,16 +14,13 @@ namespace BC.LowLevelAI
 				.WithAll<FactionObject, FactionData>()
 				.Build();
 		}
-
 		public override void BaseDestroy_MemberCollector()
 		{
 		}
-
 		public override List<FactionObject> Base_MemberInitList(IEnumerable<FactionObject> enumerable)
 		{
 			return enumerable.Where(item => item != null).ToList();
 		}
-
 		public override void Base_MemberUpdateList(FactionObject member, bool isAdded)
 		{
 			if(isAdded)
@@ -47,7 +44,6 @@ namespace BC.LowLevelAI
 			factionObject = ThisMembers.Find(item => item.ThisContainer.TryGetData<FactionData>(out var data) && data.FactionIndex == factionIndex);
 			return factionObject != null;
 		}
-
 		public bool TryFindFireteam(int factionIndex, int fireteamIndex, out ObjectBehaviour fireteamObject)
 		{
 			fireteamObject = null;
@@ -59,7 +55,6 @@ namespace BC.LowLevelAI
 			fireteamObject = findObject;
 			return factionObject != null;
 		}
-
 		public bool TryFindFireunit(int factionIndex, int fireteamIndex, int fireunitIndex, out ObjectBehaviour fireunitObject)
 		{
 			fireunitObject = null;

@@ -1,6 +1,7 @@
 using BC.Base;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -12,7 +13,7 @@ namespace BC.GamePlayerManager
 {
 	public class CreateMapObject : ComponentBehaviour, IStartSetup
 	{
-		public bool IsCompleteSetting { get; private set; }
+		public bool IsCompleteSetting { get; set; }
 		public StartMapSetting MapSetting { get; internal set; }
 
 
@@ -28,7 +29,6 @@ namespace BC.GamePlayerManager
 		public override void BaseEnable()
 		{
 			IsCompleteSetting = false;
-
 
 			mapNavmesh = ThisContainer.GetComponentInChild<NavMeshConnectComputer>();
 			mapAnchor = ThisContainer.GetComponentInChild<MapPathPointComputer>();

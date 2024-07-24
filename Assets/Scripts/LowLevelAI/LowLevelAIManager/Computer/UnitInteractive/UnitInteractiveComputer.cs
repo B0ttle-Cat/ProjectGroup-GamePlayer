@@ -13,8 +13,8 @@ namespace BC.LowLevelAI
 {
 	public class UnitInteractiveComputer : MemberInteractiveComputer, IUnitInteractiveComputer
 	{
-		//[SerializeField]
-		//private OdccQueryCollector computeCollector;
+		private DiplomacyData diplomacyData;
+
 		[SerializeField]
 		private OdccQueryCollector valueCollector;
 
@@ -24,7 +24,14 @@ namespace BC.LowLevelAI
 		private List<IUnitInteractiveValue> updateValueList;
 
 		private Queue<Action> afterValueUpdate;
-		private Queue<Action> afterComputeUpdate;
+
+		DateTime startTime = DateTime.Now;
+		float limitTime = 0.005f;
+
+		public override void BaseValidate()
+		{
+			base.BaseValidate();
+		}
 
 		public override void BaseAwake()
 		{
@@ -38,26 +45,31 @@ namespace BC.LowLevelAI
 					.Build();
 
 			afterValueUpdate = new Queue<Action>();
-			afterComputeUpdate = new Queue<Action>();
 
 			updateValueList = new List<IUnitInteractiveValue>();
 
 			computingList = new Dictionary<IUnitInteractiveValue, Dictionary<IUnitInteractiveValue, UnitInteractiveInfo>>();
 
-			valueCollector  = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
-				.CreateChangeListEvent(InitValueList, UpdateValueList)
-				.CreateLooperEvent(nameof(ValueListUpdate))
-				.CallNext(ValueListUpdate)
-				.CallNext(ValueListCompute)
-				.CallNext(ValueListRefresh)
-				.GetCollector();
+			ThisContainer.NextGetData<DiplomacyData>((_data) => {
+				diplomacyData = _data;
+
+				valueCollector  = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
+					.CreateChangeListEvent(InitValueList, UpdateValueList)
+					.CreateLooperEvent(nameof(ValueListCompute), -2)
+					.CallNext(LimitTimeUpdate)
+					.CallNext(BeforeValueUpdate)
+					.CallNext(ValueListCompute)
+					.CallNext(ValueListRefresh)
+					.CallNext(AfterValueUpdate)
+					.GetCollector();
+			});
 		}
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
 			if(valueCollector != null)
 			{
-				valueCollector.DeleteLooperEvent(nameof(ValueListUpdate));
+				valueCollector.DeleteLooperEvent(nameof(BeforeValueUpdate));
 				valueCollector = null;
 			}
 
@@ -72,11 +84,6 @@ namespace BC.LowLevelAI
 				updateValueList = null;
 			}
 
-			if(afterComputeUpdate != null)
-			{
-				afterComputeUpdate.Clear();
-				afterComputeUpdate = null;
-			}
 			if(afterValueUpdate == null)
 			{
 				afterValueUpdate.Clear();
@@ -85,17 +92,29 @@ namespace BC.LowLevelAI
 		}
 		private void InitValueList(IEnumerable<ObjectBehaviour> enumerable)
 		{
-			afterValueUpdate.Enqueue(() => _InitList(enumerable));
-			void _InitList(IEnumerable<ObjectBehaviour> enumerable)
+			updateValueList.Clear();
+			computingList.Clear();
+
+			updateValueList.AddRange(enumerable.SelectMany(item => item.ThisContainer.GetAllComponent<IUnitInteractiveValue>()));
+
+			int valueLength = updateValueList.Count;
+			for(int i = 0 ; i < valueLength ; i++)
 			{
-				updateValueList.AddRange(enumerable.SelectMany(item => item.ThisContainer.GetAllComponent<IUnitInteractiveValue>()));
-				int valueLength = updateValueList.Count;
-				for(int i = 0 ; i < valueLength ; i++)
+				var actor = updateValueList[i];
+				var inList = new Dictionary<IUnitInteractiveValue, UnitInteractiveInfo>();
+				computingList.Add(actor, inList);
+
+				for(int ii = 0 ; ii < valueLength ; ii++)
 				{
-					updateValueList[i].FindMembers = FindMembers;
-					updateValueList[i].Computer = this;
-					updateValueList[i].OnUpdateInit();
+					if(i == ii) continue;
+					var target = updateValueList[ii];
+					var newInteractiveInfo = new UnitInteractiveInfo(actor, target, ComputeDiplomacyType(actor, target));
+					computingList[actor].Add(target, newInteractiveInfo);
 				}
+
+				actor.FindMembers = FindMembers;
+				actor.Computer = this;
+				actor.OnUpdateInit();
 			}
 		}
 		private void UpdateValueList(ObjectBehaviour behaviour, bool added)
@@ -105,90 +124,79 @@ namespace BC.LowLevelAI
 			{
 				if(added)
 				{
-					var addValueList = behaviour.ThisContainer.GetAllComponent<IUnitInteractiveValue>();
-					int valueLength = addValueList.Length;
-					for(int i = 0 ; i < valueLength ; i++)
+					if(behaviour.ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var value))
 					{
-						addValueList[i].FindMembers = FindMembers;
-						addValueList[i].Computer = this;
-						addValueList[i].OnUpdateInit();
+						value.FindMembers = FindMembers;
+						value.Computer = this;
+						value.OnUpdateInit();
+						AddValueComputingList(value);
+						updateValueList.Add(value);
 					}
-					updateValueList.AddRange(addValueList);
 				}
 				else
 				{
-					var addValueList = behaviour.ThisContainer.GetAllComponent<IUnitInteractiveValue>();
-					int valueLength = addValueList.Length;
-					for(int i = 0 ; i < valueLength ; i++)
+					if(behaviour.ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var value))
 					{
-						updateValueList.Remove(addValueList[i]);
+						RemoveValueComputingList(value);
+						updateValueList.Remove(value);
 					}
+				}
+			}
+
+			void AddValueComputingList(IUnitInteractiveValue addValue)
+			{
+				var addList = new Dictionary<IUnitInteractiveValue, UnitInteractiveInfo>();
+				foreach(var computingItem in computingList)
+				{
+					var keyValue = computingItem.Key;
+					var keyList = computingItem.Value;
+					if(keyValue.ThisUnitData.IsEqualsUnit(addValue.ThisUnitData)) continue;
+					var addInteractiveInfo = new UnitInteractiveInfo(keyValue, addValue, ComputeDiplomacyType(keyValue, addValue));
+					var keyInteractiveInfo = new UnitInteractiveInfo(addValue, keyValue, ComputeDiplomacyType(addValue, keyValue));
+
+					keyList.Add(addValue, addInteractiveInfo);
+					addList.Add(keyValue, keyInteractiveInfo);
+				}
+				computingList.Add(addValue, addList);
+			}
+			void RemoveValueComputingList(IUnitInteractiveValue deleteValue)
+			{
+				computingList.Remove(deleteValue);
+				foreach(var computingItem in computingList)
+				{
+					var dic = computingItem.Value;
+
+					dic.Remove(deleteValue);
 				}
 			}
 		}
 
-		private async Awaitable ValueListUpdate()
+		async Awaitable AwaitTime()
 		{
-			DateTime startTime = DateTime.Now;
-			float limitTime = 0.005f;
-			TimeSpan deltaTime;
-			async Awaitable AwaitTime()
+			var deltaTime = DateTime.Now - startTime;
+			if(deltaTime.TotalMilliseconds > limitTime)
 			{
-				deltaTime = DateTime.Now - startTime;
-				if(deltaTime.TotalMilliseconds > limitTime)
-				{
-					await Awaitable.NextFrameAsync();
-					startTime = DateTime.Now;
-				}
+				await Awaitable.NextFrameAsync();
+				startTime = DateTime.Now;
 			}
-
-			Queue<Action> tempQueue = afterValueUpdate;
-			afterValueUpdate = new Queue<Action>();
-			while(tempQueue.Count > 0)
-			{
-				var update = tempQueue.Dequeue();
-				update?.Invoke();
-
-				await AwaitTime();
-			}
-
-
+		}
+		private void LimitTimeUpdate()
+		{
+			startTime = DateTime.Now;
+		}
+		private async Awaitable BeforeValueUpdate()
+		{
 			int length = updateValueList.Count;
 			for(int i = 0 ; i < length ; i++)
 			{
 				var value = updateValueList[i];
-				value.OnValueRefresh();
+				value.IsBeforeValueUpdate();
 
 				await AwaitTime();
 			}
 		}
 		private async Awaitable ValueListCompute()
 		{
-			DateTime startTime = DateTime.Now;
-			float limitTime = 0.005f;
-			TimeSpan deltaTime;
-			async Awaitable AwaitTime()
-			{
-				deltaTime = DateTime.Now - startTime;
-				if(deltaTime.TotalMilliseconds > limitTime)
-				{
-					await Awaitable.NextFrameAsync();
-					startTime = DateTime.Now;
-				}
-			}
-
-
-			Queue<Action> tempQueue = afterComputeUpdate;
-			afterComputeUpdate = new Queue<Action>();
-			while(tempQueue.Count > 0)
-			{
-				var update = tempQueue.Dequeue();
-				update?.Invoke();
-
-				await AwaitTime();
-			}
-
-
 			int valueLength = updateValueList.Count;
 			for(int i = 0 ; i < valueLength ; i++)
 			{
@@ -202,27 +210,25 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
-
 		private async Awaitable ValueListRefresh()
 		{
-			DateTime startTime = DateTime.Now;
-			float limitTime = 0.005f;
-			TimeSpan deltaTime;
-			async Awaitable AwaitTime()
-			{
-				deltaTime = DateTime.Now - startTime;
-				if(deltaTime.TotalMilliseconds > limitTime)
-				{
-					await Awaitable.NextFrameAsync();
-					startTime = DateTime.Now;
-				}
-			}
-
 			int length = updateValueList.Count;
 			for(int i = 0 ; i < length ; i++)
 			{
 				var value = updateValueList[i];
 				value.OnValueRefresh();
+
+				await AwaitTime();
+			}
+		}
+		private async Awaitable AfterValueUpdate()
+		{
+			Queue<Action> tempQueue = afterValueUpdate;
+			afterValueUpdate = new Queue<Action>();
+			while(tempQueue.Count > 0)
+			{
+				var update = tempQueue.Dequeue();
+				update?.Invoke();
 
 				await AwaitTime();
 			}
@@ -269,6 +275,12 @@ namespace BC.LowLevelAI
 				}
 			}
 		}
+		private FactionDiplomacyType ComputeDiplomacyType(IUnitInteractiveValue actor, IUnitInteractiveValue target)
+		{
+			return diplomacyData.diplomacyTypeList.TryGetValue((actor.ThisUnitData.FactionIndex, target.ThisUnitData.FactionIndex), out var diplomacyType)
+				? diplomacyType
+				: FactionDiplomacyType.Neutral_Faction;
+		}
 
 		public bool TryUnitTargetList(IUnitInteractiveValue actor, out Dictionary<IUnitInteractiveValue, UnitInteractiveInfo> targetToList)
 		{
@@ -288,7 +300,6 @@ namespace BC.LowLevelAI
 			info = null;
 			return false;
 		}
-
 		public override bool TryMemberTargetList(IMemberInteractiveValue actor, out Dictionary<IMemberInteractiveValue, MemberInteractiveInfo> targetToList)
 		{
 			targetToList = null;

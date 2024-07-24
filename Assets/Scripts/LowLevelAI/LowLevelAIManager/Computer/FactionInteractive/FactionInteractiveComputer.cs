@@ -224,34 +224,34 @@ namespace BC.LowLevelAI
 		}
 		private void Compute(IFactionInteractiveValue actor, IFactionInteractiveValue target)
 		{
-			if(computingList.TryGetValue(actor, out var inList)
-				&& inList.TryGetValue(target, out FactionInteractiveInfo info))
-			{
-				IFactionInteractiveValue actorValue = actor;
-				IFactionInteractiveValue targetValue = target;
-
-				ComputeDiplomacy();
-
-				void ComputeDiplomacy()
-				{
-					FactionDiplomacyType actor2TargetDiplomacy = actorValue.ThisDiplomacyData.GetFactionDiplomacyType(targetValue.ThisFactionData);
-					FactionDiplomacyType target2ActorDiplomacy = targetValue.ThisDiplomacyData.GetFactionDiplomacyType(actorValue.ThisFactionData);
-					info.FactionDiplomacy = (actor2TargetDiplomacy, target2ActorDiplomacy) switch {
-						(FactionDiplomacyType.Equal_Faction, _) => FactionDiplomacyType.Equal_Faction,
-						(_, FactionDiplomacyType.Equal_Faction) => FactionDiplomacyType.Equal_Faction,
-
-						(FactionDiplomacyType.Enemy_Faction, _) => FactionDiplomacyType.Enemy_Faction,
-						(_, FactionDiplomacyType.Enemy_Faction) => FactionDiplomacyType.Enemy_Faction,
-
-						(FactionDiplomacyType.Neutral_Faction, _) => FactionDiplomacyType.Neutral_Faction,
-						(_, FactionDiplomacyType.Neutral_Faction) => FactionDiplomacyType.Neutral_Faction,
-
-						(FactionDiplomacyType.Alliance_Faction, FactionDiplomacyType.Alliance_Faction) => FactionDiplomacyType.Alliance_Faction,
-
-						_ => FactionDiplomacyType.Neutral_Faction,
-					};
-				}
-			}
+			//if(computingList.TryGetValue(actor, out var inList)
+			//	&& inList.TryGetValue(target, out FactionInteractiveInfo info))
+			//{
+			//	IFactionInteractiveValue actorValue = actor;
+			//	IFactionInteractiveValue targetValue = target;
+			//
+			//	ComputeDiplomacy();
+			//
+			//	void ComputeDiplomacy()
+			//	{
+			//		FactionDiplomacyType actor2TargetDiplomacy = actorValue.ThisDiplomacyData.GetFactionDiplomacyType(targetValue.ThisFactionData);
+			//		FactionDiplomacyType target2ActorDiplomacy = targetValue.ThisDiplomacyData.GetFactionDiplomacyType(actorValue.ThisFactionData);
+			//		info.FactionDiplomacy = (actor2TargetDiplomacy, target2ActorDiplomacy) switch {
+			//			(FactionDiplomacyType.Equal_Faction, _) => FactionDiplomacyType.Equal_Faction,
+			//			(_, FactionDiplomacyType.Equal_Faction) => FactionDiplomacyType.Equal_Faction,
+			//
+			//			(FactionDiplomacyType.Enemy_Faction, _) => FactionDiplomacyType.Enemy_Faction,
+			//			(_, FactionDiplomacyType.Enemy_Faction) => FactionDiplomacyType.Enemy_Faction,
+			//
+			//			(FactionDiplomacyType.Neutral_Faction, _) => FactionDiplomacyType.Neutral_Faction,
+			//			(_, FactionDiplomacyType.Neutral_Faction) => FactionDiplomacyType.Neutral_Faction,
+			//
+			//			(FactionDiplomacyType.Alliance_Faction, FactionDiplomacyType.Alliance_Faction) => FactionDiplomacyType.Alliance_Faction,
+			//
+			//			_ => FactionDiplomacyType.Neutral_Faction,
+			//		};
+			//	}
+			//}
 		}
 
 		public bool TryFactionTargetList(IFactionInteractiveValue actor, out Dictionary<IFactionInteractiveValue, FactionInteractiveInfo> targetToList)

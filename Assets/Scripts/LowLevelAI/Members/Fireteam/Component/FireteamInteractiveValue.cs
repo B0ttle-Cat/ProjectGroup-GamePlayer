@@ -11,18 +11,20 @@ namespace BC.LowLevelAI
 		public FireteamMemberCollector MemberCollector { get; set; }
 		public override void OnUpdateInit()
 		{
-			ThisContainer.AwaitGetComponent<FireteamMemberCollector>((memberCollector) => {
+			ThisContainer.NextGetComponent<FireteamMemberCollector>((memberCollector) => {
 				this.MemberCollector = memberCollector;
 			});
 		}
+		public override void IsBeforeValueUpdate()
+		{
 
+		}
 		public override void OnValueRefresh()
 		{
 			if(MemberCollector == null) return;
 
 			ThisTeamPosition = MemberCollector.CenterPosition;
 		}
-
 		public override void IsAfterValueUpdate()
 		{
 			if(!TryMemberTargetList(out var targetToList)) return;

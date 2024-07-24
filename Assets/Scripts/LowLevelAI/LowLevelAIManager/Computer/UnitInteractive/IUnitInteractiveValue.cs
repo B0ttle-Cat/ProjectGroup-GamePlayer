@@ -9,7 +9,7 @@ namespace BC.LowLevelAI
 	/// </summary>
 	public interface IUnitInteractiveValue : IMemberInteractiveValue
 	{
-		// Meta
+		// Data
 		public IFireunitData ThisUnitData { get; set; }
 
 		// Value

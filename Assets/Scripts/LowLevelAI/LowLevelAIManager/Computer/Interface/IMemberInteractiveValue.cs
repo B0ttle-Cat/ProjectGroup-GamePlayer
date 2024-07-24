@@ -13,6 +13,7 @@ namespace BC.LowLevelAI
 		void OnUpdateInit();
 		void IsBeforeValueUpdate();
 		void IsAfterValueUpdate();
+		void OnComputeTarget(MemberInteractiveInfo memberInteractiveInfo);
 
 		bool TryMemberTargetList(out Dictionary<IMemberInteractiveValue, MemberInteractiveInfo> targetToList);
 		bool TryMemberTargetInfo(IMemberInteractiveValue target, out MemberInteractiveInfo info);

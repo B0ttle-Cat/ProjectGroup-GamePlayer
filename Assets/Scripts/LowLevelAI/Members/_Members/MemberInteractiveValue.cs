@@ -13,7 +13,7 @@ namespace BC.LowLevelAI
 		public abstract void OnUpdateInit();
 		public abstract void IsBeforeValueUpdate();
 		public abstract void IsAfterValueUpdate();
-
+		public abstract void OnComputeTarget(MemberInteractiveInfo memberInteractiveInfo);
 		public bool TryMemberTargetList(out Dictionary<IMemberInteractiveValue, MemberInteractiveInfo> targetToList)
 		{
 			return Computer.TryMemberTargetList(this, out targetToList);

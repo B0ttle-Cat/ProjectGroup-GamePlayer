@@ -256,6 +256,7 @@ namespace BC.LowLevelAI
 				ComputePose();
 				ComputeFlag();
 
+				actor.OnComputeTarget(info);
 				void ComputePose()
 				{
 					///////////// °è»ê

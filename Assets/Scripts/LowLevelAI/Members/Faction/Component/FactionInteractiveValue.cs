@@ -17,5 +17,10 @@ namespace BC.LowLevelAI
 		{
 
 		}
+
+		public override void OnComputeTarget(MemberInteractiveInfo memberInteractiveInfo)
+		{
+
+		}
 	}
 }

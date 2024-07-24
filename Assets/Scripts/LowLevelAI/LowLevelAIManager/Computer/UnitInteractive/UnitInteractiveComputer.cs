@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public class UnitInteractiveComputer : ComponentBehaviour, IUnitInteractiveComputer
+	public class UnitInteractiveComputer : MemberInteractiveComputer, IUnitInteractiveComputer
 	{
 		//[SerializeField]
 		//private OdccQueryCollector computeCollector;
@@ -171,6 +171,7 @@ namespace BC.LowLevelAI
 				int valueLength = updateValueList.Count;
 				for(int i = 0 ; i < valueLength ; i++)
 				{
+					updateValueList[i].Computer = this;
 					updateValueList[i].OnUpdateInit();
 				}
 			}
@@ -186,6 +187,7 @@ namespace BC.LowLevelAI
 					int valueLength = addValueList.Length;
 					for(int i = 0 ; i < valueLength ; i++)
 					{
+						addValueList[i].Computer = this;
 						addValueList[i].OnUpdateInit();
 					}
 					updateValueList.AddRange(addValueList);
@@ -362,6 +364,29 @@ namespace BC.LowLevelAI
 			}
 			info = null;
 			return false;
+		}
+
+		public override bool TryMemberTargetList(IMemberInteractiveValue actor, out Dictionary<IMemberInteractiveValue, MemberInteractiveInfo> targetToList)
+		{
+			targetToList = null;
+			if(actor is not IUnitInteractiveValue _actor) return false;
+			if(!TryUnitTargetList(_actor, out var unitTargetToList)) return false;
+
+			targetToList = unitTargetToList.ToDictionary(
+			kvp => kvp.Key as IMemberInteractiveValue,
+			kvp => kvp.Value as MemberInteractiveInfo);
+			return targetToList != null;
+		}
+		public override bool TryMemberTargetInfo(IMemberInteractiveValue actor, IMemberInteractiveValue target, out MemberInteractiveInfo info)
+		{
+			info = null;
+			if(actor is not IUnitInteractiveValue _actor) return false;
+			if(target is not IUnitInteractiveValue _target) return false;
+			if(!TryUnitTargetInfo(_actor, _target, out var unitTargetToList)) return false;
+
+			if(unitTargetToList is not MemberInteractiveInfo memberInfo) return false;
+			info = memberInfo;
+			return info != null;
 		}
 	}
 }

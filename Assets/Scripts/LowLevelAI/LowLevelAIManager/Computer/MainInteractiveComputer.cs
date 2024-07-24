@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public class MemberInteractiveComputer : ComponentBehaviour
+	public class MainInteractiveComputer : ComponentBehaviour
 	{
 		public IFindCollectedMembers findCollectedMembers;
 
@@ -13,11 +13,11 @@ namespace BC.LowLevelAI
 		public ITeamInteractiveComputer     teamInteractiveComputer;
 		public IFactionInteractiveComputer  factionInteractiveComputer;
 
-		private OdccQueryCollector detectorComputer;
+		private OdccQueryCollector memberComputer;
 
-		[SerializeField] private OdccQueryCollector fireunitDetector;
-		[SerializeField] private OdccQueryCollector fireteamDetector;
-		[SerializeField] private OdccQueryCollector factionDetector;
+		[SerializeField] private OdccQueryCollector fireunitCollector;
+		[SerializeField] private OdccQueryCollector fireteamCollector;
+		[SerializeField] private OdccQueryCollector factionCollector;
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
@@ -38,31 +38,36 @@ namespace BC.LowLevelAI
 					.WithAll<FactionObject, IFactionInteractiveValue>()
 					.Build(ThisObject, QuerySystem.RangeType.Child);
 
+				var memberQuery = QuerySystemBuilder.CreateQuery()
+					.WithAll<MemberObject, IMemberInteractiveValue>(true)
+					.Build(ThisObject, QuerySystem.RangeType.Child);
 
-				fireunitDetector = OdccQueryCollector.CreateQueryCollector(fireunitQuery, this)
-					.CreateActionEvent(nameof(fireunitDetector), out var fireunitLooper)
+				fireunitCollector = OdccQueryCollector.CreateQueryCollector(fireunitQuery, this)
+					.CreateActionEvent(nameof(fireunitCollector), out var fireunitLooper)
 					.Foreach<FireunitObject, IUnitInteractiveValue>(UpdateFireunitDetector)
 					.GetCollector();
 
-				fireteamDetector = OdccQueryCollector.CreateQueryCollector(fireteamQuery, this)
-					.CreateActionEvent(nameof(fireunitDetector), out var fireteamLooper)
+				fireteamCollector = OdccQueryCollector.CreateQueryCollector(fireteamQuery, this)
+					.CreateActionEvent(nameof(fireunitCollector), out var fireteamLooper)
 					.Foreach<FireteamObject, ITeamInteractiveValue>(UpdateFireteamDetector)
 					.GetCollector();
 
-				factionDetector = OdccQueryCollector.CreateQueryCollector(factionQuery, this)
-					.CreateActionEvent(nameof(fireunitDetector), out var factionLooper)
+				factionCollector = OdccQueryCollector.CreateQueryCollector(factionQuery, this)
+					.CreateActionEvent(nameof(fireunitCollector), out var factionLooper)
 					.Foreach<FactionObject, IFactionInteractiveValue>(UpdateFactionDetector)
 					.GetCollector();
 
 
-				detectorComputer = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery().Build(), this)
-					.CreateLooperEvent(nameof(detectorComputer), -1)
+				memberComputer = OdccQueryCollector.CreateQueryCollector(memberQuery, this)
+					.CreateLooperEvent(nameof(memberComputer), -1)
 					.JoinNext(fireunitLooper)
 					//.JoinNext(fireteamLooper)
 					//.JoinNext(factionLooper)
+					.Foreach<IMemberInteractiveValue>(AfterInteractiveUpdate)
 					.GetCollector();
 			}
 		}
+
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
@@ -73,15 +78,15 @@ namespace BC.LowLevelAI
 			teamInteractiveComputer = null;
 			factionInteractiveComputer = null;
 
-			fireunitDetector?.DeleteLooperEvent(nameof(fireunitDetector));
-			fireteamDetector?.DeleteLooperEvent(nameof(fireteamDetector));
-			factionDetector?.DeleteLooperEvent(nameof(factionDetector));
-			detectorComputer?.DeleteLooperEvent(nameof(detectorComputer));
+			fireunitCollector?.DeleteLooperEvent(nameof(fireunitCollector));
+			fireteamCollector?.DeleteLooperEvent(nameof(fireteamCollector));
+			factionCollector?.DeleteLooperEvent(nameof(factionCollector));
+			memberComputer?.DeleteLooperEvent(nameof(memberComputer));
 
-			fireunitDetector = null;
-			fireteamDetector = null;
-			factionDetector = null;
-			detectorComputer = null;
+			fireunitCollector = null;
+			fireteamCollector = null;
+			factionCollector = null;
+			memberComputer = null;
 		}
 
 
@@ -91,6 +96,7 @@ namespace BC.LowLevelAI
 
 			foreach(var target in targetToList)
 			{
+				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
 				if(loopInfo.isLooperBreak()) return;
 
 				UpdateInfo(actorValue, target.Key, target.Value);
@@ -114,7 +120,9 @@ namespace BC.LowLevelAI
 
 			foreach(var target in targetToList)
 			{
+				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
 				if(loopInfo.isLooperBreak()) return;
+
 				UpdateInfo(actorValue, target.Key, target.Value);
 			}
 			void UpdateInfo(ITeamInteractiveValue actor, ITeamInteractiveValue target, TeamInteractiveInfo info)
@@ -141,7 +149,9 @@ namespace BC.LowLevelAI
 			if(!factionInteractiveComputer.TryFactionTargetList(actorValue, out var targetToList)) return;
 			foreach(var target in targetToList)
 			{
+				if(loopInfo.HasDeltaTimeElapsed(0.1)) await Awaitable.NextFrameAsync();
 				if(loopInfo.isLooperBreak()) return;
+
 				UpdateInfo(actorValue, target.Key, target.Value);
 			}
 			void UpdateInfo(IFactionInteractiveValue actor, IFactionInteractiveValue target, FactionInteractiveInfo info)
@@ -163,5 +173,11 @@ namespace BC.LowLevelAI
 				//}
 			}
 		}
+
+		private async Awaitable AfterInteractiveUpdate(OdccQueryLooper.LoopInfo loopInfo, IMemberInteractiveValue memberValue)
+		{
+			memberValue.IsAfterValueUpdate();
+		}
+
 	}
 }

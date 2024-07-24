@@ -5,7 +5,7 @@ namespace BC.LowLevelAI
 	/// <summary>
 	/// <see cref="ITeamInteractiveValue"/>
 	/// </summary>
-	public class TeamInteractiveInfo
+	public class TeamInteractiveInfo : MemberInteractiveInfo
 	{
 		public ITeamInteractiveValue Actor { get; private set; }
 		public ITeamInteractiveValue Target { get; private set; }

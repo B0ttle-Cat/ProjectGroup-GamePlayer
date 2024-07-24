@@ -1,11 +1,10 @@
-using BC.ODCC;
 using BC.OdccBase;
 
 using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public class FireunitInteractiveValue : ComponentBehaviour, IUnitInteractiveValue
+	public class FireunitInteractiveValue : MemberInteractiveValue, IUnitInteractiveValue
 	{
 		public IFireunitData ThisUnitData { get; set; }
 		public float ThisUnitRadius { get; set; }
@@ -24,17 +23,20 @@ namespace BC.LowLevelAI
 		public float MaxVisualRange { get; set; }
 		public float MinAttackRange { get; set; }
 		public float MaxAttackRange { get; set; }
-		public void OnUpdateInit()
+		public override void OnUpdateInit()
 		{
 			ThisUnitData = ThisContainer.GetData<FireunitData>();
 		}
-		public void OnValueRefresh()
+		public override void OnValueRefresh()
 		{
 			ThisUnitPosition =  ThisTransform.position;
 			ThisUnitPosition =  ThisTransform.forward;
 			ThisUnitLookUP =  ThisTransform.up;
 		}
 
+		public override void IsAfterValueUpdate()
+		{
 
+		}
 	}
 }

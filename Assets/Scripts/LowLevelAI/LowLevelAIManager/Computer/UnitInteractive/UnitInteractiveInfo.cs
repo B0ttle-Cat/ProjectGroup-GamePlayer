@@ -7,7 +7,7 @@ namespace BC.LowLevelAI
 	/// <summary>
 	/// <see cref="IUnitInteractiveValue"/>
 	/// </summary>
-	public class UnitInteractiveInfo
+	public class UnitInteractiveInfo : MemberInteractiveInfo
 	{
 		public IFireunitData Actor { get; private set; }
 		public IFireunitData Target { get; private set; }

@@ -1,19 +1,23 @@
-using BC.ODCC;
 using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class FactionInteractiveValue : ComponentBehaviour, IFactionInteractiveValue
+	public class FactionInteractiveValue : MemberInteractiveValue, IFactionInteractiveValue
 	{
 		public IFactionData ThisFactionData { get; set; }
 		public IFactionDiplomacyData ThisDiplomacyData { get; set; }
 		public FactionMemberCollector MemberCollector { get; set; }
-		public void OnUpdateInit()
+		public override void OnUpdateInit()
 		{
 		}
 
-		public void OnValueRefresh()
+		public override void OnValueRefresh()
 		{
+		}
+
+		public override void IsAfterValueUpdate()
+		{
+
 		}
 	}
 }

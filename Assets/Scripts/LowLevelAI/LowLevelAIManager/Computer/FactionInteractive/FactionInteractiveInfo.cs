@@ -5,7 +5,7 @@ namespace BC.LowLevelAI
 	/// <summary>
 	/// <see cref="IFactionInteractiveValue"/>
 	/// </summary>
-	public class FactionInteractiveInfo
+	public class FactionInteractiveInfo : MemberInteractiveInfo
 	{
 		public IFactionInteractiveValue Actor { get; private set; }
 		public IFactionInteractiveValue Target { get; private set; }

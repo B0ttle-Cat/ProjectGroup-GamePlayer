@@ -1957,8 +1957,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2074201084}
   - component: {fileID: 2074201083}
-  - component: {fileID: 2074201085}
   - component: {fileID: 2074201086}
+  - component: {fileID: 2074201085}
   m_Layer: 0
   m_Name: LowLevelAIManager
   m_TagString: Untagged

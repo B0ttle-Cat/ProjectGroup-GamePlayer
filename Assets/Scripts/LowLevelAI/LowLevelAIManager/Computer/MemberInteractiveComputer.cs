@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public class DetectorComputer : ComponentBehaviour
+	public class MemberInteractiveComputer : ComponentBehaviour
 	{
 		public IFindCollectedMembers findCollectedMembers;
 
@@ -58,8 +58,8 @@ namespace BC.LowLevelAI
 				detectorComputer = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery().Build(), this)
 					.CreateLooperEvent(nameof(detectorComputer), -1)
 					.JoinNext(fireunitLooper)
-					.JoinNext(fireteamLooper)
-					.JoinNext(factionLooper)
+					//.JoinNext(fireteamLooper)
+					//.JoinNext(factionLooper)
 					.GetCollector();
 			}
 		}

@@ -13,10 +13,6 @@ namespace BC.LowLevelAI
 		{
 
 		}
-		public override void OnValueRefresh()
-		{
-		}
-
 		public override void IsAfterValueUpdate()
 		{
 

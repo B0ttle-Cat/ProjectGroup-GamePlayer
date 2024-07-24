@@ -29,10 +29,6 @@ namespace BC.LowLevelAI
 		}
 		public override void IsBeforeValueUpdate()
 		{
-
-		}
-		public override void OnValueRefresh()
-		{
 			ThisUnitPosition =  ThisTransform.position;
 			ThisUnitPosition =  ThisTransform.forward;
 			ThisUnitLookUP =  ThisTransform.up;

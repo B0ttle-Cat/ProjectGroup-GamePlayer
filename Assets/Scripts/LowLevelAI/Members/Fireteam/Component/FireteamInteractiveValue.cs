@@ -17,10 +17,6 @@ namespace BC.LowLevelAI
 		}
 		public override void IsBeforeValueUpdate()
 		{
-
-		}
-		public override void OnValueRefresh()
-		{
 			if(MemberCollector == null) return;
 
 			ThisTeamPosition = MemberCollector.CenterPosition;

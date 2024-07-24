@@ -16,17 +16,17 @@ namespace BC.LowLevelAI
 		private DiplomacyData diplomacyData;
 
 		[SerializeField]
-		private OdccQueryCollector valueCollector;
+		private OdccQueryCollector valueListCompute;
 
 		private Dictionary<IUnitInteractiveValue, Dictionary<IUnitInteractiveValue, UnitInteractiveInfo>> computingList;
 		[Space]
 		[ShowInInspector, ReadOnly]
 		private List<IUnitInteractiveValue> updateValueList;
 
-		private Queue<Action> afterValueUpdate;
+		private Queue<Action> afterValueListUpdate;
 
-		DateTime startTime = DateTime.Now;
-		float limitTime = 0.005f;
+		DateTime limitStartTime = DateTime.Now;
+		double limitTime = 0.005;
 
 		public override void BaseValidate()
 		{
@@ -44,7 +44,7 @@ namespace BC.LowLevelAI
 					.WithAll<IUnitInteractiveValue>()
 					.Build();
 
-			afterValueUpdate = new Queue<Action>();
+			afterValueListUpdate = new Queue<Action>();
 
 			updateValueList = new List<IUnitInteractiveValue>();
 
@@ -53,13 +53,12 @@ namespace BC.LowLevelAI
 			ThisContainer.NextGetData<DiplomacyData>((_data) => {
 				diplomacyData = _data;
 
-				valueCollector  = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
+				valueListCompute  = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
 					.CreateChangeListEvent(InitValueList, UpdateValueList)
-					.CreateLooperEvent(nameof(ValueListCompute), -2)
+					.CreateLooperEvent(nameof(valueListCompute), -2)
 					.CallNext(LimitTimeUpdate)
 					.CallNext(BeforeValueUpdate)
 					.CallNext(ValueListCompute)
-					.CallNext(ValueListRefresh)
 					.CallNext(AfterValueUpdate)
 					.GetCollector();
 			});
@@ -67,10 +66,10 @@ namespace BC.LowLevelAI
 		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
-			if(valueCollector != null)
+			if(valueListCompute != null)
 			{
-				valueCollector.DeleteLooperEvent(nameof(BeforeValueUpdate));
-				valueCollector = null;
+				valueListCompute.DeleteLooperEvent(nameof(BeforeValueUpdate));
+				valueListCompute = null;
 			}
 
 			if(computingList != null)
@@ -84,10 +83,10 @@ namespace BC.LowLevelAI
 				updateValueList = null;
 			}
 
-			if(afterValueUpdate == null)
+			if(afterValueListUpdate == null)
 			{
-				afterValueUpdate.Clear();
-				afterValueUpdate = null;
+				afterValueListUpdate.Clear();
+				afterValueListUpdate = null;
 			}
 		}
 		private void InitValueList(IEnumerable<ObjectBehaviour> enumerable)
@@ -119,7 +118,14 @@ namespace BC.LowLevelAI
 		}
 		private void UpdateValueList(ObjectBehaviour behaviour, bool added)
 		{
-			afterValueUpdate.Enqueue(() => _UpdateList(behaviour, added));
+			if(afterValueListUpdate != null)
+			{
+				afterValueListUpdate.Enqueue(() => _UpdateList(behaviour, added));
+			}
+			else
+			{
+				_UpdateList(behaviour, added);
+			}
 			void _UpdateList(ObjectBehaviour behaviour, bool added)
 			{
 				if(added)
@@ -173,25 +179,34 @@ namespace BC.LowLevelAI
 
 		async Awaitable AwaitTime()
 		{
-			var deltaTime = DateTime.Now - startTime;
-			if(deltaTime.TotalMilliseconds > limitTime)
+			var deltaTime = DateTime.Now - limitStartTime;
+			if(deltaTime.TotalSeconds > limitTime)
 			{
 				await Awaitable.NextFrameAsync();
-				startTime = DateTime.Now;
+				limitStartTime = DateTime.Now;
 			}
 		}
 		private void LimitTimeUpdate()
 		{
-			startTime = DateTime.Now;
+			limitStartTime = DateTime.Now;
 		}
 		private async Awaitable BeforeValueUpdate()
 		{
+			if(afterValueListUpdate != null)
+			{
+				Queue<Action> tempQueue = afterValueListUpdate;
+				afterValueListUpdate.Clear();
+				while(tempQueue.Count > 0)
+				{
+					tempQueue.Dequeue()?.Invoke();
+				}
+			}
+			afterValueListUpdate = new Queue<Action>();
+
 			int length = updateValueList.Count;
 			for(int i = 0 ; i < length ; i++)
 			{
-				var value = updateValueList[i];
-				value.IsBeforeValueUpdate();
-
+				updateValueList[i].IsBeforeValueUpdate();
 				await AwaitTime();
 			}
 		}
@@ -205,33 +220,29 @@ namespace BC.LowLevelAI
 				{
 					var target = updateValueList[ii];
 					Compute(actor, target);
-
 					await AwaitTime();
 				}
 			}
 		}
-		private async Awaitable ValueListRefresh()
+		private async Awaitable AfterValueUpdate()
 		{
 			int length = updateValueList.Count;
 			for(int i = 0 ; i < length ; i++)
 			{
-				var value = updateValueList[i];
-				value.OnValueRefresh();
-
+				updateValueList[i].IsAfterValueUpdate();
 				await AwaitTime();
 			}
-		}
-		private async Awaitable AfterValueUpdate()
-		{
-			Queue<Action> tempQueue = afterValueUpdate;
-			afterValueUpdate = new Queue<Action>();
-			while(tempQueue.Count > 0)
+
+			if(afterValueListUpdate != null)
 			{
-				var update = tempQueue.Dequeue();
-				update?.Invoke();
-
-				await AwaitTime();
+				Queue<Action> tempQueue = afterValueListUpdate;
+				afterValueListUpdate.Clear();
+				while(tempQueue.Count > 0)
+				{
+					tempQueue.Dequeue()?.Invoke();
+				}
 			}
+			afterValueListUpdate = null;
 		}
 
 		private void Compute(IUnitInteractiveValue actor, IUnitInteractiveValue target)
@@ -243,7 +254,7 @@ namespace BC.LowLevelAI
 				IUnitInteractiveValue targetValue = target;
 
 				ComputePose();
-				ComputeRange();
+				ComputeFlag();
 
 				void ComputePose()
 				{
@@ -261,12 +272,12 @@ namespace BC.LowLevelAI
 					info.Distance = distance;
 					info.Direction = direction;
 				}
-				void ComputeRange()
+				void ComputeFlag()
 				{
 					///////////// 계산
 					bool inVisualRange = info.Distance <= actorValue.ThisVisualRange;
-					bool inActionRange = info.Distance <= actorValue.ThisActionRange;
-					bool inAttackRange = info.Distance <= actorValue.ThisAttackRange;
+					bool inActionRange = inVisualRange && info.Distance <= actorValue.ThisActionRange;
+					bool inAttackRange = inActionRange && info.Distance <= actorValue.ThisAttackRange;
 
 					///////////// 대입
 					info.IsInVisualRange = inVisualRange;

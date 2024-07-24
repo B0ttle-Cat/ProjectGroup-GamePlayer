@@ -12,7 +12,6 @@ namespace BC.LowLevelAI
 
 		public abstract void OnUpdateInit();
 		public abstract void IsBeforeValueUpdate();
-		public abstract void OnValueRefresh();
 		public abstract void IsAfterValueUpdate();
 
 		public bool TryMemberTargetList(out Dictionary<IMemberInteractiveValue, MemberInteractiveInfo> targetToList)

@@ -1,9 +1,9 @@
-using System;
-using System.Collections;
-
 using BC.OdccBase;
 
 using Sirenix.OdinInspector;
+
+using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -13,15 +13,15 @@ namespace BC.GamePlayerManager
 	public struct StartUnitSettingPosition : IFireunitData
 	{
 		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetFactionName")]
-		[HideLabel,SuffixLabel("faction", Overlay = true)]
+		[HideLabel, SuffixLabel("faction", Overlay = true)]
 		[GUIColor("DoubleColor")]
 		private int factionIndex;
-		[HorizontalGroup,SerializeField, ValueDropdown("ShowTargetTeamIndex")]
-		[HideLabel,SuffixLabel("team", Overlay = true)]
+		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetTeamIndex")]
+		[HideLabel, SuffixLabel("team", Overlay = true)]
 		[GUIColor("DoubleColor")]
 		private int teamIndex;
-		[HorizontalGroup,SerializeField, ValueDropdown("ShowTargetUnitIndex")]
-		[HideLabel,SuffixLabel("unit", Overlay = true)]
+		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetUnitIndex")]
+		[HideLabel, SuffixLabel("unit", Overlay = true)]
 		[GUIColor("DoubleColor")]
 		private int unitIndex;
 
@@ -31,9 +31,10 @@ namespace BC.GamePlayerManager
 		[HorizontalGroup("TransformPose"), SerializeField]
 		private Vector3 rotation;
 
-		public int UnitIndex { get => unitIndex; set => unitIndex=value; }
-		public int TeamIndex { get => teamIndex; set => teamIndex=value; }
-		public int FactionIndex { get => factionIndex; set => factionIndex=value; }
+		public int MemberUniqueID { get; set; }
+		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
+		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
+		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
 
 
 
@@ -47,7 +48,7 @@ namespace BC.GamePlayerManager
 		private static IEnumerable ShowTargetTeamIndex()
 		{
 			var result = new ValueDropdownList<int>();
-			for(int i = 0 ; i < 100 ; i++)
+			for (int i = 0; i < 100; i++)
 			{
 				result.Add(i.ToString(), i);
 			}
@@ -56,7 +57,7 @@ namespace BC.GamePlayerManager
 		private static IEnumerable ShowTargetUnitIndex()
 		{
 			var result = new ValueDropdownList<int>();
-			for(int i = 0 ; i < 10 ; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				result.Add(i.ToString(), i);
 			}

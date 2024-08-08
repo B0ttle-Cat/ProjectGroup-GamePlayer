@@ -126,8 +126,8 @@
 
 //			void UpdateInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, UnitInteractiveInfo info)
 //			{
-//				var actorUnitData = actor.ThisUnitData;
-//				var targetUnitData = target.ThisUnitData;
+//				var actorUnitData = actor.UnitData;
+//				var targetUnitData = target.UnitData;
 
 
 //				info.IsEqualFaction = actorUnitData.IsEqualsFaction(targetUnitData);
@@ -135,13 +135,13 @@
 
 //				float A2T_Distance = info.Distance;
 
-//				float deltaVisualRange = actor.ClampVisualRange(actor.ThisVisualRange - target.ThisAntiVisualRange);
-//				float deltaActionRange = actor.ThisActionRange;
-//				float deltaAttackRange = actor.ClampVisualRange(actor.ThisAttackRange - target.ThisAntiAttackRange);
+//				float deltaVisualRange = actor.ClampVisualRange(actor.VisualRange - target.ThisAntiVisualRange);
+//				float deltaActionRange = actor.ThisActionStartRange;
+//				float deltaAttackRange = actor.ClampVisualRange(actor.ThisActionEndedRange - target.ThisAntiAttackRange);
 
 //				info.IsInVisualRange = A2T_Distance < deltaVisualRange;
-//				info.IsInActionRange = info.IsInVisualRange && A2T_Distance < deltaActionRange;
-//				info.IsInAttackRange = info.IsInActionRange && A2T_Distance < deltaAttackRange;
+//				info.IsInActionStartRange = info.IsInVisualRange && A2T_Distance < deltaActionRange;
+//				info.IsInActionEndedRange = info.IsInActionStartRange && A2T_Distance < deltaAttackRange;
 //			}
 //		}
 //		private async Awaitable UpdateFireteamDetector(OdccQueryLooper.LoopInfo loopInfo, FireteamObject unit, ITeamInteractiveValue actorValue)

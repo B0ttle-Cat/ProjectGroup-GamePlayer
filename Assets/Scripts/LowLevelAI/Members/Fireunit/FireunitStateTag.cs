@@ -1,27 +1,24 @@
-using System.Collections.Generic;
-
-using BC.ODCC;
-
 namespace BC.LowLevelAI
 {
-	public enum FireunitStateTag
-	{
-		IDLE = 0,
-		MOVE,
-		ATTACK,
+	//[Flags]
+	//public enum FireunitStateTag
+	//{
+	//	IDLE    = 0,
+	//	VISUAL  = 1<<0,
+	//	ACTION  = 1<<1,
+	//	ATTACK  = 1<<2,
+	//}
 
-	}
+	//public interface IFireunitStateTagController : IOdccComponent
+	//{
+	//	public FireunitStateTag CurrentStateTags { get; }
+	//	public void AddedStateTag(FireunitStateTag stateTags);
+	//	public void RemoveStateTag(FireunitStateTag stateTags);
+	//	public void OnChangeAIState(FireunitStateTag change);
+	//}
 
-	public interface IFireunitStateControl : IOdccComponent
-	{
-		public List<FireunitStateTag> CurrentTags { get; }
-		public void AddedAIState(params FireunitStateTag[] aiStateTags);
-		public void RemoveAIState(params FireunitStateTag[] aiStateTags);
-		public void OnChangeAIState(FireunitStateTag[] added, FireunitStateTag[] remove);
-	}
-
-	public interface IFireunitStateChangeListener : IOdccComponent
-	{
-		public void FireunitStateChangeListener();
-	}
+	//public interface IFireunitStateChangeListener : IOdccComponent
+	//{
+	//	public void FireunitStateChangeListener();
+	//}
 }

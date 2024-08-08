@@ -1,9 +1,9 @@
-using System;
-
 using BC.Base;
 using BC.OdccBase;
 
 using Sirenix.OdinInspector;
+
+using System;
 
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace BC.GamePlayerManager
 	[Serializable]
 	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterResourcesData
 	{
-		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard",NumberOfItemsBeforeEnablingSearch = 0, DropdownWidth =300)]
+		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard", NumberOfItemsBeforeEnablingSearch = 0, DropdownWidth = 300)]
 		private CharacterResourcesCard characterCard;
 
 		[TableColumnWidth(50), SerializeField, ValueDropdown("ShowTargetFactionName")]
@@ -27,10 +27,10 @@ namespace BC.GamePlayerManager
 		[GUIColor("DoubleColor")]
 		private int unitIndex;
 
-
-		public int UnitIndex { get => unitIndex; set => unitIndex=value; }
-		public int TeamIndex { get => teamIndex; set => teamIndex=value; }
-		public int FactionIndex { get => factionIndex; set => factionIndex=value; }
+		public int MemberUniqueID { get; set; }
+		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
+		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
+		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
 
 		public ResourcesKey CharacterResourcesKey { get => characterCard == null ? default : characterCard.CharacterResourcesKey; }
 		public ResourcesKey WeaponResourcesKey { get => characterCard == null ? default : characterCard.WeaponResourcesKey; }

@@ -10,6 +10,7 @@ namespace BC.OdccBase
 {
 	public interface IFireunitData : IMemberData, IFireteamData
 	{
+		public int MemberUniqueID { get; }
 		public int UnitIndex { get; set; }
 		public bool IsEqualsUnit(int faction, int team, int unit)
 		{
@@ -40,8 +41,9 @@ namespace BC.OdccBase
 		[SerializeField]
 		private int fireunitIndex;
 
+		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
-		public int TeamIndex { get => fireteamIndex; set => fireteamIndex=value; }
+		public int TeamIndex { get => fireteamIndex; set => fireteamIndex = value; }
 		public int UnitIndex { get => fireunitIndex; set => fireunitIndex = value; }
 
 #if UNITY_EDITOR

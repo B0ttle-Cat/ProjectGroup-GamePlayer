@@ -6,7 +6,7 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class RootMemberCollector : MemberCollectorComponent<FactionObject>, IFindCollectedMembers
+	public class RootMemberCollector : MemberCollectorComponent<FactionObject>
 	{
 		public override void BaseAwake_MemberCollector(ref QuerySystem memberCollector)
 		{

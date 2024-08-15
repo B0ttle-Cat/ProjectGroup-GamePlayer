@@ -21,7 +21,7 @@ namespace BC.LowLevelAI
 			IsEqualFaction = Target.UnitData.IsEqualsFaction(Target.UnitData);
 		}
 
-		// Compute
+		// Compute : Actor 입장으로 서술함
 		public FactionDiplomacyType DiplomacyType; // 대상의 외교 관계
 
 		public float Distance;          // 대상의 공간상 거리
@@ -33,5 +33,7 @@ namespace BC.LowLevelAI
 		public bool IsInActionRange;
 		public bool IsInActionStartRange;   // 대응 시작 범위 안에 있음 : 대응 범위 == Unit AI가 타겟에 대응 하는 거리
 		public bool IsInActionEndedRange;   // 대응 중단 범위 안에 있음 : 대응 범위 == Unit AI가 타겟에 대응 하는 거리
+
+		public bool IsInAttackRange;
 	}
 }

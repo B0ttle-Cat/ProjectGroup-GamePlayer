@@ -4,16 +4,26 @@ namespace BC.OdccBase
 {
 	public interface IBuffTimeUpdate : IOdccComponent
 	{
+		public double LastUpdateTime { get; set; }
 		public double LifeTime { get; set; }
-		public bool LifeTimeUpdate(in double deltaTime)
+		public bool LifeTimeUpdate()
 		{
-			LifeTime -= deltaTime;
-			bool isAlive = IsAlive;
-			if(!isAlive)
+			if(IsAlive)
 			{
-				OnEndLifeTime();
+				double deltaTime = UnityEngine.Time.timeAsDouble - LastUpdateTime;
+				LastUpdateTime = UnityEngine.Time.timeAsDouble;
+				LifeTime -= deltaTime;
+				bool isAlive = IsAlive;
+				if(!isAlive)
+				{
+					OnEndLifeTime();
+				}
+				return isAlive;
 			}
-			return isAlive;
+			else
+			{
+				return false;
+			}
 		}
 		public void OnEndLifeTime();
 		public bool IsAlive { get => LifeTime > 0f; }

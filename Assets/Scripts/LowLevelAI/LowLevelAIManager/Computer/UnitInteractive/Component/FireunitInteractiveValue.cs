@@ -15,23 +15,22 @@ namespace BC.LowLevelAI
 		public IUnitInteractiveComputer Computer { get; set; }
 		public IUnitPlayValue PlayValueData { get; private set; }
 		public IUnitPoseValue PoseValueData { get; private set; }
+		public IUnitStateValue StateValueData { get; private set; }
 		public IUnitInteractiveInterface InteractiveInterface { get; private set; }
-
-		private FireunitInteractiveTargetData interactiveTargetData;
-		public bool IsRetire { get; private set; }
-
-
-		public double buffTimeUpdate;
-
+		public FireunitInteractiveTargetData InteractiveTargetData { get; private set; }
 
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
 			UnitData = ThisContainer.GetData<FireunitData>();
-			if(!ThisContainer.TryGetData<FireunitInteractiveTargetData>(out interactiveTargetData))
+			if(ThisContainer.TryGetData<FireunitInteractiveTargetData>(out FireunitInteractiveTargetData interactiveTargetData))
 			{
-				interactiveTargetData = ThisContainer.AddData<FireunitInteractiveTargetData>();
-				interactiveTargetData.Clear();
+				InteractiveTargetData = interactiveTargetData;
+			}
+			else
+			{
+				InteractiveTargetData = ThisContainer.AddData<FireunitInteractiveTargetData>();
+				InteractiveTargetData.Clear();
 			}
 			if(ThisContainer.TryGetData<FireunitPlayValue>(out var playValueData))
 			{
@@ -43,30 +42,32 @@ namespace BC.LowLevelAI
 				PoseValueData = poseValueData;
 				PoseValueData.UnitData = UnitData;
 			}
+			if(ThisContainer.TryGetData<FireunitStateValue>(out var stateValueData))
+			{
+				StateValueData = stateValueData;
+				StateValueData.UnitData = UnitData;
+			}
 			InteractiveInterface = this;
-			IsRetire = false;
+			StateValueData.IsRetire = false;
 		}
 		void IUnitInteractiveInterface.InitValueUpdate()
 		{
-			IsRetire = false;
-			interactiveTargetData.Clear();
-			buffTimeUpdate = Time.timeAsDouble;
+			StateValueData.IsRetire = false;
+			InteractiveTargetData.Clear();
 		}
 		void IUnitInteractiveInterface.ReleaseValueUpdate()
 		{
-			if(interactiveTargetData != null)
+			if(InteractiveTargetData != null)
 			{
-				interactiveTargetData.Dispose();
-				interactiveTargetData = null;
+				InteractiveTargetData.Dispose();
+				InteractiveTargetData = null;
 			}
 		}
 
 		void IUnitInteractiveInterface.BuffTimeUpdate()
 		{
-			double deltaTime = Time.timeAsDouble - buffTimeUpdate;
-			buffTimeUpdate = Time.timeAsDouble;
 			ThisContainer.CallActionAllComponent<IBuffTimeUpdate>(call => {
-				call.LifeTimeUpdate(in deltaTime);
+				call.LifeTimeUpdate();
 			});
 		}
 		void IUnitInteractiveInterface.UnitHealthUpdate()
@@ -74,11 +75,11 @@ namespace BC.LowLevelAI
 			var HealthPoint = PlayValueData.HealthPoint;
 			if(HealthPoint.Value <= HealthPoint.Min)
 			{
-				IsRetire = true;
+				StateValueData.IsRetire = true;
 			}
 			else
 			{
-				IsRetire = false;
+				StateValueData.IsRetire = false;
 			}
 
 			PlayValueData.HealthPoint = HealthPoint;
@@ -89,7 +90,6 @@ namespace BC.LowLevelAI
 			PoseValueData.ThisUnitPosition = ThisTransform.forward;
 			PoseValueData.ThisUnitLookUP = ThisTransform.up;
 		}
-
 
 		void IUnitInteractiveInterface.VisualRangeUpdate()
 		{
@@ -112,11 +112,92 @@ namespace BC.LowLevelAI
 
 			PlayValueData.ActionRange = ActionRange;
 		}
+		void IUnitInteractiveInterface.AttackRangeUpdate()
+		{
+			var AttackRange = PlayValueData.AttackRange;
 
+			AttackRange.Value = 10f;
+			AttackRange.Value = Mathf.Clamp(AttackRange.Value, AttackRange.Min, AttackRange.Max);
+
+			PlayValueData.AttackRange = AttackRange;
+		}
 		void IUnitInteractiveInterface.InActionRangeTargetList(List<UnitInteractiveInfo> inActionRangeTargetList)
 		{
-			// TODO :: 이제 이걸로 뭘할지 고민하봐야 함.
-			interactiveTargetData.NewRange(inActionRangeTargetList);
+			InteractiveTargetData.NewRange(inActionRangeTargetList);
+		}
+
+		void IUnitInteractiveInterface.TacticalStateUpdate()
+		{
+			if(UpdateStateChange(StateValueData.TacticalState, out var nextTacticalState))
+			{
+				if(ThisContainer.TryGetComponent<IUnitTacticalState>(out var unitTacticalState))
+				{
+					unitTacticalState.TacticalStateExit();
+					unitTacticalState.DestroyThis();
+				}
+
+				StateValueData.TacticalState = nextTacticalState;
+				unitTacticalState = nextTacticalState switch {
+					ITacticalStateValue.TacticalStateType.None => ThisContainer.AddComponent<UnitNoneState>(),
+					ITacticalStateValue.TacticalStateType.Attack => ThisContainer.AddComponent<UnitAttackState>(),
+					ITacticalStateValue.TacticalStateType.MovePos => ThisContainer.AddComponent<UnitMoveState>(),
+					ITacticalStateValue.TacticalStateType.HoldPos => ThisContainer.AddComponent<UnitHoldState>(),
+					_ => ThisContainer.AddComponent<UnitNoneState>(),
+				};
+				unitTacticalState.TacticalStateEnter();
+				UpdateUnitState(unitTacticalState);
+			}
+			else
+			{
+				if(StateValueData.UnitTacticalComponent is IUnitTacticalState unitTacticalState)
+				{
+					UpdateUnitState(unitTacticalState);
+				}
+			}
+
+
+			bool UpdateStateChange(ITacticalStateValue.TacticalStateType prevTacticalState, out ITacticalStateValue.TacticalStateType nextTacticalState)
+			{
+				// TODO :: 여기 좀더 다양하게 구분할 방법 찾아봐...
+
+				nextTacticalState = prevTacticalState;
+				var targets = InteractiveTargetData.EnemyTargetList;
+				foreach(var targetInfo in targets)
+				{
+					if(ShouldAttack(targetInfo))
+					{
+						nextTacticalState = ITacticalStateValue.TacticalStateType.Attack;
+						break;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				foreach(var targetInfo in targets)
+				{
+					if(ShouldAttack(targetInfo))
+					{
+						nextTacticalState = ITacticalStateValue.TacticalStateType.Attack;
+						break;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				return prevTacticalState != nextTacticalState;
+
+				bool ShouldAttack(UnitInteractiveInfo targetInfo)
+				{
+					// 공격 가능 조건 확인.
+					return targetInfo.IsInActionRange;
+				}
+			}
+			void UpdateUnitState(IUnitTacticalState unitTacticalState)
+			{
+				unitTacticalState.TacticalStateUpdate();
+			}
 		}
 	}
 }

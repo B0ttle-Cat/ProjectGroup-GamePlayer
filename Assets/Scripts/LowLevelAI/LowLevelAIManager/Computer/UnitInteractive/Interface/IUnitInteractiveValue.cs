@@ -14,9 +14,8 @@ namespace BC.LowLevelAI
 		IUnitInteractiveComputer Computer { get; set; }
 		IUnitPlayValue PlayValueData { get; }
 		IUnitPoseValue PoseValueData { get; }
-
+		IUnitStateValue StateValueData { get; }
 		IUnitInteractiveInterface InteractiveInterface { get; }
-
-		public bool IsRetire { get; }
+		FireunitInteractiveTargetData InteractiveTargetData { get; }
 	}
 }

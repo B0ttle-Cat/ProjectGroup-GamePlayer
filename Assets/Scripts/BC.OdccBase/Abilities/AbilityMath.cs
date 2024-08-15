@@ -5,7 +5,7 @@ namespace BC.OdccBase
 	public static class AbilityMath
 	{
 		[Serializable]
-		public struct ValueRange
+		public struct AbilityRange
 		{
 			public float Start;
 			public float Ended;
@@ -13,7 +13,7 @@ namespace BC.OdccBase
 			public float Max;
 		};
 		[Serializable]
-		public struct ValueMinMax
+		public struct AbilityValue
 		{
 			public float Value;
 			public float Min;

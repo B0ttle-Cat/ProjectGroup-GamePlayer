@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IUnitPoseValue : IOdccData
+	public interface IUnitPoseValue : IPlayValue
 	{
-		public IFireunitData UnitData { get; set; }
-		public float ThisUnitRadius { get; set; }
 		public Vector3 ThisUnitPosition { get; set; }
+		public float ThisUnitRadius { get; set; }
 		public Vector3 ThisUnitLookAt { get; set; }
 		public Vector3 ThisUnitLookUP { get; set; }
 	}

@@ -14,6 +14,8 @@ namespace BC.LowLevelAI
 		void UnitPoseUpdate();
 		void VisualRangeUpdate();
 		void ActionRangeUpdate();
+		void AttackRangeUpdate();
 		void InActionRangeTargetList(List<UnitInteractiveInfo> inActionRangeTargetList);
+		void TacticalStateUpdate();
 	}
 }

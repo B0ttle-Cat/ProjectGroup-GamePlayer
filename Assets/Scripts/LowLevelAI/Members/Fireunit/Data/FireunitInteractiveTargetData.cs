@@ -25,10 +25,12 @@ namespace BC.LowLevelAI
 			AllianceTargetList = new UnitInteractiveInfo[0];
 			EqualTargetList = new UnitInteractiveInfo[0];
 		}
-		public void NewRange(List<UnitInteractiveInfo> target)
+		public void UpdateList(List<UnitInteractiveInfo> updateTargetList)
 		{
+			SortBy(ref updateTargetList);
+
 			HashSet<int> existingIds = new HashSet<int>();
-			foreach(var item in target)
+			foreach(var item in updateTargetList)
 			{
 				existingIds.Add(item.Target.UnitData.MemberUniqueID);
 			}
@@ -50,7 +52,7 @@ namespace BC.LowLevelAI
 				}
 			}
 
-			AllTargetList = target.ToArray();
+			AllTargetList = updateTargetList.ToArray();
 			List<UnitInteractiveInfo> enemyTargets = new List<UnitInteractiveInfo>();
 			List<UnitInteractiveInfo> neutralTargets = new List<UnitInteractiveInfo>();
 			List<UnitInteractiveInfo> allianceTargets = new List<UnitInteractiveInfo>();
@@ -84,6 +86,11 @@ namespace BC.LowLevelAI
 			NeutralTargetList = neutralTargets.ToArray();
 			AllianceTargetList = allianceTargets.ToArray();
 			EqualTargetList = equalTargets.ToArray();
+		}
+
+		public virtual void SortBy(ref List<UnitInteractiveInfo> updateTargetList)
+		{
+			updateTargetList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 		}
 
 		protected override void Disposing()

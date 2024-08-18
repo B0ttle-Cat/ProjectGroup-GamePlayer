@@ -57,20 +57,32 @@ namespace BC.LowLevelAI
 				valueListCompute = OdccQueryCollector.CreateQueryCollector(computeValueQuery, this)
 					.CreateChangeListEvent(InitValueList, UpdateValueList)
 					.CreateLooperEvent(nameof(valueListCompute), -2)
-
-					.CallNext(LimitTimeUpdate)
+					// 루퍼의 프레임당 제한속도 업데이트
+					.CallNext(LooperLimitTimeUpdate)
+					// 처리 해야하는 리스트를 업데이트 시켜줌
 					.CallNext(AfterValueListUpdate)
 
+					// 버프의 남은 시간을 업데이트
+					// 종료된 버프는 삭제
 					.CallNext(BuffTimeUpdate)
+					// 채력을 업데이트
+					// 채력이 없으면 리타이어
 					.CallNext(HealthPointUpdate)
+
+					// 유닛의 Transform을 업데이트하는 비동기 메서드
 					.CallNext(UnitPoseUpdate)
+
+					// 유닛의 상호작용 거리에 대한 값을 업데이트
 					.CallNext(VisualRangeUpdate)
 					.CallNext(InRangeVisualUpdate)
 					.CallNext(ActionRangeUpdate)
 					.CallNext(InRangeActionUpdate)
 					.CallNext(AttackRangeUpdate)
 					.CallNext(InRangeAttackUpdate)
-					.CallNext(TacticalStateUpdate)
+
+					// 유닛의 전투 상태를 업데이트
+					.CallNext(TacticalCombatStateUpdate)
+
 
 					.GetCollector();
 			});
@@ -129,7 +141,6 @@ namespace BC.LowLevelAI
 
 				actor.FindMembers = FindMembers;
 				actor.Computer = this;
-				actor.InteractiveInterface.InitValueUpdate();
 			}
 		}
 		private void UpdateValueList(ObjectBehaviour behaviour, bool added)
@@ -151,7 +162,6 @@ namespace BC.LowLevelAI
 						int memberUniqueID = value.UnitData.MemberUniqueID;
 						value.FindMembers = FindMembers;
 						value.Computer = this;
-						value.InteractiveInterface.InitValueUpdate();
 						AddValueComputingList(value);
 						unitInteractiveValueList.Add(memberUniqueID, value);
 					}
@@ -161,7 +171,6 @@ namespace BC.LowLevelAI
 					if(behaviour.ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var value))
 					{
 						int memberUniqueID = value.UnitData.MemberUniqueID;
-						value.InteractiveInterface.ReleaseValueUpdate();
 						RemoveValueComputingList(value);
 						unitInteractiveValueList.Remove(memberUniqueID);
 					}

@@ -7,15 +7,14 @@ namespace BC.OdccBase
 		public bool IsRetire { get; set; }
 	}
 
-	public interface ITacticalStateValue : IPlayValue
+	public interface ITacticalCombatStateValue : IPlayValue
 	{
-		public TacticalStateType TacticalState { get; set; }
-		public enum TacticalStateType
+		public TacticalCombatStateType TacticalCombatState { get; set; }
+		public enum TacticalCombatStateType
 		{
-			None = 0,
-			Attack,
-			MovePos,
-			HoldPos
+			Attack,     // 타겟을 공격
+			Move,       // 타겟 공격을 위해 이동
+			None,       // 타겟 없음
 		}
 	}
 	public interface ITacticalStateComponent : IPlayValue
@@ -23,19 +22,26 @@ namespace BC.OdccBase
 		public IOdccComponent UnitTacticalComponent { get; set; }
 	}
 	public interface IUnitStateValue : IPlayValue
-		, IRetireStateValue, ITacticalStateValue, ITacticalStateComponent
+		, IRetireStateValue, ITacticalCombatStateValue, ITacticalStateComponent
 	{ }
 
 	public class FireunitStateValue : DataObject, IUnitStateValue
 	{
 		private IFireunitData unitData;
 		private bool isRetire;
-		private ITacticalStateValue.TacticalStateType tacticalState;
+		private ITacticalCombatStateValue.TacticalCombatStateType tacticalState;
 		private IOdccComponent unitTacticalComponent;
 
 		public IFireunitData UnitData { get => unitData; set => unitData=value; }
 		public bool IsRetire { get => isRetire; set => isRetire=value; }
-		public ITacticalStateValue.TacticalStateType TacticalState { get => tacticalState; set => tacticalState=value; }
+		public ITacticalCombatStateValue.TacticalCombatStateType TacticalCombatState { get => tacticalState; set => tacticalState=value; }
 		public IOdccComponent UnitTacticalComponent { get => unitTacticalComponent; set => unitTacticalComponent=value; }
+
+
+		protected override void Disposing()
+		{
+			unitData = null;
+			unitTacticalComponent = null;
+		}
 	}
 }

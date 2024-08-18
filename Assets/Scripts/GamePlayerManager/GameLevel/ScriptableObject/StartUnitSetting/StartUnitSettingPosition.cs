@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+
 using BC.OdccBase;
 
 using Sirenix.OdinInspector;
-
-using System;
-using System.Collections;
 
 using UnityEngine;
 
@@ -36,7 +36,10 @@ namespace BC.GamePlayerManager
 		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
 
+		public void Dispose()
+		{
 
+		}
 
 #if UNITY_EDITOR
 		private bool IsDouble { get; set; }
@@ -48,7 +51,7 @@ namespace BC.GamePlayerManager
 		private static IEnumerable ShowTargetTeamIndex()
 		{
 			var result = new ValueDropdownList<int>();
-			for (int i = 0; i < 100; i++)
+			for(int i = 0 ; i < 100 ; i++)
 			{
 				result.Add(i.ToString(), i);
 			}
@@ -57,7 +60,7 @@ namespace BC.GamePlayerManager
 		private static IEnumerable ShowTargetUnitIndex()
 		{
 			var result = new ValueDropdownList<int>();
-			for (int i = 0; i < 10; i++)
+			for(int i = 0 ; i < 10 ; i++)
 			{
 				result.Add(i.ToString(), i);
 			}

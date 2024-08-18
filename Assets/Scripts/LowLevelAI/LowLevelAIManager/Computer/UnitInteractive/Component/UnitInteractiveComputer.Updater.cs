@@ -25,7 +25,7 @@ namespace BC.LowLevelAI
 		/// <summary>
 		/// 제한 시간을 업데이트하는 메서드
 		/// </summary>
-		private void LimitTimeUpdate()
+		private void LooperLimitTimeUpdate()
 		{
 			limitStartTime = DateTime.Now;
 		}
@@ -82,7 +82,7 @@ namespace BC.LowLevelAI
 		}
 
 		/// <summary>
-		/// 유닛의 자세를 업데이트하는 비동기 메서드
+		/// 유닛의 Transform을 업데이트하는 비동기 메서드
 		/// </summary>
 		/// <returns></returns>
 		private async Awaitable UnitPoseUpdate()
@@ -230,7 +230,6 @@ namespace BC.LowLevelAI
 						}
 					}
 				}
-				inActionRangeTargetList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 				actor.InteractiveInterface.InActionRangeTargetList(inActionRangeTargetList);
 
 				await AwaitTime();
@@ -329,15 +328,19 @@ namespace BC.LowLevelAI
 			}
 		}
 
-
-		private async Awaitable TacticalStateUpdate()
+		/// <summary><code>
+		/// 유닛의 전투 상태를 업데이트
+		/// <see cref="OdccBase.ITacticalCombatStateValue.TacticalCombatStateType"/>
+		/// </code></summary>
+		/// <returns></returns>
+		private async Awaitable TacticalCombatStateUpdate()
 		{
 			foreach(var actorItem in unitInteractiveValueList)
 			{
 				var actor = actorItem.Value;
 				if(actor.StateValueData.IsRetire) continue;
 
-				actor.InteractiveInterface.TacticalStateUpdate();
+				actor.InteractiveInterface.TacticalCombatStateUpdate();
 				await AwaitTime();
 			}
 		}

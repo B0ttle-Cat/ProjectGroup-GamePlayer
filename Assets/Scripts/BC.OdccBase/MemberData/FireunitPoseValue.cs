@@ -27,5 +27,10 @@ namespace BC.OdccBase
 		public Vector3 ThisUnitLookAt { get => thisUnitLookAt; set => thisUnitLookAt=value; }
 		public Vector3 ThisUnitLookUP { get => thisUnitLookUP; set => thisUnitLookUP=value; }
 
+
+		protected override void Disposing()
+		{
+			unitData = null;
+		}
 	}
 }

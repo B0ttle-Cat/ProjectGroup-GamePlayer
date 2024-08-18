@@ -1,9 +1,9 @@
+using System;
+
 using BC.Base;
 using BC.OdccBase;
 
 using Sirenix.OdinInspector;
-
-using System;
 
 using UnityEngine;
 
@@ -34,5 +34,11 @@ namespace BC.GamePlayerManager
 
 		public ResourcesKey CharacterResourcesKey { get => characterCard == null ? default : characterCard.CharacterResourcesKey; }
 		public ResourcesKey WeaponResourcesKey { get => characterCard == null ? default : characterCard.WeaponResourcesKey; }
+
+		public void Dispose()
+		{
+			CharacterResourcesKey.Dispose();
+			WeaponResourcesKey.Dispose();
+		}
 	}
 }

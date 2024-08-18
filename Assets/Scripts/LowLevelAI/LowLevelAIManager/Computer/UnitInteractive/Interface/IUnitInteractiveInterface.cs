@@ -7,8 +7,6 @@ namespace BC.LowLevelAI
 
 	public interface IUnitInteractiveInterface : IOdccComponent
 	{
-		void InitValueUpdate();
-		void ReleaseValueUpdate();
 		void BuffTimeUpdate();
 		void UnitHealthUpdate();
 		void UnitPoseUpdate();
@@ -16,6 +14,6 @@ namespace BC.LowLevelAI
 		void ActionRangeUpdate();
 		void AttackRangeUpdate();
 		void InActionRangeTargetList(List<UnitInteractiveInfo> inActionRangeTargetList);
-		void TacticalStateUpdate();
+		void TacticalCombatStateUpdate();
 	}
 }

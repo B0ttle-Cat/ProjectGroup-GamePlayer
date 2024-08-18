@@ -86,5 +86,11 @@ namespace BC.OdccBase
 		public AbilityValue EvasionPoint { get => evasionPoint; set => evasionPoint = value; }
 		public AbilityValue RecoveryPoint { get => recoveryPoint; set => recoveryPoint = value; }
 		#endregion
+
+
+		protected override void Disposing()
+		{
+			unitData = null;
+		}
 	}
 }

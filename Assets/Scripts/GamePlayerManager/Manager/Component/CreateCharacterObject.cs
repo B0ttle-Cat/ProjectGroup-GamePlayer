@@ -137,7 +137,7 @@ namespace BC.GamePlayerManager
 
 
 
-		private CharacterObject InstantiateCharacterObject(StartUnitSettingCharacter characterSettingData, SpawnData spawnData)
+		private CharacterObject InstantiateCharacterObject(StartUnitSettingCharacter fireunitSettingData, SpawnData spawnData)
 		{
 			characterPrefab.gameObject.SetActive(false);
 			CharacterObject characterObject = Instantiate(characterPrefab);
@@ -148,12 +148,17 @@ namespace BC.GamePlayerManager
 				characterData = characterObject.ThisContainer.AddData<CharacterData>();
 			}
 
-			characterData.FactionIndex = characterSettingData.FactionIndex;
-			characterData.TeamIndex = characterSettingData.TeamIndex;
-			characterData.UnitIndex = characterSettingData.UnitIndex;
-			characterData.CharacterResourcesKey = characterSettingData.CharacterResourcesKey;
-			characterData.WeaponResourcesKey = characterSettingData.WeaponResourcesKey;
+			characterData.FactionIndex = fireunitSettingData.FactionIndex;
+			characterData.TeamIndex = fireunitSettingData.TeamIndex;
+			characterData.UnitIndex = fireunitSettingData.UnitIndex;
+			characterData.CharacterResourcesKey = fireunitSettingData.CharacterResourcesKey;
 			characterObject.UpdateObjectName();
+
+			if(!characterObject.ThisContainer.TryGetData<WeaponData>(out var weaponData))
+			{
+				weaponData = characterObject.ThisContainer.AddData<WeaponData>();
+			}
+			weaponData.WeaponResourcesKey = fireunitSettingData.WeaponResourcesKey;
 
 			characterObject.ThisContainer.RemoveData<SpawnData>();
 			characterObject.ThisContainer.AddData<SpawnData>(spawnData);

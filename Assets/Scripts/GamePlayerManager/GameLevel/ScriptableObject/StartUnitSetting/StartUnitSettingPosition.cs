@@ -26,12 +26,12 @@ namespace BC.GamePlayerManager
 		private int unitIndex;
 
 
-		[HorizontalGroup("TransformPose"), SerializeField]
+		[HorizontalGroup("ITransformPose"), SerializeField]
 		private Vector3 position;
-		[HorizontalGroup("TransformPose"), SerializeField]
+		[HorizontalGroup("ITransformPose"), SerializeField]
 		private Vector3 rotation;
 
-		public int MemberUniqueID { get; set; }
+		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
 		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
 		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }

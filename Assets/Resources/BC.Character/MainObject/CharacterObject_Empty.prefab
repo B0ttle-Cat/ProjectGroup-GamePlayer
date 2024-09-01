@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 3900559867568213463}
   - component: {fileID: 6378657097910737490}
   - component: {fileID: 8822873925900971387}
+  - component: {fileID: 4333506804522238228}
   m_Layer: 20
   m_Name: CharacterObject_Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3900559867568213463
 Transform:
   m_ObjectHideFlags: 0
@@ -45,17 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85aa2a57aba2297439724522f0950a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 6
       thisObject: {fileID: 6378657097910737490}
       parent: {fileID: 0}
       childs: []
@@ -63,9 +56,19 @@ MonoBehaviour:
       - {fileID: 8822873925900971387}
       dataList:
       - rid: 7701795580420293446
+      - rid: 4297472645128257637
   references:
     version: 2
     RefIds:
+    - rid: 4297472645128257637
+      type: {class: WeaponData, ns: BC.Character, asm: BC.Character}
+      data:
+        MaxAttackCount: 0
+        weaponeKey:
+          LoadType: 0
+          BundleName: 
+          FullPath: 
+          ObjectAsset: {fileID: 0}
     - rid: 7701795580420293446
       type: {class: CharacterData, ns: BC.Character, asm: BC.Character}
       data:
@@ -73,11 +76,6 @@ MonoBehaviour:
         fireteamIndex: 0
         fireunitIndex: 0
         characterKey:
-          LoadType: 0
-          BundleName: 
-          FullPath: 
-          ObjectAsset: {fileID: 0}
-        weaponeKey:
           LoadType: 0
           BundleName: 
           FullPath: 
@@ -94,15 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5497b1a511ada6a4fb4eee31e8bf90ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   characterModel:
     LoadType: 0
     BundleName: 
@@ -114,7 +103,19 @@ MonoBehaviour:
     FullPath: 
     ObjectAsset: {fileID: 0}
   IsDisableWhenReady: 1
-  IsDestoryWhenReadyAndDisable: 1
+  IsDestroyWhenReadyAndDisable: 0
   IsReady: 0
   model: {fileID: 0}
   weapon: {fileID: 0}
+--- !u!114 &4333506804522238228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2809603932612087871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239596a8be1bb4c45a841d01a529100e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

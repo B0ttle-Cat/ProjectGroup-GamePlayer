@@ -508,7 +508,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Aimming
+  - m_Name: Aiming
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -554,30 +554,6 @@ AnimatorController:
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 0
-    m_IKPass: 0
-    m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
-  - serializedVersion: 5
-    m_Name: Aim Layer
-    m_StateMachine: {fileID: 8343864035085569832}
-    m_Mask: {fileID: 31900000, guid: 12d7cb6239e94ee4fa4e10879a806252, type: 2}
-    m_Motions:
-    - serializedVersion: 2
-      m_State: {fileID: 368770035501106263}
-      m_Motion: {fileID: -5328562883527277920}
-    - serializedVersion: 2
-      m_State: {fileID: 0}
-      m_Motion: {fileID: 0}
-    - serializedVersion: 2
-      m_State: {fileID: 0}
-      m_Motion: {fileID: 0}
-    - serializedVersion: 2
-      m_State: {fileID: 9210398581555683341}
-      m_Motion: {fileID: 7400000, guid: 45565799be67104428819ed87d173545, type: 2}
-    m_Behaviours: []
-    m_BlendingMode: 0
-    m_SyncedLayerIndex: 0
-    m_DefaultWeight: 1
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
@@ -1628,7 +1604,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Aimming
+    m_ConditionEvent: Aiming
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 368770035501106263}
@@ -1687,7 +1663,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Aimming
+    m_ConditionEvent: Aiming
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1315416041207359098}

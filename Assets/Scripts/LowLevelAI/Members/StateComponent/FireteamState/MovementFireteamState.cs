@@ -89,7 +89,7 @@
 //		//		FireteamMembers.Foreach(item => {
 //		//			if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent, (agent) => agent.IsMove))
 //		//			{
-//		//				agent.InputMoveStop();
+//		//				agent.InputAttackStop();
 //		//			}
 //		//		});
 //		//	}
@@ -109,7 +109,7 @@
 //		//		FireteamMembers.Foreach((item, index) => {
 //		//			if(item.ThisContainer.TryGetComponent<FireunitMovementAgent>(out var agent))
 //		//			{
-//		//				agent.InputMoveTarget(movePathNode, spawnAroundPoints[index]);
+//		//				agent.InputAttackTarget(movePathNode, spawnAroundPoints[index]);
 //		//			}
 //		//		});
 //		//	}

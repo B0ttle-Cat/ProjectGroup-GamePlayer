@@ -26,7 +26,7 @@ namespace BC.Character
 		private bool IsDisableWhenReady;
 		[ShowIf("@IsDisableWhenReady")]
 		[SerializeField]
-		private bool IsDestoryWhenReadyAndDisable;
+		private bool IsDestroyWhenReadyAndDisable;
 
 		[SerializeField, ReadOnly]
 		private bool IsReady;
@@ -58,8 +58,8 @@ namespace BC.Character
 		public override void BaseEnable()
 		{
 			IsReady = false;
-			model = ThisContainer.GetChildObject<CharacterModel>();
-			weapon = ThisContainer.GetChildObject<WeaponModel>();
+			model = ThisContainer.GetComponent<CharacterModel>();
+			weapon = ThisContainer.GetComponent<WeaponModel>();
 
 			if(model != null && weapon != null)
 			{
@@ -68,8 +68,7 @@ namespace BC.Character
 
 			if(model == null)
 			{
-				characterModel.AsyncInstantiate<GameObject>(this, thisObject =>
-				{
+				characterModel.AsyncInstantiate<GameObject>(this, thisObject => {
 					if(thisObject == null)
 					{
 						Debug.LogError("CharacterModel Instantiate Is Null");
@@ -82,8 +81,7 @@ namespace BC.Character
 			}
 			if(weapon == null)
 			{
-				weaponModel.AsyncInstantiate<GameObject>(this, thisObject =>
-				{
+				weaponModel.AsyncInstantiate<GameObject>(this, thisObject => {
 					if(thisObject == null)
 					{
 						Debug.LogError("WeaponModel Instantiate Is Null");
@@ -101,7 +99,7 @@ namespace BC.Character
 			characterModel.Unload(this);
 			weaponModel.Unload(this);
 
-			if(IsDisableWhenReady && IsDestoryWhenReadyAndDisable)
+			if(IsDisableWhenReady && IsDestroyWhenReadyAndDisable)
 			{
 				Destroy(this);
 			}
@@ -129,7 +127,7 @@ namespace BC.Character
 			if(isAllReady == null) return false;
 			if(model == null  || weapon == null) return false;
 
-			return model.IsReady && weapon.IsReady;
+			return true;
 		}
 
 	}

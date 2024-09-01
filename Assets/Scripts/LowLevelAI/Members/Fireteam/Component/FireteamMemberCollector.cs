@@ -25,7 +25,7 @@ namespace BC.LowLevelAI
 			fireteamData = ThisContainer.GetData<FireteamData>();
 
 			memberQuery = QuerySystemBuilder.CreateQuery()
-				.WithAll<FireunitObject, FireunitData, FireunitController>()
+				.WithAll<FireunitObject, FireunitData, IUnitInteractiveValue>()
 				.Build();
 
 			cinemachineTargetGroup = cinemachineTargetGroup != null ? cinemachineTargetGroup : GetComponent<CinemachineTargetGroup>();

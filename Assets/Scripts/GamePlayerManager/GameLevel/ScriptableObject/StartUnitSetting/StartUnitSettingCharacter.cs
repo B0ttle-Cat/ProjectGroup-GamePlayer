@@ -10,7 +10,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[Serializable]
-	public partial struct StartUnitSettingCharacter : IFireunitData, ICharacterResourcesData
+	public partial struct StartUnitSettingCharacter : IFireunitData
 	{
 		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard", NumberOfItemsBeforeEnablingSearch = 0, DropdownWidth = 300)]
 		private CharacterResourcesCard characterCard;
@@ -27,7 +27,7 @@ namespace BC.GamePlayerManager
 		[GUIColor("DoubleColor")]
 		private int unitIndex;
 
-		public int MemberUniqueID { get; set; }
+		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
 		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
 		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
 		public int FactionIndex { get => factionIndex; set => factionIndex = value; }

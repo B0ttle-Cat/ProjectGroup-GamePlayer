@@ -21,7 +21,8 @@ namespace BC.LowLevelAI
 				fireteamData = ThisContainer.AddData<FireteamData>();
 			}
 
-			gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
+			if(IsNotEditingPrefab())
+				gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
 
 		}
 
@@ -29,7 +30,8 @@ namespace BC.LowLevelAI
 		{
 			if(ThisContainer.TryGetData<FireteamData>(out fireteamData))
 			{
-				gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
+				if(IsNotEditingPrefab())
+					gameObject.name = $"{fireteamData.FactionIndex:00} | {fireteamData.TeamIndex:00} Team";
 			}
 		}
 

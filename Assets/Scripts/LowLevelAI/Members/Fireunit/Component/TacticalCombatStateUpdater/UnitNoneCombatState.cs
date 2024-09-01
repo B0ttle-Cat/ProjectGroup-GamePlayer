@@ -3,25 +3,15 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class UnitNoneCombatState : ComponentBehaviour, IUnitTacticalCombatState
+	public class UnitNoneCombatState : ComponentBehaviour, IUnitTacticalCombatStateUpdate
 	{
-		void IUnitTacticalCombatState.TacticalCombatStateEnter()
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateEnter()
 		{
 		}
-		bool IUnitTacticalCombatState.TacticalCombatStateCheck(ITacticalCombatStateValue.TacticalCombatStateType checkTo, UnitInteractiveInfo targetInfo)
-		{
-			return checkTo switch {
-				ITacticalCombatStateValue.TacticalCombatStateType.Attack => ToAttack(),
-				ITacticalCombatStateValue.TacticalCombatStateType.Move => ToMove(),
-				_ => false,
-			};
-			bool ToAttack() => targetInfo.IsInActionRange && targetInfo.IsInAttackRange;
-			bool ToMove() => targetInfo.IsInActionRange && !targetInfo.IsInAttackRange;
-		}
-		void IUnitTacticalCombatState.TacticalCombatStateUpdate()
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateUpdate(UnitInteractiveInfo interactiveInfo)
 		{
 		}
-		void IUnitTacticalCombatState.TacticalCombatStateExit()
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateExit()
 		{
 		}
 	}

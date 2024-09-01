@@ -3,28 +3,22 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class UnitMoveCombatState : ComponentBehaviour, IUnitTacticalCombatState
+	public class UnitMoveCombatState : ComponentBehaviour, IUnitTacticalCombatStateUpdate
 	{
-		void IUnitTacticalCombatState.TacticalCombatStateEnter()
+		IUnitIMovementAgent movementAgent;
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateEnter()
 		{
+			movementAgent = ThisContainer.GetComponent<IUnitIMovementAgent>();
 		}
-		bool IUnitTacticalCombatState.TacticalCombatStateCheck(ITacticalCombatStateValue.TacticalCombatStateType checkTo, UnitInteractiveInfo targetInfo)
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateUpdate(UnitInteractiveInfo interactiveInfo)
 		{
-			return checkTo switch {
-				ITacticalCombatStateValue.TacticalCombatStateType.Attack => ToAttack(),
-				ITacticalCombatStateValue.TacticalCombatStateType.Move => ToMove(),
-				_ => false,
-			};
-			bool ToAttack() => targetInfo.IsInActionRange && targetInfo.IsInAttackRange;
-			bool ToMove() => targetInfo.IsInActionRange && !targetInfo.IsInAttackRange;
+			if(movementAgent == null || interactiveInfo == null) return;
+			movementAgent.InputMoveTarget(interactiveInfo.Target.PoseValueData.ThisUnitPosition);
 		}
-		void IUnitTacticalCombatState.TacticalCombatStateUpdate()
+		void IUnitTacticalCombatStateUpdate.TacticalCombatStateExit()
 		{
+			if(movementAgent == null) return;
+			movementAgent.InputMoveStop();
 		}
-		void IUnitTacticalCombatState.TacticalCombatStateExit()
-		{
-		}
-
-
 	}
 }

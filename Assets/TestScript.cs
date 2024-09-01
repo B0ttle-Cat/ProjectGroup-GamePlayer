@@ -75,7 +75,7 @@ public class TestScript : MonoBehaviour
 		//stopwatch.Reset();
 		//stopwatch.Start();
 		//CompareListsBigInteger(listA, listB);
-		//stopwatch.Stop();
+		//stopwatch.AttackStop();
 		//long bigIntegerTime = stopwatch.ElapsedTicks;
 
 		stopwatch.Reset();

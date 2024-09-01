@@ -21,7 +21,7 @@ public class GunsController : MonoBehaviour
     public float recoilForce;
     public Transform recoilPosition;
 	
-    [Header("Shot Actions")]
+    [Header("OnShot Actions")]
     public Vector3 randomRotation = new Vector3(.1f, .1f, .1f);
     public GameObject ShellPrefab;
     public float shellVelocity = 500f;

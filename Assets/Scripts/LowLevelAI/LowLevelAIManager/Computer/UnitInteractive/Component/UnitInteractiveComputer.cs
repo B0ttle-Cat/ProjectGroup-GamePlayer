@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public partial class UnitInteractiveComputer : ComponentBehaviour, IUnitInteractiveComputer
+	public partial class UnitInteractiveComputer : ComponentBehaviour
 	{
 		public IFindCollectedMembers FindMembers { get; set; }
 
@@ -26,12 +26,12 @@ namespace BC.LowLevelAI
 		[Space]
 		[ShowInInspector, ReadOnly]
 
-		// Actor UniqueID : IUnitInteractiveValue
+		// Actor MemberUniqueID : IUnitInteractiveValue
 		private Dictionary<int, IUnitInteractiveValue> unitInteractiveValueList;
-		// Actor UniqueID : Target UniqueID : IUnitInteractiveValue
+		// Actor MemberUniqueID : Target MemberUniqueID : IUnitInteractiveValue
 		private Dictionary<int, Dictionary<int, UnitInteractiveInfo>> computingList;
 
-		// Actor FactionID : Target UniqueID 
+		// Actor FactionID : Target MemberUniqueID 
 		private Dictionary<int, HashSet<int>> inRangeFactionVisual;
 
 		public override void BaseAwake()
@@ -132,15 +132,14 @@ namespace BC.LowLevelAI
 				{
 					var target = targetItem.Value;
 
-					if(actor.UniqueID == target.UniqueID) continue;
+					if(actor.MemberUniqueID == target.MemberUniqueID) continue;
 
 					var newInteractiveInfo = new UnitInteractiveInfo(actor, target, ComputeDiplomacyType(actor, target));
-					inList.Add(target.UniqueID, newInteractiveInfo);
+					inList.Add(target.MemberUniqueID, newInteractiveInfo);
 				}
-				computingList.Add(actor.UniqueID, inList);
+				computingList.Add(actor.MemberUniqueID, inList);
 
 				actor.FindMembers = FindMembers;
-				actor.Computer = this;
 			}
 		}
 		private void UpdateValueList(ObjectBehaviour behaviour, bool added)
@@ -161,7 +160,6 @@ namespace BC.LowLevelAI
 					{
 						int memberUniqueID = value.UnitData.MemberUniqueID;
 						value.FindMembers = FindMembers;
-						value.Computer = this;
 						AddValueComputingList(value);
 						unitInteractiveValueList.Add(memberUniqueID, value);
 					}
@@ -216,24 +214,6 @@ namespace BC.LowLevelAI
 			return diplomacyData.diplomacyTypeList.TryGetValue((actor.UnitData.FactionIndex, target.UnitData.FactionIndex), out var diplomacyType)
 				? diplomacyType
 				: FactionDiplomacyType.Neutral_Faction;
-		}
-		public bool TryUnitTargetList(IUnitInteractiveValue actor, out Dictionary<int, UnitInteractiveInfo> targetToList)
-		{
-			if(computingList.TryGetValue(actor.UniqueID, out targetToList))
-			{
-				return true;
-			}
-			targetToList = null;
-			return false;
-		}
-		public bool TryUnitTargetInfo(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info)
-		{
-			if(computingList.TryGetValue(actor.UniqueID, out var inList) && inList.TryGetValue(target.UniqueID, out info))
-			{
-				return true;
-			}
-			info = null;
-			return false;
 		}
 		#endregion
 	}

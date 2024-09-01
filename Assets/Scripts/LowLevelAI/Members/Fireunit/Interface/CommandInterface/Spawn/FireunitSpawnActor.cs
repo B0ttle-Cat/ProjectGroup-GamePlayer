@@ -1,10 +1,12 @@
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
 {
 	public class FireunitSpawnActor : FireunitCommandActor<SpawnData>
 	{
-		private IAgentMoveTarget agentMove;
+		private IUnitIMovementAgent agentMove;
 		[SerializeField]
 		private bool isEndedSpawn;
 		protected override void Disposing()
@@ -15,7 +17,7 @@ namespace BC.LowLevelAI
 		}
 		public override void BaseActorEnable()
 		{
-			ThisContainer.TryGetComponent<IAgentMoveTarget>(out agentMove);
+			ThisContainer.TryGetComponent<IUnitIMovementAgent>(out agentMove);
 
 			isEndedSpawn = false;
 		}
@@ -28,7 +30,7 @@ namespace BC.LowLevelAI
 		{
 			if(isEndedSpawn) return;
 			if(CommandData.targetAnchor == null) return;
-			if(agentMove == null && !ThisContainer.TryGetComponent<IAgentMoveTarget>(out agentMove)) return;
+			if(agentMove == null && !ThisContainer.TryGetComponent<IUnitIMovementAgent>(out agentMove)) return;
 			UpdateSpawn();
 		}
 

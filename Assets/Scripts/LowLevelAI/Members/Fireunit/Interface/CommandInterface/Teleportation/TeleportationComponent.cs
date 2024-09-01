@@ -1,10 +1,12 @@
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
 {
 	public class TeleportationComponent : FireunitCommandActor<TeleportationData>
 	{
-		private IAgentMoveTarget agentMove;
+		private IUnitIMovementAgent agentMove;
 		[SerializeField]
 		private bool isEnded;
 		protected override void Disposing()
@@ -25,7 +27,7 @@ namespace BC.LowLevelAI
 		{
 			if(isEnded) return;
 			if(CommandData.targetAnchor == null) return;
-			if(agentMove is null && !ThisContainer.TryGetComponent<IAgentMoveTarget>(out agentMove)) return;
+			if(agentMove is null && !ThisContainer.TryGetComponent<IUnitIMovementAgent>(out agentMove)) return;
 			UpdateTeleportation();
 		}
 

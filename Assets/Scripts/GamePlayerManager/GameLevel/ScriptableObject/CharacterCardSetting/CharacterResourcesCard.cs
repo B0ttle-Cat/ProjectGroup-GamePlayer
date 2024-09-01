@@ -1,5 +1,4 @@
 using BC.Base;
-using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -8,7 +7,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[CreateAssetMenu(fileName = "CharacterCard", menuName = "BC/StartSetting/new CharacterResourcesCard")]
-	public partial class CharacterResourcesCard : ScriptableObject, ICharacterResourcesData
+	public partial class CharacterResourcesCard : ScriptableObject
 	{
 		[InlineButton("UpdateAssetName")]
 		[HideLabel, SuffixLabel("CharacterName", Overlay = true)]

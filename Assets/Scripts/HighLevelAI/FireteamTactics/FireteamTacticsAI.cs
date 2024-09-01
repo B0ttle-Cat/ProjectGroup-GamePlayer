@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.OdccBase;
 using BC.LowLevelAI;
 using BC.ODCC;
+using BC.OdccBase;
 
 using UnityEngine;
 
@@ -23,7 +23,7 @@ namespace BC.HighLevelAI
 			fireunitList = new List<ObjectBehaviour>();
 
 			OdccQueryCollector.CreateQueryCollector(
-				QuerySystemBuilder.CreateQuery().WithAll<FireunitData, FireunitController, FireunitMovementAgent>().Build())
+				QuerySystemBuilder.CreateQuery().WithAll<FireunitObject, FireunitData, IUnitInteractiveValue>().Build())
 				.CreateChangeListEvent(InitFireTeamList, UpdateFireTeamList);
 		}
 

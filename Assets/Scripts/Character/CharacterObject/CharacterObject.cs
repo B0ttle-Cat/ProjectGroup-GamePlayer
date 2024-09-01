@@ -20,10 +20,13 @@ namespace BC.Character
 		}
 #endif
 		private CharacterData characterData;
+		private WeaponData weaponData;
 
+		public CharacterData CharacterData { get => characterData; private set => characterData=value; }
+		public WeaponData WeaponData { get => weaponData; private set => weaponData=value; }
+		public CharacterAgent Agent { get; private set; }
 		public CharacterModel Model { get; private set; }
 		public WeaponModel Weapon { get; private set; }
-
 
 		public override void BaseAwake()
 		{
@@ -31,25 +34,35 @@ namespace BC.Character
 			{
 				characterData = ThisContainer.AddData<CharacterData>();
 			}
+			if(!ThisContainer.TryGetData<WeaponData>(out weaponData))
+			{
+				weaponData = ThisContainer.AddData<WeaponData>();
+			}
 
-			if(characterData != null && ThisContainer.TryGetComponent<CharacterResourcesSetup>(out var resourcesSetup))
+			if(!ThisContainer.TryGetComponent<CharacterAgent>(out var agent))
+			{
+				agent = ThisContainer.AddComponent<CharacterAgent>();
+			}
+			Agent = agent;
+
+			if(CharacterData != null && ThisContainer.TryGetComponent<CharacterResourcesSetup>(out var resourcesSetup))
 			{
 				resourcesSetup.enabled = false;
-				resourcesSetup.ResourcesSetup(characterData.CharacterResourcesKey, characterData.WeaponResourcesKey, (m, w) =>
-				{
+				resourcesSetup.ResourcesSetup(CharacterData.CharacterResourcesKey, WeaponData.WeaponResourcesKey, (m, w) => {
 					Model = m;
 					Weapon = w;
 					resourcesSetup.enabled = false;
 					UpdateObjectName();
+					Agent.Init();
 				});
 				resourcesSetup.enabled = true;
 			}
 		}
 		public void UpdateObjectName()
 		{
-			if(ThisContainer.TryGetData<CharacterData>(out characterData))
+			if(CharacterData != null || ThisContainer.TryGetData<CharacterData>(out characterData))
 			{
-				gameObject.name = $"{characterData.FactionIndex:00} | {characterData.TeamIndex:00} | {characterData.UnitIndex:00} Character " +
+				gameObject.name = $"{CharacterData.FactionIndex:00} | {CharacterData.TeamIndex:00} | {CharacterData.UnitIndex:00} Character " +
 					$"({(Model == null ? "" : Model.name)} | {(Weapon == null ? "" : Weapon.name)})";
 			}
 		}

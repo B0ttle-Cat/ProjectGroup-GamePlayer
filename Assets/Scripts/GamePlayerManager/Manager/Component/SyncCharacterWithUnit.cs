@@ -11,7 +11,7 @@ namespace BC.GamePlayerManager
 {
 	public class SyncCharacterWithUnit : ComponentBehaviour
 	{
-		private Dictionary<(int,int,int), CharacterObject> groupInUnit;
+		private Dictionary<int, CharacterObject> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
 		[SerializeField]
@@ -26,14 +26,14 @@ namespace BC.GamePlayerManager
 		{
 			base.BaseAwake();
 
-			groupInUnit = new Dictionary<(int, int, int), CharacterObject>();
+			groupInUnit = new Dictionary<int, CharacterObject>();
 
 			unitQuerySystem = QuerySystemBuilder.CreateQuery()
-			.WithAll<FireunitObject, FireunitData>().Build();
+			.WithAll<FireunitObject, FireunitData, IUnitInteractiveValue>().Build();
 
 			unitQueryCollector = OdccQueryCollector.CreateQueryCollector(unitQuerySystem)
 				.CreateLooperEvent(nameof(SyncCharacterWithUnit), 1)
-				.Foreach<FireunitObject, IFireunitData>(OnSyncUnitToCharacter)
+				.Foreach<FireunitObject, FireunitData, IUnitInteractiveValue>(OnSyncUnitToCharacter)
 				.GetCollector();
 
 			characterQuerySystem = QuerySystemBuilder.CreateQuery()
@@ -101,10 +101,7 @@ namespace BC.GamePlayerManager
 		}
 		private void AddedUnit(CharacterObject character, CharacterData data)
 		{
-			int factionIndex = data.FactionIndex;
-			int teamIndex = data.TeamIndex;
-			int unitIndex = data.UnitIndex;
-			(int, int, int) key = (factionIndex, teamIndex, unitIndex);
+			int key = data.MemberUniqueID;
 
 			if(!groupInUnit.ContainsKey(key))
 			{
@@ -113,42 +110,76 @@ namespace BC.GamePlayerManager
 		}
 		private void RemoveUnit(CharacterObject character, CharacterData data)
 		{
-			int factionIndex = data.FactionIndex;
-			int teamIndex = data.TeamIndex;
-			int unitIndex = data.UnitIndex;
-			(int,int, int) key = (factionIndex, teamIndex, unitIndex);
+			int key = data.MemberUniqueID;
 
 			if(groupInUnit.ContainsKey(key))
 			{
 				groupInUnit.Remove(key);
 			}
 		}
-		private void OnSyncUnitToCharacter(OdccQueryLooper.LoopInfo loopInfo, FireunitObject fireunitObject, IFireunitData iFireunitData)
+		private void OnSyncUnitToCharacter(OdccQueryLooper.LoopInfo loopInfo, FireunitObject fireunitObject, FireunitData fireunitData, IUnitInteractiveValue unitInteractiveValue)
 		{
-			if(!groupInUnit.TryGetValue((iFireunitData.FactionIndex, iFireunitData.TeamIndex, iFireunitData.UnitIndex), out var character))
+			int thisUnitKey = fireunitData.MemberUniqueID;
+
+			if(!groupInUnit.TryGetValue(thisUnitKey, out var character))
+			{
+				return;
+			}
+			if(!character.ThisContainer.TryGetComponent<ICharacterAgent>(out var characterAgent))
 			{
 				return;
 			}
 
-			ModelObject modelObject = character.Model;
-			if(modelObject != null)
+			SyncTransformPose();
+			void SyncTransformPose()
 			{
-				var fireunitTransform = fireunitObject.ThisTransform;
-				modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.TransformPose>(i => {
-					if(fireunitTransform.hasChanged)
-					{
-						i.OnUpdatePose(fireunitTransform.position, fireunitTransform.rotation);
-						fireunitTransform.hasChanged = false;
-					}
-				});
-
-				FireunitMovementAgent fireunitMovementAgent = fireunitObject.ThisContainer.GetComponent<FireunitMovementAgent>();
-				if(fireunitMovementAgent != null && fireunitMovementAgent.NavMeshAgent != null)
+				Transform unitTransform = fireunitObject.ThisTransform;
+				if(unitTransform.hasChanged)
 				{
-					float moveSpeed = fireunitMovementAgent.NavMeshAgent.velocity.magnitude;
-					modelObject.ThisContainer.CallActionAllComponent<ICharacterAgent.MoveSpeed>(i => {
-						i.OnUpdateMoveSpeed(moveSpeed);
-					});
+					characterAgent.TransformPose.OnUpdatePose(unitTransform.position, unitTransform.rotation);
+					unitTransform.hasChanged = false;
+				}
+			}
+
+			WalkAnimation();
+			void WalkAnimation()
+			{
+				IUnitIMovementAgent movementAgent = fireunitObject.ThisContainer.GetComponent<IUnitIMovementAgent>();
+				ITacticalCombatStateValue.TacticalCombatStateType tacticalCombatState = unitInteractiveValue.StateValueData.TacticalCombatState;
+				if(movementAgent != null && movementAgent.NavMeshAgent != null)
+				{
+					float moveSpeed = movementAgent.NavMeshAgent.velocity.magnitude;
+					bool aiming = movementAgent.NavMeshAgent.isStopped && tacticalCombatState == ITacticalCombatStateValue.TacticalCombatStateType.Attack;
+					characterAgent.Animation.OnUpdateMoveSpeed(moveSpeed);
+				}
+			}
+
+			AttackAnimation();
+			void AttackAnimation()
+			{
+				IUnitAttackerAgent attackerAgent = fireunitObject.ThisContainer.GetComponent<IUnitAttackerAgent>();
+				IUnitInteractiveValue targetValue = attackerAgent.ThisTarget;
+				if(targetValue == null || !groupInUnit.TryGetValue(targetValue.MemberUniqueID, out var targetObj))
+				{
+					return;
+				}
+				if(!targetObj.ThisContainer.TryGetComponent<ICharacterAgent>(out var targetAgent))
+				{
+					return;
+				}
+
+				ICharacterAgent.IWeapon characterWeapon = characterAgent.Weapon;
+				characterWeapon.OnShotAttack(targetAgent, Shot);
+
+				void Shot(ICharacterAgent actorAgent, ICharacterAgent targetAgent)
+				{
+					(ICharacterAgent agent, IUnitInteractiveValue value) actor = new (actorAgent, attackerAgent.ThisActor);
+					(ICharacterAgent agent, IUnitInteractiveValue value) target = new (targetAgent, attackerAgent.ThisTarget);
+					characterWeapon.OnCreateProjectile(actor, target, Hit);
+				}
+				void Hit(IProjectileObject projectileObject, ProjectileHitReport hitReport)
+				{
+
 				}
 			}
 		}

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
@@ -129,19 +131,19 @@ namespace BC.LowLevelAI
 				{
 					var target = targetItem.Value;
 
-					if(actor.UniqueID == target.UniqueID) continue;
+					if(actor.MemberUniqueID == target.MemberUniqueID) continue;
 					if(target.StateValueData.IsRetire) continue;
 
 					if(Compute(actor, target, out UnitInteractiveInfo unitInteractiveInfo))
 					{
-						int factionUniqueID = actor.UniqueID/10000;
+						int factionUniqueID = actor.MemberUniqueID/10000;
 
 						if(!inRangeFactionVisual.TryGetValue(factionUniqueID, out var list))
 						{
 							list = new HashSet<int>();
 							inRangeFactionVisual.Add(factionUniqueID, list);
 						}
-						list.Add(target.UniqueID);
+						list.Add(target.MemberUniqueID);
 					}
 				}
 				await AwaitTime();
@@ -157,8 +159,8 @@ namespace BC.LowLevelAI
 			bool Compute(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info)
 			{
 				info = null;
-				if(computingList.TryGetValue(actor.UniqueID, out var inList)
-					&& inList.TryGetValue(target.UniqueID, out info))
+				if(computingList.TryGetValue(actor.MemberUniqueID, out var inList)
+					&& inList.TryGetValue(target.MemberUniqueID, out info))
 				{
 					IUnitInteractiveValue actorValue = actor;
 					IUnitInteractiveValue targetValue = target;
@@ -213,13 +215,13 @@ namespace BC.LowLevelAI
 				var actor = actorItem.Value;
 				if(actor.StateValueData.IsRetire) continue;
 
-				int factionUniqueID = actor.UniqueID/10000;
+				int factionUniqueID = actor.MemberUniqueID/10000;
 				if(!inRangeFactionVisual.TryGetValue(factionUniqueID, out var inRangeFactionVisualList)) continue;
 
 				var inActionRangeTargetList = new List<UnitInteractiveInfo>();
 				foreach(int targetUniqueID in inRangeFactionVisualList)
 				{
-					if(actor.UniqueID == targetUniqueID) continue;
+					if(actor.MemberUniqueID == targetUniqueID) continue;
 					if(unitInteractiveValueList.TryGetValue(targetUniqueID, out var target))
 					{
 						if(target.StateValueData.IsRetire) continue;
@@ -245,8 +247,8 @@ namespace BC.LowLevelAI
 			bool Compute(IUnitInteractiveValue actor, IUnitInteractiveValue target, out UnitInteractiveInfo info)
 			{
 				info = null;
-				if(computingList.TryGetValue(actor.UniqueID, out var inList)
-					&& inList.TryGetValue(target.UniqueID, out info))
+				if(computingList.TryGetValue(actor.MemberUniqueID, out var inList)
+					&& inList.TryGetValue(target.MemberUniqueID, out info))
 				{
 					IUnitInteractiveValue actorValue = actor;
 					IUnitInteractiveValue targetValue = target;
@@ -308,7 +310,7 @@ namespace BC.LowLevelAI
 				{
 					var info = list[i];
 					var target = info.Target;
-					if(actor.UniqueID == target.UniqueID) continue;
+					if(actor.MemberUniqueID == target.MemberUniqueID) continue;
 					if(target.StateValueData.IsRetire) continue;
 
 					Compute(actor, target, info);

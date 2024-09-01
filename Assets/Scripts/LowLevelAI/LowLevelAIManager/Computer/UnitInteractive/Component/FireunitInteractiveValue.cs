@@ -11,11 +11,12 @@ namespace BC.LowLevelAI
 	public class FireunitInteractiveValue : ComponentBehaviour, IUnitInteractiveValue, IUnitInteractiveInterface
 	{
 		private Func<UnitInteractiveInfo, bool>[] tacticalStateChecker;
+		private IUnitTacticalCombatStateChanger iUnitStateChanger;
+		private IUnitTacticalCombatStateUpdate iUnitStateUpdate;
 
 		// Data
 		public IFireunitData UnitData { get; private set; }
 		public IFindCollectedMembers FindMembers { get; set; }
-		public IUnitInteractiveComputer Computer { get; set; }
 		public IUnitPlayValue PlayValueData { get; private set; }
 		public IUnitPoseValue PoseValueData { get; private set; }
 		public IUnitStateValue StateValueData { get; private set; }
@@ -72,14 +73,16 @@ namespace BC.LowLevelAI
 				StateValueData.UnitData = UnitData;
 				StateValueData.IsRetire = false;
 			}
-			if(ThisContainer.TryGetComponent<IUnitTacticalCombatState>(out var unitTacticalState))
+			if(!ThisContainer.TryGetComponent<IUnitTacticalCombatStateChanger>(out iUnitStateChanger))
 			{
-				StateValueData.UnitTacticalComponent = unitTacticalState;
+				iUnitStateChanger  = ThisContainer.AddComponent<UnitTacticalCombatStateChanger>();
 			}
-			else
+			if(!ThisContainer.TryGetComponent<IUnitTacticalCombatStateUpdate>(out iUnitStateUpdate))
 			{
-				StateValueData.UnitTacticalComponent = ThisContainer.AddComponent<UnitNoneCombatState>();
+				iUnitStateUpdate = ThisContainer.AddComponent<UnitNoneCombatState>();
 			}
+			StateValueData.UnitTacticalCombatStateUpdate = iUnitStateUpdate;
+			StateValueData.UnitTacticalCombatStateChanger = iUnitStateChanger;
 		}
 
 		public override void BaseDestroy()
@@ -174,49 +177,32 @@ namespace BC.LowLevelAI
 
 		void IUnitInteractiveInterface.TacticalCombatStateUpdate()
 		{
-			if(UpdateBattleStateChange(StateValueData.TacticalCombatState, out var nextTacticalState))
+			if(UpdateBattleStateChange(iUnitStateChanger, StateValueData.TacticalCombatState, out var nextTacticalState, out var targetInfo))
 			{
-				if(ThisContainer.TryGetComponent<IUnitTacticalCombatState>(out var unitTacticalState))
-				{
-					unitTacticalState.TacticalCombatStateExit();
-					unitTacticalState.DestroyThis();
-				}
+				// CombatState 가 변경된 경우 들어옴
+				iUnitStateUpdate.TacticalCombatStateExit();
+				iUnitStateUpdate.DestroyThis();
 
 				StateValueData.TacticalCombatState = nextTacticalState;
-				unitTacticalState = nextTacticalState switch {
-					ITacticalCombatStateValue.TacticalCombatStateType.None => ThisContainer.AddComponent<UnitNoneCombatState>(),
-					ITacticalCombatStateValue.TacticalCombatStateType.Attack => ThisContainer.AddComponent<UnitAttackCombatState>(),
-					ITacticalCombatStateValue.TacticalCombatStateType.Move => ThisContainer.AddComponent<UnitMoveCombatState>(),
-					_ => ThisContainer.AddComponent<UnitNoneCombatState>(),
-				};
+				iUnitStateUpdate = iUnitStateChanger.ChangeNextState(nextTacticalState);
+				StateValueData.UnitTacticalCombatStateUpdate = iUnitStateUpdate;
 
-				StateValueData.UnitTacticalComponent = unitTacticalState;
-
-				unitTacticalState.TacticalCombatStateEnter();
-				UpdateUnitBattleState(unitTacticalState);
+				iUnitStateUpdate.TacticalCombatStateEnter();
 			}
-			else
+			UpdateUnitBattleState(iUnitStateUpdate, targetInfo);
+
+			bool UpdateBattleStateChange(IUnitTacticalCombatStateChanger iUnitStateCheck, ITacticalCombatStateValue.TacticalCombatStateType prevTacticalState,
+				out ITacticalCombatStateValue.TacticalCombatStateType nextTacticalState, out UnitInteractiveInfo interactiveInfo)
 			{
-				if(StateValueData.UnitTacticalComponent is IUnitTacticalCombatState unitTacticalState)
-				{
-					UpdateUnitBattleState(unitTacticalState);
-				}
-			}
-
-
-			bool UpdateBattleStateChange(ITacticalCombatStateValue.TacticalCombatStateType prevTacticalState, out ITacticalCombatStateValue.TacticalCombatStateType nextTacticalState)
-			{
-				var unitTacticalState = StateValueData.UnitTacticalComponent as IUnitTacticalCombatState;
-
-
 				nextTacticalState = ITacticalCombatStateValue.TacticalCombatStateType.None;
+				interactiveInfo = null;
 				var targets = InteractiveTargetData.EnemyTargetList;
 				if(tacticalStateChecker == null || tacticalStateChecker.Length == 0)
 				{
 					InitTacticalStateChecker(new Func<UnitInteractiveInfo, bool>[]
 					{
-						ShouldAttack,
-						ShouldMove,
+							ShouldAttack,
+							ShouldMove,
 					});
 				}
 				foreach(var checker in tacticalStateChecker)
@@ -227,12 +213,11 @@ namespace BC.LowLevelAI
 						if(checker(targetInfo))
 						{
 							nextTacticalState = DetermineNextState(checker);
+							interactiveInfo = targetInfo;
 							break;
 						}
 					}
 				}
-
-				return prevTacticalState != nextTacticalState;
 
 				void InitTacticalStateChecker(Func<UnitInteractiveInfo, bool>[] funcs)
 				{
@@ -247,16 +232,18 @@ namespace BC.LowLevelAI
 
 				bool ShouldAttack(UnitInteractiveInfo targetInfo)
 				{
-					return unitTacticalState != null && unitTacticalState.TacticalCombatStateCheck(ITacticalCombatStateValue.TacticalCombatStateType.Attack, targetInfo);
+					return iUnitStateCheck.ShouldAttack(prevTacticalState, targetInfo);
 				}
 				bool ShouldMove(UnitInteractiveInfo targetInfo)
 				{
-					return unitTacticalState != null  && unitTacticalState.TacticalCombatStateCheck(ITacticalCombatStateValue.TacticalCombatStateType.Move, targetInfo);
+					return iUnitStateCheck.ShouldMove(prevTacticalState, targetInfo);
 				}
-			}
-			void UpdateUnitBattleState(IUnitTacticalCombatState unitTacticalState)
-			{
+				return prevTacticalState != nextTacticalState;
 
+			}
+			void UpdateUnitBattleState(IUnitTacticalCombatStateUpdate unitTacticalState, UnitInteractiveInfo interactiveInfo)
+			{
+				unitTacticalState.TacticalCombatStateUpdate(interactiveInfo);
 			}
 		}
 	}

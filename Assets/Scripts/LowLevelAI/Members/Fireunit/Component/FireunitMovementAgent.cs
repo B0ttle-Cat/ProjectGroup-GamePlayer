@@ -1,4 +1,5 @@
 using BC.ODCC;
+using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
@@ -7,13 +8,7 @@ using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
-	public interface IAgentMoveTarget : IOdccComponent
-	{
-		public void InputMoveTarget(Vector3 target);
-		public void InputMoveTarget(Vector3 target, bool isWarp);
-	}
-
-	public class FireunitMovementAgent : ComponentBehaviour, IAgentMoveTarget
+	public class FireunitMovementAgent : ComponentBehaviour, IUnitIMovementAgent
 	{
 		private NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;

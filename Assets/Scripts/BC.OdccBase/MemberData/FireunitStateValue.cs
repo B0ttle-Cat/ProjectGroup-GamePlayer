@@ -17,31 +17,37 @@ namespace BC.OdccBase
 			None,       // Å¸°Ù ¾øÀ½
 		}
 	}
-	public interface ITacticalStateComponent : IPlayValue
+	public interface ITacticalCombatStateComponent : IPlayValue
 	{
-		public IOdccComponent UnitTacticalComponent { get; set; }
+		public IOdccComponent UnitTacticalCombatStateUpdate { get; set; }
+		public IOdccComponent UnitTacticalCombatStateChanger { get; set; }
 	}
 	public interface IUnitStateValue : IPlayValue
-		, IRetireStateValue, ITacticalCombatStateValue, ITacticalStateComponent
+		, IRetireStateValue, ITacticalCombatStateValue, ITacticalCombatStateComponent
 	{ }
 
 	public class FireunitStateValue : DataObject, IUnitStateValue
 	{
 		private IFireunitData unitData;
 		private bool isRetire;
-		private ITacticalCombatStateValue.TacticalCombatStateType tacticalState;
-		private IOdccComponent unitTacticalComponent;
+		private ITacticalCombatStateValue.TacticalCombatStateType tacticalCombatState;
+		private IOdccComponent unitTacticalCombatStateUpdate;
+		private IOdccComponent unitTacticalCombatStateChanger;
 
 		public IFireunitData UnitData { get => unitData; set => unitData=value; }
 		public bool IsRetire { get => isRetire; set => isRetire=value; }
-		public ITacticalCombatStateValue.TacticalCombatStateType TacticalCombatState { get => tacticalState; set => tacticalState=value; }
-		public IOdccComponent UnitTacticalComponent { get => unitTacticalComponent; set => unitTacticalComponent=value; }
+		public ITacticalCombatStateValue.TacticalCombatStateType TacticalCombatState { get => tacticalCombatState; set => tacticalCombatState=value; }
+		public IOdccComponent UnitTacticalCombatStateUpdate { get => unitTacticalCombatStateUpdate; set => unitTacticalCombatStateUpdate=value; }
+		public IOdccComponent UnitTacticalCombatStateChanger { get => unitTacticalCombatStateChanger; set => unitTacticalCombatStateChanger=value; }
 
 
 		protected override void Disposing()
 		{
 			unitData = null;
-			unitTacticalComponent = null;
+			tacticalCombatState = ITacticalCombatStateValue.TacticalCombatStateType.None;
+			unitTacticalCombatStateUpdate = null;
+			unitTacticalCombatStateChanger = null;
 		}
+
 	}
 }

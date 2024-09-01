@@ -20,14 +20,16 @@ namespace BC.LowLevelAI
 				factionData = ThisContainer.AddData<FactionData>();
 			}
 
-			gameObject.name = $"{factionData.FactionIndex:00} Faction";
+			if(IsNotEditingPrefab())
+				gameObject.name = $"{factionData.FactionIndex:00} Faction";
 		}
 
 		public void UpdateObjectName()
 		{
 			if(ThisContainer.TryGetData<FactionData>(out factionData))
 			{
-				gameObject.name = $"{factionData.FactionIndex:00} Faction";
+				if(IsNotEditingPrefab())
+					gameObject.name = $"{factionData.FactionIndex:00} Faction";
 			}
 		}
 

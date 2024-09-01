@@ -20,13 +20,15 @@ namespace BC.LowLevelAI
 				fireunitData = ThisContainer.AddData<FireunitData>();
 			}
 
-			gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
+			if(IsNotEditingPrefab())
+				gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
 		}
 		public void UpdateObjectName()
 		{
 			if(ThisContainer.TryGetData<FireunitData>(out fireunitData))
 			{
-				gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
+				if(IsNotEditingPrefab())
+					gameObject.name = $"{fireunitData.FactionIndex:00} | {fireunitData.TeamIndex:00} | {fireunitData.UnitIndex:00} Unit";
 			}
 		}
 		public IFireunitData IFireunitData => fireunitData;

@@ -2257,6 +2257,37 @@ Transform:
   - {fileID: 2747027806445615344}
   m_Father: {fileID: 5004387063455156380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4169938049309526945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755882669976992556}
+  m_Layer: 15
+  m_Name: HitTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755882669976992556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4169938049309526945}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5836494941420650573}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4172508738876990060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2585,6 +2616,37 @@ Transform:
   m_Children:
   - {fileID: 6000089279671124499}
   m_Father: {fileID: 3018358908645233525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4628803714369406600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3719635122899877146}
+  m_Layer: 15
+  m_Name: AimTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3719635122899877146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628803714369406600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5836494941420650573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4688490513967894731
 GameObject:
@@ -4436,7 +4498,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5836494941420650573}
-  - component: {fileID: 7793522752513607521}
   - component: {fileID: 4471866259668687537}
   - component: {fileID: 2606116538762812220}
   - component: {fileID: 6526840573183376754}
@@ -4451,7 +4512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5836494941420650573
 Transform:
   m_ObjectHideFlags: 0
@@ -4467,48 +4528,10 @@ Transform:
   m_Children:
   - {fileID: 5173029069214002304}
   - {fileID: 7662313628674800114}
+  - {fileID: 3719635122899877146}
+  - {fileID: 1755882669976992556}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7793522752513607521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8437899898182083799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8615554d753f84c91a1ae0921c4054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _container:
-    ContainerNode:
-      thisObject: {fileID: 7793522752513607521}
-      parent: {fileID: 0}
-      childs: []
-      componentList:
-      - {fileID: 2606116538762812220}
-      - {fileID: 4471866259668687537}
-      dataList:
-      - rid: 7701795893990916316
-  aimController: {fileID: 6873018644516520340}
-  grabWeapon: {fileID: 889041914454027659}
-  references:
-    version: 2
-    RefIds:
-    - rid: 7701795893990916316
-      type: {class: AnimatorData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        animatorInfo: {fileID: 11400000, guid: 6b81974dd957973409139750659ba33f, type: 2}
 --- !u!114 &4471866259668687537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4521,15 +4544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239596a8be1bb4c45a841d01a529100e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
+  hitPivot: {fileID: 1755882669976992556}
 --- !u!114 &2606116538762812220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4542,21 +4557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814b4f4b9f94baa4e9704f207b693ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: parameters
-      Entry: 7
-      Data: 0|BC.OdccBase.SD_Character_Animator_Parameters, BC.Character
-    - Name: 
-      Entry: 8
-      Data: 
   CurrentState:
     StateInfo:
       layerName: 
@@ -4602,6 +4602,8 @@ MonoBehaviour:
       Tag: 
       Motion: {fileID: 7400000, guid: 850d40cf1dc5fd04fbc37d283be6a801, type: 2}
     Component: {fileID: 2606116538762812220}
+  aimController: {fileID: 6873018644516520340}
+  grabWeapon: {fileID: 889041914454027659}
 --- !u!95 &6526840573183376754
 Animator:
   serializedVersion: 7
@@ -4832,7 +4834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ik: {fileID: 382475153065772972}
   weight: 1
-  target: {fileID: 0}
+  target: {fileID: 3719635122899877146}
   targetSwitchSmoothTime: 0.3
   weightSmoothTime: 0.3
   smoothTurnTowardsTarget: 1

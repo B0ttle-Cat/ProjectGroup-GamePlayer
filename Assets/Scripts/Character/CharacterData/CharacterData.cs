@@ -12,22 +12,22 @@ namespace BC.Character
 {
 	public class CharacterData : DataObject, IFireunitData
 	{
-		[SerializeField]
-		[ValueDropdown("ShowTargetFactionName")]
-		private int factionIndex;
-		[SerializeField]
-		private int fireteamIndex;
-		[SerializeField]
-		private int fireunitIndex;
-
 		[SerializeField, HideLabel]
 		[FoldoutGroup("CharacterModel")]
 		private ResourcesKey characterKey;
 
-		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
-		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
-		public int TeamIndex { get => fireteamIndex; set => fireteamIndex = value; }
-		public int UnitIndex { get => fireunitIndex; set => fireunitIndex = value; }
+		private Vector3Int fireunitData;
+		private int factionIndex;
+		private int fireteamIndex;
+		private int fireunitIndex;
+
+		public Vector3Int MemberUniqueID => fireunitData;
+		[ShowInInspector, ValueDropdown("ShowTargetFactionName")]
+		public int FactionIndex { get => fireunitData.x; set => fireunitData.x = value; }
+		[ShowInInspector]
+		public int TeamIndex { get => fireunitData.y; set => fireunitData.y = value; }
+		[ShowInInspector]
+		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }
 
 		public ResourcesKey CharacterResourcesKey { get => characterKey; set => characterKey = value; }
 

@@ -1,5 +1,7 @@
 using BC.ODCC;
 
+using UnityEngine;
+
 namespace BC.OdccBase
 {
 	/// <summary>
@@ -7,7 +9,7 @@ namespace BC.OdccBase
 	/// </summary>
 	public interface IUnitInteractiveValue : IOdccComponent
 	{
-		public int MemberUniqueID { get => UnitData.MemberUniqueID; }
+		public Vector3Int MemberUniqueID { get => UnitData.MemberUniqueID; }
 		public int FactionIndex { get => UnitData.FactionIndex; }
 		public int TeamIndex { get => UnitData.TeamIndex; }
 		public int UnitIndex { get => UnitData.UnitIndex; }

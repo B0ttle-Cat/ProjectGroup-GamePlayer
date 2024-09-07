@@ -25,14 +25,13 @@ namespace BC.LowLevelAI
 
 		[Space]
 		[ShowInInspector, ReadOnly]
-
 		// Actor MemberUniqueID : IUnitInteractiveValue
-		private Dictionary<int, IUnitInteractiveValue> unitInteractiveValueList;
+		private Dictionary<Vector3Int, IUnitInteractiveValue> unitInteractiveValueList;
 		// Actor MemberUniqueID : Target MemberUniqueID : IUnitInteractiveValue
-		private Dictionary<int, Dictionary<int, UnitInteractiveInfo>> computingList;
+		private Dictionary<Vector3Int, Dictionary<Vector3Int, UnitInteractiveInfo>> computingList;
 
 		// Actor FactionID : Target MemberUniqueID 
-		private Dictionary<int, HashSet<int>> inRangeFactionVisual;
+		private Dictionary<int, HashSet<Vector3Int>> inRangeFactionVisual;
 
 		public override void BaseAwake()
 		{
@@ -47,9 +46,9 @@ namespace BC.LowLevelAI
 
 			afterValueListUpdate = new Queue<Action>();
 
-			unitInteractiveValueList = new Dictionary<int, IUnitInteractiveValue>();
+			unitInteractiveValueList = new Dictionary<Vector3Int, IUnitInteractiveValue>();
 
-			computingList = new Dictionary<int, Dictionary<int, UnitInteractiveInfo>>();
+			computingList = new Dictionary<Vector3Int, Dictionary<Vector3Int, UnitInteractiveInfo>>();
 
 			ThisContainer.NextGetData<DiplomacyData>((_data) => {
 				diplomacyData = _data;
@@ -113,6 +112,7 @@ namespace BC.LowLevelAI
 				afterValueListUpdate = null;
 			}
 		}
+
 		#region CreateChangeListEvent
 		private void InitValueList(IEnumerable<ObjectBehaviour> enumerable)
 		{
@@ -127,7 +127,7 @@ namespace BC.LowLevelAI
 			foreach(var actorItem in unitInteractiveValueList)
 			{
 				var actor = actorItem.Value;
-				var inList = new Dictionary<int, UnitInteractiveInfo>();
+				var inList = new Dictionary<Vector3Int, UnitInteractiveInfo>();
 				foreach(var targetItem in unitInteractiveValueList)
 				{
 					var target = targetItem.Value;
@@ -158,7 +158,7 @@ namespace BC.LowLevelAI
 				{
 					if(behaviour.ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var value))
 					{
-						int memberUniqueID = value.UnitData.MemberUniqueID;
+						Vector3Int memberUniqueID = value.UnitData.MemberUniqueID;
 						value.FindMembers = FindMembers;
 						AddValueComputingList(value);
 						unitInteractiveValueList.Add(memberUniqueID, value);
@@ -168,7 +168,7 @@ namespace BC.LowLevelAI
 				{
 					if(behaviour.ThisContainer.TryGetComponent<IUnitInteractiveValue>(out var value))
 					{
-						int memberUniqueID = value.UnitData.MemberUniqueID;
+						Vector3Int memberUniqueID = value.UnitData.MemberUniqueID;
 						RemoveValueComputingList(value);
 						unitInteractiveValueList.Remove(memberUniqueID);
 					}
@@ -177,8 +177,8 @@ namespace BC.LowLevelAI
 
 			void AddValueComputingList(IUnitInteractiveValue addValue)
 			{
-				int addUniqueID = addValue.UnitData.MemberUniqueID;
-				var addList = new Dictionary<int, UnitInteractiveInfo>();
+				Vector3Int addUniqueID = addValue.UnitData.MemberUniqueID;
+				var addList = new Dictionary<Vector3Int, UnitInteractiveInfo>();
 				foreach(var computingItem in computingList)
 				{
 					var actorUniqueID = computingItem.Key;
@@ -196,7 +196,7 @@ namespace BC.LowLevelAI
 			}
 			void RemoveValueComputingList(IUnitInteractiveValue deleteValue)
 			{
-				int deleteUniqueID = deleteValue.UnitData.MemberUniqueID;
+				Vector3Int deleteUniqueID = deleteValue.UnitData.MemberUniqueID;
 				computingList.Remove(deleteUniqueID);
 				foreach(var computingItem in computingList)
 				{

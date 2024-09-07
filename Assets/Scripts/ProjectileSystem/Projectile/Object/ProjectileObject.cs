@@ -3,7 +3,7 @@ using System;
 using BC.ODCC;
 using BC.OdccBase;
 
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
 	public class ProjectileObject : ObjectBehaviour, IProjectileObject
 	{

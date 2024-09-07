@@ -136,11 +136,11 @@ namespace BC.LowLevelAI
 
 					if(Compute(actor, target, out UnitInteractiveInfo unitInteractiveInfo))
 					{
-						int factionUniqueID = actor.MemberUniqueID/10000;
+						int factionUniqueID = actor.FactionIndex;
 
 						if(!inRangeFactionVisual.TryGetValue(factionUniqueID, out var list))
 						{
-							list = new HashSet<int>();
+							list = new HashSet<Vector3Int>();
 							inRangeFactionVisual.Add(factionUniqueID, list);
 						}
 						list.Add(target.MemberUniqueID);
@@ -215,11 +215,11 @@ namespace BC.LowLevelAI
 				var actor = actorItem.Value;
 				if(actor.StateValueData.IsRetire) continue;
 
-				int factionUniqueID = actor.MemberUniqueID/10000;
+				int factionUniqueID = actor.FactionIndex;
 				if(!inRangeFactionVisual.TryGetValue(factionUniqueID, out var inRangeFactionVisualList)) continue;
 
 				var inActionRangeTargetList = new List<UnitInteractiveInfo>();
-				foreach(int targetUniqueID in inRangeFactionVisualList)
+				foreach(Vector3Int targetUniqueID in inRangeFactionVisualList)
 				{
 					if(actor.MemberUniqueID == targetUniqueID) continue;
 					if(unitInteractiveValueList.TryGetValue(targetUniqueID, out var target))

@@ -10,7 +10,7 @@ namespace BC.OdccBase
 {
 	public interface IFireunitData : IMemberData, IFireteamData
 	{
-		public int MemberUniqueID { get; }
+		public Vector3Int MemberUniqueID { get; }
 		public int UnitIndex { get; set; }
 		public bool IsEqualsUnit(int faction, int team, int unit)
 		{
@@ -33,18 +33,18 @@ namespace BC.OdccBase
 	}
 	public class FireunitData : MemberData, IFireunitData
 	{
-		[SerializeField]
-		[ValueDropdown("ShowTargetFactionName")]
+		private Vector3Int fireunitData;
 		private int factionIndex;
-		[SerializeField]
 		private int fireteamIndex;
-		[SerializeField]
 		private int fireunitIndex;
 
-		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
-		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
-		public int TeamIndex { get => fireteamIndex; set => fireteamIndex = value; }
-		public int UnitIndex { get => fireunitIndex; set => fireunitIndex = value; }
+		public Vector3Int MemberUniqueID => fireunitData;
+		[ShowInInspector, ValueDropdown("ShowTargetFactionName")]
+		public int FactionIndex { get => fireunitData.x; set => fireunitData.x = value; }
+		[ShowInInspector]
+		public int TeamIndex { get => fireunitData.y; set => fireunitData.y = value; }
+		[ShowInInspector]
+		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }
 
 #if UNITY_EDITOR
 		public static IEnumerable ShowTargetFactionName()

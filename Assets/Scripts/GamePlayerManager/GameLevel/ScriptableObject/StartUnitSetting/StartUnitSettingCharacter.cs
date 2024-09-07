@@ -15,22 +15,23 @@ namespace BC.GamePlayerManager
 		[TableColumnWidth(100), SerializeField, ValueDropdown("ShowTargetCharacterResourcesCard", NumberOfItemsBeforeEnablingSearch = 0, DropdownWidth = 300)]
 		private CharacterResourcesCard characterCard;
 
+		private Vector3Int fireunitData;
+		private int factionIndex;
+		private int fireteamIndex;
+		private int fireunitIndex;
+
+		public Vector3Int MemberUniqueID => fireunitData;
 		[TableColumnWidth(50), SerializeField, ValueDropdown("ShowTargetFactionName")]
 		[GUIColor("DoubleColor")]
-		private int factionIndex;
+		public int FactionIndex { get => fireunitData.x; set => fireunitData.x = value; }
 
 		[TableColumnWidth(10), SerializeField, ValueDropdown("ShowTargetTeamIndex")]
 		[GUIColor("DoubleColor")]
-		private int teamIndex;
+		public int TeamIndex { get => fireunitData.y; set => fireunitData.y = value; }
 
 		[TableColumnWidth(10), SerializeField, ValueDropdown("ShowTargetUnitIndex")]
 		[GUIColor("DoubleColor")]
-		private int unitIndex;
-
-		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
-		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
-		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
-		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
+		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }
 
 		public ResourcesKey CharacterResourcesKey { get => characterCard == null ? default : characterCard.CharacterResourcesKey; }
 		public ResourcesKey WeaponResourcesKey { get => characterCard == null ? default : characterCard.WeaponResourcesKey; }

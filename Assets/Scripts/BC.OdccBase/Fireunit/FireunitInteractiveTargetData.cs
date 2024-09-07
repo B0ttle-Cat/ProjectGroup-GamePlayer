@@ -2,11 +2,13 @@ using System.Collections.Generic;
 
 using BC.ODCC;
 
+using UnityEngine;
+
 namespace BC.OdccBase
 {
 	public class FireunitInteractiveTargetData : DataObject
 	{
-		private HashSet<int> hashTargetIDList;
+		private HashSet<Vector3Int> hashTargetIDList;
 		public UnitInteractiveInfo[] AllTargetList = new UnitInteractiveInfo[0];
 
 		public UnitInteractiveInfo[] EnemyTargetList = new UnitInteractiveInfo[0];
@@ -16,7 +18,7 @@ namespace BC.OdccBase
 
 		public void Clear()
 		{
-			hashTargetIDList = new HashSet<int>();
+			hashTargetIDList = new HashSet<Vector3Int>();
 			AllTargetList = new UnitInteractiveInfo[0];
 
 			EnemyTargetList = new UnitInteractiveInfo[0];
@@ -28,7 +30,7 @@ namespace BC.OdccBase
 		{
 			SortBy(ref updateTargetList);
 
-			HashSet<int> existingIds = new HashSet<int>();
+			HashSet<Vector3Int> existingIds = new HashSet<Vector3Int>();
 			foreach(var item in updateTargetList)
 			{
 				existingIds.Add(item.Target.UnitData.MemberUniqueID);

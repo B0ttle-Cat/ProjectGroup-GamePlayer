@@ -11,7 +11,7 @@ namespace BC.GamePlayerManager
 {
 	public class SyncCharacterWithUnit : ComponentBehaviour
 	{
-		private Dictionary<int, CharacterObject> groupInUnit;
+		private Dictionary<Vector3Int, CharacterObject> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
 		[SerializeField]
@@ -26,7 +26,7 @@ namespace BC.GamePlayerManager
 		{
 			base.BaseAwake();
 
-			groupInUnit = new Dictionary<int, CharacterObject>();
+			groupInUnit = new Dictionary<Vector3Int, CharacterObject>();
 
 			unitQuerySystem = QuerySystemBuilder.CreateQuery()
 			.WithAll<FireunitObject, FireunitData, IUnitInteractiveValue>().Build();
@@ -101,7 +101,7 @@ namespace BC.GamePlayerManager
 		}
 		private void AddedUnit(CharacterObject character, CharacterData data)
 		{
-			int key = data.MemberUniqueID;
+			Vector3Int key = data.MemberUniqueID;
 
 			if(!groupInUnit.ContainsKey(key))
 			{
@@ -110,7 +110,7 @@ namespace BC.GamePlayerManager
 		}
 		private void RemoveUnit(CharacterObject character, CharacterData data)
 		{
-			int key = data.MemberUniqueID;
+			Vector3Int key = data.MemberUniqueID;
 
 			if(groupInUnit.ContainsKey(key))
 			{
@@ -119,7 +119,7 @@ namespace BC.GamePlayerManager
 		}
 		private void OnSyncUnitToCharacter(OdccQueryLooper.LoopInfo loopInfo, FireunitObject fireunitObject, FireunitData fireunitData, IUnitInteractiveValue unitInteractiveValue)
 		{
-			int thisUnitKey = fireunitData.MemberUniqueID;
+			Vector3Int thisUnitKey = fireunitData.MemberUniqueID;
 
 			if(!groupInUnit.TryGetValue(thisUnitKey, out var character))
 			{

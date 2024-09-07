@@ -12,29 +12,53 @@ namespace BC.GamePlayerManager
 	[Serializable]
 	public struct StartUnitSettingPosition : IFireunitData
 	{
+		private Vector3Int fireunitData;
+		private int factionIndex;
+		private int fireteamIndex;
+		private int fireunitIndex;
+
+		public Vector3Int MemberUniqueID => fireunitData;
 		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetFactionName")]
 		[HideLabel, SuffixLabel("faction", Overlay = true)]
 		[GUIColor("DoubleColor")]
-		private int factionIndex;
+		public int FactionIndex { get => fireunitData.x; set => fireunitData.x = value; }
 		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetTeamIndex")]
 		[HideLabel, SuffixLabel("team", Overlay = true)]
 		[GUIColor("DoubleColor")]
-		private int teamIndex;
+		public int TeamIndex { get => fireunitData.y; set => fireunitData.y = value; }
 		[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetUnitIndex")]
 		[HideLabel, SuffixLabel("unit", Overlay = true)]
 		[GUIColor("DoubleColor")]
-		private int unitIndex;
-
+		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }
 
 		[HorizontalGroup("ITransformPose"), SerializeField]
 		private Vector3 position;
 		[HorizontalGroup("ITransformPose"), SerializeField]
 		private Vector3 rotation;
 
-		public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
-		public int UnitIndex { get => unitIndex; set => unitIndex = value; }
-		public int TeamIndex { get => teamIndex; set => teamIndex = value; }
-		public int FactionIndex { get => factionIndex; set => factionIndex = value; }
+		//[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetFactionName")]
+		//[HideLabel, SuffixLabel("faction", Overlay = true)]
+		//[GUIColor("DoubleColor")]
+		//private int factionIndex;
+		//[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetTeamIndex")]
+		//[HideLabel, SuffixLabel("team", Overlay = true)]
+		//[GUIColor("DoubleColor")]
+		//private int teamIndex;
+		//[HorizontalGroup, SerializeField, ValueDropdown("ShowTargetUnitIndex")]
+		//[HideLabel, SuffixLabel("unit", Overlay = true)]
+		//[GUIColor("DoubleColor")]
+		//private int unitIndex;
+		//
+		//
+		//[HorizontalGroup("ITransformPose"), SerializeField]
+		//private Vector3 position;
+		//[HorizontalGroup("ITransformPose"), SerializeField]
+		//private Vector3 rotation;
+		//
+		//public int MemberUniqueID { get => 1000000 + (FactionIndex * 010000) + (TeamIndex * 000100) + (UnitIndex); }
+		//public int UnitIndex { get => unitIndex; set => unitIndex = value; }
+		//public int TeamIndex { get => teamIndex; set => teamIndex = value; }
+		//public int FactionIndex { get => factionIndex; set => factionIndex = value; }
 
 		public void Dispose()
 		{

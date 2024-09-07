@@ -1,6 +1,6 @@
 using BC.ODCC;
 
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
 	public abstract class ProjectileBallisticsData : DataObject
 	{

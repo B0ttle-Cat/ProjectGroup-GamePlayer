@@ -6,7 +6,7 @@ using BC.OdccBase;
 
 using UnityEngine;
 
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
 	public abstract class ProjectileBallistics : ComponentBehaviour, IProjectileBallistics
 	{
@@ -29,21 +29,30 @@ namespace BC.Projectile
 
 		public override void BaseUpdate()
 		{
+			if(ProjectileObject is null) return;
 			UpdateBallisticTrajectory(OnHit);
 		}
+		public override void BaseLateUpdate()
+		{
+			if(ProjectileObject is null) return;
+			if(CheckLateUpdateDestroy())
+			{
+				ProjectileObject.DestroyThis(true);
+			}
+		}
 		protected abstract void UpdateBallisticTrajectory(Action onHit);
-
+		protected abstract bool CheckLateUpdateDestroy();
 		// IProjectileHitListener
 		protected void OnHit()
 		{
-			Hit();
-		}
-		private void Hit()
-		{
 			CreateHitReport(out ProjectileHitReport hitReport);
-
-			EventManager.Call<IProjectileHitListener>(call => call.OnHit(ProjectileObject, hitReport));
+			EventManager.Call<IProjectileHitListener>(call => call.OnHit(ProjectileObject, in hitReport));
+			if(CheckHitDestroy(hitReport))
+			{
+				ProjectileObject.DestroyThis(true);
+			}
 		}
 		protected abstract bool CreateHitReport(out ProjectileHitReport hitReport);
+		protected abstract bool CheckHitDestroy(in ProjectileHitReport hitReport);
 	}
 }

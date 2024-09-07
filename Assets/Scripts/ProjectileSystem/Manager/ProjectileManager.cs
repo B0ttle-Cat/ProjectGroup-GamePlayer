@@ -5,9 +5,9 @@ using BC.OdccBase;
 
 using UnityEngine;
 
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
-	public class ProjectileSystem : SingletonObjectBehaviour<ProjectileSystem>, IProjectileSystem, IProjectileHitListener
+	public class ProjectileManager : SingletonObjectBehaviour<ProjectileManager>, IProjectileSystem
 	{
 		protected override void CreatedSingleton()
 		{
@@ -24,7 +24,7 @@ namespace BC.Projectile
 			if(projectilePrefab == null) return;
 			if(projectilePrefab is not ProjectileObject)
 			{
-				Debug.LogError("ProjectileSystem.OnCreateProjectile: projectilePrefab does not have IProjectileObject component.");
+				Debug.LogError("ProjectileManager.OnCreateProjectile: projectilePrefab does not have IProjectileObject component.");
 				return;
 			}
 			if(projectilePrefab.gameObject.activeSelf)
@@ -54,14 +54,6 @@ namespace BC.Projectile
 			iProjectileObject.Actor = actor;
 			iProjectileObject.Target = target;
 			iProjectileObject.Ballistics.OnShot(onFirePose);
-		}
-
-
-		void IProjectileHitListener.OnHit(IProjectileObject projectileObject, ProjectileHitReport hitReport)
-		{
-			// TODO:: 이제 여기서 Hit 된 캐릭터를 찾아서 피해를 입 혀야 함.
-
-			projectileObject.DestroyThis(true);
 		}
 	}
 }

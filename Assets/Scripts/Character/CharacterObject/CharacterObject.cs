@@ -1,9 +1,8 @@
-using BC.Base;
 using BC.ODCC;
 
 namespace BC.Character
 {
-	public class CharacterObject : ObjectBehaviour, IShotterProjectile, ITargetProjectile
+	public class CharacterObject : ObjectBehaviour
 	{
 #if UNITY_EDITOR
 		public override void BaseReset() { }

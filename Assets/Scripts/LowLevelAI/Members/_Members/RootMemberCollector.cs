@@ -6,7 +6,7 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class RootMemberCollector : MemberCollectorComponent<FactionObject>
+	public class RootMemberCollector : MemberCollectorComponent<FactionObject>, IFindCollectedMembers
 	{
 		public override void BaseAwake_MemberCollector(ref QuerySystem memberCollector)
 		{
@@ -65,6 +65,17 @@ namespace BC.LowLevelAI
 
 			fireunitObject = findObject;
 			return fireunitObject != null;
+		}
+
+		public bool TryFindFireunit(int factionIndex, int fireteamIndex, int fireunitIndex, out IUnitInteractiveValue fireunitValue)
+		{
+			fireunitValue = null;
+
+			if(!TryFindFireteam(factionIndex, fireteamIndex, out var teamObject)) return false;
+			if(!teamObject.ThisContainer.TryGetComponent<FireteamMemberCollector>(out var findMember)) return false;
+			if(!findMember.TryFindFireunit(fireunitIndex, out var findObject)) return false;
+			if(!findObject.TryGetComponent<IUnitInteractiveValue>(out fireunitValue)) return false;
+			return fireunitValue != null;
 		}
 	}
 }

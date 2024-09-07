@@ -4,7 +4,7 @@ using BC.OdccBase;
 
 using UnityEngine;
 
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
 	public class TargetingBallistics : ProjectileBallistics
 	{
@@ -69,18 +69,22 @@ namespace BC.Projectile
 
 
 			projectileTime -= Time.deltaTime;
-			float time = 1 - (projectileTime / maxLifeTime);
-			if(time >= 1f)
+			float lerpProgress = 1f - (projectileTime / maxLifeTime);
+			if(lerpProgress <= 1f)
 			{
-				time = 1f;
-				currentPos = Vector3.Lerp(startPos, targetPos, time);
+				lerpProgress = 1f;
+				currentPos = Vector3.Lerp(startPos, targetPos, lerpProgress);
 				onHit?.Invoke();
 				enabled = false;
 			}
 			else
 			{
-				currentPos = Vector3.Lerp(startPos, targetPos, time);
+				currentPos = Vector3.Lerp(startPos, targetPos, lerpProgress);
 			}
+		}
+		protected override bool CheckLateUpdateDestroy()
+		{
+			return projectileTime < -0.5;
 		}
 
 		protected override bool CreateHitReport(out ProjectileHitReport hitReport)
@@ -90,26 +94,31 @@ namespace BC.Projectile
 
 			if(targetValue.ThisObject == null)
 			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_타겟을_잃어버림);
+				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_목표를_잃어버림);
 			}
 			else if(targetValue.StateValueData.IsRetire)
 			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_타겟이_이미_무력화됨);
+				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_목표가_이미_무력화됨);
 			}
 			else if(actorAgent.ThisObject == null)
 			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_발주를_일어버림);
+				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_사수를_일어버림);
 			}
 			else if(actorValue.StateValueData.IsRetire)
 			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_발주가_이미_무력화됨);
+				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_사수가_이미_무력화됨);
 			}
 			else
 			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Hit_일반_공격, new int[1] {
+				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Hit_일반_공격, new Vector3Int[1] {
 					target.value.MemberUniqueID
 				});
 			}
+			return true;
+		}
+
+		protected override bool CheckHitDestroy(in ProjectileHitReport hitReport)
+		{
 			return true;
 		}
 	}

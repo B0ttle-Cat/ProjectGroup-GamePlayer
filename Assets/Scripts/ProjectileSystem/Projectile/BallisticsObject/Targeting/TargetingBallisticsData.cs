@@ -1,4 +1,4 @@
-namespace BC.Projectile
+namespace BC.ProjectileSystem
 {
 	public class TargetingBallisticsData : ProjectileBallisticsData
 	{

@@ -5,7 +5,7 @@ using BC.ODCC;
 namespace BC.OdccBase
 {
 
-	public interface IUnitInteractiveInterface : IOdccComponent
+	public partial interface IUnitInteractiveInterface : IOdccComponent
 	{
 		void BuffTimeUpdate();
 		void UnitHealthUpdate();

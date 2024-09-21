@@ -92,28 +92,9 @@ namespace BC.ProjectileSystem
 			(ICharacterAgent actorAgent, IUnitInteractiveValue actorValue) = actor;
 			(ICharacterAgent targetAgent, IUnitInteractiveValue targetValue) = target;
 
-			if(targetValue.ThisObject == null)
-			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_목표를_잃어버림);
-			}
-			else if(targetValue.StateValueData.IsRetire)
-			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_목표가_이미_무력화됨);
-			}
-			else if(actorAgent.ThisObject == null)
-			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_사수를_일어버림);
-			}
-			else if(actorValue.StateValueData.IsRetire)
-			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Miss_사수가_이미_무력화됨);
-			}
-			else
-			{
-				hitReport = new ProjectileHitReport(actor, ProjectileHitReport.HitType.Hit_일반_공격, new Vector3Int[1] {
-					target.value.MemberUniqueID
-				});
-			}
+			hitReport = new ProjectileHitReport(actor, ProjectileHitReport.ProjectileType.Hit_일반_공격, ProjectileHitReport.SubProjectileType.미분류, new Vector3Int[1] {
+				target.value.MemberUniqueID
+			});
 			return true;
 		}
 

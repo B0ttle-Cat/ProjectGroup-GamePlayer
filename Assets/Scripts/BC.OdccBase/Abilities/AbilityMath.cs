@@ -5,19 +5,15 @@ namespace BC.OdccBase
 	public static class AbilityMath
 	{
 		[Serializable]
-		public struct AbilityRange
+		public struct AbilityRange<T>
 		{
-			public float Start;
-			public float Ended;
-			public float Min;
-			public float Max;
+			public T Start;
+			public T Ended;
 		};
 		[Serializable]
-		public struct AbilityValue
+		public struct AbilityValue<T>
 		{
-			public float Value;
-			public float Min;
-			public float Max;
+			public T Value;
 		};
 	}
 }

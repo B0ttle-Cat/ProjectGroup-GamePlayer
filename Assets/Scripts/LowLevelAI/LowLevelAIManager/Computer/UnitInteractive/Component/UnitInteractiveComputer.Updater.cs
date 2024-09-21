@@ -332,7 +332,7 @@ namespace BC.LowLevelAI
 
 		/// <summary><code>
 		/// 유닛의 전투 상태를 업데이트
-		/// <see cref="OdccBase.ITacticalCombatStateValue.TacticalCombatStateType"/>
+		/// <see cref="OdccBase.IUnitStateValue.TacticalCombatStateType"/>
 		/// </code></summary>
 		/// <returns></returns>
 		private async Awaitable TacticalCombatStateUpdate()

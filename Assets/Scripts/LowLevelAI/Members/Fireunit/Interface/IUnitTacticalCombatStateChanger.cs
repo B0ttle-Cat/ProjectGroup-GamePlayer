@@ -5,8 +5,8 @@ namespace BC.LowLevelAI
 {
 	public interface IUnitTacticalCombatStateChanger : IOdccComponent
 	{
-		bool ShouldAttack(ITacticalCombatStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo);
-		bool ShouldMove(ITacticalCombatStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo);
-		IUnitTacticalCombatStateUpdate ChangeNextState(ITacticalCombatStateValue.TacticalCombatStateType nextTacticalState);
+		bool ShouldAttack(IUnitStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo);
+		bool ShouldMove(IUnitStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo);
+		IUnitTacticalCombatStateUpdate ChangeNextState(IUnitStateValue.TacticalCombatStateType nextTacticalState);
 	}
 }

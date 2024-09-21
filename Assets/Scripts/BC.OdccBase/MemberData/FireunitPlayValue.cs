@@ -4,93 +4,84 @@ using static BC.OdccBase.AbilityMath;
 
 namespace BC.OdccBase
 {
-	public interface IPlayValue : IOdccData
+	public interface IUnitPlayValue : IOdccData
 	{
-		public IFireunitData UnitData { get; set; }
-	}
+		public AbilityValue<float> VisualRange { get; set; }
+		public AbilityRange<float> ActionRange { get; set; }
+		public AbilityValue<float> AttackRange { get; set; }
+		public AbilityValue<int> HealthPoint { get; set; }
+		public AbilityValue<float> OffenseDamagePoint { get; set; }
+		public AbilityValue<float> OffenseRandomRate { get; set; }
 
-	public interface IVisualRangePlayValue : IOdccData
-	{
-		public AbilityValue VisualRange { get; set; }
-	}
-	public interface IActionRangePlayValue : IOdccData
-	{
-		public AbilityRange ActionRange { get; set; }
-	}
-	public interface IAttackRangePlayValue : IOdccData
-	{
-		public AbilityValue AttackRange { get; set; }
-	}
+		public AbilityValue<float> CriticalProbabilityPoint { get; set; }
+		public AbilityValue<float> CriticalAttackMultiplier { get; set; }
+		public AbilityValue<float> Anti_CriticalProbabilityPoint { get; set; }
+		public AbilityValue<float> Anti_CriticalAttackMultiplier { get; set; }
 
-	public interface IHealthPlayValue : IOdccData
-	{
-		public AbilityValue HealthPoint { get; set; }
-	}
-	public interface IAttackPlayValue : IOdccData
-	{
-		public AbilityValue AttackPoint { get; set; }
-	}
-	public interface IDefensePlayValue : IOdccData
-	{
-		public AbilityValue DefensePoint { get; set; }
-	}
-	public interface IAccuracyPlayValue : IOdccData
-	{
-		public AbilityValue AccuracyPoint { get; set; }
-	}
-	public interface IEvasionPlayValue : IOdccData
-	{
-		public AbilityValue EvasionPoint { get; set; }
-	}
-	public interface IRecoveryPlayValue : IOdccData
-	{
-		public AbilityValue RecoveryPoint { get; set; }
-	}
+		public AbilityValue<float> DefenseDamagePoint { get; set; }
+		public AbilityValue<float> DefenseRandomRate { get; set; }
 
-	public interface IUnitPlayValue : IPlayValue
-		, IVisualRangePlayValue, IActionRangePlayValue, IAttackRangePlayValue
-		, IHealthPlayValue, IAttackPlayValue, IDefensePlayValue, IAccuracyPlayValue, IEvasionPlayValue, IRecoveryPlayValue
-	{ }
+		public AbilityValue<float> AccuracyPoint { get; set; }
+		public AbilityValue<float> Anti_AccuracyPoint { get; set; }
+		public AbilityValue<float> RecoveryPoint { get; set; }
+	}
 
 	public class FireunitPlayValue : DataObject, IUnitPlayValue
 	{
-		#region UnitData
-		private IFireunitData unitData;
-		#endregion
-		#region Range
-		private AbilityValue visualRange;
-		private AbilityRange actionRange;
-		private AbilityValue attackRange;
-		#endregion
-		#region Point
-		private AbilityValue healthPoint;
-		private AbilityValue attackPoint;
-		private AbilityValue defensePoint;
-		private AbilityValue accuracyPoint;
-		private AbilityValue evasionPoint;
-		private AbilityValue recoveryPoint;
-		#endregion
-		#region UnitData
-		public IFireunitData UnitData { get => unitData; set => unitData = value; }
-		#endregion
-		#region Range
-		public AbilityValue VisualRange { get => visualRange; set => visualRange = value; }
-		public AbilityRange ActionRange { get => actionRange; set => actionRange = value; }
-		public AbilityValue AttackRange { get => attackRange; set => attackRange=value; }
-		#endregion
-		#region Point
-		public AbilityValue HealthPoint { get => healthPoint; set => healthPoint = value; }
-		public AbilityValue AttackPoint { get => attackPoint; set => attackPoint = value; }
-		public AbilityValue DefensePoint { get => defensePoint; set => defensePoint = value; }
-		public AbilityValue AccuracyPoint { get => accuracyPoint; set => accuracyPoint = value; }
-		public AbilityValue EvasionPoint { get => evasionPoint; set => evasionPoint = value; }
-		public AbilityValue RecoveryPoint { get => recoveryPoint; set => recoveryPoint = value; }
-		#endregion
-
-
 		protected override void Disposing()
 		{
-			unitData = null;
 		}
+
+		#region Range
+		private AbilityValue<float> visualRange;
+		private AbilityRange<float> actionRange;
+		private AbilityValue<float> attackRange;
+		#endregion
+		#region Point
+		private AbilityValue<int> healthPoint;
+		private AbilityValue<float> offenseDamagePoint;
+		private AbilityValue<float> offenseRandomRate;
+		private AbilityValue<float> defenseDamagePoint;
+		private AbilityValue<float> defenseRandomRate;
+		private AbilityValue<float> accuracyPoint;
+		private AbilityValue<float> anti_accuracyPoint;
+		private AbilityValue<float> recoveryPoint;
+
+		private AbilityValue<float> criticalPoint;
+		private AbilityValue<float> criticalAttackMultiplier;
+		private AbilityValue<float> anti_criticalProbabilityPoint;
+		private AbilityValue<float> anti_criticalAttackMultiplier;
+
+		#region ConstValue
+		public const float MinVisualRange = 2f;
+		public const float MaxVisualRange = 10f;
+		public const float MinActionRange = 10f;
+		public const float MaxActionRange = 15f;
+		public const float MinAttackRange = 2f;
+		public const float MaxAttackRange = 20f;
+		#endregion
+
+		#endregion
+
+		#region Range
+		public AbilityValue<float> VisualRange { get => visualRange; set => visualRange = value; }
+		public AbilityRange<float> ActionRange { get => actionRange; set => actionRange = value; }
+		public AbilityValue<float> AttackRange { get => attackRange; set => attackRange=value; }
+		#endregion
+		#region Point
+		public AbilityValue<int> HealthPoint { get => healthPoint; set => healthPoint = value; }
+		public AbilityValue<float> OffenseDamagePoint { get => offenseDamagePoint; set => offenseDamagePoint = value; }
+		public AbilityValue<float> OffenseRandomRate { get => offenseRandomRate; set => offenseRandomRate=value; }
+		public AbilityValue<float> DefenseDamagePoint { get => defenseDamagePoint; set => defenseDamagePoint = value; }
+		public AbilityValue<float> DefenseRandomRate { get => defenseRandomRate; set => defenseRandomRate=value; }
+		public AbilityValue<float> AccuracyPoint { get => accuracyPoint; set => accuracyPoint = value; }
+		public AbilityValue<float> Anti_AccuracyPoint { get => anti_accuracyPoint; set => anti_accuracyPoint = value; }
+		public AbilityValue<float> RecoveryPoint { get => recoveryPoint; set => recoveryPoint = value; }
+		public AbilityValue<float> CriticalProbabilityPoint { get => criticalPoint; set => criticalPoint=value; }
+		public AbilityValue<float> CriticalAttackMultiplier { get => criticalAttackMultiplier; set => criticalAttackMultiplier=value; }
+		public AbilityValue<float> Anti_CriticalProbabilityPoint { get => anti_criticalProbabilityPoint; set => anti_criticalProbabilityPoint=value; }
+		public AbilityValue<float> Anti_CriticalAttackMultiplier { get => anti_criticalAttackMultiplier; set => anti_criticalAttackMultiplier=value; }
+		#endregion
+
 	}
 }

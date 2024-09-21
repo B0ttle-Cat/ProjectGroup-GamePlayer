@@ -145,11 +145,11 @@ namespace BC.GamePlayerManager
 			void WalkAnimation()
 			{
 				IUnitIMovementAgent movementAgent = fireunitObject.ThisContainer.GetComponent<IUnitIMovementAgent>();
-				ITacticalCombatStateValue.TacticalCombatStateType tacticalCombatState = unitInteractiveValue.StateValueData.TacticalCombatState;
+				IUnitStateValue.TacticalCombatStateType tacticalCombatState = unitInteractiveValue.StateValueData.TacticalCombatState;
 				if(movementAgent != null && movementAgent.NavMeshAgent != null)
 				{
 					float moveSpeed = movementAgent.NavMeshAgent.velocity.magnitude;
-					bool aiming = movementAgent.NavMeshAgent.isStopped && tacticalCombatState == ITacticalCombatStateValue.TacticalCombatStateType.Attack;
+					bool aiming = movementAgent.NavMeshAgent.isStopped && tacticalCombatState == IUnitStateValue.TacticalCombatStateType.Attack;
 					characterAgent.Animation.OnUpdateMoveSpeed(moveSpeed);
 				}
 			}

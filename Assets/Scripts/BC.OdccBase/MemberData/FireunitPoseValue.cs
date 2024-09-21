@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IUnitPoseValue : IPlayValue
+	public interface IUnitPoseValue : IOdccData
 	{
 		public Vector3 ThisUnitPosition { get; set; }
 		public float ThisUnitRadius { get; set; }
@@ -15,13 +15,10 @@ namespace BC.OdccBase
 
 	public class FireunitPoseValue : DataObject, IUnitPoseValue
 	{
-		private IFireunitData unitData;
 		private float thisUnitRadius;
 		private Vector3 thisUnitPosition;
 		private Vector3 thisUnitLookAt;
 		private Vector3 thisUnitLookUP;
-		public IFireunitData UnitData { get => unitData; set => unitData=value; }
-
 		public float ThisUnitRadius { get => thisUnitRadius; set => thisUnitRadius=value; }
 		public Vector3 ThisUnitPosition { get => thisUnitPosition; set => thisUnitPosition=value; }
 		public Vector3 ThisUnitLookAt { get => thisUnitLookAt; set => thisUnitLookAt=value; }
@@ -30,7 +27,6 @@ namespace BC.OdccBase
 
 		protected override void Disposing()
 		{
-			unitData = null;
 		}
 	}
 }

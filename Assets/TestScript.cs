@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,7 +32,7 @@ public class TestScript : MonoBehaviour
 	{
 		listA = new List<Item>();
 		listB = new List<Item>();
-		for (int i = 0; i < listCount; i++)
+		for(int i = 0 ; i < listCount ; i++)
 		{
 			listA.Add(new Item(i));
 			listB.Add(new Item(i));
@@ -40,10 +41,10 @@ public class TestScript : MonoBehaviour
 		ShuffleList(listA);
 		ShuffleList(listB);
 
-		if (usingCash)
+		if(usingCash)
 		{
 			cashHashSet = new HashSet<int>();
-			foreach (var item in listB)
+			foreach(var item in listB)
 			{
 				cashHashSet.Add(item.ID);
 			}
@@ -52,7 +53,7 @@ public class TestScript : MonoBehaviour
 			BitArray = new BitArray(listB.Count);
 
 			// 리스트2의 ID를 비트 벡터에 설정
-			foreach (var item in listB)
+			foreach(var item in listB)
 			{
 				BitArray.Set(item.ID, true);
 			}
@@ -93,14 +94,14 @@ public class TestScript : MonoBehaviour
 		HashSet<int> set1 = new HashSet<int>();
 		HashSet<int> set2 = usingCash ? cashHashSet : new HashSet<int>();
 
-		foreach (var item in list1)
+		foreach(var item in list1)
 		{
 			set1.Add(item.ID);
 		}
 
-		if (!usingCash)
+		if(!usingCash)
 		{
-			foreach (var item in list2)
+			foreach(var item in list2)
 			{
 				set2.Add(item.ID);
 			}
@@ -121,7 +122,7 @@ public class TestScript : MonoBehaviour
 	BigInteger ConvertToBigInteger(List<Item> list)
 	{
 		BigInteger result = 0;
-		foreach (var item in list)
+		foreach(var item in list)
 		{
 			result |= 1L << item.ID;
 		}
@@ -134,14 +135,14 @@ public class TestScript : MonoBehaviour
 		BitArray bitArray1 = new BitArray(list1.Count);
 		BitArray bitArray2 = usingCash ? this.BitArray : new BitArray(list2.Count);
 
-		foreach (var item in list1)
+		foreach(var item in list1)
 		{
 			bitArray1.Set(item.ID, true);
 		}
 
-		if (!usingCash)
+		if(!usingCash)
 		{
-			foreach (var item in list2)
+			foreach(var item in list2)
 			{
 				bitArray2.Set(item.ID, true);
 			}
@@ -164,9 +165,9 @@ public class TestScript : MonoBehaviour
 
 		// 결과 확인
 		bool areEqual = true;
-		for (int i = 0; i < comparison.Length; i++)
+		for(int i = 0 ; i < comparison.Length ; i++)
 		{
-			if (comparison[i])
+			if(comparison[i])
 			{
 				areEqual = false;
 				break;
@@ -179,7 +180,7 @@ public class TestScript : MonoBehaviour
 	{
 		System.Random random = new System.Random();
 		int n = list.Count;
-		for (int i = 0; i < n; i++)
+		for(int i = 0 ; i < n ; i++)
 		{
 			int j = random.Next(i, n); // i부터 n-1까지의 랜덤 인덱스를 선택
 			T temp = list[i];
@@ -188,3 +189,4 @@ public class TestScript : MonoBehaviour
 		}
 	}
 }
+#endif

@@ -42,14 +42,16 @@ namespace BC.ProjectileSystem
 		}
 		protected abstract void UpdateBallisticTrajectory(Action onHit);
 		protected abstract bool CheckLateUpdateDestroy();
-		// IProjectileHitListener
+
 		protected void OnHit()
 		{
-			CreateHitReport(out ProjectileHitReport hitReport);
-			EventManager.Call<IProjectileHitListener>(call => call.OnHit(ProjectileObject, in hitReport));
-			if(CheckHitDestroy(hitReport))
+			if(CreateHitReport(out ProjectileHitReport hitReport))
 			{
-				ProjectileObject.DestroyThis(true);
+				EventManager.Call<IProjectileHitListener>(call => call.OnHit(ProjectileObject, in hitReport));
+				if(CheckHitDestroy(hitReport))
+				{
+					ProjectileObject.DestroyThis(true);
+				}
 			}
 		}
 		protected abstract bool CreateHitReport(out ProjectileHitReport hitReport);

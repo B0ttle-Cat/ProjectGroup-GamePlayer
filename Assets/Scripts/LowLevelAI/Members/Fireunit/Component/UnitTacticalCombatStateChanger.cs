@@ -5,22 +5,22 @@ namespace BC.LowLevelAI
 {
 	public class UnitTacticalCombatStateChanger : ComponentBehaviour, IUnitTacticalCombatStateChanger
 	{
-		bool IUnitTacticalCombatStateChanger.ShouldAttack(ITacticalCombatStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo)
+		bool IUnitTacticalCombatStateChanger.ShouldAttack(IUnitStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo)
 		{
 			return targetInfo.IsInActionRange && targetInfo.IsInAttackRange;
 		}
 
-		bool IUnitTacticalCombatStateChanger.ShouldMove(ITacticalCombatStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo)
+		bool IUnitTacticalCombatStateChanger.ShouldMove(IUnitStateValue.TacticalCombatStateType prevState, UnitInteractiveInfo targetInfo)
 		{
 			return targetInfo.IsInActionRange && !targetInfo.IsInAttackRange;
 		}
 
-		IUnitTacticalCombatStateUpdate IUnitTacticalCombatStateChanger.ChangeNextState(ITacticalCombatStateValue.TacticalCombatStateType nextTacticalState)
+		IUnitTacticalCombatStateUpdate IUnitTacticalCombatStateChanger.ChangeNextState(IUnitStateValue.TacticalCombatStateType nextTacticalState)
 		{
 			return nextTacticalState switch {
-				ITacticalCombatStateValue.TacticalCombatStateType.Attack => ThisContainer.AddComponent<UnitAttackCombatState>(),
-				ITacticalCombatStateValue.TacticalCombatStateType.Move => ThisContainer.AddComponent<UnitMoveCombatState>(),
-				ITacticalCombatStateValue.TacticalCombatStateType.None => ThisContainer.AddComponent<UnitNoneCombatState>(),
+				IUnitStateValue.TacticalCombatStateType.Attack => ThisContainer.AddComponent<UnitAttackCombatState>(),
+				IUnitStateValue.TacticalCombatStateType.Move => ThisContainer.AddComponent<UnitMoveCombatState>(),
+				IUnitStateValue.TacticalCombatStateType.None => ThisContainer.AddComponent<UnitNoneCombatState>(),
 				_ => ThisContainer.AddComponent<UnitNoneCombatState>(),
 			};
 		}

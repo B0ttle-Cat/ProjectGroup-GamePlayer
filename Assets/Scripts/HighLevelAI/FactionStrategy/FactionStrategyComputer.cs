@@ -43,13 +43,6 @@ namespace BC.HighLevelAI
 		{
 			base.BaseEnable();
 
-			//factionStrategyAICollector.CreateLooper(nameof(FactionStrategyComputer))
-			//	.SetBreakFunction(() => IsWaitPathPointComputing)
-			//	.Action(StartAction)
-			//	.Foreach<FactionStrategyAI>(UpdateComputer)
-			//	.Action(EndedAction)
-			//	.Action(WaitNextUpdate)
-			//	;
 
 			allStrategicPointList = strategicPointCollector.GetQueryItems().Select(item => item.ThisContainer.GetComponent<StrategicPoint>());
 		}

@@ -4,6 +4,6 @@ namespace BC.OdccBase
 {
 	public interface ITakeRecovery : IOdccComponent
 	{
-		void OnTakeRecovery(int value);
+		void OnTakeRecovery(in int value);
 	}
 }

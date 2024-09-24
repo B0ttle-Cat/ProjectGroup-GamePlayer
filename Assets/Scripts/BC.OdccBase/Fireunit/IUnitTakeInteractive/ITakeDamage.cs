@@ -4,7 +4,7 @@ namespace BC.OdccBase
 {
 	public interface ITakeDamage : IOdccComponent
 	{
-		void OnTakeDamage(int value);
+		void OnTakeDamage(in int value);
 		void OnMissAttack();
 		void OnBlockAttack();
 	}

@@ -4,6 +4,6 @@ namespace BC.OdccBase
 {
 	public interface IDamageReportListener : IOdccObject
 	{
-		public void OnBroadcastDamageReport(DamageReport damageReport);
+		public void OnBroadcastDamageReport(in DamageReport damageReport);
 	}
 }

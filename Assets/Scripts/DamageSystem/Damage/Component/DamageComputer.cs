@@ -52,11 +52,15 @@ namespace BC.DamageSystem
 		}
 		protected virtual async void DamageCompute(IUnitInteractiveValue actor, IUnitInteractiveValue target, int targetIndex, int targetCount)
 		{
+			// CreateDamageReport를 여러번 해서 매 타수별 계산을 다시하거나
+			// 계산은 한번 하지만 OnBroadcastDamageReport 를 나누어 보내면서 타수를 올리거나.
+
 			CreateDamageReport(in actor, in target, in targetIndex, in targetCount, out DamageReport damageReport);
 			await EventManager.Call<IDamageReportListener>(async call => {
-				call.OnBroadcastDamageReport(damageReport);
+				call.OnBroadcastDamageReport(in damageReport);
 			});
 			DestroyThis(false);
+
 		}
 
 		protected virtual void CreateDamageReport(in IUnitInteractiveValue actor, in IUnitInteractiveValue target, in int targetIndex, in int targetCount, out DamageReport damageReport)

@@ -7,16 +7,8 @@ using UnityEngine;
 
 namespace BC.ProjectileSystem
 {
-	public class ProjectileManager : SingletonObjectBehaviour<ProjectileManager>, IProjectileSystem
+	public class ProjectileManager : ObjectBehaviour, IProjectileSystem
 	{
-		protected override void CreatedSingleton()
-		{
-		}
-
-		protected override void DestroySingleton()
-		{
-		}
-
 		async void IProjectileSystem.OnCreateProjectile(ObjectBehaviour projectilePrefab, Pose onFirePose,
 			(ICharacterAgent agent, IUnitInteractiveValue value) actor,
 			(ICharacterAgent agent, IUnitInteractiveValue value) target)

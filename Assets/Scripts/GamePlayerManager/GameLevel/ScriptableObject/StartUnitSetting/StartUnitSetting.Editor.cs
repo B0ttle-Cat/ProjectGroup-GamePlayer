@@ -94,7 +94,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 	}
-	public partial struct StartUnitSettingCharacter//Editor
+	public partial class StartUnitSettingCharacter//Editor
 	{
 		internal StartGameSetting startGameSetting { get; set; }
 		private bool IsDouble { get; set; }
@@ -121,18 +121,7 @@ namespace BC.GamePlayerManager
 			}
 			return result;
 		}
-		private IEnumerable ShowTargetCharacterResourcesCard()
-		{
-			var result = new ValueDropdownList<CharacterResourcesCard>();
-			string[] guids = AssetDatabase.FindAssets("t:CharacterResourcesCard");
-			for(int i = 0 ; i < guids.Length ; i++)
-			{
-				string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-				var card = AssetDatabase.LoadAssetAtPath<CharacterResourcesCard>(path);
-				result.Add(card.characterName, card);
-			}
-			return result;
-		}
+
 		internal void SetDouble(bool _isDouble)
 		{
 			IsDouble = _isDouble;

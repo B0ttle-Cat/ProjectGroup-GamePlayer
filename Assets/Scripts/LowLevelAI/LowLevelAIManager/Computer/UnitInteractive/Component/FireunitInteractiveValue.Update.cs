@@ -17,7 +17,7 @@ namespace BC.LowLevelAI
 		}
 		void IUnitInteractiveInterface.UnitHealthUpdate()
 		{
-			var HealthPoint = PlayValueData.HealthPoint;
+			var HealthPoint = PlayValueData.채력;
 			if(HealthPoint.Value <= 0f)
 			{
 				StateValueData.IsRetire = true;
@@ -27,7 +27,7 @@ namespace BC.LowLevelAI
 				StateValueData.IsRetire = false;
 			}
 
-			PlayValueData.HealthPoint = HealthPoint;
+			PlayValueData.채력 = HealthPoint;
 		}
 		void IUnitInteractiveInterface.UnitPoseUpdate()
 		{
@@ -37,16 +37,16 @@ namespace BC.LowLevelAI
 		}
 		void IUnitInteractiveInterface.VisualRangeUpdate()
 		{
-			var VisualRange = PlayValueData.VisualRange;
+			var VisualRange = PlayValueData.시야거리;
 
 			VisualRange.Value = 10f;
 			VisualRange.Value = Mathf.Clamp(VisualRange.Value, FireunitPlayValue.MinVisualRange, FireunitPlayValue.MaxVisualRange);
 
-			PlayValueData.VisualRange = VisualRange;
+			PlayValueData.시야거리 = VisualRange;
 		}
 		void IUnitInteractiveInterface.ActionRangeUpdate()
 		{
-			var ActionRange = PlayValueData.ActionRange;
+			var ActionRange = PlayValueData.반응거리;
 
 			ActionRange.Start = 10f;
 			ActionRange.Ended = 12f;
@@ -54,16 +54,16 @@ namespace BC.LowLevelAI
 			ActionRange.Start = Mathf.Clamp(ActionRange.Start, FireunitPlayValue.MinActionRange, FireunitPlayValue.MaxActionRange);
 			ActionRange.Ended = Mathf.Clamp(ActionRange.Ended, FireunitPlayValue.MinActionRange, FireunitPlayValue.MaxActionRange);
 
-			PlayValueData.ActionRange = ActionRange;
+			PlayValueData.반응거리 = ActionRange;
 		}
 		void IUnitInteractiveInterface.AttackRangeUpdate()
 		{
-			var AttackRange = PlayValueData.AttackRange;
+			var AttackRange = PlayValueData.공격러리;
 
 			AttackRange.Value = 10f;
 			AttackRange.Value = Mathf.Clamp(AttackRange.Value, FireunitPlayValue.MinAttackRange, FireunitPlayValue.MaxAttackRange);
 
-			PlayValueData.AttackRange = AttackRange;
+			PlayValueData.공격러리 = AttackRange;
 		}
 		void IUnitInteractiveInterface.InActionRangeTargetList(List<UnitInteractiveInfo> inActionRangeTargetList)
 		{

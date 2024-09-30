@@ -29,7 +29,6 @@ namespace BC.LowLevelAI
 		private Dictionary<Vector3Int, IUnitInteractiveValue> unitInteractiveValueList;
 		// Actor MemberUniqueID : Target MemberUniqueID : IUnitInteractiveValue
 		private Dictionary<Vector3Int, Dictionary<Vector3Int, UnitInteractiveInfo>> computingList;
-
 		// Actor FactionID : Target MemberUniqueID 
 		private Dictionary<int, HashSet<Vector3Int>> inRangeFactionVisual;
 
@@ -49,6 +48,8 @@ namespace BC.LowLevelAI
 			unitInteractiveValueList = new Dictionary<Vector3Int, IUnitInteractiveValue>();
 
 			computingList = new Dictionary<Vector3Int, Dictionary<Vector3Int, UnitInteractiveInfo>>();
+
+			inRangeFactionVisual = new Dictionary<int, HashSet<Vector3Int>>();
 
 			ThisContainer.NextGetData<DiplomacyData>((_data) => {
 				diplomacyData = _data;

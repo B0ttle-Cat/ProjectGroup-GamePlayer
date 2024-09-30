@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playMapKey:
     LoadType: 0
-    BundleName: 
-    FullPath: BC.Map/SampleMap/Sample_PlayMap
-    ObjectAsset: {fileID: 0}
+    ObjectAsset: {fileID: 3582519359542902719, guid: 7ecb579ed90154048bbfe9bca1431197,
+      type: 3}
   playMapStageInfo:
     anchorInfos:
     - anchorName: 00 | StrategicPoint
@@ -29,4 +28,3 @@ MonoBehaviour:
       anchorIndex: 3
     - anchorName: 04 | StrategicPoint
       anchorIndex: 4
-  target: {fileID: 6519780887312769103, guid: 7ecb579ed90154048bbfe9bca1431197, type: 3}

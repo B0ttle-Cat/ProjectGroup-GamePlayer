@@ -12,16 +12,16 @@ namespace BC.Character
 		[Header("Effect")]
 		public VisualEffect muzzleFlame;
 
-		[Header("Cartridge")]
+		[Header("Shoot Object")]
 		public GameObject bulletPrefab;
-		public GameObject casePrefab;
+		public GameObject cartridgePrefab;
+		public Transform muzzlePivot;
+		public Transform cartridgePivot;
 
-		[Header("IK & Pivot")]
+		[Header("IK Pivot")]
 		public Transform WeaponPivot;
 		public Transform leftHandPivot;
 		public Transform rightHandPivot;
-		public Transform muzzlePivot;
-		public Transform ejectionPort;
 
 #if UNITY_EDITOR
 		public override void BaseReset() { }
@@ -32,11 +32,11 @@ namespace BC.Character
 		{
 			if(bulletPrefab == null)
 				bulletPrefab = null;
-			if(casePrefab == null)
-				casePrefab = null;
+			if(cartridgePrefab == null)
+				cartridgePrefab = null;
 
 			bulletPrefab?.SetActive(false);
-			casePrefab?.SetActive(false);
+			cartridgePrefab?.SetActive(false);
 		}
 		public override void BaseDestroy()
 		{

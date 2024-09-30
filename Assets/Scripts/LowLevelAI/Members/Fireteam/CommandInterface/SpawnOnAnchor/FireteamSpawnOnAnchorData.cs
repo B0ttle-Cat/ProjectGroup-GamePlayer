@@ -1,3 +1,5 @@
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
@@ -5,7 +7,7 @@ namespace BC.LowLevelAI
 	public class FireteamSpawnOnAnchorData : FireteamCommandData
 	{
 		[SerializeField]
-		private MapAnchor spawnAnchor;
-		public MapAnchor SpawnAnchor { get => spawnAnchor; set => spawnAnchor=value; }
+		private IMapAnchor spawnAnchor;
+		public IMapAnchor SpawnAnchor { get => spawnAnchor; set => spawnAnchor=value; }
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using BC.Base;
 using BC.Character;
 using BC.LowLevelAI;
+using BC.Map;
 using BC.ODCC;
 using BC.OdccBase;
 
@@ -17,130 +18,130 @@ namespace BC.GamePlayerManager
 {
 	public class CreateCharacterObject : ComponentBehaviour, IStartSetup
 	{
+		[ShowInInspector, ReadOnly]
+		private bool isCompleteSetting;
+		public bool IsCompleteSetting {
+			get {
+				if(isCompleteSetting) return true;
+				if(characterPrefab == null || UnitSetting == null || SpawnList == null) return false;
+				return isCompleteSetting;
+			}
+			set { isCompleteSetting=value; }
+		}
+
 		[SerializeField]
 		private CharacterObject characterPrefab;
 
-		private Queue<(StartUnitSettingCharacter, SpawnData)> characterSettingDatas;
-
-		private IGetLowLevelAIManager lowLevelAIManager;
-
-		[ShowInInspector, ReadOnly]
-		public bool IsCompleteSetting { get; set; }
 		public StartUnitSetting UnitSetting { get; internal set; }
 		public List<SpawnAnchor> SpawnList { get; internal set; }
 
-
+		public override void BaseAwake()
+		{
+			base.BaseAwake();
+			isCompleteSetting = false;
+#if !UNITY_EDITOR
+			if(characterPrefab != null) characterPrefab.gameObject.SetActive(false);
+#endif
+		}
+		public override void BaseDestroy()
+		{
+			base.BaseDestroy();
+			isCompleteSetting = false;
+		}
 		protected override void Disposing()
 		{
 			base.Disposing();
 
 			characterPrefab = null;
-			characterSettingDatas = null;
 			UnitSetting = null;
-			lowLevelAIManager = null;
-		}
-		public override void BaseAwake()
-		{
-			base.BaseAwake();
-
-			if(characterPrefab != null)
-				characterPrefab.gameObject.SetActive(false);
-
-			ThisContainer.TryGetObject<IGetLowLevelAIManager>(out lowLevelAIManager);
 		}
 
 
 		public override async void BaseEnable()
 		{
 			IsCompleteSetting = false;
-
-			if(characterPrefab == null)
+			while(characterPrefab == null || UnitSetting == null || SpawnList == null)
 			{
-				OnStopSetting();
-				return;
+				await Awaitable.NextFrameAsync();
+				if(!enabled) return;
 			}
-			if(UnitSetting == null || SpawnList == null || UnitSetting.characterDatas == null)
+			var characterSettingList = new Queue<(StartUnitSettingCharacter, SpawnData)>();
+			await CreateSettingList();
+			await CreateCharacterList();
+			isCompleteSetting = true;
+
+			async Awaitable CreateSettingList()
 			{
-				OnStopSetting();
-				return;
-			}
+				var lowLevelAIManager = await ThisContainer.AwaitGetObject<IGetLowLevelAIManager>(null, DisableCancelToken);
+				var mapPathPointComputer = await lowLevelAIManager.ThisContainer.AwaitGetComponentInChild<MapPathPointComputer>(item => item.IsCompleteUpdate,DisableCancelToken);
 
-			var computer = await lowLevelAIManager.ThisContainer.AwaitGetComponentInChild<MapPathPointComputer>(item=>item.IsCompleteUpdate);
+				IsCompleteSetting = true;
 
-			characterSettingDatas = new Queue<(StartUnitSettingCharacter, SpawnData)>();
+				var list = UnitSetting.characterDatas;
+				var gorup = list.GroupBy(item => (item.FactionIndex, item.TeamIndex));
+				int length = list.Count;
 
-			var list = UnitSetting.characterDatas;
-			var gorup = list.GroupBy(item => (item.FactionIndex, item.TeamIndex));
-			int length = list.Count;
-
-			for(int i = 0 ; i < length ; i++)
-			{
-				var unit = list[i];
-
-				var findGroupCount = gorup.FirstOrDefault(item=>{
-					var _item = item.First();
-					return _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex;
-				}).Count();
-
-				SpawnData spawn = null;
-				int findAnchorIndex = SpawnList.FindIndex(_item => _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex);
-				if(findAnchorIndex>=0)
+				for(int i = 0 ; i < length ; i++)
 				{
-					if(computer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].AnchorIndex, out var spawnAnchor))
+					var unit = list[i];
+
+					var findGroupCount = gorup.FirstOrDefault(item=>{
+						var _item = item.First();
+						return _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex;
+					}).Count();
+
+					SpawnData spawn = null;
+					int findAnchorIndex = SpawnList.FindIndex(_item => _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex);
+					if(findAnchorIndex>=0)
 					{
-						spawn = new SpawnData() {
-							targetAnchor = spawnAnchor,
-							totalUnitCount = findGroupCount,
-							unitIndex = unit.UnitIndex,
-							targetRadius = 2f,
-						};
+						if(mapPathPointComputer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].AnchorIndex, out var spawnAnchor))
+						{
+							spawn = new SpawnData() {
+								targetAnchor = spawnAnchor,
+								totalUnitCount = findGroupCount,
+								unitIndex = unit.UnitIndex,
+								targetRadius = 5f,
+							};
+						}
 					}
+					characterSettingList.Enqueue((unit, spawn));
 				}
-
-				characterSettingDatas.Enqueue((unit, spawn));
 			}
-		}
-		public override void BaseUpdate()
-		{
-			OnUpdateSetting();
-		}
-		public void OnStartSetting()
-		{
-			enabled = true;
-		}
-
-		public void OnStopSetting()
-		{
-			enabled = false;
-		}
-		public void OnUpdateSetting()
-		{
-			if(IsCompleteSetting)
+			async Awaitable CreateCharacterList()
 			{
-				OnStopSetting();
-				return;
+				if(characterSettingList == null) return;
+
+				int count = characterSettingList.Count;
+				while(characterSettingList.Count > 0)
+				{
+					var item = characterSettingList.Dequeue();
+					Create(item.Item1, item.Item2);
+				}
+				async void Create(StartUnitSettingCharacter characterData, SpawnData spawnData)
+				{
+					CharacterObject characterObject = await InstantiateCharacterObject(characterData, spawnData);
+					count--;
+				}
+				while(count>0)
+				{
+					await Awaitable.NextFrameAsync();
+				}
 			}
-
-			if(characterSettingDatas == null) return;
-
-			int length = characterSettingDatas.Count;
-			if(length > 0)
-			{
-				var item = characterSettingDatas.Dequeue();
-				CharacterObject characterObject = InstantiateCharacterObject(item.Item1, item.Item2);
-				characterObject.gameObject.SetActive(true);
-				return;
-			}
-
-			IsCompleteSetting = true;
 		}
 
-
-
-		private CharacterObject InstantiateCharacterObject(StartUnitSettingCharacter fireunitSettingData, SpawnData spawnData)
+		private async Awaitable<CharacterObject> InstantiateCharacterObject(StartUnitSettingCharacter fireunitSettingData, SpawnData spawnData)
 		{
+			if(characterPrefab == null) return null;
+
+#if UNITY_EDITOR
 			characterPrefab.gameObject.SetActive(false);
-			CharacterObject characterObject = Instantiate(characterPrefab);
+#endif
+			var instantiateAsync = InstantiateAsync(characterPrefab);
+			await instantiateAsync;
+#if UNITY_EDITOR
+			characterPrefab.gameObject.SetActive(true);
+#endif
+			CharacterObject characterObject = instantiateAsync.Result[0];
 			characterObject.transform.ResetLcoalPose(ThisTransform);
 
 			if(!characterObject.ThisContainer.TryGetData<CharacterData>(out var characterData))
@@ -151,18 +152,19 @@ namespace BC.GamePlayerManager
 			characterData.FactionIndex = fireunitSettingData.FactionIndex;
 			characterData.TeamIndex = fireunitSettingData.TeamIndex;
 			characterData.UnitIndex = fireunitSettingData.UnitIndex;
-			characterData.CharacterResourcesKey = fireunitSettingData.CharacterResourcesKey;
+			characterData.CharacterResourcesKey = fireunitSettingData.CharacterSetter.ResourcesSetter.CharacterResourcesKey;
 			characterObject.UpdateObjectName();
 
 			if(!characterObject.ThisContainer.TryGetData<WeaponData>(out var weaponData))
 			{
 				weaponData = characterObject.ThisContainer.AddData<WeaponData>();
 			}
-			weaponData.WeaponResourcesKey = fireunitSettingData.WeaponResourcesKey;
+			weaponData.WeaponResourcesKey = fireunitSettingData.CharacterSetter.ResourcesSetter.WeaponResourcesKey;
 
 			characterObject.ThisContainer.RemoveData<SpawnData>();
 			characterObject.ThisContainer.AddData<SpawnData>(spawnData);
 
+			characterObject.gameObject.SetActive(true);
 			return characterObject;
 		}
 	}

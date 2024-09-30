@@ -1,21 +1,25 @@
+using System;
+
 using BC.ODCC;
+
+using Sirenix.OdinInspector;
 
 namespace BC.OdccBase
 {
 	public interface IUnitTypeValue : IOdccData
 	{
-		AttackType AttackTypeValue { get; set; }
-		DefenseType DefenseTypeValue { get; set; }
+		AttackType 공격타입 { get; set; }
+		DefenseType 방어타입 { get; set; }
 
-		SubAttackType SubAttackTypeValue { get; set; }
-		SubDefenseType SubDefenseTypeValue { get; set; }
+		SubAttackType 보조공격타입 { get; set; }
+		SubDefenseType 보조방어타입 { get; set; }
 
-		WeaponType WeaponTypeValue { get; set; }
-		PositionType PositionTypeValue { get; set; }
-		RoleType RoleTypeValue { get; set; }
+		WeaponType 무장분류 { get; set; }
+		PositionType 진영분류 { get; set; }
+		RoleType 역할분류 { get; set; }
 
-		FieldAdvantageLevel FieldTypeValue { get; set; }
-
+		FieldAdvantageLevel 지형속성 { get; set; }
+		[EnumPaging]
 		enum AdvantageLevel
 		{
 			최악 = -3,
@@ -26,6 +30,7 @@ namespace BC.OdccBase
 			유효 = 2,
 			최고 = 3,
 		}
+		[EnumToggleButtons]
 		enum AttackType
 		{
 			일반,
@@ -34,6 +39,7 @@ namespace BC.OdccBase
 			신비,
 			진동,
 		}
+		[EnumToggleButtons]
 		enum DefenseType
 		{
 			일반,
@@ -42,7 +48,7 @@ namespace BC.OdccBase
 			특수,
 			탄력,
 		}
-
+		[EnumToggleButtons]
 		enum SubAttackType
 		{
 			대인,
@@ -50,6 +56,7 @@ namespace BC.OdccBase
 			대전차,
 			공성,
 		}
+		[EnumToggleButtons]
 		enum SubDefenseType
 		{
 			일반,
@@ -57,7 +64,6 @@ namespace BC.OdccBase
 			기갑,
 			구조물
 		}
-
 		enum WeaponType
 		{
 			// 소화기
@@ -78,6 +84,7 @@ namespace BC.OdccBase
 			전차포,
 			미사일,
 		}
+		[EnumToggleButtons]
 		enum PositionType
 		{
 			전열,
@@ -85,6 +92,7 @@ namespace BC.OdccBase
 			후열,
 			보조,
 		}
+		[EnumToggleButtons]
 		enum RoleType
 		{
 			딜러,
@@ -94,6 +102,7 @@ namespace BC.OdccBase
 			기계화,
 		}
 
+		[Serializable]
 		public struct FieldAdvantageLevel
 		{
 			public enum FieldType
@@ -103,8 +112,11 @@ namespace BC.OdccBase
 				야전,
 				실내
 			}
+			[LabelText("지형속성-시가지")]
 			public AdvantageLevel 시가지;
+			[LabelText("지형속성-야전")]
 			public AdvantageLevel 야전;
+			[LabelText("지형속성-실내")]
 			public AdvantageLevel 실내;
 
 			public AdvantageLevel this[FieldType fieldType] {
@@ -130,23 +142,22 @@ namespace BC.OdccBase
 
 	public class FireunitTypeValue : DataObject, IUnitTypeValue
 	{
+		private IUnitTypeValue.AttackType _공격타입;
+		private IUnitTypeValue.DefenseType _방어타입;
+		private IUnitTypeValue.SubAttackType _보조공격타입;
+		private IUnitTypeValue.SubDefenseType _보조방어타입;
+		private IUnitTypeValue.WeaponType _무장분류;
+		private IUnitTypeValue.PositionType _진영분류;
+		private IUnitTypeValue.RoleType _역할분류;
+		private IUnitTypeValue.FieldAdvantageLevel _지형속성;
 
-		private IUnitTypeValue.AttackType attackTypeValue;
-		private IUnitTypeValue.DefenseType defenseTypeValue;
-		private IUnitTypeValue.SubAttackType subAttackTypeValue;
-		private IUnitTypeValue.SubDefenseType subDefenseTypeValue;
-		private IUnitTypeValue.WeaponType weaponTypeValue;
-		private IUnitTypeValue.PositionType positionTypeValue;
-		private IUnitTypeValue.RoleType roleTypeValue;
-		private IUnitTypeValue.FieldAdvantageLevel fieldTypeValue;
-
-		public IUnitTypeValue.AttackType AttackTypeValue { get => attackTypeValue; set => attackTypeValue=value; }
-		public IUnitTypeValue.DefenseType DefenseTypeValue { get => defenseTypeValue; set => defenseTypeValue=value; }
-		public IUnitTypeValue.SubAttackType SubAttackTypeValue { get => subAttackTypeValue; set => subAttackTypeValue=value; }
-		public IUnitTypeValue.SubDefenseType SubDefenseTypeValue { get => subDefenseTypeValue; set => subDefenseTypeValue=value; }
-		public IUnitTypeValue.WeaponType WeaponTypeValue { get => weaponTypeValue; set => weaponTypeValue=value; }
-		public IUnitTypeValue.PositionType PositionTypeValue { get => positionTypeValue; set => positionTypeValue=value; }
-		public IUnitTypeValue.RoleType RoleTypeValue { get => roleTypeValue; set => roleTypeValue=value; }
-		public IUnitTypeValue.FieldAdvantageLevel FieldTypeValue { get => fieldTypeValue; set => fieldTypeValue=value; }
+		public IUnitTypeValue.AttackType 공격타입 { get => _공격타입; set => _공격타입=value; }
+		public IUnitTypeValue.DefenseType 방어타입 { get => _방어타입; set => _방어타입=value; }
+		public IUnitTypeValue.SubAttackType 보조공격타입 { get => _보조공격타입; set => _보조공격타입=value; }
+		public IUnitTypeValue.SubDefenseType 보조방어타입 { get => _보조방어타입; set => _보조방어타입=value; }
+		public IUnitTypeValue.WeaponType 무장분류 { get => _무장분류; set => _무장분류=value; }
+		public IUnitTypeValue.PositionType 진영분류 { get => _진영분류; set => _진영분류=value; }
+		public IUnitTypeValue.RoleType 역할분류 { get => _역할분류; set => _역할분류=value; }
+		public IUnitTypeValue.FieldAdvantageLevel 지형속성 { get => _지형속성; set => _지형속성=value; }
 	}
 }

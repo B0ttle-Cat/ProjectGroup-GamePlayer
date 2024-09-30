@@ -11,14 +11,13 @@ GameObject:
   - component: {fileID: 2543499430751640734}
   - component: {fileID: 4076850161751021115}
   - component: {fileID: 8988723699225859953}
-  - component: {fileID: 6794611376961017863}
   m_Layer: 0
   m_Name: Faction Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2543499430751640734
 Transform:
   m_ObjectHideFlags: 0
@@ -75,17 +74,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53b395f793af266498a4f79da4a643a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6794611376961017863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884572875860924201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b69194f6abb43984b8bc2a652f5ec997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

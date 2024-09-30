@@ -1,29 +1,35 @@
 using BC.ODCC;
 
-using static BC.OdccBase.AbilityMath;
+using UnityEngine;
 
 namespace BC.OdccBase
 {
 	public interface IUnitPlayValue : IOdccData
 	{
-		public AbilityValue<float> VisualRange { get; set; }
-		public AbilityRange<float> ActionRange { get; set; }
-		public AbilityValue<float> AttackRange { get; set; }
-		public AbilityValue<int> HealthPoint { get; set; }
-		public AbilityValue<float> OffenseDamagePoint { get; set; }
-		public AbilityValue<float> OffenseRandomRate { get; set; }
+		public AbilityMath.AbilityValue<float> 시야거리 { get; set; }
+		public AbilityMath.AbilityRange<float> 반응거리 { get; set; }
+		public AbilityMath.AbilityValue<float> 공격러리 { get; set; }
 
-		public AbilityValue<float> CriticalProbabilityPoint { get; set; }
-		public AbilityValue<float> CriticalAttackMultiplier { get; set; }
-		public AbilityValue<float> Anti_CriticalProbabilityPoint { get; set; }
-		public AbilityValue<float> Anti_CriticalAttackMultiplier { get; set; }
+		public AbilityMath.AbilityValue<int> 채력 { get; set; }
+		public AbilityMath.AbilityValue<int> 기력 { get; set; }
 
-		public AbilityValue<float> DefenseDamagePoint { get; set; }
-		public AbilityValue<float> DefenseRandomRate { get; set; }
+		public AbilityMath.AbilityValue<float> 공격력 { get; set; }
+		public AbilityMath.AbilityValue<float> 방어력 { get; set; }
+		public AbilityMath.AbilityValue<float> 치유력 { get; set; }
+		public AbilityMath.AbilityValue<float> 제압력 { get; set; }
+		public AbilityMath.AbilityValue<float> 저항력 { get; set; }
 
-		public AbilityValue<float> AccuracyPoint { get; set; }
-		public AbilityValue<float> Anti_AccuracyPoint { get; set; }
-		public AbilityValue<float> RecoveryPoint { get; set; }
+		public AbilityMath.AbilityValue<float> 명중수치 { get; set; }
+		public AbilityMath.AbilityValue<float> 회피수치 { get; set; }
+
+		public AbilityMath.AbilityValue<float> 조종지연 { get; set; }
+		public AbilityMath.AbilityValue<float> 공격지연 { get; set; }
+
+		public AbilityMath.AbilityValue<float> 치명공격수치 { get; set; }
+		public AbilityMath.AbilityValue<float> 치명공격증가율 { get; set; }
+		public AbilityMath.AbilityValue<float> 치명방어수치 { get; set; }
+		public AbilityMath.AbilityValue<float> 치명방어증가율 { get; set; }
+
 	}
 
 	public class FireunitPlayValue : DataObject, IUnitPlayValue
@@ -31,27 +37,6 @@ namespace BC.OdccBase
 		protected override void Disposing()
 		{
 		}
-
-		#region Range
-		private AbilityValue<float> visualRange;
-		private AbilityRange<float> actionRange;
-		private AbilityValue<float> attackRange;
-		#endregion
-		#region Point
-		private AbilityValue<int> healthPoint;
-		private AbilityValue<float> offenseDamagePoint;
-		private AbilityValue<float> offenseRandomRate;
-		private AbilityValue<float> defenseDamagePoint;
-		private AbilityValue<float> defenseRandomRate;
-		private AbilityValue<float> accuracyPoint;
-		private AbilityValue<float> anti_accuracyPoint;
-		private AbilityValue<float> recoveryPoint;
-
-		private AbilityValue<float> criticalPoint;
-		private AbilityValue<float> criticalAttackMultiplier;
-		private AbilityValue<float> anti_criticalProbabilityPoint;
-		private AbilityValue<float> anti_criticalAttackMultiplier;
-
 		#region ConstValue
 		public const float MinVisualRange = 2f;
 		public const float MaxVisualRange = 10f;
@@ -61,27 +46,49 @@ namespace BC.OdccBase
 		public const float MaxAttackRange = 20f;
 		#endregion
 
-		#endregion
 
-		#region Range
-		public AbilityValue<float> VisualRange { get => visualRange; set => visualRange = value; }
-		public AbilityRange<float> ActionRange { get => actionRange; set => actionRange = value; }
-		public AbilityValue<float> AttackRange { get => attackRange; set => attackRange=value; }
-		#endregion
-		#region Point
-		public AbilityValue<int> HealthPoint { get => healthPoint; set => healthPoint = value; }
-		public AbilityValue<float> OffenseDamagePoint { get => offenseDamagePoint; set => offenseDamagePoint = value; }
-		public AbilityValue<float> OffenseRandomRate { get => offenseRandomRate; set => offenseRandomRate=value; }
-		public AbilityValue<float> DefenseDamagePoint { get => defenseDamagePoint; set => defenseDamagePoint = value; }
-		public AbilityValue<float> DefenseRandomRate { get => defenseRandomRate; set => defenseRandomRate=value; }
-		public AbilityValue<float> AccuracyPoint { get => accuracyPoint; set => accuracyPoint = value; }
-		public AbilityValue<float> Anti_AccuracyPoint { get => anti_accuracyPoint; set => anti_accuracyPoint = value; }
-		public AbilityValue<float> RecoveryPoint { get => recoveryPoint; set => recoveryPoint = value; }
-		public AbilityValue<float> CriticalProbabilityPoint { get => criticalPoint; set => criticalPoint=value; }
-		public AbilityValue<float> CriticalAttackMultiplier { get => criticalAttackMultiplier; set => criticalAttackMultiplier=value; }
-		public AbilityValue<float> Anti_CriticalProbabilityPoint { get => anti_criticalProbabilityPoint; set => anti_criticalProbabilityPoint=value; }
-		public AbilityValue<float> Anti_CriticalAttackMultiplier { get => anti_criticalAttackMultiplier; set => anti_criticalAttackMultiplier=value; }
-		#endregion
+		[SerializeField] private AbilityMath.AbilityValue<float> _시야거리;
+		[SerializeField] private AbilityMath.AbilityRange<float> _반응거리;
+		[SerializeField] private AbilityMath.AbilityValue<float> _공격러리;
+		[Space]
+		[SerializeField] private AbilityMath.AbilityValue<int> _최대채력;
+		[SerializeField] private AbilityMath.AbilityValue<int> _최대기력;
+		[Space]
+		[SerializeField] private AbilityMath.AbilityValue<float> _공격력;
+		[SerializeField] private AbilityMath.AbilityValue<float> _방어력;
+		[SerializeField] private AbilityMath.AbilityValue<float> _치유력;
+		[SerializeField] private AbilityMath.AbilityValue<float> _제압력;
+		[SerializeField] private AbilityMath.AbilityValue<float> _저항력;
+		[Space]
+		[SerializeField] private AbilityMath.AbilityValue<float> _명중수치;
+		[SerializeField] private AbilityMath.AbilityValue<float> _회피수치;
+		[Space]
+		[SerializeField] private AbilityMath.AbilityValue<float> _조종지연;
+		[SerializeField] private AbilityMath.AbilityValue<float> _공격지연;
+		[Space]
+		[SerializeField] private AbilityMath.AbilityValue<float> _치명공격수치;
+		[SerializeField] private AbilityMath.AbilityValue<float> _치명공격증가율;
+		[SerializeField] private AbilityMath.AbilityValue<float> _치명방어수치;
+		[SerializeField] private AbilityMath.AbilityValue<float> _치명방어증가율;
+
+		public AbilityMath.AbilityValue<float> 시야거리 { get => _시야거리; set => _시야거리 = value; }
+		public AbilityMath.AbilityRange<float> 반응거리 { get => _반응거리; set => _반응거리 = value; }
+		public AbilityMath.AbilityValue<float> 공격러리 { get => _공격러리; set => _공격러리 = value; }
+		public AbilityMath.AbilityValue<int> 채력 { get => _최대채력; set => _최대채력 = value; }
+		public AbilityMath.AbilityValue<int> 기력 { get => _최대기력; set => _최대기력 = value; }
+		public AbilityMath.AbilityValue<float> 공격력 { get => _공격력; set => _공격력 = value; }
+		public AbilityMath.AbilityValue<float> 방어력 { get => _방어력; set => _방어력 = value; }
+		public AbilityMath.AbilityValue<float> 치유력 { get => _치유력; set => _치유력 = value; }
+		public AbilityMath.AbilityValue<float> 제압력 { get => _제압력; set => _제압력 = value; }
+		public AbilityMath.AbilityValue<float> 저항력 { get => _저항력; set => _저항력 = value; }
+		public AbilityMath.AbilityValue<float> 명중수치 { get => _명중수치; set => _명중수치 = value; }
+		public AbilityMath.AbilityValue<float> 회피수치 { get => _회피수치; set => _회피수치 = value; }
+		public AbilityMath.AbilityValue<float> 조종지연 { get => _조종지연; set => _조종지연 = value; }
+		public AbilityMath.AbilityValue<float> 공격지연 { get => _공격지연; set => _공격지연 = value; }
+		public AbilityMath.AbilityValue<float> 치명공격수치 { get => _치명공격수치; set => _치명공격수치 = value; }
+		public AbilityMath.AbilityValue<float> 치명공격증가율 { get => _치명공격증가율; set => _치명공격증가율 = value; }
+		public AbilityMath.AbilityValue<float> 치명방어수치 { get => _치명방어수치; set => _치명방어수치 = value; }
+		public AbilityMath.AbilityValue<float> 치명방어증가율 { get => _치명방어증가율; set => _치명방어증가율 = value; }
 
 	}
 }

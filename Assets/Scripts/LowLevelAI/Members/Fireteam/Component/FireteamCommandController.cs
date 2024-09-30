@@ -1,30 +1,31 @@
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
 	public interface IFireteamCommandInterface : IOdccComponent
 	{
-		public void OnTeamCommand_MoveTargetAnchor(FireteamMemberCollector memberCollector, MapPathNode target);
-		public void OnTeamCommand_SpawnOnAnchor(FireteamMemberCollector memberCollector, MapAnchor target);
-		public void OnTeamCommand_TeleportationOnAnchor(FireteamMemberCollector memberCollector, MapAnchor target);
+		public void OnTeamCommand_MoveTargetAnchor(FireteamMemberCollector memberCollector, IMapPathNode target);
+		public void OnTeamCommand_SpawnOnAnchor(FireteamMemberCollector memberCollector, IMapAnchor target);
+		public void OnTeamCommand_TeleportationOnAnchor(FireteamMemberCollector memberCollector, IMapAnchor target);
 	}
 
 	public class FireteamCommandController : ComponentBehaviour, IFireteamCommandInterface
 	{
 		#region IFireteamCommandInterface
-		void IFireteamCommandInterface.OnTeamCommand_MoveTargetAnchor(FireteamMemberCollector _memberCollector, MapPathNode target)
+		void IFireteamCommandInterface.OnTeamCommand_MoveTargetAnchor(FireteamMemberCollector _memberCollector, IMapPathNode target)
 		{
 			FireteamMemberCollector memberCollector = _memberCollector;
 			if(memberCollector == null && !ThisContainer.TryGetComponent<FireteamMemberCollector>(out memberCollector)) return;
 			MoveTargetAnchor(memberCollector, target);
 		}
-		void IFireteamCommandInterface.OnTeamCommand_SpawnOnAnchor(FireteamMemberCollector _memberCollector, MapAnchor target)
+		void IFireteamCommandInterface.OnTeamCommand_SpawnOnAnchor(FireteamMemberCollector _memberCollector, IMapAnchor target)
 		{
 			FireteamMemberCollector memberCollector = _memberCollector;
 			if(memberCollector == null && !ThisContainer.TryGetComponent<FireteamMemberCollector>(out memberCollector)) return;
 			SpawnOnAnchor(memberCollector, target);
 		}
-		void IFireteamCommandInterface.OnTeamCommand_TeleportationOnAnchor(FireteamMemberCollector _memberCollector, MapAnchor target)
+		void IFireteamCommandInterface.OnTeamCommand_TeleportationOnAnchor(FireteamMemberCollector _memberCollector, IMapAnchor target)
 		{
 			FireteamMemberCollector memberCollector = _memberCollector;
 			if(memberCollector == null && !ThisContainer.TryGetComponent<FireteamMemberCollector>(out memberCollector)) return;
@@ -32,7 +33,7 @@ namespace BC.LowLevelAI
 		}
 		#endregion
 		#region FireteamCommand Function
-		protected void MoveTargetAnchor(FireteamMemberCollector memberCollector, MapPathNode target)
+		protected void MoveTargetAnchor(FireteamMemberCollector memberCollector, IMapPathNode target)
 		{
 			if(ThisContainer.TryGetChildObject<FireteamMoveTargetAnchorCommander>(out var oldCommander))
 			{
@@ -48,7 +49,7 @@ namespace BC.LowLevelAI
 
 			commander.gameObject.SetActive(true);
 		}
-		protected void SpawnOnAnchor(FireteamMemberCollector memberCollector, MapAnchor target)
+		protected void SpawnOnAnchor(FireteamMemberCollector memberCollector, IMapAnchor target)
 		{
 			if(ThisContainer.TryGetChildObject<FireteamSpawnOnAnchorCommander>(out var oldCommander))
 			{
@@ -64,7 +65,7 @@ namespace BC.LowLevelAI
 
 			commander.gameObject.SetActive(true);
 		}
-		protected void TeleportationOnAnchor(FireteamMemberCollector memberCollector, MapAnchor target)
+		protected void TeleportationOnAnchor(FireteamMemberCollector memberCollector, IMapAnchor target)
 		{
 			if(ThisContainer.TryGetChildObject<FireteamTeleportationOnAnchorCommander>(out var oldCommander))
 			{

@@ -52,7 +52,7 @@ namespace BC.GamePlayerManager
 		public List<FactionSettingInfo> factionInfoList;
 
 		[PropertyOrder(2)]
-		[ListDrawerSettings(ShowPaging = false, OnBeginListElementGUI = "DrawOnBeginListElementGUI", OnEndListElementGUI = "DrawOnEndListElementGUI")]
+		[ListDrawerSettings(ShowPaging = false),ReadOnly]//, OnBeginListElementGUI = "DrawOnBeginListElementGUI", OnEndListElementGUI = "DrawOnEndListElementGUI")]
 		public List<DiplomacySettingInfo> diplomacyInfoList;
 
 

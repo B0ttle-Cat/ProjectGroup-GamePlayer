@@ -5,11 +5,12 @@
         "BC.Base",
         "BC.BaseUI",
         "BC.ODCC",
-        "BC.Character",
         "BC.OdccBase",
-        "BC.GamePlayerInterface",
+        "BC.Character",
+        "BC.Map",
         "BC.HighLevelAI",
-        "BC.LowLevelAI"
+        "BC.LowLevelAI",
+        "BC.GamePlayerInterface"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

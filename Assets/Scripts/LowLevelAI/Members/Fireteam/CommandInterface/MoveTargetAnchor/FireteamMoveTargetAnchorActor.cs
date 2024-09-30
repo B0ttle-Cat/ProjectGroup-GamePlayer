@@ -1,3 +1,5 @@
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
@@ -24,7 +26,7 @@ namespace BC.LowLevelAI
 
 		private void StartMove()
 		{
-			MapPathNode movePathNode = CommandData.MovePathNode;
+			IMapPathNode movePathNode = CommandData.MovePathNode;
 
 			if(movePathNode != null && movePathNode.ThisPoint != null)
 			{

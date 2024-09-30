@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2446323720592294501
 Transform:
   m_ObjectHideFlags: 0
@@ -69,10 +69,7 @@ MonoBehaviour:
     RefIds:
     - rid: 7701795883776999439
       type: {class: FireunitData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        factionIndex: 0
-        fireteamIndex: 0
-        fireunitIndex: 0
+      data: 
 --- !u!114 &3632140834092432590
 MonoBehaviour:
   m_ObjectHideFlags: 0

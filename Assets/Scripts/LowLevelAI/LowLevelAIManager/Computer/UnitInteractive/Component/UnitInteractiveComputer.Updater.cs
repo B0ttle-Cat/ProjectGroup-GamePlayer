@@ -40,11 +40,11 @@ namespace BC.LowLevelAI
 			if(afterValueListUpdate != null)
 			{
 				Queue<Action> tempQueue = afterValueListUpdate;
-				afterValueListUpdate.Clear();
 				while(tempQueue.Count > 0)
 				{
 					tempQueue.Dequeue()?.Invoke();
 				}
+				tempQueue.Clear();
 			}
 			afterValueListUpdate = new Queue<Action>();
 		}
@@ -180,7 +180,7 @@ namespace BC.LowLevelAI
 					info.Direction = direction;
 
 					///////////// 계산
-					bool inVisualRange = info.Distance <= actorValue.PlayValueData.VisualRange.Value;
+					bool inVisualRange = info.Distance <= actorValue.PlayValueData.시야거리.Value;
 
 					return inVisualRange;
 				}
@@ -254,8 +254,8 @@ namespace BC.LowLevelAI
 					IUnitInteractiveValue targetValue = target;
 
 					///////////// 계산
-					bool isInActionStartRange = info.Distance <= actorValue.PlayValueData.ActionRange.Start;
-					bool isInActionEndedRange = info.Distance <= actorValue.PlayValueData.ActionRange.Ended;
+					bool isInActionStartRange = info.Distance <= actorValue.PlayValueData.반응거리.Start;
+					bool isInActionEndedRange = info.Distance <= actorValue.PlayValueData.반응거리.Ended;
 					bool isInActionRange = info.IsInActionRange;
 
 					if(!isInActionRange && isInActionStartRange)
@@ -324,7 +324,7 @@ namespace BC.LowLevelAI
 				bool isInAttackRange = false;
 				if(info.IsInActionRange)
 				{
-					isInAttackRange = info.Distance <= actor.PlayValueData.AttackRange.Value;
+					isInAttackRange = info.Distance <= actor.PlayValueData.공격러리.Value;
 				}
 				info.IsInAttackRange = isInAttackRange;
 			}

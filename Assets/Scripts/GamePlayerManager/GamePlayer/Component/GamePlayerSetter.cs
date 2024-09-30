@@ -3,43 +3,31 @@ using BC.OdccBase;
 
 using Sirenix.OdinInspector;
 
-using UnityEngine;
-
 namespace BC.GamePlayerManager
 {
 	public class GamePlayerSetter : ComponentBehaviour, IStartSetup
 	{
-		[SerializeField,ReadOnly]
+		[ShowInInspector, ReadOnly]
 		private bool isCompleteSetting;
+		public bool IsCompleteSetting {
+			get {
+				if(isCompleteSetting) return true;
 
-		public bool IsCompleteSetting { get => isCompleteSetting; set => isCompleteSetting=value; }
-		public override void BaseEnable()
+				return isCompleteSetting;
+			}
+			set { isCompleteSetting=value; }
+		}
+
+
+		public override void BaseAwake()
 		{
+			base.BaseAwake();
 			IsCompleteSetting = false;
 		}
-		public override void BaseUpdate()
-		{
-			OnUpdateSetting();
-		}
-		public void OnStartSetting()
-		{
-			enabled = true;
-		}
 
-		public void OnStopSetting()
+		public override void BaseStart()
 		{
-			enabled = false;
-		}
-
-		public void OnUpdateSetting()
-		{
-			if(IsCompleteSetting)
-			{
-				OnStopSetting();
-				return;
-			}
-
-
+			base.BaseStart();
 			IsCompleteSetting = true;
 		}
 	}

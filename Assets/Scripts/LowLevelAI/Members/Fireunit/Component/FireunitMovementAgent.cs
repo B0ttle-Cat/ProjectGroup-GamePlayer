@@ -15,7 +15,7 @@ namespace BC.LowLevelAI
 		[SerializeField, ReadOnly]
 		protected Vector3 inputVectorTarget;
 		[SerializeField, ReadOnly]
-		protected MapPathNode inputNodeTarget;
+		protected IMapPathNode inputNodeTarget;
 		[SerializeField, ReadOnly]
 		protected Vector3 inputFormationPosition;
 
@@ -112,7 +112,7 @@ namespace BC.LowLevelAI
 				navMeshPath = NavMeshAgent.path;
 			}
 		}
-		internal void InputMoveTarget(MapPathNode target, Vector3 formationPosition)
+		internal void InputMoveTarget(IMapPathNode target, Vector3 formationPosition)
 		{
 			if(NavMeshAgent is null) return;
 

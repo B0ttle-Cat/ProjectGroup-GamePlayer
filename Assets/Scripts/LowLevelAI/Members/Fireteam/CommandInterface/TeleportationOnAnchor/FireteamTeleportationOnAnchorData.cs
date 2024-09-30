@@ -1,3 +1,5 @@
+using BC.OdccBase;
+
 using UnityEngine;
 
 namespace BC.LowLevelAI
@@ -5,7 +7,7 @@ namespace BC.LowLevelAI
 	public class FireteamTeleportationOnAnchorData : FireteamCommandData
 	{
 		[SerializeField]
-		private MapAnchor teleportationAnchor;
-		public MapAnchor TeleportationAnchor { get => teleportationAnchor; set => teleportationAnchor=value; }
+		private IMapAnchor teleportationAnchor;
+		public IMapAnchor TeleportationAnchor { get => teleportationAnchor; set => teleportationAnchor=value; }
 	}
 }

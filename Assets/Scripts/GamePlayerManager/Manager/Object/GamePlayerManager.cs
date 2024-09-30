@@ -42,7 +42,7 @@ namespace BC.GamePlayerManager
 			{
 				if(levelSetter is IStartSetup iSetter)
 				{
-					iSetter.OnStartSetting();
+					iSetter.ThisMono.enabled = true;
 				}
 			}
 
@@ -50,7 +50,15 @@ namespace BC.GamePlayerManager
 			{
 				if(playerSetter is IStartSetup iSetter)
 				{
-					iSetter.OnStartSetting();
+					iSetter.ThisMono.enabled = true;
+				}
+			}
+
+			if(ThisContainer.TryGetComponent<GameUnitSetter>(out var unitSetter))
+			{
+				if(unitSetter is IStartSetup iSetter)
+				{
+					iSetter.ThisMono.enabled = true;
 				}
 			}
 		}
@@ -61,7 +69,7 @@ namespace BC.GamePlayerManager
 			{
 				if(levelSetter is IStartSetup iSetter)
 				{
-					iSetter.OnStopSetting();
+					iSetter.ThisMono.enabled = false;
 				}
 			}
 
@@ -69,7 +77,15 @@ namespace BC.GamePlayerManager
 			{
 				if(playerSetter is IStartSetup iSetter)
 				{
-					iSetter.OnStopSetting();
+					iSetter.ThisMono.enabled = false;
+				}
+			}
+
+			if(ThisContainer.TryGetComponent<GameUnitSetter>(out var unitSetter))
+			{
+				if(unitSetter is IStartSetup iSetter)
+				{
+					iSetter.ThisMono.enabled = false;
 				}
 			}
 		}

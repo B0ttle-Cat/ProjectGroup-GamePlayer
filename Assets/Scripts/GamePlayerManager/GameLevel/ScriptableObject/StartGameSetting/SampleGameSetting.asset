@@ -25,9 +25,9 @@ MonoBehaviour:
   - factionIndex: 1
     teamIndex: 0
     anchorIndex: 3
-  - factionIndex: 1
-    teamIndex: 1
-    anchorIndex: 3
+  - factionIndex: 2
+    teamIndex: 0
+    anchorIndex: 4
   TeamGizmosInfo:
   - factionIndex: 0
     teamIndex: 0

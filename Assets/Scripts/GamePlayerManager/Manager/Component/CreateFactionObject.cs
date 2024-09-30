@@ -6,12 +6,25 @@ using BC.LowLevelAI;
 using BC.ODCC;
 using BC.OdccBase;
 
+using Sirenix.OdinInspector;
+
 using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
 	public class CreateFactionObject : ComponentBehaviour, IStartSetup
 	{
+		[ShowInInspector, ReadOnly]
+		private bool isCompleteSetting;
+		public bool IsCompleteSetting {
+			get {
+				if(isCompleteSetting) return true;
+				return isCompleteSetting = FactionSetting is not null;
+			}
+			set { isCompleteSetting=value; }
+		}
+
+
 		[SerializeField]
 		private FactionObject ObjectPrefab;
 
@@ -22,16 +35,12 @@ namespace BC.GamePlayerManager
 		private OdccQueryCollector characterQueryCollector;
 
 		public StartFactionSetting FactionSetting { get; set; }
-		public bool IsCompleteSetting { get; set; }
 
-		public override void BaseValidate()
+		public override void BaseAwake()
 		{
-			base.BaseValidate();
-		}
+			isCompleteSetting = false;
 
-
-		public void OnStartSetting()
-		{
+			base.BaseAwake();
 			if(ObjectPrefab != null)
 			{
 				ObjectPrefab.gameObject.SetActive(false);
@@ -44,10 +53,8 @@ namespace BC.GamePlayerManager
 
 			characterQueryCollector = OdccQueryCollector.CreateQueryCollector(characterQuerySystem)
 				.CreateChangeListEvent(InitList, UpdateList);
-
-			IsCompleteSetting = true;
 		}
-		public void OnStopSetting()
+		public override void BaseDestroy()
 		{
 			base.BaseDestroy();
 			if(characterQueryCollector != null)

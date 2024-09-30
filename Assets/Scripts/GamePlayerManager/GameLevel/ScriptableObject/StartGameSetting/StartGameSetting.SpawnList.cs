@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 
+using BC.OdccBase;
+
 using Sirenix.OdinInspector;
 
 using UnityEngine;
@@ -10,7 +12,7 @@ namespace BC.GamePlayerManager
 	public partial class StartGameSetting//.SpawnList
 	{
 		[Serializable]
-		public partial struct SpawnAnchor
+		public partial class SpawnAnchor : IFireteamData
 		{
 			[ValueDropdown("ShowFactionList")]
 			[TableColumnWidth(150, false)]
@@ -27,6 +29,10 @@ namespace BC.GamePlayerManager
 			public int FactionIndex { get => factionIndex; set => factionIndex=value; }
 			public int TeamIndex { get => teamIndex; set => teamIndex=value; }
 			public int AnchorIndex { get => anchorIndex; set => anchorIndex=value; }
+
+			public void Dispose()
+			{
+			}
 		}
 
 #if UNITY_EDITOR
@@ -69,7 +75,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		public partial struct SpawnAnchor : IShowFactionList, IShowTeamList, IShowUnitList, IShowAnchorList
+		public partial class SpawnAnchor : IShowFactionList, IShowTeamList, IShowUnitList, IShowAnchorList
 		{
 			public IEnumerable ShowFactionList()
 			{

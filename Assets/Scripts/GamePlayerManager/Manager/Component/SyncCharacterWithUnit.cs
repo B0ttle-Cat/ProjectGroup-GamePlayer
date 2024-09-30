@@ -125,7 +125,7 @@ namespace BC.GamePlayerManager
 			{
 				return;
 			}
-			if(!character.ThisContainer.TryGetComponent<ICharacterAgent>(out var characterAgent))
+			if(!character.ThisContainer.TryGetComponent<ICharacterAgent>(out var characterAgent) || !characterAgent.IsReady)
 			{
 				return;
 			}

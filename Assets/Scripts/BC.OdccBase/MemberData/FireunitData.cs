@@ -34,9 +34,6 @@ namespace BC.OdccBase
 	public class FireunitData : MemberData, IFireunitData
 	{
 		private Vector3Int fireunitData;
-		private int factionIndex;
-		private int fireteamIndex;
-		private int fireunitIndex;
 
 		public Vector3Int MemberUniqueID => fireunitData;
 		[ShowInInspector, ValueDropdown("ShowTargetFactionName")]

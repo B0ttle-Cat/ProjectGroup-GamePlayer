@@ -16,7 +16,7 @@ namespace BC.DamageSystem
 		public struct AttackAffinityAdvantage
 		{
 			public AdvantageLevel level;
-			public float affinityAttackDamage;
+			public float 상성보스스배율;
 
 			public SubDamageType SubDamageType => level switch {
 				AdvantageLevel.최악 => SubDamageType.최악,
@@ -32,13 +32,13 @@ namespace BC.DamageSystem
 		public struct FieldAdvantage
 		{
 			public AdvantageLevel level;
-			public float attackDamage;
-			public float accuracyProbability;
-			public float criticalProbability;
+			public float 공격력배율;
+			public float 명중수치배율;
+			public float 치명수치배율;
 
-			public float anti_attackDamage;
-			public float anti_accuracyProbability;
-			public float anti_criticalProbability;
+			public float 방어력배율;
+			public float 회피수치배율;
+			public float 치명저항배율;
 		}
 
 		internal void OnDamageCompute(IUnitInteractiveValue actor, IUnitInteractiveValue[] targets, ProjectileHitReport.ProjectileType projectileType)
@@ -73,44 +73,44 @@ namespace BC.DamageSystem
 			IUnitTypeValue TargetType = target.TypeValueData;
 			IUnitPlayValue TargetValue = target.PlayValueData;
 
-			AttackAffinityAdvantage attackAffinityAdvantage = ComputeAttackAffinityAdvantage(ActorType.AttackTypeValue, TargetType.DefenseTypeValue);
-			FieldAdvantage actorFieldAdvantage = ComputeFieldAdvantage(ActorType.FieldTypeValue, fieldType);
-			FieldAdvantage targetFieldAdvantage = ComputeFieldAdvantage(TargetType.FieldTypeValue, fieldType);
+			AttackAffinityAdvantage attackAffinityAdvantage = ComputeAttackAffinityAdvantage(ActorType.공격타입, TargetType.방어타입);
+			FieldAdvantage actorFieldAdvantage = ComputeFieldAdvantage(ActorType.지형속성, fieldType);
+			FieldAdvantage targetFieldAdvantage = ComputeFieldAdvantage(TargetType.지형속성, fieldType);
 
 			DamageType damageType = DamageType.피해;
 			SubDamageType subDamageType = attackAffinityAdvantage.SubDamageType;
 
 			// 명중 결정
-			if(!CheckAccuracy(ActorValue.AccuracyPoint.Value * actorFieldAdvantage.accuracyProbability, TargetValue.Anti_AccuracyPoint.Value * targetFieldAdvantage.anti_accuracyProbability))
+			if(!CheckAccuracy(ActorValue.명중수치.Value * actorFieldAdvantage.명중수치배율, TargetValue.회피수치.Value * targetFieldAdvantage.회피수치배율))
 			{
 				damageReport.SetReport(0, DamageType.빗나감);
 				return;
 			}
 			// 크리티컬 결정
-			if(CheckCritical(ActorValue.CriticalProbabilityPoint.Value * actorFieldAdvantage.criticalProbability, TargetValue.Anti_CriticalProbabilityPoint.Value * targetFieldAdvantage.anti_accuracyProbability))
+			if(CheckCritical(ActorValue.치명공격수치.Value * actorFieldAdvantage.치명수치배율, TargetValue.치명방어증가율.Value * targetFieldAdvantage.회피수치배율))
 			{
 				subDamageType |= SubDamageType.치명타;
 			}
 
 			///////////////////////////////////////
 			// 기본 피해량 
-			float baseDamage = ActorValue.OffenseDamagePoint.Value * Utils.RandomDistribution.NextGaussianClamp1() * ActorValue.OffenseRandomRate.Value;
+			float baseDamage = ActorValue.공격력.Value * Mathf.Lerp(0.8f,1.2f, Utils.RandomDistribution.NextGaussianClamp1());
 			// 지형 보너스
-			float fieldDamage = actorFieldAdvantage.attackDamage;
+			float fieldDamage = actorFieldAdvantage.공격력배율;
 			// 치명 보너스
-			float criticalDamage = subDamageType.HasFlag(SubDamageType.치명타) ? Mathf.Max(ActorValue.CriticalAttackMultiplier.Value - TargetValue.Anti_CriticalAttackMultiplier.Value,0.2f) : 0f;
+			float criticalDamage = subDamageType.HasFlag(SubDamageType.치명타) ? Mathf.Max(ActorValue.치명공격증가율.Value,0.2f) : 0f;
 			// 전달 피해량
 			float resultDamage = baseDamage * (fieldDamage + criticalDamage);
 			///////////////////////////////////////
 			// 기본 방어값
-			float anti_baseDamage = TargetValue.DefenseDamagePoint.Value * Utils.RandomDistribution.NextGaussianClamp1() * TargetValue.DefenseRandomRate.Value;
+			float anti_baseDamage = TargetValue.공격력.Value * Mathf.Lerp(0.8f,1.2f, Utils.RandomDistribution.NextGaussianClamp1());
 			// 지형 보너스
-			float anti_fieldDamage = targetFieldAdvantage.attackDamage;
+			float anti_fieldDamage = targetFieldAdvantage.공격력배율;
 			// 최종 방어력 
 			float anti_resultDamage = anti_baseDamage * (anti_fieldDamage);
 			///////////////////////////////////////
 			// 상성 보너스
-			float affinityDamage = attackAffinityAdvantage.affinityAttackDamage;
+			float affinityDamage = attackAffinityAdvantage.상성보스스배율;
 			// 최종 피해량
 			float totalDamage = (resultDamage - anti_resultDamage) * (affinityDamage);
 			///////////////////////////////////////
@@ -152,7 +152,7 @@ namespace BC.DamageSystem
 
 			return new AttackAffinityAdvantage() {
 				level = level,
-				affinityAttackDamage = level switch {
+				상성보스스배율 = level switch {
 					AdvantageLevel.최악 => 0.25f,
 					AdvantageLevel.무효 => 0.50f,
 					AdvantageLevel.저항 => 0.75f,
@@ -169,13 +169,13 @@ namespace BC.DamageSystem
 			var level = fieldAdvantageLevel[fieldType];
 			return new FieldAdvantage() {
 				level = level,
-				attackDamage = AdvantageAttackDamage(level),
-				accuracyProbability = AdvantageAccuracy(level),
-				criticalProbability = AdvantageCritical(level),
+				공격력배율 = AdvantageAttackDamage(level),
+				명중수치배율 = AdvantageAccuracy(level),
+				치명수치배율 = AdvantageCritical(level),
 
-				anti_attackDamage = Anti_AdvantageAttackDamage(level),
-				anti_accuracyProbability = Anti_AdvantageAccuracy(level),
-				anti_criticalProbability = Anti_AdvantageCritical(level),
+				방어력배율 = Anti_AdvantageAttackDamage(level),
+				회피수치배율 = Anti_AdvantageAccuracy(level),
+				치명저항배율 = Anti_AdvantageCritical(level),
 			};
 			float AdvantageAttackDamage(AdvantageLevel level)
 			{

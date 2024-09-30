@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using BC.LowLevelAI;
 using BC.ODCC;
 using BC.OdccBase;
 
@@ -13,21 +12,18 @@ namespace BC.HighLevelAI
 	public class FactionStrategyComputer : ComponentBehaviour
 	{
 		private FireteamTacticsComputer fireteamTacticsComputer;
-		private MapPathPointComputer mapPathPointComputer;
 
 		[SerializeField] private OdccQueryCollector factionStrategyAICollector;
 		[SerializeField] private OdccQueryCollector fireteamStrategyAICollector;
 		[SerializeField] private OdccQueryCollector strategicPointCollector;
 
 		public float StrategyUpdateTime;
-		private bool IsWaitPathPointComputing => mapPathPointComputer == null ? true : mapPathPointComputer.IsComputing;
-		private IEnumerable<StrategicPoint> allStrategicPointList { get; set; }
+		private IEnumerable<IStrategicPoint> allStrategicPointList { get; set; }
 
 		public override void BaseAwake()
 		{
 			base.BaseAwake();
 
-			mapPathPointComputer = ThisContainer.GetComponent<MapPathPointComputer>();
 			fireteamTacticsComputer = ThisContainer.GetComponent<FireteamTacticsComputer>();
 
 			factionStrategyAICollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
@@ -35,7 +31,7 @@ namespace BC.HighLevelAI
 				.Build());
 
 			strategicPointCollector = OdccQueryCollector.CreateQueryCollector(QuerySystemBuilder.CreateQuery()
-				.WithAll<MapAnchor, StrategicPoint>()
+				.WithAll<IMapAnchor, IStrategicPoint>()
 				.Build());
 		}
 
@@ -44,7 +40,7 @@ namespace BC.HighLevelAI
 			base.BaseEnable();
 
 
-			allStrategicPointList = strategicPointCollector.GetQueryItems().Select(item => item.ThisContainer.GetComponent<StrategicPoint>());
+			allStrategicPointList = strategicPointCollector.GetQueryItems().Select(item => item.ThisContainer.GetComponent<IStrategicPoint>());
 		}
 
 		public override void BaseDisable()

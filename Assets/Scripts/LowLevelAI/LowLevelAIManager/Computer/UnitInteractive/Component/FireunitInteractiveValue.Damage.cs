@@ -6,15 +6,15 @@ namespace BC.LowLevelAI
 	{
 		void ITakeDamage.OnTakeDamage(in int value)
 		{
-			var healthPoint = PlayValueData.HealthPoint;
+			var healthPoint = PlayValueData.채력;
 			healthPoint.Value -= value;
-			PlayValueData.HealthPoint = healthPoint;
+			PlayValueData.채력 = healthPoint;
 		}
 		void ITakeRecovery.OnTakeRecovery(in int value)
 		{
-			var healthPoint = PlayValueData.HealthPoint;
+			var healthPoint = PlayValueData.채력;
 			healthPoint.Value += value;
-			PlayValueData.HealthPoint = healthPoint;
+			PlayValueData.채력 = healthPoint;
 		}
 		void ITakeDamage.OnMissAttack()
 		{

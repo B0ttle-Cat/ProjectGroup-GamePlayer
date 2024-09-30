@@ -61,8 +61,7 @@ namespace BC.Character
 		{
 			if(CharacterData != null || ThisContainer.TryGetData<CharacterData>(out characterData))
 			{
-				gameObject.name = $"{CharacterData.FactionIndex:00} | {CharacterData.TeamIndex:00} | {CharacterData.UnitIndex:00} Character " +
-					$"({(Model == null ? "" : Model.name)} | {(Weapon == null ? "" : Weapon.name)})";
+				gameObject.name = $"{CharacterData.FactionIndex:00} | {CharacterData.TeamIndex:00} | {CharacterData.UnitIndex:00} Character";
 			}
 		}
 		public override void BaseDestroy()

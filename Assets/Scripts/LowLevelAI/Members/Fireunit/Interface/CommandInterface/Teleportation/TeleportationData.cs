@@ -1,8 +1,10 @@
-﻿namespace BC.LowLevelAI
+﻿using BC.OdccBase;
+
+namespace BC.LowLevelAI
 {
 	public class TeleportationData : FireunitCommandData
 	{
-		public MapAnchor targetAnchor;
+		public IMapAnchor targetAnchor;
 		public int totalUnitCount;
 		public int unitIndex;
 		public float targetRadius = 2f;

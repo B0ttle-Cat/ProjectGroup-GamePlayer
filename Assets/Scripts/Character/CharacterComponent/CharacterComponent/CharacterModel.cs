@@ -1,23 +1,27 @@
+using BC.Base;
+using BC.OdccBase;
+
+using UnityEngine;
+
 namespace BC.Character
 {
-	public class CharacterModel : ModelComponent
+	public class CharacterModel : ModelComponent, ICharacterAgent.ITransformPose
 	{
-#if UNITY_EDITOR
-		public override void BaseValidate() { }
-#endif
-		public override void BaseEnable()
-		{
-		}
-		public override void BaseDisable()
-		{
+		[SerializeField]
+		private Transform hitPivot;
 
-		}
-		public override void BaseStart()
-		{
+		public Pose WorldPose => ThisTransform.GetWorldPose();
+		public Pose LocalPose => ThisTransform.GetLocalPose();
+		public Vector3 HitPosition { get => (hitPivot == null ? (WorldPose.position + (Vector3.up * 0.5f)) : hitPivot.position); }
 
-		}
-		public override void BaseUpdate()
+
+		void ICharacterAgent.ITransformPose.OnUpdatePose(Vector3 position, Quaternion rotation)
 		{
+			ThisTransform.SetPositionAndRotation(position, rotation);
+		}
+		void ICharacterAgent.ITransformPose.OnUpdateLocalPose(Vector3 position, Quaternion rotation)
+		{
+			ThisTransform.SetLocalPositionAndRotation(position, rotation);
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace BC.OdccBase
 	}
 	public interface ICharacterAgent : IOdccComponent
 	{
+		bool IsReady => UnitData is not null && TransformPose is not null && Animation is not null && Weapon is not null;
 		public IFireunitData UnitData { get; }
 		public ITransformPose TransformPose { get; }
 		public IAnimation Animation { get; }

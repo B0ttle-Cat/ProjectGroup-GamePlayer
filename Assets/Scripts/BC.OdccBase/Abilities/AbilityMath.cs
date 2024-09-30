@@ -1,18 +1,25 @@
 using System;
 
+using Sirenix.OdinInspector;
+
 namespace BC.OdccBase
 {
 	public static class AbilityMath
 	{
-		[Serializable]
+		[Serializable, InlineProperty]
 		public struct AbilityRange<T>
 		{
+			[HideLabel]
+			[HorizontalGroup]
 			public T Start;
+			[HideLabel]
+			[HorizontalGroup]
 			public T Ended;
 		};
-		[Serializable]
+		[Serializable, InlineProperty]
 		public struct AbilityValue<T>
 		{
+			[HideLabel]
 			public T Value;
 		};
 	}

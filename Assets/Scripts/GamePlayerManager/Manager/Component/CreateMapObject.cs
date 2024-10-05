@@ -24,7 +24,7 @@ namespace BC.GamePlayerManager
 			}
 			set { isCompleteSetting=value; }
 		}
-		public StartMapSetting MapSetting { get; internal set; }
+		public MapSetting MapSetting { get; internal set; }
 
 
 		[SerializeField, HideLabel]

@@ -11,9 +11,9 @@ namespace BC.GamePlayerManager
 	[Serializable]
 	public partial class CharacterResourcesSetter
 	{
-		[SerializeField, HideLabel, FoldoutGroup("Model Resources Character")]
+		[SerializeField, HideLabel]
 		private ResourcesKey characterKey;
-		[SerializeField, HideLabel, FoldoutGroup("Model Resources Weapon")]
+		[SerializeField, HideLabel]
 		private ResourcesKey weaponKey;
 
 		public ResourcesKey CharacterResourcesKey { get => characterKey; }

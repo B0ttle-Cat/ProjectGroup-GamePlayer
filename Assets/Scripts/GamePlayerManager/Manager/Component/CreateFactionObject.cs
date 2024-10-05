@@ -34,7 +34,7 @@ namespace BC.GamePlayerManager
 		[SerializeField]
 		private OdccQueryCollector characterQueryCollector;
 
-		public StartFactionSetting FactionSetting { get; set; }
+		public FactionSetting FactionSetting { get; set; }
 
 		public override void BaseAwake()
 		{
@@ -148,11 +148,10 @@ namespace BC.GamePlayerManager
 
 			if(!ThisContainer.TryGetChildObject<FactionObject>(out var faction, item => FindObject(item, factionIndex)))
 			{
-				var factionInfoIndex = FactionSetting.factionInfoList.FindIndex(item => item.FactionIndex == factionIndex);
+				var factionInfoIndex = FactionSetting.factionSettingList.FindIndex(item => item.FactionIndex == factionIndex);
 				if(factionInfoIndex>=0)
 				{
-					var factionInfo = FactionSetting.factionInfoList[factionInfoIndex];
-					var diplomacyList = FactionSetting.diplomacyInfoList;
+					var factionInfo = FactionSetting.factionSettingList[factionInfoIndex];
 
 					ObjectPrefab.gameObject.SetActive(false);
 					var createObject = GameObject.Instantiate(ObjectPrefab);

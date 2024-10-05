@@ -12,7 +12,7 @@ using Sirenix.OdinInspector;
 
 using UnityEngine;
 
-using static BC.GamePlayerManager.StartGameSetting;
+using static BC.GamePlayerManager.TeamSetting;
 
 namespace BC.GamePlayerManager
 {
@@ -32,8 +32,8 @@ namespace BC.GamePlayerManager
 		[SerializeField]
 		private CharacterObject characterPrefab;
 
-		public StartUnitSetting UnitSetting { get; internal set; }
-		public List<SpawnAnchor> SpawnList { get; internal set; }
+		public UnitSetting UnitSetting { get; internal set; }
+		public List<TeamSettingInfo> SpawnList { get; internal set; }
 
 		public override void BaseAwake()
 		{
@@ -65,7 +65,7 @@ namespace BC.GamePlayerManager
 				await Awaitable.NextFrameAsync();
 				if(!enabled) return;
 			}
-			var characterSettingList = new Queue<(StartUnitSettingCharacter, SpawnData)>();
+			var characterSettingList = new Queue<(UnitSettingInfo, SpawnData)>();
 			await CreateSettingList();
 			await CreateCharacterList();
 			isCompleteSetting = true;
@@ -77,7 +77,7 @@ namespace BC.GamePlayerManager
 
 				IsCompleteSetting = true;
 
-				var list = UnitSetting.characterDatas;
+				var list = UnitSetting.unitSettingList;
 				var gorup = list.GroupBy(item => (item.FactionIndex, item.TeamIndex));
 				int length = list.Count;
 
@@ -117,7 +117,7 @@ namespace BC.GamePlayerManager
 					var item = characterSettingList.Dequeue();
 					Create(item.Item1, item.Item2);
 				}
-				async void Create(StartUnitSettingCharacter characterData, SpawnData spawnData)
+				async void Create(UnitSettingInfo characterData, SpawnData spawnData)
 				{
 					CharacterObject characterObject = await InstantiateCharacterObject(characterData, spawnData);
 					count--;
@@ -129,7 +129,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private async Awaitable<CharacterObject> InstantiateCharacterObject(StartUnitSettingCharacter fireunitSettingData, SpawnData spawnData)
+		private async Awaitable<CharacterObject> InstantiateCharacterObject(UnitSettingInfo fireunitSettingData, SpawnData spawnData)
 		{
 			if(characterPrefab == null) return null;
 

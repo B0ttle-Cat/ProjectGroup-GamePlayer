@@ -1,0 +1,497 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8678288947767768502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e7a7976f941544e89f6208af988c6e, type: 3}
+  m_Name: UnitSetting
+  m_EditorClassIdentifier: 
+  mainPlaySetting: {fileID: 11400000}
+  unitSettingList:
+  - fireunitData: {x: 0, y: 0, z: 0}
+    characterSetterIndex: 0
+  - fireunitData: {x: 0, y: 0, z: 1}
+    characterSetterIndex: 0
+  - fireunitData: {x: 0, y: 1, z: 0}
+    characterSetterIndex: 0
+  - fireunitData: {x: 0, y: 1, z: 1}
+    characterSetterIndex: 0
+  - fireunitData: {x: 1, y: 0, z: 0}
+    characterSetterIndex: 1
+  - fireunitData: {x: 1, y: 0, z: 1}
+    characterSetterIndex: 1
+  - fireunitData: {x: 2, y: 0, z: 0}
+    characterSetterIndex: 2
+  - fireunitData: {x: 2, y: 0, z: 1}
+    characterSetterIndex: 2
+  - fireunitData: {x: 3, y: 0, z: 0}
+    characterSetterIndex: 3
+  - fireunitData: {x: 3, y: 0, z: 1}
+    characterSetterIndex: 3
+--- !u!114 &-2360557815429340039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39601b83cbad70b4699ccff55c619972, type: 3}
+  m_Name: MapSetting
+  m_EditorClassIdentifier: 
+  mainPlaySetting: {fileID: 11400000}
+  playMapKey:
+    LoadType: 0
+    ObjectAsset: {fileID: 3582519359542902719, guid: 7ecb579ed90154048bbfe9bca1431197,
+      type: 3}
+  playMapStageInfo:
+    anchorInfos:
+    - anchorIndex: 0
+      anchorName: 00 | StrategicPoint
+    - anchorIndex: 1
+      anchorName: 01 | StrategicPoint
+    - anchorIndex: 2
+      anchorName: 02 | StrategicPoint
+    - anchorIndex: 3
+      anchorName: 03 | StrategicPoint
+    - anchorIndex: 4
+      anchorName: 04 | StrategicPoint
+--- !u!114 &-1522779174370822409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b4acbee96226d46b4b78bde3f07a3c, type: 3}
+  m_Name: TeamSetting
+  m_EditorClassIdentifier: 
+  mainPlaySetting: {fileID: 11400000}
+  teamSettingList:
+  - teamUniqueID: {x: 0, y: 0}
+    anchorIndex: 0
+  - teamUniqueID: {x: 0, y: 1}
+    anchorIndex: 1
+  - teamUniqueID: {x: 1, y: 0}
+    anchorIndex: 2
+  - teamUniqueID: {x: 2, y: 0}
+    anchorIndex: 3
+  - teamUniqueID: {x: 3, y: 0}
+    anchorIndex: 4
+--- !u!114 &-919116978897770329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f3f8cf7e95f7c4e95a20d1555ca13a, type: 3}
+  m_Name: FactionSetting
+  m_EditorClassIdentifier: 
+  mainPlaySetting: {fileID: 11400000}
+  factionSettingList:
+  - factionColor: {r: 1, g: 0, b: 0, a: 1}
+    factionControlType: 0
+    factionIndex: 0
+    factionName: Faction A
+    diplomacyInfoList:
+    - factionTarget: 0
+      factionDiplomacy: 10
+    - factionTarget: 1
+      factionDiplomacy: -10
+    - factionTarget: 2
+      factionDiplomacy: -10
+    - factionTarget: 3
+      factionDiplomacy: 0
+  - factionColor: {r: 1, g: 1, b: 0, a: 1}
+    factionControlType: 10
+    factionIndex: 1
+    factionName: Faction B
+    diplomacyInfoList:
+    - factionTarget: 0
+      factionDiplomacy: -10
+    - factionTarget: 1
+      factionDiplomacy: 10
+    - factionTarget: 2
+      factionDiplomacy: -10
+    - factionTarget: 3
+      factionDiplomacy: 0
+  - factionColor: {r: 0, g: 1, b: 0, a: 1}
+    factionControlType: 10
+    factionIndex: 2
+    factionName: Faction C
+    diplomacyInfoList:
+    - factionTarget: 0
+      factionDiplomacy: -10
+    - factionTarget: 1
+      factionDiplomacy: -10
+    - factionTarget: 2
+      factionDiplomacy: 10
+    - factionTarget: 3
+      factionDiplomacy: 0
+  - factionColor: {r: 0, g: 1, b: 1, a: 1}
+    factionControlType: 10
+    factionIndex: 3
+    factionName: Faction D
+    diplomacyInfoList:
+    - factionTarget: 0
+      factionDiplomacy: 0
+    - factionTarget: 1
+      factionDiplomacy: 0
+    - factionTarget: 2
+      factionDiplomacy: 0
+    - factionTarget: 3
+      factionDiplomacy: 10
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d43a1dfbe25596439a5cd8947e1d2a7, type: 3}
+  m_Name: MainPlaySetting
+  m_EditorClassIdentifier: 
+  FactionSetting: {fileID: -919116978897770329}
+  MapSetting: {fileID: -2360557815429340039}
+  TeamSetting: {fileID: -1522779174370822409}
+  UnitSetting: {fileID: -8678288947767768502}
+  CharacterSetting: {fileID: 4402699729575039472}
+--- !u!114 &4402699729575039472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a939c25401709d247858873af04b3f58, type: 3}
+  m_Name: CharacterSetting
+  m_EditorClassIdentifier: 
+  mainPlaySetting: {fileID: 11400000}
+  DefaultSetter:
+    characterName: 
+    ResourcesSetter:
+      characterKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 8437899898182083799, guid: 2eb7db448384b3e4687634f3b5d4295f,
+          type: 3}
+      weaponKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 3787843607375371052, guid: 8496717dd372d1e43b92ef66fd5194f4,
+          type: 3}
+    TypeSetter:
+      "_\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBB34\uC7A5\uBD84\uB958": 0
+      "_\uC9C4\uC601\uBD84\uB958": 0
+      "_\uC5ED\uD560\uBD84\uB958": 0
+      "_\uB4F1\uAE09\uBD84\uB958": 0
+      "_\uC9C0\uD615\uC18D\uC131":
+        "\uC2DC\uAC00\uC9C0": 0
+        "\uC57C\uC804": 0
+        "\uC2E4\uB0B4": 0
+    ValueSetter:
+      "_\uC2DC\uC57C\uAC70\uB9AC":
+        Value: 20
+      "_\uBC18\uC751\uAC70\uB9AC":
+        Value: 15
+      "_\uCD94\uC801\uAC70\uB9AC":
+        Value: 18
+      "_\uACF5\uACA9\uB7EC\uB9AC":
+        Value: 17
+      "_\uCD5C\uB300\uCC44\uB825":
+        Value: 2000
+      "_\uCD5C\uB300\uAE30\uB825":
+        Value: 200
+      "_\uACF5\uACA9\uB825":
+        Value: 150
+      "_\uBC29\uC5B4\uB825":
+        Value: 100
+      "_\uCE58\uC720\uB825":
+        Value: 150
+      "_\uC81C\uC555\uB825":
+        Value: 50
+      "_\uC800\uD56D\uB825":
+        Value: 10
+      "_\uBA85\uC911\uC218\uCE58":
+        Value: 100
+      "_\uD68C\uD53C\uC218\uCE58":
+        Value: 30
+      "_\uC870\uC885\uC9C0\uC5F0":
+        Value: 0.5
+      "_\uACF5\uACA9\uC9C0\uC5F0":
+        Value: 0.1
+      "_\uCE58\uBA85\uACF5\uACA9\uC218\uCE58":
+        Value: 50
+      "_\uCE58\uBA85\uACF5\uACA9\uC99D\uAC00\uC728":
+        Value: 100
+      "_\uCE58\uBA85\uBC29\uC5B4\uC218\uCE58":
+        Value: 10
+      "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
+        Value: 100
+  characterSetterList:
+  - characterName: New Character  00
+    ResourcesSetter:
+      characterKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 8437899898182083799, guid: 2eb7db448384b3e4687634f3b5d4295f,
+          type: 3}
+      weaponKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 3787843607375371052, guid: 8496717dd372d1e43b92ef66fd5194f4,
+          type: 3}
+    TypeSetter:
+      "_\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBB34\uC7A5\uBD84\uB958": 0
+      "_\uC9C4\uC601\uBD84\uB958": 0
+      "_\uC5ED\uD560\uBD84\uB958": 0
+      "_\uB4F1\uAE09\uBD84\uB958": 0
+      "_\uC9C0\uD615\uC18D\uC131":
+        "\uC2DC\uAC00\uC9C0": 0
+        "\uC57C\uC804": 0
+        "\uC2E4\uB0B4": 0
+    ValueSetter:
+      "_\uC2DC\uC57C\uAC70\uB9AC":
+        Value: 20
+      "_\uBC18\uC751\uAC70\uB9AC":
+        Value: 15
+      "_\uCD94\uC801\uAC70\uB9AC":
+        Value: 18
+      "_\uACF5\uACA9\uB7EC\uB9AC":
+        Value: 17
+      "_\uCD5C\uB300\uCC44\uB825":
+        Value: 2000
+      "_\uCD5C\uB300\uAE30\uB825":
+        Value: 200
+      "_\uACF5\uACA9\uB825":
+        Value: 150
+      "_\uBC29\uC5B4\uB825":
+        Value: 100
+      "_\uCE58\uC720\uB825":
+        Value: 150
+      "_\uC81C\uC555\uB825":
+        Value: 50
+      "_\uC800\uD56D\uB825":
+        Value: 10
+      "_\uBA85\uC911\uC218\uCE58":
+        Value: 100
+      "_\uD68C\uD53C\uC218\uCE58":
+        Value: 30
+      "_\uC870\uC885\uC9C0\uC5F0":
+        Value: 0.5
+      "_\uACF5\uACA9\uC9C0\uC5F0":
+        Value: 0.1
+      "_\uCE58\uBA85\uACF5\uACA9\uC218\uCE58":
+        Value: 50
+      "_\uCE58\uBA85\uACF5\uACA9\uC99D\uAC00\uC728":
+        Value: 100
+      "_\uCE58\uBA85\uBC29\uC5B4\uC218\uCE58":
+        Value: 10
+      "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
+        Value: 100
+  - characterName: New Character  01
+    ResourcesSetter:
+      characterKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 8437899898182083799, guid: 2eb7db448384b3e4687634f3b5d4295f,
+          type: 3}
+      weaponKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 3787843607375371052, guid: 8496717dd372d1e43b92ef66fd5194f4,
+          type: 3}
+    TypeSetter:
+      "_\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBB34\uC7A5\uBD84\uB958": 0
+      "_\uC9C4\uC601\uBD84\uB958": 0
+      "_\uC5ED\uD560\uBD84\uB958": 0
+      "_\uB4F1\uAE09\uBD84\uB958": 0
+      "_\uC9C0\uD615\uC18D\uC131":
+        "\uC2DC\uAC00\uC9C0": 0
+        "\uC57C\uC804": 0
+        "\uC2E4\uB0B4": 0
+    ValueSetter:
+      "_\uC2DC\uC57C\uAC70\uB9AC":
+        Value: 20
+      "_\uBC18\uC751\uAC70\uB9AC":
+        Value: 15
+      "_\uCD94\uC801\uAC70\uB9AC":
+        Value: 18
+      "_\uACF5\uACA9\uB7EC\uB9AC":
+        Value: 17
+      "_\uCD5C\uB300\uCC44\uB825":
+        Value: 2000
+      "_\uCD5C\uB300\uAE30\uB825":
+        Value: 200
+      "_\uACF5\uACA9\uB825":
+        Value: 150
+      "_\uBC29\uC5B4\uB825":
+        Value: 100
+      "_\uCE58\uC720\uB825":
+        Value: 150
+      "_\uC81C\uC555\uB825":
+        Value: 50
+      "_\uC800\uD56D\uB825":
+        Value: 10
+      "_\uBA85\uC911\uC218\uCE58":
+        Value: 100
+      "_\uD68C\uD53C\uC218\uCE58":
+        Value: 30
+      "_\uC870\uC885\uC9C0\uC5F0":
+        Value: 0.5
+      "_\uACF5\uACA9\uC9C0\uC5F0":
+        Value: 0.1
+      "_\uCE58\uBA85\uACF5\uACA9\uC218\uCE58":
+        Value: 50
+      "_\uCE58\uBA85\uACF5\uACA9\uC99D\uAC00\uC728":
+        Value: 100
+      "_\uCE58\uBA85\uBC29\uC5B4\uC218\uCE58":
+        Value: 10
+      "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
+        Value: 100
+  - characterName: New Character  02
+    ResourcesSetter:
+      characterKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 8437899898182083799, guid: 2eb7db448384b3e4687634f3b5d4295f,
+          type: 3}
+      weaponKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 3787843607375371052, guid: 8496717dd372d1e43b92ef66fd5194f4,
+          type: 3}
+    TypeSetter:
+      "_\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBB34\uC7A5\uBD84\uB958": 0
+      "_\uC9C4\uC601\uBD84\uB958": 0
+      "_\uC5ED\uD560\uBD84\uB958": 0
+      "_\uB4F1\uAE09\uBD84\uB958": 0
+      "_\uC9C0\uD615\uC18D\uC131":
+        "\uC2DC\uAC00\uC9C0": 0
+        "\uC57C\uC804": 0
+        "\uC2E4\uB0B4": 0
+    ValueSetter:
+      "_\uC2DC\uC57C\uAC70\uB9AC":
+        Value: 20
+      "_\uBC18\uC751\uAC70\uB9AC":
+        Value: 15
+      "_\uCD94\uC801\uAC70\uB9AC":
+        Value: 18
+      "_\uACF5\uACA9\uB7EC\uB9AC":
+        Value: 17
+      "_\uCD5C\uB300\uCC44\uB825":
+        Value: 2000
+      "_\uCD5C\uB300\uAE30\uB825":
+        Value: 200
+      "_\uACF5\uACA9\uB825":
+        Value: 150
+      "_\uBC29\uC5B4\uB825":
+        Value: 100
+      "_\uCE58\uC720\uB825":
+        Value: 150
+      "_\uC81C\uC555\uB825":
+        Value: 50
+      "_\uC800\uD56D\uB825":
+        Value: 10
+      "_\uBA85\uC911\uC218\uCE58":
+        Value: 100
+      "_\uD68C\uD53C\uC218\uCE58":
+        Value: 30
+      "_\uC870\uC885\uC9C0\uC5F0":
+        Value: 0.5
+      "_\uACF5\uACA9\uC9C0\uC5F0":
+        Value: 0.1
+      "_\uCE58\uBA85\uACF5\uACA9\uC218\uCE58":
+        Value: 50
+      "_\uCE58\uBA85\uACF5\uACA9\uC99D\uAC00\uC728":
+        Value: 100
+      "_\uCE58\uBA85\uBC29\uC5B4\uC218\uCE58":
+        Value: 10
+      "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
+        Value: 100
+  - characterName: New Character  03
+    ResourcesSetter:
+      characterKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 8437899898182083799, guid: 2eb7db448384b3e4687634f3b5d4295f,
+          type: 3}
+      weaponKey:
+        LoadType: 0
+        ObjectAsset: {fileID: 3787843607375371052, guid: 8496717dd372d1e43b92ef66fd5194f4,
+          type: 3}
+    TypeSetter:
+      "_\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uACF5\uACA9\uD0C0\uC785": 0
+      "_\uBCF4\uC870\uBC29\uC5B4\uD0C0\uC785": 0
+      "_\uBB34\uC7A5\uBD84\uB958": 0
+      "_\uC9C4\uC601\uBD84\uB958": 0
+      "_\uC5ED\uD560\uBD84\uB958": 0
+      "_\uB4F1\uAE09\uBD84\uB958": 0
+      "_\uC9C0\uD615\uC18D\uC131":
+        "\uC2DC\uAC00\uC9C0": 0
+        "\uC57C\uC804": 0
+        "\uC2E4\uB0B4": 0
+    ValueSetter:
+      "_\uC2DC\uC57C\uAC70\uB9AC":
+        Value: 20
+      "_\uBC18\uC751\uAC70\uB9AC":
+        Value: 15
+      "_\uCD94\uC801\uAC70\uB9AC":
+        Value: 18
+      "_\uACF5\uACA9\uB7EC\uB9AC":
+        Value: 17
+      "_\uCD5C\uB300\uCC44\uB825":
+        Value: 2000
+      "_\uCD5C\uB300\uAE30\uB825":
+        Value: 200
+      "_\uACF5\uACA9\uB825":
+        Value: 150
+      "_\uBC29\uC5B4\uB825":
+        Value: 100
+      "_\uCE58\uC720\uB825":
+        Value: 150
+      "_\uC81C\uC555\uB825":
+        Value: 50
+      "_\uC800\uD56D\uB825":
+        Value: 10
+      "_\uBA85\uC911\uC218\uCE58":
+        Value: 100
+      "_\uD68C\uD53C\uC218\uCE58":
+        Value: 30
+      "_\uC870\uC885\uC9C0\uC5F0":
+        Value: 0.5
+      "_\uACF5\uACA9\uC9C0\uC5F0":
+        Value: 0.1
+      "_\uCE58\uBA85\uACF5\uACA9\uC218\uCE58":
+        Value: 50
+      "_\uCE58\uBA85\uACF5\uACA9\uC99D\uAC00\uC728":
+        Value: 100
+      "_\uCE58\uBA85\uBC29\uC5B4\uC218\uCE58":
+        Value: 10
+      "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
+        Value: 100

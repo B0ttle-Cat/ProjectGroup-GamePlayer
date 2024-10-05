@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-
 using BC.ODCC;
 
 using Sirenix.OdinInspector;
-
-using static BC.GamePlayerManager.StartGameSetting;
 
 namespace BC.GamePlayerManager
 {
@@ -16,11 +12,11 @@ namespace BC.GamePlayerManager
 		[ValidateInput("@UnitSetting != null", "UnitSetting Must Not Null")]
 		[ValidateInput("@MapSetting != null", "MapSetting Must Not Null")]
 #endif
-		public StartGameSetting gameSetting;
+		public MainPlaySetting gameSetting;
 
-		public StartUnitSetting UnitSetting => gameSetting?.unitSetting;
-		public StartMapSetting MapSetting => gameSetting?.mapSetting;
-		public StartFactionSetting FactionSetting => gameSetting?.factionSetting;
-		public List<SpawnAnchor> SpawnList => gameSetting.SpawnList;
+		public UnitSetting UnitSetting => gameSetting?.UnitSetting;
+		public MapSetting MapSetting => gameSetting?.MapSetting;
+		public FactionSetting FactionSetting => gameSetting?.FactionSetting;
+		public TeamSetting SpawnSetting => gameSetting?.TeamSetting;
 	}
 }

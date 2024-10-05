@@ -7,7 +7,8 @@ namespace BC.OdccBase
 	public interface IUnitPlayValue : IOdccData
 	{
 		public AbilityMath.AbilityValue<float> 시야거리 { get; set; }
-		public AbilityMath.AbilityRange<float> 반응거리 { get; set; }
+		public AbilityMath.AbilityValue<float> 반응거리 { get; set; }
+		public AbilityMath.AbilityValue<float> 추적거리 { get; set; }
 		public AbilityMath.AbilityValue<float> 공격러리 { get; set; }
 
 		public AbilityMath.AbilityValue<int> 채력 { get; set; }
@@ -38,17 +39,20 @@ namespace BC.OdccBase
 		{
 		}
 		#region ConstValue
-		public const float MinVisualRange = 2f;
-		public const float MaxVisualRange = 10f;
-		public const float MinActionRange = 10f;
-		public const float MaxActionRange = 15f;
-		public const float MinAttackRange = 2f;
-		public const float MaxAttackRange = 20f;
+		//public const float MinVisualRange = 2f;
+		//public const float MaxVisualRange = 10f;
+
+		//public const float MinActionRange = 10f;
+		//public const float MaxActionRange = 15f;
+
+		//public const float MinAttackRange = 2f;
+		//public const float MaxAttackRange = 20f;
 		#endregion
 
 
 		[SerializeField] private AbilityMath.AbilityValue<float> _시야거리;
-		[SerializeField] private AbilityMath.AbilityRange<float> _반응거리;
+		[SerializeField] private AbilityMath.AbilityValue<float> _반응거리;
+		[SerializeField] private AbilityMath.AbilityValue<float> _추적거리;
 		[SerializeField] private AbilityMath.AbilityValue<float> _공격러리;
 		[Space]
 		[SerializeField] private AbilityMath.AbilityValue<int> _최대채력;
@@ -72,7 +76,8 @@ namespace BC.OdccBase
 		[SerializeField] private AbilityMath.AbilityValue<float> _치명방어증가율;
 
 		public AbilityMath.AbilityValue<float> 시야거리 { get => _시야거리; set => _시야거리 = value; }
-		public AbilityMath.AbilityRange<float> 반응거리 { get => _반응거리; set => _반응거리 = value; }
+		public AbilityMath.AbilityValue<float> 반응거리 { get => _반응거리; set => _반응거리 = value; }
+		public AbilityMath.AbilityValue<float> 추적거리 { get => _추적거리; set => _추적거리 = value; }
 		public AbilityMath.AbilityValue<float> 공격러리 { get => _공격러리; set => _공격러리 = value; }
 		public AbilityMath.AbilityValue<int> 채력 { get => _최대채력; set => _최대채력 = value; }
 		public AbilityMath.AbilityValue<int> 기력 { get => _최대기력; set => _최대기력 = value; }

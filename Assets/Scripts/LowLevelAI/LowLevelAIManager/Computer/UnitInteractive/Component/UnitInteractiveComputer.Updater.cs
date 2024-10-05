@@ -254,8 +254,8 @@ namespace BC.LowLevelAI
 					IUnitInteractiveValue targetValue = target;
 
 					///////////// 계산
-					bool isInActionStartRange = info.Distance <= actorValue.PlayValueData.반응거리.Start;
-					bool isInActionEndedRange = info.Distance <= actorValue.PlayValueData.반응거리.Ended;
+					bool isInActionStartRange = info.Distance <= actorValue.PlayValueData.반응거리.Value;
+					bool isInActionEndedRange = info.Distance <= actorValue.PlayValueData.추적거리.Value;
 					bool isInActionRange = info.IsInActionRange;
 
 					if(!isInActionRange && isInActionStartRange)

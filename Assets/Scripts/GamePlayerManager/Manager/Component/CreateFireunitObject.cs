@@ -8,7 +8,7 @@ using BC.OdccBase;
 
 using UnityEngine;
 
-using static BC.GamePlayerManager.StartGameSetting;
+using static BC.GamePlayerManager.TeamSetting;
 
 namespace BC.GamePlayerManager
 {
@@ -22,7 +22,7 @@ namespace BC.GamePlayerManager
 		private QuerySystem characterQuerySystem;
 		[SerializeField] private OdccQueryCollector characterQueryCollector;
 
-		public List<SpawnAnchor> SpawnList;
+		public List<TeamSettingInfo> SpawnList;
 
 		public override void BaseAwake()
 		{

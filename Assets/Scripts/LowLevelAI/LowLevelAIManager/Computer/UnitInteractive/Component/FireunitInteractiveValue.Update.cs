@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 using BC.OdccBase;
 
-using UnityEngine;
-
 namespace BC.LowLevelAI
 {
 	public partial class FireunitInteractiveValue : IUnitInteractiveInterface//.Update : MonoBehaviour
@@ -39,30 +37,25 @@ namespace BC.LowLevelAI
 		{
 			var VisualRange = PlayValueData.시야거리;
 
-			VisualRange.Value = 10f;
-			VisualRange.Value = Mathf.Clamp(VisualRange.Value, FireunitPlayValue.MinVisualRange, FireunitPlayValue.MaxVisualRange);
-
+			VisualRange.Value = MathF.Max(0f, VisualRange.Value);
 			PlayValueData.시야거리 = VisualRange;
 		}
 		void IUnitInteractiveInterface.ActionRangeUpdate()
 		{
 			var ActionRange = PlayValueData.반응거리;
+			var ChaseRange = PlayValueData.추적거리;
 
-			ActionRange.Start = 10f;
-			ActionRange.Ended = 12f;
-
-			ActionRange.Start = Mathf.Clamp(ActionRange.Start, FireunitPlayValue.MinActionRange, FireunitPlayValue.MaxActionRange);
-			ActionRange.Ended = Mathf.Clamp(ActionRange.Ended, FireunitPlayValue.MinActionRange, FireunitPlayValue.MaxActionRange);
-
+			ActionRange.Value = MathF.Max(0f, ActionRange.Value);
+			ChaseRange.Value = MathF.Max(0f, ChaseRange.Value);
 			PlayValueData.반응거리 = ActionRange;
+			PlayValueData.추적거리 = ChaseRange;
 		}
 		void IUnitInteractiveInterface.AttackRangeUpdate()
 		{
 			var AttackRange = PlayValueData.공격러리;
 
-			AttackRange.Value = 10f;
-			AttackRange.Value = Mathf.Clamp(AttackRange.Value, FireunitPlayValue.MinAttackRange, FireunitPlayValue.MaxAttackRange);
 
+			AttackRange.Value = MathF.Max(0f, AttackRange.Value);
 			PlayValueData.공격러리 = AttackRange;
 		}
 		void IUnitInteractiveInterface.InActionRangeTargetList(List<UnitInteractiveInfo> inActionRangeTargetList)

@@ -17,18 +17,19 @@ namespace BC.OdccBase
 		WeaponType 무장분류 { get; set; }
 		PositionType 진영분류 { get; set; }
 		RoleType 역할분류 { get; set; }
+		TierType 등급분류 { get; set; }
 
 		FieldAdvantageLevel 지형속성 { get; set; }
 		[EnumPaging]
 		enum AdvantageLevel
 		{
-			최악 = -3,
-			무효 = -2,
-			저항 = -1,
-			일반 = 0,
-			증폭 = 1,
-			유효 = 2,
-			최고 = 3,
+			최악 = -30,
+			무효 = -20,
+			저항 = -10,
+			일반 = 00,
+			증폭 = 10,
+			유효 = 20,
+			최고 = 30,
 		}
 		[EnumToggleButtons]
 		enum AttackType
@@ -59,13 +60,14 @@ namespace BC.OdccBase
 		[EnumToggleButtons]
 		enum SubDefenseType
 		{
-			일반,
+			인형,
 			차량,
 			기갑,
 			구조물
 		}
 		enum WeaponType
 		{
+			비무장,
 			// 소화기
 			권총,
 			기관단총,
@@ -99,7 +101,15 @@ namespace BC.OdccBase
 			탱커,
 			힐러,
 			서포터,
-			기계화,
+		}
+
+		[EnumPaging]
+		enum TierType
+		{
+			평범 = 00,    // 보통 유닛
+			우수 = 10,    // 우수 유닛
+			특수 = 20,    // 특수 유닛
+			보스 = 30,    // 보스 유닛
 		}
 
 		[Serializable]
@@ -149,6 +159,7 @@ namespace BC.OdccBase
 		private IUnitTypeValue.WeaponType _무장분류;
 		private IUnitTypeValue.PositionType _진영분류;
 		private IUnitTypeValue.RoleType _역할분류;
+		private IUnitTypeValue.TierType _등급분류;
 		private IUnitTypeValue.FieldAdvantageLevel _지형속성;
 
 		public IUnitTypeValue.AttackType 공격타입 { get => _공격타입; set => _공격타입=value; }
@@ -158,6 +169,7 @@ namespace BC.OdccBase
 		public IUnitTypeValue.WeaponType 무장분류 { get => _무장분류; set => _무장분류=value; }
 		public IUnitTypeValue.PositionType 진영분류 { get => _진영분류; set => _진영분류=value; }
 		public IUnitTypeValue.RoleType 역할분류 { get => _역할분류; set => _역할분류=value; }
+		public IUnitTypeValue.TierType 등급분류 { get => _등급분류; set => _등급분류=value; }
 		public IUnitTypeValue.FieldAdvantageLevel 지형속성 { get => _지형속성; set => _지형속성=value; }
 	}
 }

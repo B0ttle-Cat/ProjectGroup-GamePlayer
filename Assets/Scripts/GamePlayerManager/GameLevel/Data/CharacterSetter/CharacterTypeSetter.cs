@@ -18,6 +18,7 @@ namespace BC.GamePlayerManager
 		[SerializeField] private IUnitTypeValue.WeaponType _무장분류;
 		[SerializeField] private IUnitTypeValue.PositionType _진영분류;
 		[SerializeField] private IUnitTypeValue.RoleType _역할분류;
+		[SerializeField] private IUnitTypeValue.TierType _등급분류;
 		[SerializeField, InlineProperty, HideLabel] private IUnitTypeValue.FieldAdvantageLevel _지형속성;
 
 		public IUnitTypeValue.AttackType 공격타입 { get => _공격타입; set => _공격타입=value; }
@@ -27,6 +28,7 @@ namespace BC.GamePlayerManager
 		public IUnitTypeValue.WeaponType 무장분류 { get => _무장분류; set => _무장분류=value; }
 		public IUnitTypeValue.PositionType 진영분류 { get => _진영분류; set => _진영분류=value; }
 		public IUnitTypeValue.RoleType 역할분류 { get => _역할분류; set => _역할분류=value; }
+		public IUnitTypeValue.TierType 등급분류 { get => _등급분류; set => _등급분류=value; }
 		public IUnitTypeValue.FieldAdvantageLevel 지형속성 { get => _지형속성; set => _지형속성=value; }
 
 		public void Dispose()

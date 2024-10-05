@@ -14,7 +14,6 @@ namespace BC.OdccBase
 		public UnitInteractiveInfo[] EnemyTargetList = new UnitInteractiveInfo[0];
 		public UnitInteractiveInfo[] NeutralTargetList = new UnitInteractiveInfo[0];
 		public UnitInteractiveInfo[] AllianceTargetList = new UnitInteractiveInfo[0];
-		public UnitInteractiveInfo[] EqualTargetList = new UnitInteractiveInfo[0];
 
 		public void Clear()
 		{
@@ -24,7 +23,6 @@ namespace BC.OdccBase
 			EnemyTargetList = new UnitInteractiveInfo[0];
 			NeutralTargetList = new UnitInteractiveInfo[0];
 			AllianceTargetList = new UnitInteractiveInfo[0];
-			EqualTargetList = new UnitInteractiveInfo[0];
 		}
 		public void UpdateList(List<UnitInteractiveInfo> updateTargetList)
 		{
@@ -74,9 +72,6 @@ namespace BC.OdccBase
 					case FactionDiplomacyType.Alliance_Faction:
 						allianceTargets.Add(info);
 						break;
-					case FactionDiplomacyType.Equal_Faction:
-						equalTargets.Add(info);
-						break;
 					default:
 						neutralTargets.Add(info);
 						break;
@@ -86,7 +81,6 @@ namespace BC.OdccBase
 			EnemyTargetList = enemyTargets.ToArray();
 			NeutralTargetList = neutralTargets.ToArray();
 			AllianceTargetList = allianceTargets.ToArray();
-			EqualTargetList = equalTargets.ToArray();
 		}
 
 		public virtual void SortBy(ref List<UnitInteractiveInfo> updateTargetList)
@@ -102,7 +96,6 @@ namespace BC.OdccBase
 			EnemyTargetList = null;
 			NeutralTargetList = null;
 			AllianceTargetList = null;
-			EqualTargetList = null;
 		}
 	}
 }

@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	[CreateAssetMenu(fileName = "StartMapSetting", menuName = "BC/StartSetting/new StartMapSetting")]
-	public partial class StartMapSetting : ScriptableObject
+	public class MapSetting : SubPlaySetting
 	{
 		[SerializeField, HideLabel]
-		[FoldoutGroup("PlayMapObject")]
+		[Title("ResourcesKey")]
 		public ResourcesKey playMapKey;
+
+		[Title("MapStageInfo")]
 		[SerializeField, HideLabel]
-		[FoldoutGroup("MapStageInfo")]
 		public MapStageInfo playMapStageInfo;
 
 		[Serializable]
@@ -25,10 +25,12 @@ namespace BC.GamePlayerManager
 			[Serializable]
 			public partial struct AnchorInfo
 			{
-				public string anchorName;
+				[HorizontalGroup("ID"), HideLabel, SuffixLabel("Index", Overlay = true)]
 				public int anchorIndex;
+				[HorizontalGroup("ID"), HideLabel, SuffixLabel("Name", Overlay = true)]
+				public string anchorName;
 			}
-			[TableList]
+
 			public List<AnchorInfo> anchorInfos;
 		}
 	}

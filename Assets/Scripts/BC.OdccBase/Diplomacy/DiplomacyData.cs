@@ -8,14 +8,12 @@ namespace BC.OdccBase
 {
 	public enum FactionDiplomacyType : int
 	{
-		[InspectorName("Enemy")]
+		[InspectorName("적군")]
 		Enemy_Faction = -10,        // 적대적 세력
-		[InspectorName("Neutral")]
+		[InspectorName("중립")]
 		Neutral_Faction = 0,        // 중립적 세력
-		[InspectorName("Alliance")]
+		[InspectorName("아군")]
 		Alliance_Faction = 10,      // 동맹 세력
-		[InspectorName("Equal")]
-		Equal_Faction = 100,        // 동일 세력
 	}
 
 	public class DiplomacyData : DataObject

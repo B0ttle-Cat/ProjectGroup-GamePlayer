@@ -85,7 +85,7 @@ namespace BC.GamePlayerManager
 			if(startLevelData.UnitSetting != null && ThisContainer.TryGetComponent<CreateCharacterObject>(out var character))
 			{
 				character.UnitSetting = startLevelData.UnitSetting;
-				character.SpawnList = startLevelData.SpawnList;
+				character.SpawnList = startLevelData.SpawnSetting.teamSettingList;
 				if(character is IStartSetup setter)
 				{
 					StartSetupListAdd(setter);
@@ -118,13 +118,18 @@ namespace BC.GamePlayerManager
 			}
 
 			diplomacyData.diplomacyTypeList = new Dictionary<(int, int), FactionDiplomacyType>();
-			var diplomacyInfoList = startLevelData.FactionSetting.diplomacyInfoList;
+			var factionInfoList = startLevelData.FactionSetting.factionSettingList;
 
-			int length = diplomacyInfoList.Count;
+			int length = factionInfoList.Count;
 			for(int i = 0 ; i < length ; i++)
 			{
-				var diplomacyInfo = diplomacyInfoList[i];
-				diplomacyData.diplomacyTypeList.Add((diplomacyInfo.FactionActor, diplomacyInfo.FactionTarget), diplomacyInfo.FactionDiplomacy);
+				var factionInfo = factionInfoList[i];
+				int length2 = factionInfo.DiplomacyInfoList.Count;
+				for(int ii = 0 ; ii < length2 ; ii++)
+				{
+					var diplomacyInfo = factionInfo.DiplomacyInfoList[ii];
+					diplomacyData.diplomacyTypeList.Add((factionInfo.FactionIndex, diplomacyInfo.FactionTarget), diplomacyInfo.FactionDiplomacy);
+				}
 			}
 		}
 	}

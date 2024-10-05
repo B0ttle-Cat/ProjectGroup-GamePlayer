@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.antonysze.custom-play-button": "https://github.com/antonysze/unity-custom-play-button.git",
-    "com.b0ttlecat.base": "file:../../ProjectGroup-Base/Assets",
+    "com.b0ttlecat.base": "file:../../ProjectGroup-ODCC/Assets",
     "com.b0ttlecat.packagemanager": "file:../../PackageManager",
     "com.b0ttlecat.thirdparty": "file:../../ProjectGroup-Thirdparty/Assets",
     "com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",

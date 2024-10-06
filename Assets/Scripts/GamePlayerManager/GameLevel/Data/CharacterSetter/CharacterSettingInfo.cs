@@ -1,7 +1,5 @@
 using System;
 
-using BC.ODCC;
-
 using Sirenix.OdinInspector;
 
 using UnityEngine;
@@ -9,7 +7,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[Serializable]
-	public class CharacterSetter : DataObject
+	public struct CharacterSettingInfo : IDisposable
 	{
 		[HideLabel, SuffixLabel("CardName", Overlay = true), EnableIf("showEditor"), HorizontalGroup("View"),VerticalGroup("View/ID"), Multiline(2)]
 		public string characterName;
@@ -28,7 +26,7 @@ namespace BC.GamePlayerManager
 		[InlineProperty, HideLabel, FoldoutGroup("Value Setter"), ShowIf("showEditor"), HideReferenceObjectPicker]
 		public CharacterValueSetter ValueSetter;
 
-		protected override void Disposing()
+		public void Dispose()
 		{
 			ResourcesSetter = null;
 			TypeSetter = null;

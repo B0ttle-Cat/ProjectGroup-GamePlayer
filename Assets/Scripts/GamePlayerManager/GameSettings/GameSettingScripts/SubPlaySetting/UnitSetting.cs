@@ -67,7 +67,6 @@ namespace BC.GamePlayerManager
 		public int TeamIndex { get => fireunitData.y; set => fireunitData.y = value; }     // 파벌 내 팀을 나타냄
 		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }     // 팀 내 유닛 인덱스를 나타냄
 		public int CharacterSetterIndex { get => characterSetterIndex; set => characterSetterIndex = value; } // 캐릭터 설정 인덱스
-		public CharacterSetter CharacterSetter => null; // 현재는 null을 반환하는 캐릭터 설정 참조
 		public void Dispose() { } // 필요할 경우 정리 작업을 위한 비어있는 메서드
 
 #if UNITY_EDITOR
@@ -90,7 +89,7 @@ namespace BC.GamePlayerManager
 			if(UnityEditor.Selection.activeObject is not UnitSetting setting) return list;
 			if(setting.mainPlaySetting == null) return list;
 			if(setting.mainPlaySetting.CharacterSetting == null) return list;
-			var dataList = setting.mainPlaySetting.CharacterSetting.characterSetterList;
+			var dataList = setting.mainPlaySetting.CharacterSetting.characterSettingList;
 			if(dataList == null) return list;
 
 			int length = dataList.Count;

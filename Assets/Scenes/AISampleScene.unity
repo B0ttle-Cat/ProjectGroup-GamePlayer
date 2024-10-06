@@ -751,7 +751,7 @@ MonoBehaviour:
     - rid: 7701795580420293117
       type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
       data:
-        gameSetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68, type: 2}
+        GameSetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68, type: 2}
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0

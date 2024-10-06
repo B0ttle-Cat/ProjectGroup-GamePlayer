@@ -12,8 +12,6 @@ using Sirenix.OdinInspector;
 
 using UnityEngine;
 
-using static BC.GamePlayerManager.TeamSetting;
-
 namespace BC.GamePlayerManager
 {
 	public class CreateCharacterObject : ComponentBehaviour, IStartSetup
@@ -33,6 +31,7 @@ namespace BC.GamePlayerManager
 		private CharacterObject characterPrefab;
 
 		public UnitSetting UnitSetting { get; internal set; }
+		public CharacterSetting CharacterSetting { get; internal set; }
 		public List<TeamSettingInfo> SpawnList { get; internal set; }
 
 		public override void BaseAwake()
@@ -65,7 +64,7 @@ namespace BC.GamePlayerManager
 				await Awaitable.NextFrameAsync();
 				if(!enabled) return;
 			}
-			var characterSettingList = new Queue<(UnitSettingInfo, SpawnData)>();
+			var characterSettingList = new Queue<(UnitSettingInfo, CharacterSettingInfo, SpawnData)>();
 			await CreateSettingList();
 			await CreateCharacterList();
 			isCompleteSetting = true;
@@ -83,15 +82,16 @@ namespace BC.GamePlayerManager
 
 				for(int i = 0 ; i < length ; i++)
 				{
-					var unit = list[i];
+					var unitSetting = list[i];
+					if(!CharacterSetting.TryGetCharacterSetter(unitSetting.MemberUniqueID, out var characterSetting)) continue;
 
 					var findGroupCount = gorup.FirstOrDefault(item=>{
 						var _item = item.First();
-						return _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex;
+						return _item.FactionIndex == unitSetting.FactionIndex && _item.TeamIndex == unitSetting.TeamIndex;
 					}).Count();
 
 					SpawnData spawn = null;
-					int findAnchorIndex = SpawnList.FindIndex(_item => _item.FactionIndex == unit.FactionIndex && _item.TeamIndex == unit.TeamIndex);
+					int findAnchorIndex = SpawnList.FindIndex(_item => _item.FactionIndex == unitSetting.FactionIndex && _item.TeamIndex == unitSetting.TeamIndex);
 					if(findAnchorIndex>=0)
 					{
 						if(mapPathPointComputer.TrySelectAnchorIndex(SpawnList[findAnchorIndex].AnchorIndex, out var spawnAnchor))
@@ -99,12 +99,12 @@ namespace BC.GamePlayerManager
 							spawn = new SpawnData() {
 								targetAnchor = spawnAnchor,
 								totalUnitCount = findGroupCount,
-								unitIndex = unit.UnitIndex,
+								unitIndex = unitSetting.UnitIndex,
 								targetRadius = 5f,
 							};
 						}
 					}
-					characterSettingList.Enqueue((unit, spawn));
+					characterSettingList.Enqueue((unitSetting, characterSetting, spawn));
 				}
 			}
 			async Awaitable CreateCharacterList()
@@ -115,11 +115,11 @@ namespace BC.GamePlayerManager
 				while(characterSettingList.Count > 0)
 				{
 					var item = characterSettingList.Dequeue();
-					Create(item.Item1, item.Item2);
+					Create(item.Item1, item.Item2, item.Item3);
 				}
-				async void Create(UnitSettingInfo characterData, SpawnData spawnData)
+				async void Create(UnitSettingInfo unitSettingInfo, CharacterSettingInfo characterSetter, SpawnData spawnData)
 				{
-					CharacterObject characterObject = await InstantiateCharacterObject(characterData, spawnData);
+					CharacterObject characterObject = await InstantiateCharacterObject(unitSettingInfo, characterSetter, spawnData);
 					count--;
 				}
 				while(count>0)
@@ -129,7 +129,7 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private async Awaitable<CharacterObject> InstantiateCharacterObject(UnitSettingInfo fireunitSettingData, SpawnData spawnData)
+		private async Awaitable<CharacterObject> InstantiateCharacterObject(UnitSettingInfo unitSettingInfo, CharacterSettingInfo characterSettingInfo, SpawnData spawnData)
 		{
 			if(characterPrefab == null) return null;
 
@@ -149,17 +149,17 @@ namespace BC.GamePlayerManager
 				characterData = characterObject.ThisContainer.AddData<CharacterData>();
 			}
 
-			characterData.FactionIndex = fireunitSettingData.FactionIndex;
-			characterData.TeamIndex = fireunitSettingData.TeamIndex;
-			characterData.UnitIndex = fireunitSettingData.UnitIndex;
-			characterData.CharacterResourcesKey = fireunitSettingData.CharacterSetter.ResourcesSetter.CharacterResourcesKey;
+			characterData.FactionIndex = unitSettingInfo.FactionIndex;
+			characterData.TeamIndex = unitSettingInfo.TeamIndex;
+			characterData.UnitIndex = unitSettingInfo.UnitIndex;
+			characterData.CharacterResourcesKey = characterSettingInfo.ResourcesSetter.CharacterResourcesKey;
 			characterObject.UpdateObjectName();
 
 			if(!characterObject.ThisContainer.TryGetData<WeaponData>(out var weaponData))
 			{
 				weaponData = characterObject.ThisContainer.AddData<WeaponData>();
 			}
-			weaponData.WeaponResourcesKey = fireunitSettingData.CharacterSetter.ResourcesSetter.WeaponResourcesKey;
+			weaponData.WeaponResourcesKey = characterSettingInfo.ResourcesSetter.WeaponResourcesKey;
 
 			characterObject.ThisContainer.RemoveData<SpawnData>();
 			characterObject.ThisContainer.AddData<SpawnData>(spawnData);

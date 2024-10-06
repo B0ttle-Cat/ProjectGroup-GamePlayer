@@ -10,25 +10,56 @@ namespace BC.GamePlayerManager
 	{
 #if UNITY_EDITOR
 		[HideLabel, SerializeField, FoldoutGroup("기본 세팅 값")]
-		private CharacterSetter DefaultSetter;
+		private CharacterSettingInfo DefaultSetting;
 #endif
 		[Space(10), ListDrawerSettings(CustomAddFunction ="CharacterSetList_CustomAddFunction")]
-		public List<CharacterSetter> characterSetterList;
+		public List<CharacterSettingInfo> characterSettingList;
 #if UNITY_EDITOR
 		private int CharacterSetList_CustomAddFunction()
 		{
 			try
 			{
-				CharacterSetter addDefaultSetter = JsonUtility.FromJson<CharacterSetter>(JsonUtility.ToJson(DefaultSetter));
-				addDefaultSetter.characterName = $"New Character {characterSetterList.Count: 00}";
-				characterSetterList.Add(addDefaultSetter);
+				CharacterSettingInfo addDefaultSetter = JsonUtility.FromJson<CharacterSettingInfo>(JsonUtility.ToJson(DefaultSetting));
+				addDefaultSetter.characterName = $"New Character {characterSettingList.Count: 00}";
+				characterSettingList.Add(addDefaultSetter);
 			}
 			catch(System.Exception ex)
 			{
 				Debug.LogException(ex);
 			}
-			return characterSetterList.Count;
+			return characterSettingList.Count;
 		}
 #endif
+
+		public bool TryGetCharacterSetter(Vector3Int MemberUniqueID, out CharacterSettingInfo characterSetter)
+		{
+			characterSetter = default;
+			if(mainPlaySetting == null) return false;
+			var UnitSetting  = mainPlaySetting.UnitSetting;
+
+			if(UnitSetting == null || UnitSetting.unitSettingList == null || UnitSetting.unitSettingList.Count == 0)
+			{
+				return false;
+			}
+			if(characterSettingList == null || characterSettingList.Count == 0)
+			{
+				return false;
+			}
+
+			var unitList = UnitSetting.unitSettingList;
+			int findIndex = unitList.FindIndex((UnitSettingInfo i) => (i.MemberUniqueID == MemberUniqueID));
+			if(findIndex<0) return false;
+			var find = unitList[findIndex];
+
+			int characterSetterIndex = find.CharacterSetterIndex;
+			if(characterSetterIndex<0) return false;
+
+			var charList = characterSettingList;
+			int count = charList.Count;
+			if(characterSetterIndex <= count) return false;
+
+			characterSetter = charList[characterSetterIndex];
+			return true;
+		}
 	}
 }

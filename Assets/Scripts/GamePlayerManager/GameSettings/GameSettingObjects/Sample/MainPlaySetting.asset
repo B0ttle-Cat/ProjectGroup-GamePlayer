@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Name: CharacterSetting
   m_EditorClassIdentifier: 
   mainPlaySetting: {fileID: 11400000}
-  DefaultSetter:
-    characterName: 
+  DefaultSetting:
+    characterName: New Character  00
     ResourcesSetter:
       characterKey:
         LoadType: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
         Value: 10
       "_\uCE58\uBA85\uBC29\uC5B4\uC99D\uAC00\uC728":
         Value: 100
-  characterSetterList:
+  characterSettingList:
   - characterName: New Character  00
     ResourcesSetter:
       characterKey:

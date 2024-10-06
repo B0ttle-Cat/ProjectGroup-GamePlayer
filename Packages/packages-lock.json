@@ -8,7 +8,7 @@
       "hash": "b6d122e7809c6529fb5a4b73d41a67ce1edac987"
     },
     "com.b0ttlecat.base": {
-      "version": "file:../../ProjectGroup-Base/Assets",
+      "version": "file:../../ProjectGroup-ODCC/Assets",
       "depth": 0,
       "source": "local",
       "dependencies": {}

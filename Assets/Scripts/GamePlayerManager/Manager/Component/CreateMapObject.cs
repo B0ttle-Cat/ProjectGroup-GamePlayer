@@ -18,14 +18,13 @@ namespace BC.GamePlayerManager
 		public bool IsCompleteSetting {
 			get {
 				if(isCompleteSetting) return true;
-				if(MapSetting == null || mapNavmesh == null || mapAnchor == null) return false;
+				if(MapSetting == null || MapNavmesh == null || MapAnchor == null) return false;
 				IsCompleteSetting = true;
 				return isCompleteSetting;
 			}
 			set { isCompleteSetting=value; }
 		}
 		public MapSetting MapSetting { get; internal set; }
-
 
 		[SerializeField, HideLabel]
 		[FoldoutGroup("PlayMap")]
@@ -36,6 +35,9 @@ namespace BC.GamePlayerManager
 		[SerializeField, ReadOnly]
 		private MapPathPointComputer mapAnchor = null;
 
+		public NavMeshConnectComputer MapNavmesh { get => mapNavmesh; private set => mapNavmesh=value; }
+		public MapPathPointComputer MapAnchor { get => mapAnchor; private set => mapAnchor=value; }
+
 		public override async void BaseAwake()
 		{
 			IsCompleteSetting = false;
@@ -44,12 +46,12 @@ namespace BC.GamePlayerManager
 				await Awaitable.NextFrameAsync();
 			}
 
-			mapNavmesh = ThisContainer.GetComponentInChild<NavMeshConnectComputer>();
-			mapAnchor = ThisContainer.GetComponentInChild<MapPathPointComputer>();
-			if(mapNavmesh == null || mapAnchor == null)
+			MapNavmesh = ThisContainer.GetComponentInChild<NavMeshConnectComputer>();
+			MapAnchor = ThisContainer.GetComponentInChild<MapPathPointComputer>();
+			if(MapNavmesh == null || MapAnchor == null)
 			{
-				if(mapNavmesh != null) Destroy(mapNavmesh);
-				if(mapAnchor != null) Destroy(mapAnchor);
+				if(MapNavmesh != null) Destroy(MapNavmesh);
+				if(MapAnchor != null) Destroy(MapAnchor);
 
 				playMapKey = MapSetting.playMapKey;
 				var thisObject  = await playMapKey.AsyncInstantiate<GameObject>(this);
@@ -60,8 +62,8 @@ namespace BC.GamePlayerManager
 					return;
 				}
 				thisObject.transform.ResetLcoalPose(ThisTransform);
-				mapNavmesh = thisObject.GetComponentInChildren<NavMeshConnectComputer>();
-				mapAnchor = thisObject.GetComponentInChildren<MapPathPointComputer>();
+				MapNavmesh = thisObject.GetComponentInChildren<NavMeshConnectComputer>();
+				MapAnchor = thisObject.GetComponentInChildren<MapPathPointComputer>();
 				thisObject.SetActive(true);
 			}
 			else

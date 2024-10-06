@@ -8,8 +8,6 @@ using BC.OdccBase;
 
 using UnityEngine;
 
-using static BC.GamePlayerManager.TeamSetting;
-
 namespace BC.GamePlayerManager
 {
 	public class CreateFireunitObject : ComponentBehaviour
@@ -17,12 +15,12 @@ namespace BC.GamePlayerManager
 		[SerializeField]
 		public FireunitObject ObjectPrefab;
 
-		private Dictionary<(int,int,int), CharacterObject> groupInUnit;
+		private Dictionary<Vector3Int, CharacterObject> groupInUnit;
 
 		private QuerySystem characterQuerySystem;
 		[SerializeField] private OdccQueryCollector characterQueryCollector;
 
-		public List<TeamSettingInfo> SpawnList;
+		public List<TeamSettingInfo> TeamSettingList;
 
 		public override void BaseAwake()
 		{
@@ -32,10 +30,10 @@ namespace BC.GamePlayerManager
 				ObjectPrefab.gameObject.SetActive(false);
 			}
 
-			groupInUnit = new Dictionary<(int, int, int), CharacterObject>();
+			groupInUnit = new Dictionary<Vector3Int, CharacterObject>();
 
 			characterQuerySystem = QuerySystemBuilder.CreateQuery()
-				.WithAll<CharacterObject, CharacterData>().Build();
+				.WithAll<CharacterObject, CharacterData, CreateSettingInfo>().Build();
 
 			characterQueryCollector = OdccQueryCollector.CreateQueryCollector(characterQuerySystem)
 				.CreateChangeListEvent(InitList, UpdateList);
@@ -62,12 +60,9 @@ namespace BC.GamePlayerManager
 			{
 				if(behaviour is CharacterObject character)
 				{
-					if(character.ThisContainer.TryGetData<CharacterData>(out var data))
+					if(character.ThisContainer.TryGetData<CreateSettingInfo>(out var data))
 					{
-						if(character.ThisContainer.TryGetData<SpawnData>(out var spawn))
-						{
-							AddedUnit(character, data, spawn);
-						}
+						AddedUnit(character, data);
 					}
 				}
 			}
@@ -78,12 +73,9 @@ namespace BC.GamePlayerManager
 			{
 				if(behaviour is CharacterObject character)
 				{
-					if(character.ThisContainer.TryGetData<CharacterData>(out var data))
+					if(character.ThisContainer.TryGetData<CreateSettingInfo>(out var data))
 					{
-						if(character.ThisContainer.TryGetData<SpawnData>(out var spawn))
-						{
-							AddedUnit(character, data, spawn);
-						}
+						AddedUnit(character, data);
 					}
 				}
 			}
@@ -91,7 +83,7 @@ namespace BC.GamePlayerManager
 			{
 				if(behaviour is CharacterObject character)
 				{
-					if(character.ThisContainer.TryGetData<CharacterData>(out var data))
+					if(character.ThisContainer.TryGetData<CreateSettingInfo>(out var data))
 					{
 						RemoveUnit(character, data);
 					}
@@ -99,25 +91,22 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private void AddedUnit(CharacterObject character, CharacterData data, SpawnData spawn)
+		private void AddedUnit(CharacterObject character, CreateSettingInfo data)
 		{
 			int factionIndex = data.FactionIndex;
 			int teamIndex = data.TeamIndex;
 			int unitIndex = data.UnitIndex;
-			(int, int, int) key = (factionIndex, teamIndex, unitIndex);
+			Vector3Int key = data.MemberUniqueID;
 
 			if(!groupInUnit.ContainsKey(key))
 			{
 				groupInUnit.Add(key, character);
-				CreateObject(key, spawn);
+				CreateObject(data);
 			}
 		}
-		private void RemoveUnit(CharacterObject character, CharacterData data)
+		private void RemoveUnit(CharacterObject character, CreateSettingInfo data)
 		{
-			int factionIndex = data.FactionIndex;
-			int teamIndex = data.TeamIndex;
-			int unitIndex = data.UnitIndex;
-			(int,int, int) key = (factionIndex, teamIndex, unitIndex);
+			Vector3Int key = data.MemberUniqueID;
 
 			if(groupInUnit.ContainsKey(key))
 			{
@@ -126,9 +115,11 @@ namespace BC.GamePlayerManager
 			}
 		}
 
-		private void CreateObject((int factionIndex, int teamIndex, int unitIndex) key, SpawnData spawn)
+		private void CreateObject(CreateSettingInfo createSetting)
 		{
 			if(ObjectPrefab == null) return;
+			if(createSetting == null) return;
+			Vector3Int key = createSetting.MemberUniqueID;
 			if(!ThisContainer.TryGetChildObject<FireunitObject>(out var _object, item => FindObject(item, key)))
 			{
 				ObjectPrefab.gameObject.SetActive(false);
@@ -139,34 +130,39 @@ namespace BC.GamePlayerManager
 				{
 					data = unitObject.ThisContainer.AddData<FireunitData>();
 				}
-				data.FactionIndex = key.factionIndex;
-				data.TeamIndex = key.teamIndex;
-				data.UnitIndex = key.unitIndex;
+				data.FactionIndex = createSetting.FactionIndex;
+				data.TeamIndex = createSetting.TeamIndex;
+				data.UnitIndex = createSetting.UnitIndex;
 				unitObject.UpdateObjectName();
 
-				unitObject.ThisContainer.RemoveData<SpawnData>();
-				unitObject.ThisContainer.RemoveComponent<FireunitSpawnActor>();
-
-				unitObject.ThisContainer.AddData<SpawnData>(spawn);
-				unitObject.ThisContainer.AddComponent<FireunitSpawnActor>();
+				if(!unitObject.ThisContainer.TryGetComponent<UnitInitSetter>(out var unitInitSetter))
+				{
+					unitInitSetter = unitObject.ThisContainer.AddComponent<UnitInitSetter>();
+				}
+				unitInitSetter.fireunitData = data;
+				unitInitSetter.factionSettingInfo = createSetting.factionSettingInfo;
+				unitInitSetter.teamSettingInfo = createSetting.teamSettingInfo;
+				unitInitSetter.unitSettingInfo = createSetting.unitSettingInfo;
+				unitInitSetter.characterSettingInfo = createSetting.characterSettingInfo;
+				createSetting.EndSetupFireunit();
 
 				unitObject.gameObject.SetActive(true);
 			}
-			static bool FindObject(FireunitObject _object, (int factionIndex, int teamIndex, int unitIndex) key)
+			static bool FindObject(FireunitObject _object, Vector3Int key)
 			{
-				return _object.ThisContainer.TryGetData<IFireunitData>(out var data) && data.IsEqualsUnit(key.factionIndex, key.teamIndex, key.unitIndex);
+				return _object.ThisContainer.TryGetData<IFireunitData>(out var data) && data.IsEqualsUnit(key);
 			}
 		}
-		private void DestoryObject((int factionIndex, int teamIndex, int unitIndex) key)
+		private void DestoryObject(Vector3Int key)
 		{
 			if(ThisContainer.TryGetChildObject<FireunitObject>(out var _object, item => FindObject(item, key)))
 			{
 				Destroy(_object.gameObject);
 			}
 
-			static bool FindObject(FireunitObject _object, (int factionIndex, int teamIndex, int unitIndex) key)
+			static bool FindObject(FireunitObject _object, Vector3Int key)
 			{
-				return _object.ThisContainer.TryGetData<IFireunitData>(out var data) && data.IsEqualsUnit(key.factionIndex, key.teamIndex, key.unitIndex);
+				return _object.ThisContainer.TryGetData<IFireunitData>(out var data) && data.IsEqualsUnit(key);
 			}
 		}
 	}

@@ -16,6 +16,10 @@ namespace BC.OdccBase
 		{
 			return IsEqualsTeam(faction, team) && UnitIndex == unit;
 		}
+		public bool IsEqualsUnit(Vector3Int memberUniqueID)
+		{
+			return IsEqualsUnit(memberUniqueID.x, memberUniqueID.y, memberUniqueID.z);
+		}
 		public bool IsEqualsUnit(IFireunitData fireunitData)
 		{
 			return IsEqualsTeam(fireunitData) && UnitIndex == fireunitData.UnitIndex;

@@ -31,6 +31,33 @@ namespace BC.OdccBase
 		public AbilityMath.AbilityValue<float> 치명방어수치 { get; set; }
 		public AbilityMath.AbilityValue<float> 치명방어증가율 { get; set; }
 
+		public void Paste(IUnitPlayValue value)
+		{
+			시야거리 = value.시야거리;
+			반응거리 = value.반응거리;
+			추적거리 = value.추적거리;
+			공격러리 = value.공격러리;
+
+			채력 = value.채력;
+			기력 = value.기력;
+
+			공격력 = value.공격력;
+			방어력 = value.방어력;
+			치유력 = value.치유력;
+			제압력 = value.제압력;
+			저항력 = value.저항력;
+
+			명중수치 = value.명중수치;
+			회피수치 = value.회피수치;
+
+			조종지연 = value.조종지연;
+			공격지연 = value.공격지연;
+
+			치명공격수치 = value.치명공격수치;
+			치명공격증가율 = value.치명공격증가율;
+			치명방어수치 = value.치명방어수치;
+			치명방어증가율 = value.치명방어증가율;
+		}
 	}
 
 	public class FireunitPlayValue : DataObject, IUnitPlayValue

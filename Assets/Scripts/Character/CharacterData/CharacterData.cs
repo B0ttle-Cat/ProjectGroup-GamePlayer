@@ -12,14 +12,14 @@ namespace BC.Character
 {
 	public class CharacterData : DataObject, IFireunitData
 	{
+		private Vector3Int fireunitData;
+
 		[SerializeField, HideLabel]
 		[FoldoutGroup("CharacterModel")]
 		private ResourcesKey characterKey;
-
-		private Vector3Int fireunitData;
-		private int factionIndex;
-		private int fireteamIndex;
-		private int fireunitIndex;
+		[SerializeField, HideLabel]
+		[FoldoutGroup("WeaponeModel")]
+		private ResourcesKey weaponeKey;
 
 		public Vector3Int MemberUniqueID => fireunitData;
 		[ShowInInspector, ValueDropdown("ShowTargetFactionName")]
@@ -30,6 +30,7 @@ namespace BC.Character
 		public int UnitIndex { get => fireunitData.z; set => fireunitData.z = value; }
 
 		public ResourcesKey CharacterResourcesKey { get => characterKey; set => characterKey = value; }
+		public ResourcesKey WeaponResourcesKey { get => weaponeKey; set => weaponeKey = value; }
 
 		public bool IsEqualsUnit(int faction, int team, int unit)
 		{

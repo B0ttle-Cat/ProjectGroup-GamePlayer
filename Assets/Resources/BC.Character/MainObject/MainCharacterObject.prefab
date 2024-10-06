@@ -54,25 +54,10 @@ MonoBehaviour:
       childs: []
       componentList:
       - {fileID: 8822873925900971387}
-      dataList:
-      - rid: 7701795580420293446
-      - rid: 4297472645128257637
+      dataList: []
   references:
     version: 2
-    RefIds:
-    - rid: 4297472645128257637
-      type: {class: WeaponData, ns: BC.Character, asm: BC.Character}
-      data:
-        MaxAttackCount: 0
-        weaponeKey:
-          LoadType: 0
-          ObjectAsset: {fileID: 0}
-    - rid: 7701795580420293446
-      type: {class: CharacterData, ns: BC.Character, asm: BC.Character}
-      data:
-        characterKey:
-          LoadType: 0
-          ObjectAsset: {fileID: 0}
+    RefIds: []
 --- !u!114 &8822873925900971387
 MonoBehaviour:
   m_ObjectHideFlags: 0

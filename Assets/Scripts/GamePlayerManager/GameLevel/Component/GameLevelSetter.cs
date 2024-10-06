@@ -84,9 +84,7 @@ namespace BC.GamePlayerManager
 
 			if(startLevelData.UnitSetting != null && ThisContainer.TryGetComponent<CreateCharacterObject>(out var character))
 			{
-				character.UnitSetting = startLevelData.UnitSetting;
-				character.CharacterSetting = startLevelData.CharacterSetting;
-				character.SpawnList = startLevelData.TeamSetting.teamSettingList;
+				character.GamePlaySetting = startLevelData.GamePlaySetting;
 				if(character is IStartSetup setter)
 				{
 					StartSetupListAdd(setter);

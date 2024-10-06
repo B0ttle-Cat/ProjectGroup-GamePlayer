@@ -31,32 +31,23 @@ namespace BC.GamePlayerManager
 		}
 #endif
 
-		public bool TryGetCharacterSetter(Vector3Int MemberUniqueID, out CharacterSettingInfo characterSetter)
+		public bool TryGetCharacterSetter(UnitSettingInfo unitSettingInfo, out CharacterSettingInfo characterSetter)
 		{
 			characterSetter = default;
 			if(mainPlaySetting == null) return false;
 			var UnitSetting  = mainPlaySetting.UnitSetting;
 
-			if(UnitSetting == null || UnitSetting.unitSettingList == null || UnitSetting.unitSettingList.Count == 0)
-			{
-				return false;
-			}
 			if(characterSettingList == null || characterSettingList.Count == 0)
 			{
 				return false;
 			}
 
-			var unitList = UnitSetting.unitSettingList;
-			int findIndex = unitList.FindIndex((UnitSettingInfo i) => (i.MemberUniqueID == MemberUniqueID));
-			if(findIndex<0) return false;
-			var find = unitList[findIndex];
-
-			int characterSetterIndex = find.CharacterSetterIndex;
+			int characterSetterIndex = unitSettingInfo.CharacterSetterIndex;
 			if(characterSetterIndex<0) return false;
 
 			var charList = characterSettingList;
 			int count = charList.Count;
-			if(characterSetterIndex <= count) return false;
+			if(characterSetterIndex >= count) return false;
 
 			characterSetter = charList[characterSetterIndex];
 			return true;

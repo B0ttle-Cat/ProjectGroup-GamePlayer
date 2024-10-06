@@ -173,8 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputVectorTarget: {x: 0, y: 0, z: 0}
-  inputNodeTarget:
-    mapPathPoint: {fileID: 0}
   inputFormationPosition: {x: 0, y: 0, z: 0}
   IsMove: 0
   isOnDrawGizmos: 0

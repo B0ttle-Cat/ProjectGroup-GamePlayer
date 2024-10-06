@@ -4,6 +4,8 @@ using BC.ODCC;
 
 using Sirenix.OdinInspector;
 
+using UnityEngine;
+
 namespace BC.OdccBase
 {
 	public interface IUnitTypeValue : IOdccData
@@ -109,7 +111,8 @@ namespace BC.OdccBase
 			평범 = 00,    // 보통 유닛
 			우수 = 10,    // 우수 유닛
 			특수 = 20,    // 특수 유닛
-			보스 = 30,    // 보스 유닛
+			정예 = 30,    // 정예 유닛
+			보스 = 40,    // 보스 유닛
 		}
 
 		[Serializable]
@@ -142,25 +145,38 @@ namespace BC.OdccBase
 					switch(fieldType)
 					{
 						case FieldType.시가지: 시가지 = value; break;
-						case FieldType.야전: 시가지 = value; break;
-						case FieldType.실내: 시가지 = value; break;
+						case FieldType.야전: 야전 = value; break;
+						case FieldType.실내: 실내 = value; break;
 					}
 				}
 			}
+		}
+
+		public void Paste(IUnitTypeValue value)
+		{
+			공격타입 = value.공격타입;
+			방어타입 = value.방어타입;
+			보조공격타입 = value.보조공격타입;
+			보조방어타입 = value.보조방어타입;
+			무장분류 = value.무장분류;
+			진영분류 = value.진영분류;
+			역할분류 = value.역할분류;
+			등급분류 = value.등급분류;
+			지형속성 = value.지형속성;
 		}
 	}
 
 	public class FireunitTypeValue : DataObject, IUnitTypeValue
 	{
-		private IUnitTypeValue.AttackType _공격타입;
-		private IUnitTypeValue.DefenseType _방어타입;
-		private IUnitTypeValue.SubAttackType _보조공격타입;
-		private IUnitTypeValue.SubDefenseType _보조방어타입;
-		private IUnitTypeValue.WeaponType _무장분류;
-		private IUnitTypeValue.PositionType _진영분류;
-		private IUnitTypeValue.RoleType _역할분류;
-		private IUnitTypeValue.TierType _등급분류;
-		private IUnitTypeValue.FieldAdvantageLevel _지형속성;
+		[SerializeField] private IUnitTypeValue.AttackType _공격타입;
+		[SerializeField] private IUnitTypeValue.DefenseType _방어타입;
+		[SerializeField] private IUnitTypeValue.SubAttackType _보조공격타입;
+		[SerializeField] private IUnitTypeValue.SubDefenseType _보조방어타입;
+		[SerializeField] private IUnitTypeValue.WeaponType _무장분류;
+		[SerializeField] private IUnitTypeValue.PositionType _진영분류;
+		[SerializeField] private IUnitTypeValue.RoleType _역할분류;
+		[SerializeField] private IUnitTypeValue.TierType _등급분류;
+		[SerializeField] private IUnitTypeValue.FieldAdvantageLevel _지형속성;
 
 		public IUnitTypeValue.AttackType 공격타입 { get => _공격타입; set => _공격타입=value; }
 		public IUnitTypeValue.DefenseType 방어타입 { get => _방어타입; set => _방어타입=value; }

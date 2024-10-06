@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 27742373}
   - component: {fileID: 27742374}
   - component: {fileID: 27742375}
-  - component: {fileID: 27742376}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -180,19 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842ac5685957d3744988b85ded8fbd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &27742376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27742372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fda0c621bf22834cb23cf4daec2b515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onShowGizmos: 1
 --- !u!1 &280405638
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 6
+      showInspector: -1
       thisObject: {fileID: 448125903}
       parent: {fileID: 0}
       childs:
@@ -751,7 +737,8 @@ MonoBehaviour:
     - rid: 7701795580420293117
       type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
       data:
-        GameSetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68, type: 2}
+        GamePlaySetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68,
+          type: 2}
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,7 +1136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectPrefab: {fileID: 4979445675213644879, guid: ee27973b137463141a18cabb5088ab80,
     type: 3}
-  SpawnList: []
+  TeamSettingList: []
 --- !u!114 &1718360628
 MonoBehaviour:
   m_ObjectHideFlags: 0

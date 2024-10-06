@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.GamePlayerManager
 {
-	[CreateAssetMenu(fileName = "MainPlaySetting", menuName = "BC/StartPlaySetting/new MainPlaySetting")]
+	[CreateAssetMenu(fileName = "GamePlaySetting", menuName = "BC/StartPlaySetting/new GamePlaySetting")]
 	public partial class MainPlaySetting : ScriptableObject
 	{
 		[HideLabel]

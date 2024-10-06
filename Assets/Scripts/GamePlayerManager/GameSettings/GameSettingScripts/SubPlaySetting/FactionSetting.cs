@@ -41,7 +41,7 @@ namespace BC.GamePlayerManager
 #endif
 	}
 	[Serializable]
-	public struct FactionSettingInfo
+	public struct FactionSettingInfo : IFactionData
 	{
 		[SerializeField, HideLabel,SuffixLabel("Faction Color   _", Overlay = true), HorizontalGroup("Color")]
 		private Color factionColor;
@@ -118,7 +118,9 @@ namespace BC.GamePlayerManager
 			}
 			return list;
 		}
+
 #endif
+		public void Dispose() { }
 	}
 	[Serializable]
 	public struct DiplomacySettingInfo

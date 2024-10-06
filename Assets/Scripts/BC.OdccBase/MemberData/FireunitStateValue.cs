@@ -1,5 +1,7 @@
 using BC.ODCC;
 
+using UnityEngine;
+
 namespace BC.OdccBase
 {
 	public interface IUnitStateValue : IOdccData
@@ -18,10 +20,10 @@ namespace BC.OdccBase
 
 	public class FireunitStateValue : DataObject, IUnitStateValue
 	{
-		private bool isRetire;
-		private IUnitStateValue.TacticalCombatStateType tacticalCombatState;
-		private IOdccComponent unitTacticalCombatStateUpdate;
-		private IOdccComponent unitTacticalCombatStateChanger;
+		[SerializeField] private bool isRetire;
+		[SerializeField] private IUnitStateValue.TacticalCombatStateType tacticalCombatState;
+		[SerializeField] private IOdccComponent unitTacticalCombatStateUpdate;
+		[SerializeField] private IOdccComponent unitTacticalCombatStateChanger;
 
 		public bool IsRetire { get => isRetire; set => isRetire=value; }
 		public IUnitStateValue.TacticalCombatStateType TacticalCombatState { get => tacticalCombatState; set => tacticalCombatState=value; }

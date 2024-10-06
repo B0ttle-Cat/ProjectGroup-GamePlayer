@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 0
+      showInspector: 6
       thisObject: {fileID: 4076850161751021115}
       parent: {fileID: 0}
       childs: []

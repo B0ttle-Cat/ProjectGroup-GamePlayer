@@ -45,9 +45,9 @@
 //				.GetCollector();
 
 //			//teamGizmosINfo = new List<GizmosInfo>();
-//			//if(ThisContainer.TryGetData<StartLevelData>(out var data) && data.GameSetting != null)
+//			//if(ThisContainer.TryGetData<StartLevelData>(out var data) && data.GamePlaySetting != null)
 //			//{
-//			//	teamGizmosINfo.AddRange(data.GameSetting.TeamGizmosInfo);
+//			//	teamGizmosINfo.AddRange(data.GamePlaySetting.TeamGizmosInfo);
 //			//}
 //			drawGizmos = new Queue<Action>();
 //		}

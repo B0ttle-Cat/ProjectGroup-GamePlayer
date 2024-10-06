@@ -17,11 +17,11 @@ namespace BC.OdccBase
 
 	public class FireunitPoseValue : DataObject, IUnitPoseValue
 	{
-		private float thisUnitRadius;
-		private Vector3 thisUnitPosition;
-		private Vector3 thisUnitLookAt;
-		private Vector3 thisUnitLookUP;
-		private Vector3 thisDamageUIPosition;
+		[SerializeField] private float thisUnitRadius;
+		[SerializeField] private Vector3 thisUnitPosition;
+		[SerializeField] private Vector3 thisUnitLookAt;
+		[SerializeField] private Vector3 thisUnitLookUP;
+		[SerializeField] private Vector3 thisDamageUIPosition;
 
 		public float ThisUnitRadius { get => thisUnitRadius; set => thisUnitRadius=value; }
 		public Vector3 ThisUnitPosition { get => thisUnitPosition; set => thisUnitPosition=value; }

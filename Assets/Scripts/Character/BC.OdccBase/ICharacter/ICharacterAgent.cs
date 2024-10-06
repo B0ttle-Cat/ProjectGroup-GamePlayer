@@ -44,8 +44,6 @@ namespace BC.OdccBase
 			}
 
 			public ICharacterAgent TargetAgent { get; }
-			public int AttackCount { get; }
-			public int AttackMaxCount { get; }
 			public WeaponAttackState AttackState { get; }
 
 			public void OnShotAttack(ICharacterAgent targetAgent, Action<ICharacterAgent, ICharacterAgent> shotCallback);

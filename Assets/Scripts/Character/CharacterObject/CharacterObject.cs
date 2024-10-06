@@ -47,11 +47,10 @@ namespace BC.Character
 			if(CharacterData != null && ThisContainer.TryGetComponent<CharacterResourcesSetup>(out var resourcesSetup))
 			{
 				resourcesSetup.enabled = false;
-				resourcesSetup.ResourcesSetup(CharacterData.CharacterResourcesKey, WeaponData.WeaponResourcesKey, (m, w) => {
+				resourcesSetup.ResourcesSetup(CharacterData.CharacterResourcesKey, CharacterData.WeaponResourcesKey, (m, w) => {
 					Model = m;
 					Weapon = w;
 					resourcesSetup.enabled = false;
-					UpdateObjectName();
 					Agent.Init();
 				});
 				resourcesSetup.enabled = true;

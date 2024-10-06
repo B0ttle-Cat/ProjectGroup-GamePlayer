@@ -8,14 +8,14 @@ namespace BC.GamePlayerManager
 	{
 #if UNITY_EDITOR
 		[AssetSelector]
-		[ValidateInput("@GameSetting != null", "Is Must Not Null")]
+		[ValidateInput("@GamePlaySetting != null", "Is Must Not Null")]
 #endif
-		public MainPlaySetting GameSetting;
+		public MainPlaySetting GamePlaySetting;
 
-		public FactionSetting FactionSetting => GameSetting?.FactionSetting;
-		public UnitSetting UnitSetting => GameSetting?.UnitSetting;
-		public MapSetting MapSetting => GameSetting?.MapSetting;
-		public TeamSetting TeamSetting => GameSetting?.TeamSetting;
-		public CharacterSetting CharacterSetting => GameSetting?.CharacterSetting;
+		public FactionSetting FactionSetting => GamePlaySetting?.FactionSetting;
+		public UnitSetting UnitSetting => GamePlaySetting?.UnitSetting;
+		public MapSetting MapSetting => GamePlaySetting?.MapSetting;
+		public TeamSetting TeamSetting => GamePlaySetting?.TeamSetting;
+		public CharacterSetting CharacterSetting => GamePlaySetting?.CharacterSetting;
 	}
 }

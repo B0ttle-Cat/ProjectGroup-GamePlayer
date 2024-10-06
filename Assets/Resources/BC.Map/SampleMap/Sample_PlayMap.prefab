@@ -47,17 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 2413031686006568071}
       parent: {fileID: 6519780887312769103}
       childs: []
@@ -65,22 +57,15 @@ MonoBehaviour:
       - {fileID: 8013240124576124381}
       - {fileID: 3603966510510541945}
       dataList:
-      - rid: 2308205957228789866
-      - rid: 2308205957228789867
+      - rid: -2
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 1398244527262274281}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789866
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 1
-    - rid: 2308205957228789867
-      type: {class: StrategicPointData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        point: 1
-        controlerFaction: -1
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8013240124576124381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,15 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 50, y: 0.5, z: 50}
@@ -120,15 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   pointPerTime: 0
 --- !u!65 &1398244527262274281
 BoxCollider:
@@ -318,15 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46324de8b821ec044823f3a3f3eb26db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   tiemForCalculationCount: 0.5
   IsOnDrawGizmos: 0
   startPointId: 0
@@ -595,17 +553,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 1977429781995233922}
       parent: {fileID: 6519780887312769103}
       childs: []
@@ -613,22 +563,15 @@ MonoBehaviour:
       - {fileID: 7704323129633022195}
       - {fileID: 2492396552709041431}
       dataList:
-      - rid: 2308205957228789870
-      - rid: 2308205957228789871
+      - rid: -2
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 3166686653528831118}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789870
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 3
-    - rid: 2308205957228789871
-      type: {class: StrategicPointData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        point: 1
-        controlerFaction: -1
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7704323129633022195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,15 +584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 30, y: 0.5, z: 30}
@@ -668,15 +602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   pointPerTime: 0
 --- !u!65 &3166686653528831118
 BoxCollider:
@@ -853,33 +778,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 867576296724852219}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 8239381562111740206}
       dataList:
-      - rid: 2308205957228789881
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 3802962707762831289}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789881
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 12
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &8239381562111740206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,15 +807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 20, y: 0.5, z: 7.5}
@@ -1241,33 +1147,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 8932217082703271137}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 1821847191693535651}
       dataList:
-      - rid: 2308205957228789877
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 1165808050083403142}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789877
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 8
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &1821847191693535651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,15 +1176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 52.5, y: 0.5, z: 40}
@@ -1578,33 +1465,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 5942923633425379538}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 9216649515881940673}
       dataList:
-      - rid: 2308205957228789875
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 216385071566794945}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789875
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 6
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &9216649515881940673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1617,15 +1494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 52.5, y: 0.5, z: 7.5}
@@ -2101,7 +1969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5087921603682584355
 Transform:
   m_ObjectHideFlags: 0
@@ -2131,17 +1999,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2032ff672f0be41a4fdc5b7b829a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 6519780887312769103}
       parent: {fileID: 0}
       childs:
@@ -2164,14 +2024,12 @@ MonoBehaviour:
       - {fileID: 1889405801243594532}
       - {fileID: 3948869389366766015}
       dataList:
-      - rid: 2308205957228789863
+      - rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789863
-      type: {class: MapCellData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        navMeshSurface: {fileID: 8973156495004904455}
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &3715382966506618300
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,33 +2292,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 6159845431440855289}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 7578665981958459247}
       dataList:
-      - rid: 2308205957228789882
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 3019342986533637679}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789882
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 13
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7578665981958459247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2473,15 +2321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 35, y: 0.5, z: 20}
@@ -2771,33 +2610,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 9110027433703800407}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 1225145912445289888}
       dataList:
-      - rid: 2308205957228789876
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 5270908711994052665}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789876
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 7
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &1225145912445289888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2810,15 +2639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 40, y: 0.5, z: 7.5}
@@ -3216,33 +3036,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 1271555543872821248}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 5129251763781904740}
       dataList:
-      - rid: 2308205957228789880
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 2671504130113191328}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789880
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 11
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &5129251763781904740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3255,15 +3065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 7.5, y: 0.5, z: 20}
@@ -3554,6 +3355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
   m_AgentTypeID: 0
   m_CollectObjects: 1
   m_Size: {x: 60, y: 5, z: 60}
@@ -3585,15 +3387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddaa7e26febde6b418736a8dec0631f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   usingNavMeshRaycast: 0
   areaMask: -1
   tiemForCalculationCount: 0.5
@@ -3760,33 +3553,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 4882528489611994077}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 6133342090646853723}
       dataList:
-      - rid: 2308205957228789879
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 7217980642514812597}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789879
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 10
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &6133342090646853723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3799,15 +3582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 20, y: 0.5, z: 52.5}
@@ -3990,17 +3764,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 3254164929480626709}
       parent: {fileID: 6519780887312769103}
       childs: []
@@ -4008,22 +3774,15 @@ MonoBehaviour:
       - {fileID: 7106505712671063049}
       - {fileID: 5992100937353933508}
       dataList:
-      - rid: 2308205957228789872
-      - rid: 2308205957228789873
+      - rid: -2
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 885128983430288170}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789872
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 4
-    - rid: 2308205957228789873
-      type: {class: StrategicPointData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        point: 1
-        controlerFaction: -1
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &7106505712671063049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4036,15 +3795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 30, y: 0.5, z: 50}
@@ -4064,15 +3814,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   pointPerTime: 0
 --- !u!65 &885128983430288170
 BoxCollider:
@@ -4142,17 +3883,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 3699469245982519209}
       parent: {fileID: 6519780887312769103}
       childs: []
@@ -4160,22 +3893,15 @@ MonoBehaviour:
       - {fileID: 952842870392057143}
       - {fileID: 6492874385311012439}
       dataList:
-      - rid: 2308205957228789864
-      - rid: 2308205957228789865
+      - rid: -2
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 1090776929234772432}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789864
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 0
-    - rid: 2308205957228789865
-      type: {class: StrategicPointData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        point: 1
-        controlerFaction: -1
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &952842870392057143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4188,15 +3914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 10, y: 0.5, z: 10}
@@ -4215,15 +3932,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   pointPerTime: 0
 --- !u!65 &1090776929234772432
 BoxCollider:
@@ -4401,17 +4109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 4867602541083768156}
       parent: {fileID: 6519780887312769103}
       childs: []
@@ -4419,22 +4119,15 @@ MonoBehaviour:
       - {fileID: 6302772156214735232}
       - {fileID: 5031653445122680597}
       dataList:
-      - rid: 2308205957228789868
-      - rid: 2308205957228789869
+      - rid: -2
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 3312519163528507502}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789868
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 2
-    - rid: 2308205957228789869
-      type: {class: StrategicPointData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        point: 1
-        controlerFaction: -1
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &6302772156214735232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4447,15 +4140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 30, y: 0.5, z: 10}
@@ -4475,15 +4159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c7a6117ff4e214fad8868756cef068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   pointPerTime: 0
 --- !u!65 &3312519163528507502
 BoxCollider:
@@ -4876,33 +4551,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 5805518898921902544}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 4361103386919108125}
       dataList:
-      - rid: 2308205957228789878
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 4908511561700671488}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789878
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 9
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &4361103386919108125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4915,15 +4580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 40, y: 0.5, z: 52.5}
@@ -5145,33 +4801,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 614601485664239369}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 5023881629159969490}
       dataList:
-      - rid: 2308205957228789883
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 7999941839203267497}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789883
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 14
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &5023881629159969490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5184,15 +4830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 25, y: 0.5, z: 40}
@@ -5374,33 +5011,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fef01b446eaec4ebd55f150aad6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _container:
     ContainerNode:
+      showInspector: 0
       thisObject: {fileID: 4966813063338257227}
       parent: {fileID: 6519780887312769103}
       childs: []
       componentList:
       - {fileID: 732874986436540984}
       dataList:
-      - rid: 2308205957228789874
+      - rid: -2
   mapAnchorTrigger:
   - {fileID: 7369266688299633458}
   references:
     version: 2
     RefIds:
-    - rid: 2308205957228789874
-      type: {class: MapAnchorData, ns: BC.LowLevelAI, asm: BC.LowLevelAI}
-      data:
-        anchorIndex: 5
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &732874986436540984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,15 +5040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ec08a66bcc2b54483045c44e91c9bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   isBrakePath: 0
   defaultPathCost: 1
   closeNavMeshPosition: {x: 7.5, y: 0.5, z: 52.5}

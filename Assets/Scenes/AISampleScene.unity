@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -736,10 +737,10 @@ MonoBehaviour:
       componentList:
       - {fileID: 448125904}
       - {fileID: 448125906}
+      - {fileID: 448125907}
       - {fileID: 1080914727}
       - {fileID: 27742374}
       - {fileID: 27742375}
-      - {fileID: 27742376}
       dataList:
       - rid: 7701795580420293117
   lowLevelAIManager: {fileID: 2074201083}
@@ -750,7 +751,7 @@ MonoBehaviour:
     - rid: 7701795580420293117
       type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
       data:
-        gameSetting: {fileID: 11400000, guid: e271e49a40029144b9c0cb4a502ebc42, type: 2}
+        gameSetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68, type: 2}
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0

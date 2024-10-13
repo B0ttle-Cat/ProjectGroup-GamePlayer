@@ -10,14 +10,14 @@ namespace BC.OdccBase
 		Remote = 1,
 		AI = 10
 	}
-	public interface IFactionData : IMemberData
+	public interface IFactionIndex
 	{
 		public int FactionIndex { get; set; }
 		public bool IsEqualsFaction(int faction)
 		{
 			return FactionIndex == faction;
 		}
-		public bool IsEqualsFaction(IFactionData factionData)
+		public bool IsEqualsFaction(IFactionIndex factionData)
 		{
 			return FactionIndex == factionData.FactionIndex;
 		}
@@ -25,6 +25,10 @@ namespace BC.OdccBase
 		{
 			return FactionIndex == factionData.FactionIndex;
 		}
+	}
+	public interface IFactionData : IFactionIndex, IMemberData
+	{
+
 	}
 	public class FactionData : MemberData, IFactionData
 	{

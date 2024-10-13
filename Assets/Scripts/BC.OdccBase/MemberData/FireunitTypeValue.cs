@@ -8,6 +8,11 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
+	public interface IUnitTypeValueData : IOdccData, IUnitTypeValue
+	{
+
+	}
+
 	public interface IUnitTypeValue : IOdccData
 	{
 		AttackType 공격타입 { get; set; }
@@ -166,7 +171,7 @@ namespace BC.OdccBase
 		}
 	}
 
-	public class FireunitTypeValue : DataObject, IUnitTypeValue
+	public class FireunitTypeValue : DataObject, IUnitTypeValueData
 	{
 		[SerializeField] private IUnitTypeValue.AttackType _공격타입;
 		[SerializeField] private IUnitTypeValue.DefenseType _방어타입;

@@ -1,10 +1,12 @@
+using BC.ODCC;
+
 namespace BC.LowLevelAI
 {
 	public class FireteamCommandActor : EventCommandActor
 	{
 
 	}
-	public abstract class FireteamCommandActor<TD> : FireteamCommandActor where TD : FireteamCommandData, new()
+	public abstract class FireteamCommandActor<TD> : FireteamCommandActor, IOdccUpdate.Late where TD : FireteamCommandData, new()
 	{
 		protected FireteamMemberCollector fireteamMembers;
 		public FireteamMemberCollector FireteamMembers { get; protected set; }
@@ -62,7 +64,7 @@ namespace BC.LowLevelAI
 		public abstract void BaseActorDisable();
 
 
-		public sealed override void BaseLateUpdate()
+		public virtual void BaseLateUpdate()
 		{
 			if(FireteamMembers != null && CommandData != null)
 				BaseActorLateUpdate();

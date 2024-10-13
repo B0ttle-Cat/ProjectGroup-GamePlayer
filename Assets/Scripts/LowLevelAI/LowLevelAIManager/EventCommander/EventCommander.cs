@@ -2,9 +2,9 @@ using BC.ODCC;
 
 namespace BC.LowLevelAI
 {
-	public class EventCommander : ObjectBehaviour
+	public class EventCommander : ObjectBehaviour, IOdccUpdate.Late
 	{
-		public override void BaseLateUpdate()
+		public virtual void BaseLateUpdate()
 		{
 			if(ThisContainer.ComponentList.Length == 0)
 			{

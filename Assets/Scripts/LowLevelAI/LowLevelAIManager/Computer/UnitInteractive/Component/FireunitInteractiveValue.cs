@@ -14,10 +14,10 @@ namespace BC.LowLevelAI
 		// Data
 		public IFireunitData UnitData { get; private set; }
 		public IFindCollectedMembers FindMembers { get; set; }
-		public IUnitTypeValue TypeValueData { get; private set; }
-		public IUnitPlayValue PlayValueData { get; private set; }
-		public IUnitPoseValue PoseValueData { get; private set; }
-		public IUnitStateValue StateValueData { get; private set; }
+		public IUnitTypeValueData TypeValueData { get; private set; }
+		public IUnitPlayValueData PlayValueData { get; private set; }
+		public IUnitPoseValueData PoseValueData { get; private set; }
+		public IUnitStateValueData StateValueData { get; private set; }
 		public IUnitInteractiveInterface InteractiveInterface { get; private set; }
 		public ITakeDamage TakeDamage { get; private set; }
 		public ITakeRecovery TakeRecovery { get; private set; }

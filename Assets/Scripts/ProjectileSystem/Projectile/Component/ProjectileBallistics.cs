@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.ProjectileSystem
 {
-	public abstract class ProjectileBallistics : ComponentBehaviour, IProjectileBallistics
+	public abstract class ProjectileBallistics : ComponentBehaviour, IProjectileBallistics, IOdccUpdate, IOdccUpdate.Late
 	{
 		public IProjectileObject ProjectileObject { get; private set; }
 
@@ -27,12 +27,12 @@ namespace BC.ProjectileSystem
 		}
 		protected abstract void StartBallisticTrajectory((ICharacterAgent agent, IUnitInteractiveValue value) actor, (ICharacterAgent agent, IUnitInteractiveValue value) target);
 
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
 			if(ProjectileObject is null) return;
 			UpdateBallisticTrajectory(OnHit);
 		}
-		public override void BaseLateUpdate()
+		public void BaseLateUpdate()
 		{
 			if(ProjectileObject is null) return;
 			if(CheckLateUpdateDestroy())

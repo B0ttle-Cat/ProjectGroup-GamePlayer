@@ -6,7 +6,7 @@ namespace BC.LowLevelAI
 	{
 
 	}
-	public abstract class FireunitCommandActor<TD> : FireunitCommandActor where TD : FireunitCommandData
+	public abstract class FireunitCommandActor<TD> : FireunitCommandActor, IOdccUpdate where TD : FireunitCommandData
 	{
 		protected  TD commandData;
 		public TD CommandData { get => commandData; protected set => commandData = value; }
@@ -43,10 +43,8 @@ namespace BC.LowLevelAI
 
 			CommandData = null;
 		}
-		public sealed override void BaseUpdate()
+		public void BaseUpdate()
 		{
-			base.BaseUpdate();
-
 			if(CommandData != null)
 				BaseActorUpdate();
 		}

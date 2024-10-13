@@ -48,7 +48,7 @@ namespace BC.GamePlayerManager
 #endif
 	}
 	[Serializable]
-	public struct UnitSettingInfo : IFireunitData
+	public struct UnitSettingInfo : IFireunitIndex
 	{
 #if UNITY_EDITOR
 		[HideLabel, ShowInInspector, GUIColor("GetColor"), DisplayAsString, EnableGUI, PropertyOrder(-10)]

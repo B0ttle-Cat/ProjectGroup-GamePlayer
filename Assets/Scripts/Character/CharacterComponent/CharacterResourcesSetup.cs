@@ -11,7 +11,7 @@ using Debug = UnityEngine.Debug;
 
 namespace BC.Character
 {
-	public class CharacterResourcesSetup : ComponentBehaviour
+	public class CharacterResourcesSetup : ComponentBehaviour, IOdccUpdate
 	{
 		[InlineProperty, HideLabel]
 		[FoldoutGroup("CharacterModel")]
@@ -105,10 +105,8 @@ namespace BC.Character
 			}
 		}
 
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
-			base.BaseUpdate();
-
 			if(!IsReady && CheckUpdateAllReady())
 			{
 				IsReady = true;

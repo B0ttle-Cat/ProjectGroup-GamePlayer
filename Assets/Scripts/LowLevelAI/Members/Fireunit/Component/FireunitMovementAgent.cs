@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 namespace BC.LowLevelAI
 {
-	public class FireunitMovementAgent : ComponentBehaviour, IUnitIMovementAgent
+	public class FireunitMovementAgent : ComponentBehaviour, IUnitIMovementAgent, IOdccUpdate
 	{
 		private NavMeshAgent navMeshAgent;
 		protected NavMeshObstacle navMeshObstacle;
@@ -190,9 +190,8 @@ namespace BC.LowLevelAI
 			NavMeshAgent.isStopped = false;
 			IsMove = true;
 		}
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
-			base.BaseUpdate();
 
 			if(NavMeshAgent is null || navMeshPath is null || !NavMeshAgent.isActiveAndEnabled)
 			{

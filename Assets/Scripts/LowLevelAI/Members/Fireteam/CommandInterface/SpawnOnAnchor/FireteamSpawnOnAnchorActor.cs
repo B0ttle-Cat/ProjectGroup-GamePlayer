@@ -1,6 +1,8 @@
+using BC.ODCC;
+
 namespace BC.LowLevelAI
 {
-	public class FireteamSpawnOnAnchorActor : FireteamCommandActor<FireteamSpawnOnAnchorData>
+	public class FireteamSpawnOnAnchorActor : FireteamCommandActor<FireteamSpawnOnAnchorData>, IOdccUpdate.Late
 	{
 		public override void BaseActorEnable()
 		{
@@ -52,6 +54,11 @@ namespace BC.LowLevelAI
 				return false;
 			}
 			return true;
+		}
+
+		public override void BaseLateUpdate()
+		{
+			base.BaseLateUpdate();
 		}
 	}
 }

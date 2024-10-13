@@ -45,7 +45,7 @@ namespace BC.GamePlayerManager
 #endif
 	}
 	[Serializable]
-	public partial struct TeamSettingInfo : IFireteamData
+	public partial struct TeamSettingInfo : IFireteamIndex
 	{
 #if UNITY_EDITOR
 		[HideLabel, ShowInInspector, GUIColor("GetColor"), DisplayAsString, EnableGUI, PropertyOrder(-10)]

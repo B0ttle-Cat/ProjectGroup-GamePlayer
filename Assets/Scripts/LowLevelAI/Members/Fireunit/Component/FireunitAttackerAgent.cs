@@ -3,7 +3,7 @@ using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public class FireunitAttackerAgent : ComponentBehaviour, IUnitAttackerAgent
+	public class FireunitAttackerAgent : ComponentBehaviour, IUnitAttackerAgent, IOdccUpdate
 	{
 		public bool lockChangeTarget { get; set; }
 		public bool hasChange { get; set; }
@@ -29,10 +29,8 @@ namespace BC.LowLevelAI
 			ThisActor = null;
 			NextTarget = null;
 		}
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
-			base.BaseUpdate();
-
 			CheckUpdateFunction();
 			ThisTarget = NextTarget;
 

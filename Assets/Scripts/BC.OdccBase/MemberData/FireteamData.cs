@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IFireteamData : IMemberData, IFactionData
+	public interface IFireteamIndex : IFactionIndex
 	{
 		public int TeamIndex { get; set; }
 		public bool IsEqualsTeam(int faction, int team)
 		{
 			return IsEqualsFaction(faction) && TeamIndex == team;
 		}
-		public bool IsEqualsTeam(IFireteamData fireteamData)
+		public bool IsEqualsTeam(IFireteamIndex fireteamData)
 		{
 			return IsEqualsFaction(fireteamData) && TeamIndex == fireteamData.TeamIndex;
 		}
@@ -22,7 +22,11 @@ namespace BC.OdccBase
 			return IsEqualsFaction(fireteamData) && TeamIndex == fireteamData.TeamIndex;
 		}
 	}
-	public class FireteamData : MemberData, IFireteamData, IFactionData
+	public interface IFireteamData : IFireteamIndex, IFactionData
+	{
+
+	}
+	public class FireteamData : MemberData, IFireteamData
 	{
 		[SerializeField]
 		[ValueDropdown("ShowTargetFactionName")]

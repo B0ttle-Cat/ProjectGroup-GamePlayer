@@ -1,5 +1,6 @@
 using System;
 
+using BC.ODCC;
 using BC.OdccBase;
 
 using Sirenix.OdinInspector;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace BC.GamePlayerManager
 {
 	[Serializable]
-	public class CharacterTypeSetter : IUnitTypeValue
+	public class CharacterTypeSetter : DataObject, IUnitTypeValue
 	{
 		[SerializeField] private IUnitTypeValue.AttackType _공격타입;
 		[SerializeField] private IUnitTypeValue.DefenseType _방어타입;
@@ -30,9 +31,5 @@ namespace BC.GamePlayerManager
 		public IUnitTypeValue.RoleType 역할분류 { get => _역할분류; set => _역할분류=value; }
 		public IUnitTypeValue.TierType 등급분류 { get => _등급분류; set => _등급분류=value; }
 		public IUnitTypeValue.FieldAdvantageLevel 지형속성 { get => _지형속성; set => _지형속성=value; }
-
-		public void Dispose()
-		{
-		}
 	}
 }

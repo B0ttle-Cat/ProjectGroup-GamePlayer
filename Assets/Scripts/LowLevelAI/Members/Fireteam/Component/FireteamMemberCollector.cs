@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace BC.LowLevelAI
 {
-	public class FireteamMemberCollector : MemberCollectorComponent<FireunitObject>
+	public class FireteamMemberCollector : MemberCollectorComponent<FireunitObject>, IOdccUpdate, IOdccUpdate.Late
 	{
 		private FireteamData fireteamData;
 		[SerializeField, ReadOnly]
@@ -58,9 +58,8 @@ namespace BC.LowLevelAI
 			}
 		}
 
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
-			base.BaseUpdate();
 			Vector3 oldCenter = CenterPosition;
 			CenterPosition =_CenterPosition();
 
@@ -69,9 +68,8 @@ namespace BC.LowLevelAI
 				Direction = (oldCenter - CenterPosition).normalized;
 			}
 		}
-		public override void BaseLateUpdate()
+		public void BaseLateUpdate()
 		{
-			base.BaseLateUpdate();
 		}
 
 		internal void SetCinemachineTargetGroup(CinemachineTargetGroup cinemachineTargetGroup)

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
+	public interface IUnitPoseValueData : IUnitPoseValue, IOdccData
+	{
+
+	}
 	public interface IUnitPoseValue : IOdccData
 	{
 		public Vector3 ThisUnitPosition { get; set; }
@@ -15,7 +19,7 @@ namespace BC.OdccBase
 	}
 
 
-	public class FireunitPoseValue : DataObject, IUnitPoseValue
+	public class FireunitPoseValue : DataObject, IUnitPoseValueData
 	{
 		[SerializeField] private float thisUnitRadius;
 		[SerializeField] private Vector3 thisUnitPosition;

@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IUnitPlayValue : IOdccData
+	public interface IUnitPlayValueData : IUnitPlayValue, IOdccData
+	{
+
+	}
+
+	public interface IUnitPlayValue
 	{
 		public AbilityMath.AbilityValue<float> 시야거리 { get; set; }
 		public AbilityMath.AbilityValue<float> 반응거리 { get; set; }
@@ -60,7 +65,7 @@ namespace BC.OdccBase
 		}
 	}
 
-	public class FireunitPlayValue : DataObject, IUnitPlayValue
+	public class FireunitPlayValue : DataObject, IUnitPlayValueData
 	{
 		protected override void Disposing()
 		{

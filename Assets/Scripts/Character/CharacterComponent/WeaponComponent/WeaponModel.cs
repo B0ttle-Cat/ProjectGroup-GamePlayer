@@ -53,9 +53,5 @@ namespace BC.Character
 		{
 
 		}
-		public override void BaseUpdate()
-		{
-
-		}
 	}
 }

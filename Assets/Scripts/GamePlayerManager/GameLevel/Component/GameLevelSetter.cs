@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 
 namespace BC.GamePlayerManager
 {
-	public class GameLevelSetter : ComponentBehaviour, IStartSetup
+	public class GameLevelSetter : ComponentBehaviour, IStartSetup, IOdccUpdate
 	{
 		[ShowInInspector, ReadOnly]
 		private bool isCompleteSetting;
@@ -97,7 +97,7 @@ namespace BC.GamePlayerManager
 				setter.ThisMono.enabled = true;
 			}
 		}
-		public override void BaseUpdate()
+		public void BaseUpdate()
 		{
 			OnUpdateSetting();
 		}

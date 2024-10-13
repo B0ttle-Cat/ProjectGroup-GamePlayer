@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BC.OdccBase
 {
-	public interface IFireunitData : IMemberData, IFireteamData
+	public interface IFireunitIndex : IFireteamIndex
 	{
 		public Vector3Int MemberUniqueID { get; }
 		public int UnitIndex { get; set; }
@@ -20,7 +20,7 @@ namespace BC.OdccBase
 		{
 			return IsEqualsUnit(memberUniqueID.x, memberUniqueID.y, memberUniqueID.z);
 		}
-		public bool IsEqualsUnit(IFireunitData fireunitData)
+		public bool IsEqualsUnit(IFireunitIndex fireunitData)
 		{
 			return IsEqualsTeam(fireunitData) && UnitIndex == fireunitData.UnitIndex;
 		}
@@ -34,6 +34,10 @@ namespace BC.OdccBase
 			TeamIndex = team;
 			UnitIndex = unit;
 		}
+	}
+	public interface IFireunitData : IFireunitIndex, IFireteamData
+	{
+
 	}
 	public class FireunitData : MemberData, IFireunitData
 	{

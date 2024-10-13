@@ -15,10 +15,10 @@ namespace BC.OdccBase
 		public int UnitIndex { get => UnitData.UnitIndex; }
 		IFireunitData UnitData { get; }
 		IFindCollectedMembers FindMembers { get; set; }
-		IUnitTypeValue TypeValueData { get; }
-		IUnitPlayValue PlayValueData { get; }
-		IUnitPoseValue PoseValueData { get; }
-		IUnitStateValue StateValueData { get; }
+		IUnitTypeValueData TypeValueData { get; }
+		IUnitPlayValueData PlayValueData { get; }
+		IUnitPoseValueData PoseValueData { get; }
+		IUnitStateValueData StateValueData { get; }
 		IUnitInteractiveInterface InteractiveInterface { get; }
 		ITakeDamage TakeDamage { get; }
 		ITakeRecovery TakeRecovery { get; }

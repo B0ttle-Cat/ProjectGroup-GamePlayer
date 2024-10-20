@@ -214,26 +214,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 0
-      thisObject: {fileID: 280405639}
-      parent: {fileID: 448125903}
-      childs: []
-      componentList: []
-      dataList:
-      - rid: 8413926241186611484
+      showInspector: 6
+      datas: []
   chainAnimationObjectList: []
   IsChainingChildUIAnimator: 0
   isShowOverOtherCanvas: 0
   references:
     version: 2
-    RefIds:
-    - rid: 8413926241186611484
-      type: {class: CanvasData, ns: BC.BaseUI, asm: BC.BaseUI}
-      data:
-        Canvas: {fileID: 280405643}
-        CanvasScaler: {fileID: 280405642}
-        GraphicRaycaster: {fileID: 280405641}
-        CanvasGroup: {fileID: 280405640}
+    RefIds: []
 --- !u!225 &280405640
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -498,12 +486,7 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 385535320}
-      parent: {fileID: 448125903}
-      childs: []
-      componentList:
-      - {fileID: 385535321}
-      dataList: []
+      datas: []
   references:
     version: 2
     RefIds: []
@@ -669,7 +652,7 @@ GameObject:
   - component: {fileID: 448125906}
   - component: {fileID: 448125907}
   m_Layer: 0
-  m_Name: GamePlayerManager
+  m_Name: GamePlayManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,34 +694,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: -1
-      thisObject: {fileID: 448125903}
-      parent: {fileID: 0}
-      childs:
-      - {fileID: 1732924254}
-      - {fileID: 385535320}
-      - {fileID: 2074201083}
-      - {fileID: 1555824966}
-      - {fileID: 280405639}
-      componentList:
-      - {fileID: 448125904}
-      - {fileID: 448125906}
-      - {fileID: 448125907}
-      - {fileID: 1080914727}
-      - {fileID: 27742374}
-      - {fileID: 27742375}
-      dataList:
-      - rid: 7701795580420293117
-  lowLevelAIManager: {fileID: 2074201083}
-  highLevelAIManager: {fileID: 1555824966}
+      showInspector: 6
+      datas: []
+  startLevelData:
+    GamePlaySetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68, type: 2}
   references:
     version: 2
-    RefIds:
-    - rid: 7701795580420293117
-      type: {class: StartLevelData, ns: BC.GamePlayerManager, asm: BC.GamePlayerManager}
-      data:
-        GamePlaySetting: {fileID: 11400000, guid: 0908a969a9e31354dab8d1f7011d1d68,
-          type: 2}
+    RefIds: []
 --- !u!114 &448125904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,61 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3205c919592f5884495d8f3475a83d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &975032200
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 975032202}
-  - component: {fileID: 975032203}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &975032202
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975032200}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2308788, y: -0.00000010039536, z: 0.84217733}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &975032203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975032200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af7f08b2e2df1f04483ee90589451a33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _container:
-    ContainerNode:
-      showInspector: 6
-      thisObject: {fileID: 975032203}
-      parent: {fileID: 0}
-      childs: []
-      componentList: []
-      dataList: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1080914725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,11 +973,7 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 1555824966}
-      parent: {fileID: 448125903}
-      childs: []
-      componentList: []
-      dataList: []
+      datas: []
   references:
     version: 2
     RefIds: []
@@ -1181,11 +1084,7 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 1732924254}
-      parent: {fileID: 448125903}
-      childs: []
-      componentList: []
-      dataList: []
+      datas: []
   references:
     version: 2
     RefIds: []
@@ -1237,23 +1136,10 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 2074201083}
-      parent: {fileID: 448125903}
-      childs: []
-      componentList:
-      - {fileID: 2074201086}
-      - {fileID: 713611035}
-      - {fileID: 582968239}
-      - {fileID: 1718360627}
-      - {fileID: 1718360628}
-      dataList:
-      - rid: 8697407947087806618
+      datas: []
   references:
     version: 2
-    RefIds:
-    - rid: 8697407947087806618
-      type: {class: DiplomacyData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data: 
+    RefIds: []
 --- !u!4 &2074201084
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,4 +1178,3 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 330585546}
   - {fileID: 448125902}
-  - {fileID: 975032202}

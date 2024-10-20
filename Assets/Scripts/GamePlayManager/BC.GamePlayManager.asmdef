@@ -1,0 +1,23 @@
+{
+    "name": "BC.GamePlayManager",
+    "rootNamespace": "BC.GamePlayManager",
+    "references": [
+        "BC.Base",
+        "BC.BaseUI",
+        "BC.ODCC",
+        "BC.OdccBase",
+        "BC.Character",
+        "BC.Map",
+        "BC.HighLevelAI",
+        "BC.LowLevelAI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

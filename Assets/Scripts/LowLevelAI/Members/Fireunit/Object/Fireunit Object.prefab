@@ -53,21 +53,12 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 4979445675213644879}
-      parent: {fileID: 0}
-      childs: []
-      componentList:
-      - {fileID: 3632140834092432590}
-      - {fileID: 7006357634680063751}
-      - {fileID: 6160590148179881971}
-      - {fileID: 4692411858403364114}
-      - {fileID: 3248861632911008419}
-      dataList:
-      - rid: 7701795883776999439
+      datas:
+      - rid: 5281337435251278198
   references:
     version: 2
     RefIds:
-    - rid: 7701795883776999439
+    - rid: 5281337435251278198
       type: {class: FireunitData, ns: BC.OdccBase, asm: BC.OdccBase}
       data: 
 --- !u!114 &3632140834092432590

@@ -47,23 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container:
     ContainerNode:
-      showInspector: 6
-      thisObject: {fileID: 4076850161751021115}
-      parent: {fileID: 0}
-      childs: []
-      componentList:
-      - {fileID: 8988723699225859953}
-      dataList:
-      - rid: 7701795883776999438
+      showInspector: 0
+      datas: []
   references:
     version: 2
-    RefIds:
-    - rid: 7701795883776999438
-      type: {class: FactionData, ns: BC.OdccBase, asm: BC.OdccBase}
-      data:
-        factionControlType: 0
-        factionIndex: 0
-        factionName: 
+    RefIds: []
 --- !u!114 &8988723699225859953
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,13 +1,9 @@
 using BC.ODCC;
+using BC.OdccBase;
 
 namespace BC.LowLevelAI
 {
-	public interface IGetLowLevelAIManager : IOdccObject
-	{
-		LowLevelAIManager LowLevelAI { get; }
-	}
-
-	public class LowLevelAIManager : ObjectBehaviour
+	public class LowLevelAIManager : ObjectBehaviour, ILowLevelAIManager
 	{
 		public override void BaseValidate()
 		{

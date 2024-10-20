@@ -49,15 +49,20 @@ MonoBehaviour:
   _container:
     ContainerNode:
       showInspector: 6
-      thisObject: {fileID: 6378657097910737490}
-      parent: {fileID: 0}
-      childs: []
-      componentList:
-      - {fileID: 8822873925900971387}
-      dataList: []
+      datas:
+      - rid: 5281337435251278423
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5281337435251278423
+      type: {class: CharacterData, ns: BC.Character, asm: BC.Character}
+      data:
+        characterKey:
+          LoadType: 0
+          ObjectAsset: {fileID: 0}
+        weaponeKey:
+          LoadType: 0
+          ObjectAsset: {fileID: 0}
 --- !u!114 &8822873925900971387
 MonoBehaviour:
   m_ObjectHideFlags: 0
